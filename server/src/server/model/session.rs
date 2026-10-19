@@ -23,6 +23,9 @@ pub struct Session {
     pub char_id: Option<u32>,
     pub packetver: u32,
     pub is_simulated: bool,
+    /// Index in `config.maps.starting_maps` chosen by the client during character
+    /// creation. Used as the new character's spawn point.
+    pub start_map_index: Option<usize>,
     pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>>, /* TODO keep track on creation. Abort script thread after X
                                                                         * minutes + abort on new script interaction */
 }
@@ -243,6 +246,7 @@ impl Session {
             char_id: None,
             packetver,
             is_simulated: false,
+            start_map_index: None,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -257,6 +261,7 @@ impl Session {
             char_id: self.char_id,
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            start_map_index: self.start_map_index,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -271,6 +276,7 @@ impl Session {
             char_id: self.char_id,
             packetver: self.packetver,
             is_simulated: false,
+            start_map_index: self.start_map_index,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -290,6 +296,7 @@ impl Session {
             char_id: Some(char_id),
             packetver,
             is_simulated: true,
+            start_map_index: None,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -304,6 +311,7 @@ impl Session {
             char_id: Some(char_id),
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            start_map_index: self.start_map_index,
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -318,6 +326,22 @@ impl Session {
             char_id: None,
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            start_map_index: self.start_map_index,
+            script_handler_channel_sender: Mutex::new(None),
+        }
+    }
+
+    pub fn recreate_with_start_map_index(&self, index: usize) -> Session {
+        Session {
+            char_server_socket: self.char_server_socket.clone(),
+            map_server_socket: self.map_server_socket.clone(),
+            account_id: self.account_id,
+            auth_code: self.auth_code,
+            user_level: self.user_level,
+            char_id: self.char_id,
+            packetver: self.packetver,
+            is_simulated: self.is_simulated,
+            start_map_index: Some(index),
             script_handler_channel_sender: Mutex::new(None),
         }
     }
@@ -332,6 +356,7 @@ impl Session {
             char_id: self.char_id,
             packetver: self.packetver,
             is_simulated: self.is_simulated,
+            start_map_index: self.start_map_index,
             script_handler_channel_sender: Mutex::new(None),
         }
     }

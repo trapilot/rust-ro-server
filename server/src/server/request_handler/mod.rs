@@ -1,13 +1,14 @@
 use std::sync::Arc;
 
 use packets::packets::{
-    PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar,
-    PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg,
-    PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist,
-    PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqItemcomposition, PacketCzReqItemcompositionList,
-    PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzReqWearEquip, PacketCzReqname, PacketCzReqnameall2, PacketCzRequestAct,
-    PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketCzShortcutKeyChange, PacketCzStatusChange,
-    PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill, PacketUnknown, PacketZcNotifyTime,
+    PacketCaLogin, PacketChDeleteChar, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3,
+    PacketChSelectAccessibleMapname, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu,
+    PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow,
+    PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2,
+    PacketCzReqItemcomposition, PacketCzReqItemcompositionList, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzReqWearEquip,
+    PacketCzReqname, PacketCzReqnameall2, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime,
+    PacketCzRestart, PacketCzShortcutKeyChange, PacketCzStatusChange, PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill,
+    PacketUnknown, PacketZcNotifyTime,
 };
 
 use crate::packets::packets::Packet;
@@ -26,8 +27,8 @@ use crate::server::request_handler::action::npc::{
 };
 use crate::server::request_handler::action::skill::handle_use_skill;
 use crate::server::request_handler::char::{
-    handle_blocking_play_cancel, handle_char_enter, handle_delete_reserved_char, handle_disconnect, handle_enter_game, handle_make_char,
-    handle_restart, handle_select_char,
+    handle_blocking_play_cancel, handle_char_enter, handle_delete_char, handle_delete_reserved_char, handle_disconnect, handle_enter_game,
+    handle_make_char, handle_restart, handle_select_accessible_map, handle_select_char,
 };
 use crate::server::request_handler::chat::handle_chat;
 use crate::server::request_handler::login::handle_login;
@@ -91,6 +92,11 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         );
     }
     context.set_session(session);
+    // Char creation: starting map chosen by the client
+    if context.packet().as_any().downcast_ref::<PacketChSelectAccessibleMapname>().is_some() {
+        debug!("PacketChSelectAccessibleMapname");
+        return handle_select_accessible_map(server.as_ref(), context);
+    }
     // Char creation
     if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {
         debug!("PacketChMakeChar");
@@ -108,6 +114,11 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     if context.packet().as_any().downcast_ref::<PacketChDeleteChar4Reserved>().is_some() {
         debug!("PacketChDeleteChar4Reserved");
         return handle_delete_reserved_char(server.as_ref(), context);
+    }
+    // Delete char confirmation with the account password
+    if context.packet().as_any().downcast_ref::<PacketChDeleteChar>().is_some() {
+        debug!("PacketChDeleteChar");
+        return handle_delete_char(server.as_ref(), context);
     }
     // Select char
     if context.packet().as_any().downcast_ref::<PacketChSelectChar>().is_some() {

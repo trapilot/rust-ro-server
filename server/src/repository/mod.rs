@@ -89,6 +89,9 @@ pub trait LoginRepository {
     async fn login(&self, _username: String, _password: String) -> Result<u32, Error> {
         todo!()
     }
+    async fn verify_password(&self, _account_id: u32, _password: String) -> Result<bool, Error> {
+        todo!()
+    }
 }
 
 #[async_trait]
@@ -103,6 +106,11 @@ pub trait CharacterRepository {
         todo!()
     }
     async fn characters_info(&self, _account_id: u32) -> Vec<CharacterInfoNeoUnionWrapped> {
+        todo!()
+    }
+    /// Every `char_num` the account already owns, including characters queued for
+    /// deletion (they still hold their slot in the database).
+    async fn used_char_nums(&self, _account_id: u32) -> Vec<i16> {
         todo!()
     }
     async fn character_delete_reserved(&self, _account_id: u32, _char_id: u32) -> Result<(), Error> {

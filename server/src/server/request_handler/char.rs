@@ -6,12 +6,13 @@ use byteorder::{LittleEndian, WriteBytesExt};
 use movement::position::Position;
 use models::status::KnownSkill;
 use packets::packets::{
-    CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3,
-    PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion,
-    PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved,
-    PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2,
-    PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck,
-    ZserverAddr,
+    AccessibleMapnameInfo, CharacterInfoNeoUnion, Packet, PacketChDeleteChar, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar,
+    PacketChMakeChar2, PacketChMakeChar3, PacketChSelectAccessibleMapname, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2,
+    PacketCzRestart, PacketHcAcceptDeletechar, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader,
+    PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved, PacketHcNotifyAccessibleMapname,
+    PacketHcNotifyZonesvr, PacketHcRefuseDeletechar, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketMapConnection,
+    PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent,
+    PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr,
 };
 
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
@@ -29,6 +30,43 @@ use crate::server::Server;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
+
+/// Maps offered as a starting point when creating a character, in display order.
+/// The client defaults to the first entry.
+fn build_starting_maps_packet(server: &Server) -> PacketHcNotifyAccessibleMapname {
+    let packetver = server.packetver();
+    let maps: Vec<AccessibleMapnameInfo> = server
+        .configuration
+        .maps
+        .starting_maps
+        .iter()
+        .map(|city| {
+            let mut info = AccessibleMapnameInfo::new(packetver);
+            info.set_status(0);
+            let mut map_name = [0 as char; 16];
+            city.name.fill_char_array(map_name.as_mut());
+            info.set_map_name(map_name);
+            info
+        })
+        .collect();
+    let mut packet = PacketHcNotifyAccessibleMapname::new(packetver);
+    let packet_length = PacketHcNotifyAccessibleMapname::base_len(packetver)
+        + AccessibleMapnameInfo::base_len(packetver) * maps.len();
+    packet.set_maps(maps);
+    packet.set_packet_length(packet_length as i16);
+    packet.fill_raw_with_packetver(Some(packetver));
+    packet
+}
+
+/// Resolves the starting map (name, x, y) for a new character from the configured
+/// `starting_maps`, falling back to the first entry and finally to `new_1-1`.
+fn resolve_starting_map(server: &Server, selected_index: Option<usize>) -> (String, i16, i16) {
+    let maps = &server.configuration.maps.starting_maps;
+    maps.get(selected_index.unwrap_or(0))
+        .or_else(|| maps.first())
+        .map(|city| (city.name.clone(), city.x as i16, city.y as i16))
+        .unwrap_or_else(|| ("new_1-1".to_string(), 53, 111))
+}
 
 pub fn handle_char_enter(server: &Server, context: Request) {
     let packet_char_enter = cast!(context.packet(), PacketChEnter);
@@ -76,6 +114,9 @@ pub fn handle_char_enter(server: &Server, context: Request) {
                 .expect("Unable to write Little endian u32 from session account id");
             socket_send_raw!(context, wtr);
             socket_send_raw!(context, final_response_packet);
+            // Maps the client may pick as a starting point when creating a character.
+            let mut accessible_maps = build_starting_maps_packet(server);
+            socket_send!(context, accessible_maps);
             return;
         }
         // should not happen, but in case of forged packet, remove session
@@ -87,7 +128,12 @@ pub fn handle_char_enter(server: &Server, context: Request) {
     socket_send!(context, res);
 }
 
+/// Number of character slots an account can have (matches the `total_slot_num`
+/// advertised in `PacketHcAcceptEnterNeoUnion`).
+const MAX_CHARACTER_SLOTS: i16 = 12;
+
 pub fn handle_make_char(server: &Server, context: Request) {
+    let (start_map, start_x, start_y) = resolve_starting_map(server, context.session().start_map_index);
     let mut char_model: Option<CharInsertModel> = None;
     if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
         let vit = 1;
@@ -115,12 +161,12 @@ pub fn handle_make_char(server: &Server, context: Request) {
             sp: max_sp,
             hair: packet_make_char.head,
             hair_color: packet_make_char.head_pal as i32,
-            last_map: "new_1-1".to_string(), // make this configurable
-            last_x: 53,
-            last_y: 111,
-            save_map: "new_1-1".to_string(), // make this configurable
-            save_x: 53,
-            save_y: 111,
+            last_map: start_map.clone(),
+            last_x: start_x,
+            last_y: start_y,
+            save_map: start_map.clone(),
+            save_x: start_x,
+            save_y: start_y,
             sex: if packet_make_char.sex == 1 {
                 "M".to_string()
             } else {
@@ -154,12 +200,12 @@ pub fn handle_make_char(server: &Server, context: Request) {
             sp: max_sp,
             hair: packet_make_char.head,
             hair_color: packet_make_char.head_pal as i32,
-            last_map: "new_1-1".to_string(), // make this configurable
-            last_x: 53,
-            last_y: 111,
-            save_map: "new_1-1".to_string(), // make this configurable
-            save_x: 53,
-            save_y: 111,
+            last_map: start_map.clone(),
+            last_x: start_x,
+            last_y: start_y,
+            save_map: start_map.clone(),
+            save_x: start_x,
+            save_y: start_y,
             sex: "M".to_string(), // TODO use account sex
             inventory_slots: context.configuration().game.max_inventory as i32,
         });
@@ -189,23 +235,31 @@ pub fn handle_make_char(server: &Server, context: Request) {
             sp: max_sp,
             hair: packet_make_char.head,
             hair_color: packet_make_char.head_pal as i32,
-            last_map: "new_1-1".to_string(), // make this configurable
-            last_x: 53,
-            last_y: 111,
-            save_map: "new_1-1".to_string(), // make this configurable
-            save_x: 53,
-            save_y: 111,
+            last_map: start_map.clone(),
+            last_x: start_x,
+            last_y: start_y,
+            save_map: start_map.clone(),
+            save_x: start_x,
+            save_y: start_y,
             sex: "M".to_string(), // TODO use account sex
             inventory_slots: context.configuration().game.max_inventory as i32,
         });
     }
-    if char_model.is_none() {
+    let Some(mut char_model) = char_model else {
         error!("Char model is not initialized, probably packet was not recognized");
         return;
+    };
+    // Characters queued for deletion keep their `char_num` row, and
+    // `(account_id, char_num)` has no unique constraint, so trusting the on-screen
+    // slot could collide with an existing character. Use the lowest free slot.
+    let used_slots = server
+        .runtime()
+        .block_on(async { server.repository.used_char_nums(char_model.account_id as u32).await });
+    if let Some(free_slot) = (0..MAX_CHARACTER_SLOTS).find(|slot| !used_slots.contains(slot)) {
+        char_model.char_num = free_slot;
     }
 
     let created_char = server.runtime().block_on(async {
-        let char_model = char_model.unwrap();
         let name = char_model.name.as_str();
         server.repository.character_insert(&char_model).await?;
         // TODO add default stuff
@@ -228,6 +282,47 @@ pub fn handle_make_char(server: &Server, context: Request) {
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
     packet_hc_accept_makechar_neo_union.fill_raw();
     socket_send!(context, packet_hc_accept_makechar_neo_union);
+}
+
+/// Records the starting map chosen by the client during character creation. The
+/// index refers to `config.maps.starting_maps`.
+pub fn handle_select_accessible_map(server: &Server, context: Request) {
+    let packet_select_map = cast!(context.packet(), PacketChSelectAccessibleMapname);
+    let session = context.session();
+    let session = Arc::new(session.recreate_with_start_map_index(packet_select_map.map_list_num as usize));
+    server.state().add_session(session.account_id, session);
+}
+
+/// Schedules the deletion of a character after the client re-enters the account
+/// password (`PacketChDeleteChar`, 0x0068). The character is only reserved for
+/// deletion (the reserved-deletion flow), not removed immediately. Replies with
+/// the classic accept/refuse pair.
+pub fn handle_delete_char(server: &Server, context: Request) {
+    let packet_delete_char = cast!(context.packet(), PacketChDeleteChar);
+    let account_id = context.session().account_id;
+    let password: String = packet_delete_char.key.iter().take_while(|c| **c != '\0').collect();
+
+    let password_valid = server
+        .runtime()
+        .block_on(async { server.repository.verify_password(account_id, password).await.unwrap_or(false) });
+
+    if password_valid {
+        server.runtime().block_on(async {
+            server
+                .repository
+                .character_delete_reserved(account_id, packet_delete_char.gid)
+                .await
+                .unwrap();
+        });
+        let mut packet_accept = PacketHcAcceptDeletechar::new(GlobalConfigService::instance().packetver());
+        packet_accept.fill_raw();
+        socket_send!(context, packet_accept);
+    } else {
+        let mut packet_refuse = PacketHcRefuseDeletechar::new(GlobalConfigService::instance().packetver());
+        packet_refuse.set_error_code(1);
+        packet_refuse.fill_raw();
+        socket_send!(context, packet_refuse);
+    }
 }
 
 pub fn handle_delete_reserved_char(server: &Server, context: Request) {

@@ -30,21 +30,33 @@ impl CharacterRepository for PgRepository {
     }
 
     async fn characters_info(&self, account_id: u32) -> Vec<CharacterInfoNeoUnionWrapped> {
-        sqlx::query_as::<Postgres, CharacterInfoNeoUnionWrapped>("SELECT * FROM char WHERE account_id = $1")
+        // Characters queued for deletion are hidden from the selection screen.
+        sqlx::query_as::<Postgres, CharacterInfoNeoUnionWrapped>(
+            "SELECT * FROM char WHERE account_id = $1 AND delete_date = 0 ORDER BY char_num",
+        )
+        .bind(account_id as i32)
+        .fetch_all(&self.pool)
+        .await
+        .unwrap_or(vec![])
+    }
+
+    async fn used_char_nums(&self, account_id: u32) -> Vec<i16> {
+        sqlx::query("SELECT char_num FROM char WHERE account_id = $1")
             .bind(account_id as i32)
             .fetch_all(&self.pool)
             .await
+            .map(|rows| rows.iter().map(|row| row.get::<i16, _>("char_num")).collect())
             .unwrap_or(vec![])
     }
 
     async fn character_delete_reserved(&self, account_id: u32, char_id: u32) -> Result<(), Error> {
-        sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = $1 AND char_id = $2")
+        sqlx::query("UPDATE char SET delete_date = EXTRACT(EPOCH FROM now() + INTERVAL '1 day')::int WHERE account_id = $1 AND char_id = $2")
             .bind(account_id as i32)
             .bind(char_id as i32)
             .execute(&self.pool)
             .await
             .inspect_err(|e| {
-                error!("DB error: {}", e.as_database_error().unwrap());
+                error!("DB error: {:?}", e);
             })
             .map(|_| ())
     }

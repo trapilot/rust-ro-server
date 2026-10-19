@@ -1,6 +1,7 @@
 use std::cell::RefCell;
 use std::io::{Read, Write};
 use std::net::{Shutdown, TcpListener, TcpStream};
+use std::panic;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{Receiver, SyncSender};
 use std::sync::{Arc, RwLock, mpsc};
@@ -394,20 +395,43 @@ impl Server {
                                                     );
                                                     break;
                                                 }
-                                                let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
-                                                if GlobalConfigService::instance().config().server.trace_packet {
-                                                    print_packet(&None, None, PacketDirection::Forward, &packet);
+                                                // A single read() may deliver several packets (e.g. the client sends
+                                                // the starting-map selection and the char creation back-to-back);
+                                                // parse and handle every packet in the buffer, not just the first one.
+                                                let packetver = server_shared_ref.packetver();
+                                                let mut offset = 0;
+                                                while offset < bytes_read {
+                                                    let packet = match panic::catch_unwind(|| parse(&buffer[offset..bytes_read], packetver)) {
+                                                        Ok(packet) => packet,
+                                                        Err(_) => {
+                                                            error!(
+                                                                "Unable to parse packet at offset {} of {:02X?}",
+                                                                offset,
+                                                                &buffer[..bytes_read]
+                                                            );
+                                                            break;
+                                                        }
+                                                    };
+                                                    let consumed = packet.raw().len();
+                                                    if consumed == 0 {
+                                                        error!("Packet at offset {} consumed 0 bytes, dropping the rest of the buffer", offset);
+                                                        break;
+                                                    }
+                                                    if GlobalConfigService::instance().config().server.trace_packet {
+                                                        print_packet(&None, None, PacketDirection::Forward, &packet);
+                                                    }
+                                                    let context = Request::new(
+                                                        server_shared_ref.configuration,
+                                                        None,
+                                                        packetver,
+                                                        tcp_stream_arc.clone(),
+                                                        packet.as_ref(),
+                                                        response_sender_clone.clone(),
+                                                        client_notification_sender_clone.clone(),
+                                                    );
+                                                    request_handler::handle(server_shared_ref.clone(), context);
+                                                    offset += consumed;
                                                 }
-                                                let context = Request::new(
-                                                    server_shared_ref.configuration,
-                                                    None,
-                                                    server_shared_ref.packetver(),
-                                                    tcp_stream_arc.clone(),
-                                                    packet.as_ref(),
-                                                    response_sender_clone.clone(),
-                                                    client_notification_sender_clone.clone(),
-                                                );
-                                                request_handler::handle(server_shared_ref.clone(), context);
                                             }
                                             Err(err) => {
                                                 error!("{}", err);

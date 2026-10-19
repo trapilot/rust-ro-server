@@ -132,6 +132,10 @@ pub struct DatabaseConfig {
 #[derive(Deserialize, Debug, Clone)]
 pub struct MapConfig {
     pub cities: Vec<CityConfig>,
+    /// Maps offered to the player when creating a character, in display order.
+    /// The first entry is the default starting point.
+    #[serde(default)]
+    pub starting_maps: Vec<CityConfig>,
 }
 
 #[derive(Deserialize, Debug, Clone)]
