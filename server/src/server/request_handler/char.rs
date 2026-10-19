@@ -353,6 +353,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     }
     let mut packet_map_connection = PacketMapConnection::new(GlobalConfigService::instance().packetver());
     packet_map_connection.set_aid(aid);
+    packet_map_connection.fill_raw();
 
     socket_send!(context, packet_map_connection);
 
@@ -361,8 +362,10 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     */
     let mut packet_inventory_expansion_info = PacketZcInventoryExpansionInfo::new(GlobalConfigService::instance().packetver());
     packet_inventory_expansion_info.fill_raw();
+    socket_send!(context, packet_inventory_expansion_info);
     let mut packet_overweight_percent = PacketZcOverweightPercent::new(GlobalConfigService::instance().packetver());
     packet_overweight_percent.fill_raw();
+    socket_send!(context, packet_overweight_percent);
     let character = server.state().get_character_unsafe(char_id);
     let mut packet_accept_enter = PacketZcAcceptEnter2::new(GlobalConfigService::instance().packetver());
     packet_accept_enter.set_start_time(get_tick_client());

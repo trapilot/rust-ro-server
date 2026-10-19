@@ -27,7 +27,8 @@ set GRF_DATA_PATH to this folder.
  */
 static PARALLEL_EXECUTIONS: usize = 100;
 static NO_WATER: f32 = 1000000.0;
-static GRF_DATA_PATH: &str = "D:\\ragnarok\\kRO_client\\data"; // source .gat/.rsw
+// static GRF_DATA_PATH: &str = "D:\\ragnarok\\kRO_client\\data"; // source .gat/.rsw
+static GRF_DATA_PATH: &str = "C:\\Games\\JX_V2\\rust-ro-client\\data"; // source .gat/.rsw
 static MAP_CACHE_PATH: &str = "config/maps/pre-re"; // destination
 
 struct Counter {
