@@ -6,7 +6,7 @@ use packets::packets::{PacketCzRequestMove, PacketCzRequestMove2};
 use crate::server::model::events::game_event::CharacterMovement;
 use crate::server::model::events::game_event::GameEvent::CharacterMove;
 use crate::server::model::movement::{Movable, Movement};
-use crate::server::model::path::path_search_client_side_algorithm;
+use crate::server::model::path::{get_cell_index_of, path_search_client_side_algorithm};
 use crate::server::model::position::PositionPacket;
 use crate::server::model::request::Request;
 use crate::server::Server;
@@ -50,6 +50,25 @@ pub fn handle_char_move(server: &Server, context: Request) {
         destination.x,
         destination.y,
     );
+    if path.is_empty() {
+        let state = map_instance.state();
+        let cells = state.cells();
+        let is_walkable = |x: u16, y: u16| cells.get(get_cell_index_of(x, y, map_instance.x_size())).is_some_and(|cell| cell & 1 == 1);
+        warn!(
+            "No path for char {} on {} ({}x{}) from {},{} (walkable: {}) to {},{} (walkable: {}), moving: {}",
+            character.char_id,
+            map_instance.name(),
+            map_instance.x_size(),
+            map_instance.y_size(),
+            current_position.x,
+            current_position.y,
+            is_walkable(current_position.x, current_position.y),
+            destination.x,
+            destination.y,
+            is_walkable(destination.x, destination.y),
+            character.is_moving()
+        );
+    }
     let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
     let canmove_tick = character.get_canmove_tick();
     let start_at = if tick < canmove_tick {
