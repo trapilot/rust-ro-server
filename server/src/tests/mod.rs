@@ -15,6 +15,8 @@ mod map_instance_service_test;
 #[cfg(test)]
 mod mob_service_test;
 #[cfg(test)]
+mod packet_parser_test;
+#[cfg(test)]
 mod server_service_test;
 #[cfg(test)]
 mod skill_service_test;
