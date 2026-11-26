@@ -1,7 +1,7 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use movement::position::Position;
-use packets::packets::{PacketCzRequestMove, PacketCzRequestMove2};
+use packets::packets::PacketCzRequestMove;
 
 use crate::server::model::events::game_event::CharacterMovement;
 use crate::server::model::events::game_event::GameEvent::CharacterMove;
@@ -12,13 +12,8 @@ use crate::server::model::request::Request;
 use crate::server::Server;
 
 pub fn handle_char_move(server: &Server, context: Request) {
-    let destination = if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
-        let move_packet = cast!(context.packet(), PacketCzRequestMove2);
-        Position::from_move2_packet(move_packet)
-    } else {
-        let move_packet = cast!(context.packet(), PacketCzRequestMove);
-        Position::from_move_packet(move_packet)
-    };
+    let move_packet = cast!(context.packet(), PacketCzRequestMove);
+    let destination = Position::from_move_packet(move_packet);
     debug!("Request move to {}", destination);
     let character = server.state().get_character_from_context_unsafe(&context);
     let map_instance = server

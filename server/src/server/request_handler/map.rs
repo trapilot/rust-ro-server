@@ -1,8 +1,6 @@
 use models::enums::EnumWithMaskValueU64;
 use models::enums::map::MapPropertyFlags;
-use packets::packets::{
-    Packet, PacketCzReqname, PacketCzReqnameall2, PacketZcAckReqnameall2, PacketZcHatEffect, PacketZcNotifyMapproperty2,
-};
+use packets::packets::{Packet, PacketCzReqname, PacketZcAckReqnameall2, PacketZcHatEffect, PacketZcNotifyMapproperty2};
 
 use crate::server::Server;
 use crate::server::model::events::game_event::GameEvent;
@@ -12,10 +10,7 @@ use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 
 pub fn handle_map_item_name(server: &Server, context: Request) {
-    let gid = if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
-        let packet_cz_req_allname2 = cast!(context.packet(), PacketCzReqnameall2);
-        packet_cz_req_allname2.gid
-    } else if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
+    let gid = if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
         let packet_cz_req_name = cast!(context.packet(), PacketCzReqname);
         packet_cz_req_name.aid
     } else {

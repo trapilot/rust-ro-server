@@ -6,13 +6,13 @@ use byteorder::{LittleEndian, WriteBytesExt};
 use movement::position::Position;
 use models::status::KnownSkill;
 use packets::packets::{
-    AccessibleMapnameInfo, CharacterInfoNeoUnion, Packet, PacketChDeleteChar, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar,
+    AccessibleMapnameInfo, CharacterInfoNeoUnion, Packet, PacketChDeleteChar, PacketChDeleteChar3Reserved, PacketChEnter, PacketChMakeChar,
     PacketChMakeChar2, PacketChMakeChar3, PacketChSelectAccessibleMapname, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2,
     PacketCzRestart, PacketHcAcceptDeletechar, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader,
-    PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved, PacketHcNotifyAccessibleMapname,
-    PacketHcNotifyZonesvr, PacketHcRefuseDeletechar, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketMapConnection,
+    PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar3Reserved, PacketHcNotifyAccessibleMapname,
+    PacketHcNotifyZonesvr, PacketHcRefuseDeletechar, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketZcAid,
     PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent,
-    PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr,
+    PacketZcAckReqDisconnect, PacketZcRestartAck, ZserverAddr,
 };
 
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
@@ -326,7 +326,7 @@ pub fn handle_delete_char(server: &Server, context: Request) {
 }
 
 pub fn handle_delete_reserved_char(server: &Server, context: Request) {
-    let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
+    let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar3Reserved);
     server.runtime().block_on(async {
         server
             .repository
@@ -334,12 +334,12 @@ pub fn handle_delete_reserved_char(server: &Server, context: Request) {
             .await
             .unwrap();
     });
-    let mut packet_hc_delete_char4reserved = PacketHcDeleteChar4Reserved::new(GlobalConfigService::instance().packetver());
-    packet_hc_delete_char4reserved.set_gid(packet_delete_reserved_char.gid);
-    packet_hc_delete_char4reserved.set_delete_reserved_date(24 * 60 * 60);
-    packet_hc_delete_char4reserved.set_result(1);
-    packet_hc_delete_char4reserved.fill_raw();
-    socket_send!(context, packet_hc_delete_char4reserved);
+    let mut packet_hc_delete_char3reserved = PacketHcDeleteChar3Reserved::new(GlobalConfigService::instance().packetver());
+    packet_hc_delete_char3reserved.set_gid(packet_delete_reserved_char.gid);
+    packet_hc_delete_char3reserved.set_delete_reserved_date(24 * 60 * 60);
+    packet_hc_delete_char3reserved.set_result(1);
+    packet_hc_delete_char3reserved.fill_raw();
+    socket_send!(context, packet_hc_delete_char3reserved);
 }
 
 pub fn handle_select_char(server: &Server, context: Request) {
@@ -446,7 +446,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
         let session = Arc::new(session.recreate_with_map_socket(context.socket()));
         sessions_guard.insert(aid, session.clone());
     }
-    let mut packet_map_connection = PacketMapConnection::new(GlobalConfigService::instance().packetver());
+    let mut packet_map_connection = PacketZcAid::new(GlobalConfigService::instance().packetver());
     packet_map_connection.set_aid(aid);
     packet_map_connection.fill_raw();
 
@@ -530,7 +530,7 @@ pub fn handle_disconnect(server: &Server, context: Request) {
     }));
     server.state().remove_session(session.account_id);
 
-    let mut disconnect_ack = PacketZcReqDisconnectAck2::new(GlobalConfigService::instance().packetver());
+    let mut disconnect_ack = PacketZcAckReqDisconnect::new(GlobalConfigService::instance().packetver());
     disconnect_ack.fill_raw();
     socket_send!(context, disconnect_ack);
 }

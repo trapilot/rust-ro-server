@@ -5704,19 +5704,6 @@ struct PACKET_CZ_ENTER2 {
   unsigned long clientTime
   unsigned char Sex
  }
-0x438
-struct PACKET_CZ_USE_SKILL2 {
-  short PacketId
-  short selectedLevel
-  unsigned short SKID
-  unsigned long targetID
- }
-0x439
-struct PACKET_CZ_USE_ITEM2 {
-  short PacketId
-  unsigned short index
-  unsigned long AID
- }
 0x43d
 struct PACKET_ZC_SKILL_POSTDELAY {
   short PacketId
@@ -6665,11 +6652,6 @@ struct PACKET_HC_NOTIFY_ACCESSIBLE_MAPNAME {
   char mapName[16]
   }
  }
-0x035f
-struct PACKET_CZ_REQUEST_MOVE2 {
- short PacketId
- unsigned short dest[3]
-}
 0x0ac5
 struct PACKET_CH_SEND_MAP_INFO {
   short PacketId
@@ -6692,21 +6674,6 @@ struct PACKET_HC_ACCEPT_ENTER_NEO_UNION_HEADER {
 
    }
  }
-0x0187
-struct PACKET_CZ_PING {
-   short PacketId
-   unsigned long AID
- }
-0x0187
-struct PACKET_ZC_AID2 {
-   short PacketId
-   unsigned long AID
- }
-0x0283
-struct PACKET_MAP_CONNECTION {
-   short PacketId
-   unsigned long AID
- }
 0x08b9
 struct PACKET_PINCODE_LOGINSTATE {
   short PacketId
@@ -6726,18 +6693,6 @@ struct PACKET_CH_MAKE_CHAR3 {
   unsigned char sex
  }
 
-0x0827
-struct PACKET_CH_DELETE_CHAR4_RESERVED {
-  short PacketId
-  unsigned long GID
- }
-0x0828
-struct PACKET_HC_DELETE_CHAR4_RESERVED {
-  short PacketId
-  unsigned long GID
-  int Result
-  long DeleteReservedDate
-}
 0x0b18
 struct PACKET_ZC_INVENTORY_EXPANSION_INFO {
   short PacketId
@@ -6747,21 +6702,6 @@ struct PACKET_ZC_INVENTORY_EXPANSION_INFO {
 struct PACKET_ZC_OVERWEIGHT_PERCENT {
   short PacketId
   int percent
-}
-0x018a
-struct PACKET_CZ_REQ_DISCONNECT2 {
-  short PacketId
-  short empty
-}
-0x018b
-struct PACKET_ZC_REQ_DISCONNECT_ACK2 {
-  short PacketId
-  short empty
-}
-0x0368
-struct PACKET_CZ_REQNAMEALL2 {
-  short PacketId
-  unsigned long GID
 }
 0x0a30
 struct PACKET_ZC_ACK_REQNAMEALL2 {
@@ -6774,11 +6714,6 @@ struct PACKET_ZC_ACK_REQNAMEALL2 {
   int titleId
 }
 
-0x0360
-struct PACKET_CZ_REQUEST_TIME2 {
-  short PacketId
-  unsigned long clientTime
- }
 0x09cd
 struct PACKET_ZC_MSG_COLOR {
   short PacketId
