@@ -17,6 +17,8 @@ mod mob_service_test;
 #[cfg(test)]
 mod packet_parser_test;
 #[cfg(test)]
+mod request_handler_char_test;
+#[cfg(test)]
 mod server_service_test;
 #[cfg(test)]
 mod skill_service_test;
