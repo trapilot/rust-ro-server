@@ -5,7 +5,7 @@ use models::enums::EnumWithNumberValue;
 use models::enums::class::JobName;
 use models::enums::skill_enums::SkillEnum;
 use models::status::KnownSkill;
-use packets::packets::{Packet, PacketZcSkillinfoList, SKILLINFO};
+use packets::packets::{Packet, PacketZcSkillInfoList, SKILLINFO};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -89,9 +89,9 @@ impl SkillTreeService {
                 None
             })
             .collect::<Vec<SKILLINFO>>();
-        let mut packet_zc_skillinfo_list = PacketZcSkillinfoList::new(self.configuration_service.packetver());
+        let mut packet_zc_skillinfo_list = PacketZcSkillInfoList::new(self.configuration_service.packetver());
         packet_zc_skillinfo_list.set_packet_length(
-            (PacketZcSkillinfoList::base_len(self.configuration_service.packetver())
+            (PacketZcSkillInfoList::base_len(self.configuration_service.packetver())
                 + (skills_info.len() * SKILLINFO::base_len(self.configuration_service.packetver()))) as i16,
         );
         packet_zc_skillinfo_list.set_skill_list(skills_info);

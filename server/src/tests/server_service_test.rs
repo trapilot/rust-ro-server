@@ -153,7 +153,7 @@ mod tests {
     use movement::position::Position;
     use models::status::KnownSkill;
     use models::status_bonus::{StatusBonus, StatusBonuses};
-    use packets::packets::{PacketZcMsgStateChange, PacketZcMsgStateChange2};
+    use packets::packets::{PacketZcMsgStateChangeNoTimer, PacketZcMsgStateChange};
 
     use crate::server::Server;
     use crate::server::model::events::game_event::CharacterUseSkill;
@@ -548,7 +548,7 @@ mod tests {
             assert_sent_packet_in_current_packetver!(
                 context,
                 NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                    PacketZcMsgStateChange2::packet_id(GlobalConfigService::instance().packetver()),
+                    PacketZcMsgStateChange::packet_id(GlobalConfigService::instance().packetver()),
                     1
                 )])
             );
@@ -573,7 +573,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcMsgStateChange::packet_id(GlobalConfigService::instance().packetver()),
+                PacketZcMsgStateChangeNoTimer::packet_id(GlobalConfigService::instance().packetver()),
                 1
             )])
         );

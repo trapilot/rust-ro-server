@@ -7,10 +7,10 @@ use models::enums::look::LookType;
 use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use models::item::{EquippedItem, Wearable};
 use packets::packets::{
-    EQUIPSLOTINFO, EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAckItemcomposition, PacketZcAttackRange,
-    PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck,
-    PacketZcItemcompositionList, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2,
-    PacketZcSkillinfoList, PacketZcSpriteChange2, SKILLINFO,
+    EQUIPSLOTINFO, EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAckItemComposition, PacketZcAttackRange,
+    PacketZcEquipArrow, PacketZcEquipmentItemList, PacketZcItemFallEntry, PacketZcItemPickupAck, PacketZcItemThrowAck,
+    PacketZcItemCompositionList, PacketZcNormalItemList, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqWearEquipAck,
+    PacketZcSkillInfoList, PacketZcSpriteChange, SKILLINFO,
 };
 use rand::RngCore;
 use tokio::runtime::Runtime;
@@ -94,7 +94,7 @@ impl InventoryService {
             let mut packets = vec![];
             character.add_items(add_items.items).iter().for_each(|(index, item)| {
                 let item_info = self.configuration_service.get_item(item.item_id);
-                let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck3::new(self.configuration_service.packetver());
+                let mut packet_zc_item_pickup_ack3 = PacketZcItemPickupAck::new(self.configuration_service.packetver());
                 packet_zc_item_pickup_ack3.set_itid(item.item_id as u16);
                 packet_zc_item_pickup_ack3.set_count(item.amount as u16);
                 packet_zc_item_pickup_ack3.set_index(*index as u16);
@@ -264,8 +264,8 @@ impl InventoryService {
             character.status.takeoff_all_equipment();
             character.add_items(items);
         });
-        //PacketZcNormalItemlist3
-        let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new(self.configuration_service.packetver());
+        //PacketZcNormalItemList
+        let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemList::new(self.configuration_service.packetver());
         let mut equipments = vec![];
         for (index, item) in character.inventory_equip().iter() {
             let item_info = self.configuration_service.get_item(item.item_id);
@@ -308,12 +308,12 @@ impl InventoryService {
             character.wear_equip_item(item.index as usize, item.wear_state as u64, item_info);
         }
         packet_zc_equipment_itemlist3.set_packet_length(
-            (PacketZcEquipmentItemlist3::base_len(self.configuration_service.packetver())
+            (PacketZcEquipmentItemList::base_len(self.configuration_service.packetver())
                 + equipments.len() * EquipmentitemExtrainfo301::base_len(self.configuration_service.packetver())) as i16,
         );
         packet_zc_equipment_itemlist3.set_item_info(equipments);
         packet_zc_equipment_itemlist3.fill_raw();
-        let mut packet_zc_normal_itemlist3 = PacketZcNormalItemlist3::new(self.configuration_service.packetver());
+        let mut packet_zc_normal_itemlist3 = PacketZcNormalItemList::new(self.configuration_service.packetver());
         let mut normal_items = vec![];
         character.inventory_normal().iter().for_each(|(index, item)| {
             let mut extrainfo3 = NormalitemExtrainfo3::new(self.configuration_service.packetver());
@@ -333,7 +333,7 @@ impl InventoryService {
             normal_items.push(extrainfo3);
         });
         packet_zc_normal_itemlist3.set_packet_length(
-            (PacketZcNormalItemlist3::base_len(self.configuration_service.packetver())
+            (PacketZcNormalItemList::base_len(self.configuration_service.packetver())
                 + normal_items.len() * NormalitemExtrainfo3::base_len(self.configuration_service.packetver())) as i16,
         );
         packet_zc_normal_itemlist3.set_item_info(normal_items);
@@ -391,7 +391,7 @@ impl InventoryService {
     }
 
     pub fn sprite_change_packet_for_item(&self, character: &Character, item: &dyn Wearable, is_takeoff: bool) -> Option<Vec<u8>> {
-        let mut packet_zc_sprite_change = PacketZcSpriteChange2::new(self.configuration_service.packetver());
+        let mut packet_zc_sprite_change = PacketZcSpriteChange::new(self.configuration_service.packetver());
         packet_zc_sprite_change.set_gid(character.char_id);
         let item_info = self.configuration_service.get_item(item.item_id());
         if item.location() & EquipmentLocation::HandRight.as_flag() > 0 {
@@ -421,7 +421,7 @@ impl InventoryService {
     }
 
     pub fn equip_item(&self, character: &mut Character, character_equip_item: CharacterEquipItem) -> Option<EquippedItem> {
-        let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new(self.configuration_service.packetver());
+        let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck::new(self.configuration_service.packetver());
         let mut packet_zc_equip_arrow = PacketZcEquipArrow::new(self.configuration_service.packetver());
         let index = character_equip_item.index;
         packet_zc_req_wear_equip_ack.set_index(index as u16);
@@ -551,7 +551,7 @@ impl InventoryService {
                 let mut take_off_items_packets = vec![];
                 if !equipped_take_off_items.is_empty() {
                     for i in 1..equipped_take_off_items.len() {
-                        let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new(self.configuration_service.packetver());
+                        let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck::new(self.configuration_service.packetver());
                         packet_zc_req_takeoff_equip_ack2.set_index(equipped_take_off_items[i].index as u16);
                         packet_zc_req_takeoff_equip_ack2.set_wear_location(equipped_take_off_items[i].location as u16);
                         packet_zc_req_takeoff_equip_ack2.set_result(0);
@@ -613,7 +613,7 @@ impl InventoryService {
     }
 
     pub fn takeoff_equip_item(&self, character: &mut Character, index: usize) -> Option<EquippedItem> {
-        let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new(self.configuration_service.packetver());
+        let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck::new(self.configuration_service.packetver());
         packet_zc_req_takeoff_equip_ack2.set_index(index as u16);
         let takeoff_equipement = character.takeoff_equip_item(index);
         let mut packets_raws_by_value = vec![];
@@ -657,7 +657,7 @@ impl InventoryService {
     }
 
     pub fn send_card_composition_list(&self, character: &mut Character, char_equip_item: CharacterEquipItem) {
-        let mut packet_zc_item_composition_list = PacketZcItemcompositionList::new(self.configuration_service.packetver());
+        let mut packet_zc_item_composition_list = PacketZcItemCompositionList::new(self.configuration_service.packetver());
 
         let mut slotable_items: Vec<u16> = vec![];
 
@@ -680,7 +680,7 @@ impl InventoryService {
         }
 
         packet_zc_item_composition_list.set_packet_length(
-            (PacketZcItemcompositionList::base_len(self.configuration_service.packetver()) + (slotable_items.len() * 2)) as i16,
+            (PacketZcItemCompositionList::base_len(self.configuration_service.packetver()) + (slotable_items.len() * 2)) as i16,
         );
         packet_zc_item_composition_list.set_itidlist(slotable_items);
         packet_zc_item_composition_list.fill_raw();
@@ -690,7 +690,7 @@ impl InventoryService {
                 character.char_id,
                 packet_zc_item_composition_list.raw,
             )))
-            .unwrap_or_else(|_| error!("Failed to send PacketZcItemcompositionList to client"));
+            .unwrap_or_else(|_| error!("Failed to send PacketZcItemCompositionList to client"));
     }
 
     pub fn slot_card(&self, runtime: &Runtime, character: &mut Character, slot_card_args: CharacterSlotCard) {
@@ -705,7 +705,7 @@ impl InventoryService {
         if card_inventory_item.is_none() {
             error!("Card item not found at index {}", slot_card_args.card_index);
             // Send negative ACK to client
-            let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+            let mut packet_zc_ack_item_composition = PacketZcAckItemComposition::new(self.configuration_service.packetver());
             packet_zc_ack_item_composition.set_result(1);
             packet_zc_ack_item_composition.fill_raw();
             self.client_notification_sender
@@ -713,7 +713,7 @@ impl InventoryService {
                     character.char_id,
                     packet_zc_ack_item_composition.raw,
                 )))
-                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
+                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemComposition to client"));
             return;
         }
 
@@ -724,7 +724,7 @@ impl InventoryService {
         }
         if equipment_inventory_item.is_none() {
             error!("Equipment item not found at index {}", slot_card_args.equip_index);
-            let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+            let mut packet_zc_ack_item_composition = PacketZcAckItemComposition::new(self.configuration_service.packetver());
             packet_zc_ack_item_composition.set_result(1);
             packet_zc_ack_item_composition.fill_raw();
             self.client_notification_sender
@@ -732,7 +732,7 @@ impl InventoryService {
                     character.char_id,
                     packet_zc_ack_item_composition.raw,
                 )))
-                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
+                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemComposition to client"));
             return;
         }
 
@@ -740,7 +740,7 @@ impl InventoryService {
         let item_info = self.configuration_service.get_item(equipment_inventory_item.item_id);
         if !equipment_inventory_item.has_free_slot(item_info) {
             error!("Equipment item has no free slot {}", slot_card_args.equip_index);
-            let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+            let mut packet_zc_ack_item_composition = PacketZcAckItemComposition::new(self.configuration_service.packetver());
             packet_zc_ack_item_composition.set_result(1);
             packet_zc_ack_item_composition.fill_raw();
             self.client_notification_sender
@@ -748,7 +748,7 @@ impl InventoryService {
                     character.char_id,
                     packet_zc_ack_item_composition.raw,
                 )))
-                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
+                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemComposition to client"));
             return;
         }
 
@@ -759,7 +759,7 @@ impl InventoryService {
                 .await
         });
 
-        let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+        let mut packet_zc_ack_item_composition = PacketZcAckItemComposition::new(self.configuration_service.packetver());
         packet_zc_ack_item_composition.set_card_index(slot_card_args.card_index as i16);
         packet_zc_ack_item_composition.set_equip_index(slot_card_args.equip_index as i16);
         match result {
@@ -784,6 +784,6 @@ impl InventoryService {
                 character.char_id,
                 packet_zc_ack_item_composition.raw,
             )))
-            .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
+            .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemComposition to client"));
     }
 }

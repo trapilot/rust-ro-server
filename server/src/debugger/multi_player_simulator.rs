@@ -7,7 +7,7 @@ use std::thread;
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-use packets::packets::{Packet, PacketChSelectChar, PacketCzEnter2, PacketCzPlayerChat};
+use packets::packets::{Packet, PacketChSelectChar, PacketCzEnter, PacketCzPlayerChat};
 use rand::{RngCore, thread_rng};
 
 use crate::server::Server;
@@ -142,7 +142,7 @@ impl MultiPlayerSimulator {
                                     .unwrap()
                                     .write_all(packet.raw().as_slice());
                                 sleep(Duration::from_millis(500));
-                                let mut packet = PacketCzEnter2::new(GlobalConfigService::instance().packetver());
+                                let mut packet = PacketCzEnter::new(GlobalConfigService::instance().packetver());
                                 packet.aid = session.account_id;
                                 packet.auth_code = session.auth_code;
                                 packet.fill_raw();

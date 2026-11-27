@@ -2,8 +2,8 @@ use std::sync::{Arc, RwLock};
 use std::thread;
 
 use packets::packets::{
-    PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzContactnpc, PacketCzInputEditdlg, PacketCzInputEditdlgstr,
-    PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist,
+    PacketCzAckSelectDealType, PacketCzChooseMenu, PacketCzContactNpc, PacketCzInputEditDlg, PacketCzInputEditDlgStr,
+    PacketCzPcPurchaseItemList, PacketCzPcSellItemList,
 };
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::sync::mpsc;
@@ -16,7 +16,7 @@ use crate::server::script::{
 use crate::server::service::global_config_service::GlobalConfigService;
 
 pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
-    let packet_cz_contact_npc = cast!(context.packet(), PacketCzContactnpc);
+    let packet_cz_contact_npc = cast!(context.packet(), PacketCzContactNpc);
     let npc_id = packet_cz_contact_npc.naid;
     let character = server.state().get_character_from_context_unsafe(&context);
     let maybe_map_item = server
@@ -89,7 +89,7 @@ pub fn handle_player_choose_menu(context: Request) {
         .unwrap();
 }
 pub fn handle_player_input_number(context: Request) {
-    let packet_cz_input_editlg = cast!(context.packet(), PacketCzInputEditdlg);
+    let packet_cz_input_editlg = cast!(context.packet(), PacketCzInputEditDlg);
     context
         .session()
         .script_handler_channel_sender
@@ -101,7 +101,7 @@ pub fn handle_player_input_number(context: Request) {
         .unwrap();
 }
 pub fn handle_player_input_string(context: Request) {
-    let packet_cz_input_editlgstr = cast!(context.packet(), PacketCzInputEditdlgstr);
+    let packet_cz_input_editlgstr = cast!(context.packet(), PacketCzInputEditDlgStr);
     context
         .session()
         .script_handler_channel_sender
@@ -114,7 +114,7 @@ pub fn handle_player_input_string(context: Request) {
 }
 
 pub fn handle_player_select_deal_type(context: Request) {
-    let packet_cz_ack_select_deal_type = cast!(context.packet(), PacketCzAckSelectDealtype);
+    let packet_cz_ack_select_deal_type = cast!(context.packet(), PacketCzAckSelectDealType);
     context
         .session()
         .script_handler_channel_sender
@@ -127,7 +127,7 @@ pub fn handle_player_select_deal_type(context: Request) {
 }
 
 pub fn handle_player_purchase_items(context: Request) {
-    let packet_cz_pc_purchase_item_list = cast!(context.packet(), PacketCzPcPurchaseItemlist);
+    let packet_cz_pc_purchase_item_list = cast!(context.packet(), PacketCzPcPurchaseItemList);
     let mut bytes = Vec::<u8>::new();
     bytes.push(packet_cz_pc_purchase_item_list.item_list.len() as u8);
     for item_raw in packet_cz_pc_purchase_item_list.item_list_raw.iter() {
@@ -144,7 +144,7 @@ pub fn handle_player_purchase_items(context: Request) {
         .unwrap();
 }
 pub fn handle_player_sell_items(context: Request) {
-    let packet_cz_pc_sell_item_list = cast!(context.packet(), PacketCzPcSellItemlist);
+    let packet_cz_pc_sell_item_list = cast!(context.packet(), PacketCzPcSellItemList);
     let mut bytes = Vec::<u8>::new();
     bytes.push(packet_cz_pc_sell_item_list.item_list.len() as u8);
     for item_raw in packet_cz_pc_sell_item_list.item_list_raw.iter() {

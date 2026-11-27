@@ -12,7 +12,7 @@ use models::enums::skill_enums::SkillEnum;
 use movement::position::Position;
 use models::status::{Status, StatusSnapshot};
 use models::status_bonus::BonusExpiry;
-use packets::packets::{Packet, PacketZcMsgStateChange, PacketZcNotifyAct};
+use packets::packets::{Packet, PacketZcMsgStateChangeNoTimer, PacketZcNotifyActShortDamage};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 
@@ -308,7 +308,7 @@ impl ServerService {
                                     return false;
                                 }
                                 icons.borrow_mut().insert(icon);
-                                let mut packet_zc_msg_state_change = PacketZcMsgStateChange::new(self.configuration_service.packetver());
+                                let mut packet_zc_msg_state_change = PacketZcMsgStateChangeNoTimer::new(self.configuration_service.packetver());
                                 packet_zc_msg_state_change.set_state(false);
                                 packet_zc_msg_state_change.set_aid(character.char_id);
                                 packet_zc_msg_state_change.set_index(temporary_bonus.icon().unwrap() as i16);
@@ -606,7 +606,7 @@ impl ServerService {
                     },
                     character,
                 );
-                let mut packet_zc_notify_act = PacketZcNotifyAct::new(self.configuration_service.packetver());
+                let mut packet_zc_notify_act = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
                 packet_zc_notify_act.set_gid(character.char_id);
                 packet_zc_notify_act.set_action(ActionType::Itempickup.value() as u8);
                 packet_zc_notify_act.fill_raw();

@@ -7,7 +7,7 @@ use models::enums::skill_enums::SkillEnum;
 use models::enums::EnumWithNumberValue;
 use models::item::NormalInventoryItem;
 use models::status::StatusSnapshot;
-use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcMsgStateChange2, PacketZcNotifySkill2, PacketZcUseSkill, PacketZcUseskillAck2};
+use packets::packets::{PacketZcAckToUseSkill, PacketZcActionFailure, PacketZcMsgStateChange, PacketZcNotifySkill, PacketZcUseSkill, PacketZcUseSkillAck};
 use skills::OffensiveSkill;
 
 use crate::packets::packets::Packet;
@@ -129,7 +129,7 @@ impl SkillService {
         skill.update_cast_time((skill.base_cast_time() as f32 * self.status_service.cast_time_reduction(source_status)).ceil() as u32);
         skill.update_after_cast_act_delay(skill.base_after_cast_act_delay());
         skill.update_after_cast_walk_delay(skill.base_after_cast_walk_delay());
-        let mut packet_zc_useskill_ack2 = PacketZcUseskillAck2::new(self.configuration_service.packetver());
+        let mut packet_zc_useskill_ack2 = PacketZcUseSkillAck::new(self.configuration_service.packetver());
         packet_zc_useskill_ack2.set_target_id(target_snapshot.map_item().id());
         packet_zc_useskill_ack2.set_skid(skill_id as u16);
         packet_zc_useskill_ack2.set_property(12); // element
@@ -186,7 +186,7 @@ impl SkillService {
             SkillType::Offensive => {
                 let skill = skill.as_offensive_skill().unwrap();
                 damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
-                let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
+                let mut packet_zc_notify_skill2 = PacketZcNotifySkill::new(self.configuration_service.packetver());
                 packet_zc_notify_skill2.set_skid(skill.id() as u16);
                 let target = target.as_ref().unwrap();
                 target_id = target.map_item().id();
@@ -247,7 +247,7 @@ impl SkillService {
 
         let after_cast_delay = character.skill_in_use().skill.after_cast_act_delay();
         if after_cast_delay > 0 {
-            let mut packet_zc_msg_state_change = PacketZcMsgStateChange2::new(self.configuration_service.packetver());
+            let mut packet_zc_msg_state_change = PacketZcMsgStateChange::new(self.configuration_service.packetver());
             packet_zc_msg_state_change.set_aid(character.char_id);
             packet_zc_msg_state_change.set_index(ClientEffectIcon::PostDelay as i16);
             packet_zc_msg_state_change.set_remain_ms(after_cast_delay);
@@ -283,7 +283,7 @@ impl SkillService {
     }
 
     fn send_skill_fail_packet(&self, character: &mut Character, cause: UseSkillFailure) {
-        let mut packet_zc_ack_touseskill = PacketZcAckTouseskill::new(self.configuration_service.packetver());
+        let mut packet_zc_ack_touseskill = PacketZcAckToUseSkill::new(self.configuration_service.packetver());
         packet_zc_ack_touseskill.set_cause(cause.value() as u8);
         packet_zc_ack_touseskill.set_num(UseSkillFailureClientSideType::SkillFailed.value() as u32);
         packet_zc_ack_touseskill.set_result(false);

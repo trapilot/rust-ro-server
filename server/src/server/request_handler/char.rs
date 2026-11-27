@@ -7,12 +7,12 @@ use byteorder::{LittleEndian, WriteBytesExt};
 use movement::position::Position;
 use models::status::KnownSkill;
 use packets::packets::{
-    AccessibleMapnameInfo, CharacterInfoNeoUnion, Packet, PacketChDeleteChar, PacketChDeleteChar3Reserved, PacketChEnter, PacketChMakeChar,
-    PacketChMakeChar2, PacketChMakeChar3, PacketChSelectAccessibleMapname, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2,
-    PacketCzRestart, PacketHcAcceptDeletechar, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader,
-    PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar3Reserved, PacketHcNotifyAccessibleMapname,
-    PacketHcNotifyZonesvr, PacketHcRefuseDeletechar, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketZcAid,
-    PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent,
+    AccessibleMapnameInfo, CharacterInfoNeoUnion, Packet, PacketChDeleteChar, PacketChDeleteCharReserved, PacketChEnter, PacketChMakeChar,
+    PacketChMakeCharNoStats, PacketChMakeCharWithClass, PacketChSelectAccessibleMapName, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter,
+    PacketCzRestart, PacketHcAcceptDeleteChar, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader,
+    PacketHcAcceptMakeCharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteCharReserved, PacketHcNotifyAccessibleMapName,
+    PacketHcNotifyZoneSvr, PacketHcRefuseDeleteChar, PacketHcRefuseEnter, PacketHcRefuseMakeChar, PacketZcAid,
+    PacketHcPincodeLoginState, PacketZcAcceptEnter, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent,
     PacketZcAckReqDisconnect, PacketZcRestartAck, ZserverAddr,
 };
 
@@ -34,7 +34,7 @@ use crate::util::tick::get_tick_client;
 
 /// Maps offered as a starting point when creating a character, in display order.
 /// The client defaults to the first entry.
-fn build_starting_maps_packet(server: &Server) -> PacketHcNotifyAccessibleMapname {
+fn build_starting_maps_packet(server: &Server) -> PacketHcNotifyAccessibleMapName {
     let packetver = server.packetver();
     let maps: Vec<AccessibleMapnameInfo> = server
         .configuration
@@ -50,8 +50,8 @@ fn build_starting_maps_packet(server: &Server) -> PacketHcNotifyAccessibleMapnam
             info
         })
         .collect();
-    let mut packet = PacketHcNotifyAccessibleMapname::new(packetver);
-    let packet_length = PacketHcNotifyAccessibleMapname::base_len(packetver)
+    let mut packet = PacketHcNotifyAccessibleMapName::new(packetver);
+    let packet_length = PacketHcNotifyAccessibleMapName::base_len(packetver)
         + AccessibleMapnameInfo::base_len(packetver) * maps.len();
     packet.set_maps(maps);
     packet.set_packet_length(packet_length as i16);
@@ -98,7 +98,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
                     x
                 }
             });
-            let mut pincode_loginstate = PacketPincodeLoginstate::new(GlobalConfigService::instance().packetver());
+            let mut pincode_loginstate = PacketHcPincodeLoginState::new(GlobalConfigService::instance().packetver());
             pincode_loginstate.set_aid(session.account_id);
             pincode_loginstate.set_pincode_seed(session.auth_code);
             pincode_loginstate.fill_raw();
@@ -136,12 +136,12 @@ const MAX_CHARACTER_SLOTS: i16 = 12;
 pub fn handle_make_char(server: &Server, context: Request) {
     let (start_map, start_x, start_y) = resolve_starting_map(server, context.session().start_map_index);
     let mut char_model: Option<CharInsertModel> = None;
-    if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
+    if context.packet().as_any().downcast_ref::<PacketChMakeCharWithClass>().is_some() {
         let vit = 1;
         let max_hp = 40 * (100 + vit as i32) / 100;
         let int = 1;
         let max_sp = 40 * (100 + int as i32) / 100;
-        let packet_make_char = cast!(context.packet(), PacketChMakeChar3);
+        let packet_make_char = cast!(context.packet(), PacketChMakeCharWithClass);
         let name = packet_make_char.name.iter().filter(|c| **c != '\0').collect();
         char_model = Some(CharInsertModel {
             account_id: context.session().account_id as i32,
@@ -175,8 +175,8 @@ pub fn handle_make_char(server: &Server, context: Request) {
             },
             inventory_slots: context.configuration().game.max_inventory as i32,
         });
-    } else if context.packet().as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
-        let packet_make_char = cast!(context.packet(), PacketChMakeChar2);
+    } else if context.packet().as_any().downcast_ref::<PacketChMakeCharNoStats>().is_some() {
+        let packet_make_char = cast!(context.packet(), PacketChMakeCharNoStats);
         let vit = 5_i16;
         let max_hp = 40 * (100 + vit as i32) / 100;
         let int = 5;
@@ -271,7 +271,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
         Ok(created_char) => created_char,
         Err(error) => {
             let name_already_exists = error.as_database_error().is_some_and(|db_error| db_error.is_unique_violation());
-            let mut packet_hc_refuse_makechar = PacketHcRefuseMakechar::new(GlobalConfigService::instance().packetver());
+            let mut packet_hc_refuse_makechar = PacketHcRefuseMakeChar::new(GlobalConfigService::instance().packetver());
             // 0x00: name already exists, 0xFF: char creation denied
             packet_hc_refuse_makechar.set_error_code(if name_already_exists { 0x00 } else { 0xFF });
             packet_hc_refuse_makechar.fill_raw();
@@ -279,7 +279,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
             return;
         }
     };
-    let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new(GlobalConfigService::instance().packetver());
+    let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakeCharNeoUnion::new(GlobalConfigService::instance().packetver());
     packet_hc_accept_makechar_neo_union.set_charinfo(created_char);
     packet_hc_accept_makechar_neo_union.fill_raw();
     socket_send!(context, packet_hc_accept_makechar_neo_union);
@@ -288,7 +288,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
 /// Records the starting map chosen by the client during character creation. The
 /// index refers to `config.maps.starting_maps`.
 pub fn handle_select_accessible_map(server: &Server, context: Request) {
-    let packet_select_map = cast!(context.packet(), PacketChSelectAccessibleMapname);
+    let packet_select_map = cast!(context.packet(), PacketChSelectAccessibleMapName);
     let session = context.session();
     let session = Arc::new(session.recreate_with_start_map_index(packet_select_map.map_list_num as usize));
     server.state().add_session(session.account_id, session);
@@ -315,25 +315,25 @@ pub fn handle_delete_char(server: &Server, context: Request) {
                 .await
                 .unwrap();
         });
-        let mut packet_accept = PacketHcAcceptDeletechar::new(GlobalConfigService::instance().packetver());
+        let mut packet_accept = PacketHcAcceptDeleteChar::new(GlobalConfigService::instance().packetver());
         packet_accept.fill_raw();
         socket_send!(context, packet_accept);
     } else {
-        let mut packet_refuse = PacketHcRefuseDeletechar::new(GlobalConfigService::instance().packetver());
+        let mut packet_refuse = PacketHcRefuseDeleteChar::new(GlobalConfigService::instance().packetver());
         packet_refuse.set_error_code(1);
         packet_refuse.fill_raw();
         socket_send!(context, packet_refuse);
     }
 }
 
-/// HC_DELETE_CHAR3_RESERVED result codes (rAthena `chclif_char_delete2_ack`).
+/// HC_DELETE_CHAR_RESERVED result codes (rAthena `chclif_char_delete2_ack`).
 const DELETE_RESERVE_RESULT_SUCCESS: i32 = 1;
 const DELETE_RESERVE_RESULT_DB_ERROR: i32 = 3;
 /// Must match the `INTERVAL '1 day'` used by `character_delete_reserved`.
 const CHAR_DELETE_DELAY_SECONDS: u64 = 24 * 60 * 60;
 
 pub fn handle_delete_reserved_char(server: &Server, context: Request) {
-    let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar3Reserved);
+    let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteCharReserved);
     let gid = packet_delete_reserved_char.gid;
     let db_result = server
         .runtime()
@@ -342,7 +342,7 @@ pub fn handle_delete_reserved_char(server: &Server, context: Request) {
         error!("Failed to reserve deletion of character {}: {:?}", gid, e);
     }
     let ack = delete_reserve_ack(gid, db_result.is_ok(), SystemTime::now());
-    let mut packet_hc_delete_char3reserved = PacketHcDeleteChar3Reserved::new(GlobalConfigService::instance().packetver());
+    let mut packet_hc_delete_char3reserved = PacketHcDeleteCharReserved::new(GlobalConfigService::instance().packetver());
     packet_hc_delete_char3reserved.set_gid(ack.gid);
     packet_hc_delete_char3reserved.set_result(ack.result);
     packet_hc_delete_char3reserved.set_delete_reserved_date(ack.delete_reserved_date);
@@ -425,7 +425,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
         server.state().add_session(session_id, session);
     }
     if server.packetver() < 20170329 {
-        let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new(GlobalConfigService::instance().packetver());
+        let mut packet_ch_send_map_info = PacketHcNotifyZoneSvr::new(GlobalConfigService::instance().packetver());
         packet_ch_send_map_info.set_gid(char_id);
         packet_ch_send_map_info.set_map_name(map_name);
         let mut zserver_addr = ZserverAddr::new(GlobalConfigService::instance().packetver());
@@ -449,8 +449,8 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     let aid;
     let auth_code;
     info!("handle_enter_game");
-    if context.packet().as_any().downcast_ref::<PacketCzEnter2>().is_some() {
-        let packet_enter_game = cast!(context.packet(), PacketCzEnter2);
+    if context.packet().as_any().downcast_ref::<PacketCzEnter>().is_some() {
+        let packet_enter_game = cast!(context.packet(), PacketCzEnter);
         aid = packet_enter_game.aid;
         auth_code = packet_enter_game.auth_code;
     } else {
@@ -486,7 +486,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     socket_send!(context, packet_map_connection);
 
     /*
-    Client expect multiple packets in response to packet PacketCzEnter2
+    Client expect multiple packets in response to packet PacketCzEnter
     */
     let mut packet_inventory_expansion_info = PacketZcInventoryExpansionInfo::new(GlobalConfigService::instance().packetver());
     packet_inventory_expansion_info.fill_raw();
@@ -495,7 +495,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_overweight_percent.fill_raw();
     socket_send!(context, packet_overweight_percent);
     let character = server.state().get_character_unsafe(char_id);
-    let mut packet_accept_enter = PacketZcAcceptEnter2::new(GlobalConfigService::instance().packetver());
+    let mut packet_accept_enter = PacketZcAcceptEnter::new(GlobalConfigService::instance().packetver());
     packet_accept_enter.set_start_time(get_tick_client());
     packet_accept_enter.set_x_size(5); // Commented as not used, set at 5 in Hercules
     packet_accept_enter.set_y_size(5); // Commented as not used, set at 5 in Hercules

@@ -155,7 +155,7 @@ pub fn parse(packet_db_path: &Path) -> (Vec<PacketStructDefinition>, Vec<StructD
             }));
             current_structure_def += 1;
         } else if line_content.contains("struct") {
-            // start of "main" struct. matching: struct PACKET_HC_ACCEPT_MAKECHAR_NEO_UNION
+            // start of "main" struct. matching: struct PACKET_HC_ACCEPT_MAKE_CHAR_NEO_UNION
             // {
             let name = STRUCT_REGEX.captures(line_content.as_str()).unwrap().get(1).unwrap();
             structs_for_packet.push(RefCell::new(StructDefinition {

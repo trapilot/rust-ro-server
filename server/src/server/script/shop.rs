@@ -1,8 +1,8 @@
 use models::enums::item::ItemType;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use packets::packets::{
-    CzPurchaseItem, CzSellItem, Packet, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist,
-    PacketZcSelectDealtype, PurchaseItem, SellItem,
+    CzPurchaseItem, CzSellItem, Packet, PacketZcPcPurchaseItemList, PacketZcPcPurchaseResult, PacketZcPcSellItemList,
+    PacketZcSelectDealType, PurchaseItem, SellItem,
 };
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
@@ -19,7 +19,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 impl PlayerInteractionScriptHandler {
     pub fn handle_shop(&self, native: &Native, params: &Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame) -> bool {
         if native.name.eq("callshop") {
-            let mut packet_zc_select_deal_type = PacketZcSelectDealtype::new(GlobalConfigService::instance().packetver());
+            let mut packet_zc_select_deal_type = PacketZcSelectDealType::new(GlobalConfigService::instance().packetver());
             packet_zc_select_deal_type.naid = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_NPC_ID);
             packet_zc_select_deal_type.fill_raw();
             self.send_packet_to_char(
@@ -33,7 +33,7 @@ impl PlayerInteractionScriptHandler {
         } else if native.name.eq("sendcharinventory") {
             let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
             let character = self.server.state().get_character_unsafe(char_id);
-            let mut packet_zc_pc_sell_itemlist = PacketZcPcSellItemlist::new(self.configuration_service.packetver());
+            let mut packet_zc_pc_sell_itemlist = PacketZcPcSellItemList::new(self.configuration_service.packetver());
             let mut packets_sell_items = vec![];
             character
                 .inventory
@@ -55,7 +55,7 @@ impl PlayerInteractionScriptHandler {
                     packets_sell_items.push(sell_item);
                 });
             packet_zc_pc_sell_itemlist.set_packet_length(
-                (PacketZcPcSellItemlist::base_len(self.configuration_service.packetver())
+                (PacketZcPcSellItemList::base_len(self.configuration_service.packetver())
                     + packets_sell_items.len() * SellItem::base_len(self.configuration_service.packetver())) as i16,
             );
             packet_zc_pc_sell_itemlist.set_item_list(packets_sell_items.clone());
@@ -79,7 +79,7 @@ impl PlayerInteractionScriptHandler {
                 .map_err(|err| execution_thread.new_runtime_from_temporary(err, "senditemlist second argument should be array name"))
                 .unwrap();
             let array_prices = execution_thread.vm.array_from_heap_reference(owner_reference, reference).unwrap();
-            let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemlist::new(self.configuration_service.packetver());
+            let mut packet_zc_pc_purchase_itemlist = PacketZcPcPurchaseItemList::new(self.configuration_service.packetver());
             // Retrieve items id and price from VM array
             let mut item_ids: Vec<i32> = vec![];
             let mut price_overrides: Vec<i32> = vec![];
@@ -116,7 +116,7 @@ impl PlayerInteractionScriptHandler {
             }
             packet_zc_pc_purchase_itemlist.set_item_list(items_list.clone());
             packet_zc_pc_purchase_itemlist.set_packet_length(
-                (PacketZcPcPurchaseItemlist::base_len(self.server.packetver())
+                (PacketZcPcPurchaseItemList::base_len(self.server.packetver())
                     + PurchaseItem::base_len(self.server.packetver()) * array_items.len()) as i16,
             );
             packet_zc_pc_purchase_itemlist.fill_raw();

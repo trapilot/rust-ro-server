@@ -6,7 +6,7 @@ use configuration::configuration::CityConfig;
 use lazy_static::lazy_static;
 use models::enums::class::JobName;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
-use packets::packets::{Packet, PacketCzPlayerChat, PacketZcNotifyPlayerchat};
+use packets::packets::{Packet, PacketCzPlayerChat, PacketZcNotifyPlayerChat};
 use regex_lite::Regex;
 
 use crate::load_scripts;
@@ -46,7 +46,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             .map(|arg| arg.trim_matches(char::from(0)))
             .collect();
     }
-    let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new(GlobalConfigService::instance().packetver());
+    let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerChat::new(GlobalConfigService::instance().packetver());
     // let mut packets = vec![];
     match command {
         "go" => {

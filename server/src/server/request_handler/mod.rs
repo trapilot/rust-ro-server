@@ -1,14 +1,14 @@
 use std::sync::Arc;
 
 use packets::packets::{
-    PacketCaLogin, PacketChDeleteChar, PacketChDeleteChar3Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3,
-    PacketChSelectAccessibleMapname, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu,
-    PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow,
-    PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect,
-    PacketCzReqItemcomposition, PacketCzReqItemcompositionList, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzReqWearEquip,
-    PacketCzReqname, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestTime,
-    PacketCzRestart, PacketCzShortcutKeyChange, PacketCzStatusChange, PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill,
-    PacketPing, PacketUnknown, PacketZcNotifyTime,
+    PacketCaLogin, PacketChDeleteChar, PacketChDeleteCharReserved, PacketChEnter, PacketChMakeChar, PacketChMakeCharNoStats, PacketChMakeCharWithClass,
+    PacketChSelectAccessibleMapName, PacketChSelectChar, PacketCzAckSelectDealType, PacketCzBlockingPlayCancel, PacketCzChooseMenu,
+    PacketCzContactNpc, PacketCzEnter, PacketCzInputEditDlg, PacketCzInputEditDlgStr, PacketCzItemPickup, PacketCzItemThrow,
+    PacketCzNotifyActorInit, PacketCzPcPurchaseItemList, PacketCzPcSellItemList, PacketCzPlayerChat, PacketCzReqDisconnect,
+    PacketCzReqItemComposition, PacketCzReqItemCompositionList, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzReqWearEquip,
+    PacketCzReqName, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestTime,
+    PacketCzRestart, PacketCzShortcutKeyChange, PacketCzStatusChange, PacketCzUpgradeSkillLevel, PacketCzUseItem, PacketCzUseSkill,
+    PacketBiPing, PacketUnknown, PacketZcNotifyTime,
 };
 
 use crate::packets::packets::Packet;
@@ -70,8 +70,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     }
 
     // Enter game
-    if context.packet().as_any().downcast_ref::<PacketCzEnter2>().is_some() {
-        debug!("PacketCzEnter2");
+    if context.packet().as_any().downcast_ref::<PacketCzEnter>().is_some() {
+        debug!("PacketCzEnter");
         // A char session exist, but not yet map session
         return handle_enter_game(server.as_ref(), context);
     }
@@ -93,8 +93,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     }
     context.set_session(session);
     // Char creation: starting map chosen by the client
-    if context.packet().as_any().downcast_ref::<PacketChSelectAccessibleMapname>().is_some() {
-        debug!("PacketChSelectAccessibleMapname");
+    if context.packet().as_any().downcast_ref::<PacketChSelectAccessibleMapName>().is_some() {
+        debug!("PacketChSelectAccessibleMapName");
         return handle_select_accessible_map(server.as_ref(), context);
     }
     // Char creation
@@ -102,17 +102,17 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         debug!("PacketChMakeChar");
         return handle_make_char(server.as_ref(), context);
     }
-    if context.packet().as_any().downcast_ref::<PacketChMakeChar2>().is_some() {
-        debug!("PacketChMakeChar2");
+    if context.packet().as_any().downcast_ref::<PacketChMakeCharNoStats>().is_some() {
+        debug!("PacketChMakeCharNoStats");
         return handle_make_char(server.as_ref(), context);
     }
-    if context.packet().as_any().downcast_ref::<PacketChMakeChar3>().is_some() {
-        debug!("PacketChMakeChar3");
+    if context.packet().as_any().downcast_ref::<PacketChMakeCharWithClass>().is_some() {
+        debug!("PacketChMakeCharWithClass");
         return handle_make_char(server.as_ref(), context);
     }
     // Delete char reservation
-    if context.packet().as_any().downcast_ref::<PacketChDeleteChar3Reserved>().is_some() {
-        debug!("PacketChDeleteChar3Reserved");
+    if context.packet().as_any().downcast_ref::<PacketChDeleteCharReserved>().is_some() {
+        debug!("PacketChDeleteCharReserved");
         return handle_delete_reserved_char(server.as_ref(), context);
     }
     // Delete char confirmation with the account password
@@ -141,8 +141,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         return handle_char_move(server.as_ref(), context);
     }
     // Client notify player has been loaded
-    if context.packet().as_any().downcast_ref::<PacketCzNotifyActorinit>().is_some() {
-        debug!("PacketCzNotifyActorinit");
+    if context.packet().as_any().downcast_ref::<PacketCzNotifyActorInit>().is_some() {
+        debug!("PacketCzNotifyActorInit");
         return handle_char_loaded_client_side(server.as_ref(), context);
     }
     // Client send PACKET_CZ_BLOCKING_PLAY_CANCEL after char has loaded
@@ -159,8 +159,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         return handle_pickup_item(server.as_ref(), context);
     }
 
-    if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
-        debug!("PacketCzReqname");
+    if context.packet().as_any().downcast_ref::<PacketCzReqName>().is_some() {
+        debug!("PacketCzReqName");
         return handle_map_item_name(server.as_ref(), context);
     }
 
@@ -170,8 +170,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     }
 
     // NPC interactions
-    if context.packet().as_any().downcast_ref::<PacketCzContactnpc>().is_some() {
-        debug!("PacketCzContactnpc");
+    if context.packet().as_any().downcast_ref::<PacketCzContactNpc>().is_some() {
+        debug!("PacketCzContactNpc");
         return handle_contact_npc(server, context);
     }
 
@@ -183,24 +183,24 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         debug!("PacketCzChooseMenu");
         return handle_player_choose_menu(context);
     }
-    if context.packet().as_any().downcast_ref::<PacketCzInputEditdlg>().is_some() {
-        debug!("PacketCzInputEditdlg");
+    if context.packet().as_any().downcast_ref::<PacketCzInputEditDlg>().is_some() {
+        debug!("PacketCzInputEditDlg");
         return handle_player_input_number(context);
     }
-    if context.packet().as_any().downcast_ref::<PacketCzInputEditdlgstr>().is_some() {
-        debug!("PacketCzInputEditdlgstr");
+    if context.packet().as_any().downcast_ref::<PacketCzInputEditDlgStr>().is_some() {
+        debug!("PacketCzInputEditDlgStr");
         return handle_player_input_string(context);
     }
-    if context.packet().as_any().downcast_ref::<PacketCzAckSelectDealtype>().is_some() {
-        debug!("PacketCzAckSelectDealtype");
+    if context.packet().as_any().downcast_ref::<PacketCzAckSelectDealType>().is_some() {
+        debug!("PacketCzAckSelectDealType");
         return handle_player_select_deal_type(context);
     }
-    if context.packet().as_any().downcast_ref::<PacketCzPcPurchaseItemlist>().is_some() {
-        debug!("PacketCzPcPurchaseItemlist");
+    if context.packet().as_any().downcast_ref::<PacketCzPcPurchaseItemList>().is_some() {
+        debug!("PacketCzPcPurchaseItemList");
         return handle_player_purchase_items(context);
     }
-    if context.packet().as_any().downcast_ref::<PacketCzPcSellItemlist>().is_some() {
-        debug!("PacketCzPcSellItemlist");
+    if context.packet().as_any().downcast_ref::<PacketCzPcSellItemList>().is_some() {
+        debug!("PacketCzPcSellItemList");
         return handle_player_sell_items(context);
     }
     // End NPC interaction
@@ -222,12 +222,12 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         debug!("PacketCzItemThrow");
         return handle_player_drop_item(server.as_ref(), context);
     }
-    if context.packet().as_any().downcast_ref::<PacketCzReqItemcompositionList>().is_some() {
-        debug!("PacketCzReqItemcompositionList");
+    if context.packet().as_any().downcast_ref::<PacketCzReqItemCompositionList>().is_some() {
+        debug!("PacketCzReqItemCompositionList");
         return handle_player_card_composition_list(server.as_ref(), context);
     }
-    if context.packet().as_any().downcast_ref::<PacketCzReqItemcomposition>().is_some() {
-        debug!("PacketCzReqItemcomposition");
+    if context.packet().as_any().downcast_ref::<PacketCzReqItemComposition>().is_some() {
+        debug!("PacketCzReqItemComposition");
         return handle_player_slot_card(server.as_ref(), context);
     }
     // End Item interaction
@@ -239,8 +239,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     }
     // End stats
     // Skills
-    if context.packet().as_any().downcast_ref::<PacketCzUpgradeSkilllevel>().is_some() {
-        debug!("PacketCzUpgradeSkilllevel");
+    if context.packet().as_any().downcast_ref::<PacketCzUpgradeSkillLevel>().is_some() {
+        debug!("PacketCzUpgradeSkillLevel");
         return handle_player_skill_allocation(server.as_ref(), context);
     }
     if context.packet().as_any().downcast_ref::<PacketCzUseSkill>().is_some() {
@@ -264,7 +264,7 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     }
 
     // Keepalive (0x0187) carries nothing to act on
-    if context.packet().as_any().downcast_ref::<PacketPing>().is_some() {
+    if context.packet().as_any().downcast_ref::<PacketBiPing>().is_some() {
         return;
     }
     context.packet().display();

@@ -1,6 +1,6 @@
 use models::enums::EnumWithMaskValueU64;
 use models::enums::map::MapPropertyFlags;
-use packets::packets::{Packet, PacketCzReqname, PacketZcAckReqnameall2, PacketZcHatEffect, PacketZcNotifyMapproperty2};
+use packets::packets::{Packet, PacketCzReqName, PacketZcAckReqNameAllWithTitle, PacketZcHatEffect, PacketZcNotifyMapPropertyWithFlags};
 
 use crate::server::Server;
 use crate::server::model::events::game_event::GameEvent;
@@ -10,8 +10,8 @@ use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 
 pub fn handle_map_item_name(server: &Server, context: Request) {
-    let gid = if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
-        let packet_cz_req_name = cast!(context.packet(), PacketCzReqname);
+    let gid = if context.packet().as_any().downcast_ref::<PacketCzReqName>().is_some() {
+        let packet_cz_req_name = cast!(context.packet(), PacketCzReqName);
         packet_cz_req_name.aid
     } else {
         0
@@ -25,7 +25,7 @@ pub fn handle_map_item_name(server: &Server, context: Request) {
         return;
     }
     let map_item = maybe_map_item.unwrap();
-    let mut packet_zc_ack_reqnameall2 = PacketZcAckReqnameall2::new(GlobalConfigService::instance().packetver());
+    let mut packet_zc_ack_reqnameall2 = PacketZcAckReqNameAllWithTitle::new(GlobalConfigService::instance().packetver());
     packet_zc_ack_reqnameall2.set_gid(gid);
     let mut name: [char; 24] = [0 as char; 24];
     // let aaaaa = format!("{} {}", map_item.x(), map_item.y());
@@ -53,7 +53,7 @@ pub fn handle_char_loaded_client_side(server: &Server, context: Request) {
     let session = context.session();
     let session_id = session.account_id;
 
-    let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapproperty2::new(GlobalConfigService::instance().packetver());
+    let mut packet_zc_notify_mapproperty2 = PacketZcNotifyMapPropertyWithFlags::new(GlobalConfigService::instance().packetver());
     let mut packet_zc_hat_effect = PacketZcHatEffect::new(GlobalConfigService::instance().packetver());
     packet_zc_notify_mapproperty2.set_atype(0x2); // TODO set this correctly see enum_macro map_type in hercules
 

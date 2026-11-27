@@ -11,7 +11,7 @@ Current state is a mess - scattered across multiple optional fields:
 Nothing prevents invalid combinations. And the threading model causes race conditions because movement thread (16ms) and game loop (40ms) both touch character state without proper sync.
 
 Also found out from rathena research:
-- Don't send `PacketZcStopmove` for mob flinch - just use `canmove_tick`
+- Don't send `PacketZcStopMove` for mob flinch - just use `canmove_tick`
 - Attack tick should be initialized to current tick, not 0
 - The `-40` in movement delay formula is wrong
 
@@ -126,7 +126,7 @@ pub enum MobAction {
 }
 ```
 
-Key insight: `Flinching` state + atomic `canmove_tick` replaces the need for `PacketZcStopmove`. Movement thread just skips when `canmove_tick` hasn't passed.
+Key insight: `Flinching` state + atomic `canmove_tick` replaces the need for `PacketZcStopMove`. Movement thread just skips when `canmove_tick` hasn't passed.
 
 ### 4. Mob flinch without stop packet
 
@@ -141,7 +141,7 @@ sequenceDiagram
     P->>GL: Attack mob
     GL->>GL: Calculate damage
     GL->>AT: canmove_tick = tick + damage_motion
-    GL->>C: PacketZcNotifyAct (damage)
+    GL->>C: PacketZcNotifyActShortDamage (damage)
     Note over C: Client shows flinch animation
 
     loop Every 20ms
@@ -154,7 +154,7 @@ sequenceDiagram
         end
     end
 
-    Note over GL,ML: No PacketZcStopmove needed!
+    Note over GL,ML: No PacketZcStopMove needed!
 ```
 
 In `map_instance_service.rs` when mob takes damage:
@@ -166,7 +166,7 @@ pub fn mob_being_attacked(&mut self, mob: &mut Mob, tick: u128, damage_motion: u
     // Update state
     mob.action = MobAction::Flinching { until: tick + damage_motion as u128 };
 
-    // NO PacketZcStopmove - client shows flinch animation from damage packet
+    // NO PacketZcStopMove - client shows flinch animation from damage packet
 }
 ```
 

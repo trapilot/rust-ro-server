@@ -5,7 +5,7 @@ use std::sync::mpsc::SyncSender;
 use base64::Engine;
 use base64::engine::general_purpose;
 use models::enums::bonus::BonusType;
-use packets::packets::{Packet, PacketZcUseItemAck2};
+use packets::packets::{Packet, PacketZcUseItemAck};
 use rathena_script_lang_interpreter::lang::chunk::ClassFile;
 use rathena_script_lang_interpreter::lang::chunk::OpCode::{CallNative, LoadConstant, LoadGlobal, LoadValue};
 use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
@@ -98,7 +98,7 @@ impl ItemService {
                         Box::new(PlayerScriptHandler::instance()),
                         vec![0, character.char_id, character.account_id],
                     );
-                    let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new(self.configuration_service.packetver());
+                    let mut packet_zc_use_item_ack = PacketZcUseItemAck::new(self.configuration_service.packetver());
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);
                     packet_zc_use_item_ack.set_index(character_user_item.index as u16);
                     let item_inventory_id = item.id;

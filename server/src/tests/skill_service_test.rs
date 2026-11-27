@@ -93,7 +93,7 @@ mod tests {
     use movement::position::Position;
     use models::status::{KnownSkill, Status};
     use models::status_bonus::{StatusBonus, StatusBonuses};
-    use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseSkill, PacketZcUseskillAck2};
+    use packets::packets::{PacketZcAckToUseSkill, PacketZcActionFailure, PacketZcUseSkill, PacketZcUseSkillAck};
 
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
     use crate::tests::common;
@@ -146,14 +146,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
-                PacketZcUseskillAck2::packet_id(packetver),
+                PacketZcUseSkillAck::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcUseskillAck2::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcUseskillAck2);
+            .get_sent_packet(vec![PacketZcUseSkillAck::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcUseSkillAck);
         assert_eq!(packet.skid as u32, known_skill.value.id());
         assert_eq!(packet.aid, character.char_id);
         assert_eq!(packet.target_id, mob_item_id);
@@ -181,14 +181,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckTouseskill::packet_id(packetver),
+                PacketZcAckToUseSkill::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcAckTouseskill::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcAckTouseskill);
+            .get_sent_packet(vec![PacketZcAckToUseSkill::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcAckToUseSkill);
         assert_eq!(packet.cause, UseSkillFailure::SpInsufficient.value() as u8);
     }
 
@@ -225,14 +225,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
-                PacketZcUseskillAck2::packet_id(packetver),
+                PacketZcUseSkillAck::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcUseskillAck2::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcUseskillAck2);
+            .get_sent_packet(vec![PacketZcUseSkillAck::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcUseSkillAck);
         assert_eq!(packet.skid as u32, known_skill.value.id());
         assert_eq!(packet.aid, character.char_id);
         assert_eq!(packet.target_id, character.char_id);
@@ -260,14 +260,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckTouseskill::packet_id(packetver),
+                PacketZcAckToUseSkill::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcAckTouseskill::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcAckTouseskill);
+            .get_sent_packet(vec![PacketZcAckToUseSkill::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcAckToUseSkill);
         assert_eq!(packet.cause, UseSkillFailure::HpInsufficient.value() as u8);
     }
 
@@ -314,14 +314,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
-                PacketZcUseskillAck2::packet_id(packetver),
+                PacketZcUseSkillAck::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcUseskillAck2::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcUseskillAck2);
+            .get_sent_packet(vec![PacketZcUseSkillAck::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcUseSkillAck);
         assert_eq!(packet.skid as u32, known_skill.value.id());
         assert_eq!(packet.aid, character.char_id);
         assert_eq!(packet.target_id, mob_item_id);
@@ -404,14 +404,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
-                PacketZcUseskillAck2::packet_id(packetver),
+                PacketZcUseSkillAck::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcUseskillAck2::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcUseskillAck2);
+            .get_sent_packet(vec![PacketZcUseSkillAck::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcUseSkillAck);
         assert_eq!(packet.skid as u32, known_skill.value.id());
         assert_eq!(packet.aid, character.char_id);
         assert_eq!(packet.target_id, mob_item_id);
@@ -439,14 +439,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckTouseskill::packet_id(packetver),
+                PacketZcAckToUseSkill::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcAckTouseskill::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcAckTouseskill);
+            .get_sent_packet(vec![PacketZcAckToUseSkill::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcAckToUseSkill);
         assert_eq!(packet.cause, UseSkillFailure::Money.value() as u8);
     }
 
@@ -492,14 +492,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
-                PacketZcUseskillAck2::packet_id(packetver),
+                PacketZcUseSkillAck::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcUseskillAck2::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcUseskillAck2);
+            .get_sent_packet(vec![PacketZcUseSkillAck::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcUseSkillAck);
         assert_eq!(packet.skid as u32, known_skill.value.id());
         assert_eq!(packet.aid, character.char_id);
         assert_eq!(packet.target_id, mob_item_id);
@@ -527,14 +527,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckTouseskill::packet_id(packetver),
+                PacketZcAckToUseSkill::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcAckTouseskill::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcAckTouseskill);
+            .get_sent_packet(vec![PacketZcAckToUseSkill::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcAckToUseSkill);
         assert_eq!(packet.cause, UseSkillFailure::RedGemstone.value() as u8);
     }
 
@@ -584,14 +584,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
-                PacketZcUseskillAck2::packet_id(packetver),
+                PacketZcUseSkillAck::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcUseskillAck2::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcUseskillAck2);
+            .get_sent_packet(vec![PacketZcUseSkillAck::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcUseSkillAck);
         assert_eq!(packet.skid as u32, known_skill.value.id());
         assert_eq!(packet.aid, character.char_id);
         assert_eq!(packet.target_id, mob_item_id);
@@ -619,14 +619,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckTouseskill::packet_id(packetver),
+                PacketZcAckToUseSkill::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcAckTouseskill::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcAckTouseskill);
+            .get_sent_packet(vec![PacketZcAckToUseSkill::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcAckToUseSkill);
         assert_eq!(packet.cause, UseSkillFailure::ThisWeapon.value() as u8);
     }
 

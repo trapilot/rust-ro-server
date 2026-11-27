@@ -221,7 +221,7 @@ pub fn mob_attack_character(&self, map_instance_state: &MapInstanceState,
 ```
 
 Attack handling:
-1. Send `PacketZcNotifyAct` with attack animation to area
+1. Send `PacketZcNotifyActShortDamage` with attack animation to area
 2. Queue `GameEvent::CharacterDamage` to game loop
 
 ### 5.2 Update Map Instance Loop

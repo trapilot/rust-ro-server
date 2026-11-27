@@ -90,7 +90,7 @@ pub struct PacketChMakeChar {
 }
 
 #[derive(Clone)]
-pub struct PacketChMakeChar2 {
+pub struct PacketChMakeCharNoStats {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -139,7 +139,7 @@ pub struct PacketAcAcceptLogin {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAcceptLogin2 {
+pub struct PacketAcAcceptLoginWithTwitter {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -213,7 +213,7 @@ pub struct PacketHcRefuseEnter {
 }
 
 #[derive(Clone)]
-pub struct PacketHcAcceptMakecharNeoUnion {
+pub struct PacketHcAcceptMakeCharNeoUnion {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -222,7 +222,7 @@ pub struct PacketHcAcceptMakecharNeoUnion {
 }
 
 #[derive(Clone)]
-pub struct PacketHcRefuseMakechar {
+pub struct PacketHcRefuseMakeChar {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -231,14 +231,14 @@ pub struct PacketHcRefuseMakechar {
 }
 
 #[derive(Clone)]
-pub struct PacketHcAcceptDeletechar {
+pub struct PacketHcAcceptDeleteChar {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketHcRefuseDeletechar {
+pub struct PacketHcRefuseDeleteChar {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -247,7 +247,7 @@ pub struct PacketHcRefuseDeletechar {
 }
 
 #[derive(Clone)]
-pub struct PacketHcNotifyZonesvr {
+pub struct PacketHcNotifyZoneSvr {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -260,7 +260,7 @@ pub struct PacketHcNotifyZonesvr {
 }
 
 #[derive(Clone)]
-pub struct PacketCzEnter {
+pub struct PacketCzEnterUnpadded {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -277,7 +277,7 @@ pub struct PacketCzEnter {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAcceptEnter {
+pub struct PacketZcAcceptEnterNoFont {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -301,7 +301,7 @@ pub struct PacketZcRefuseEnter {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyInitchar {
+pub struct PacketZcNotifyInitChar {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -316,7 +316,7 @@ pub struct PacketZcNotifyInitchar {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyUpdatechar {
+pub struct PacketZcNotifyUpdateChar {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -329,7 +329,7 @@ pub struct PacketZcNotifyUpdatechar {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyUpdateplayer {
+pub struct PacketZcNotifyUpdatePlayer {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -340,7 +340,7 @@ pub struct PacketZcNotifyUpdateplayer {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentry {
+pub struct PacketZcNotifyStandEntrySplitWeapon {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -401,7 +401,7 @@ pub struct PacketZcNotifyStandentry {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyNewentry {
+pub struct PacketZcNotifyNewEntrySplitWeapon {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -458,7 +458,7 @@ pub struct PacketZcNotifyNewentry {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyActentry {
+pub struct PacketZcNotifyActEntry {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -519,7 +519,7 @@ pub struct PacketZcNotifyActentry {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMoveentry {
+pub struct PacketZcNotifyMoveEntrySplitWeapon {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -578,7 +578,7 @@ pub struct PacketZcNotifyMoveentry {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentryNpc {
+pub struct PacketZcNotifyStandEntryNpc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -627,7 +627,7 @@ pub struct PacketZcNotifyStandentryNpc {
 }
 
 #[derive(Clone)]
-pub struct PacketCzNotifyActorinit {
+pub struct PacketCzNotifyActorInit {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -693,7 +693,7 @@ pub struct PacketZcNotifyVanish {
 }
 
 #[derive(Clone)]
-pub struct PacketScNotifyBan {
+pub struct PacketZcNotifyBan {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -777,7 +777,7 @@ pub struct PacketZcNotifyMove {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyPlayermove {
+pub struct PacketZcNotifyPlayerMove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -788,7 +788,7 @@ pub struct PacketZcNotifyPlayermove {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStopmove {
+pub struct PacketZcStopMove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -801,7 +801,7 @@ pub struct PacketZcStopmove {
 }
 
 #[derive(Clone)]
-pub struct PacketZcFastmove {
+pub struct PacketZcFastMove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -885,7 +885,7 @@ pub struct PacketCzRequestAct {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyAct {
+pub struct PacketZcNotifyActShortDamage {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -957,7 +957,7 @@ pub struct PacketZcNotifyChat {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyPlayerchat {
+pub struct PacketZcNotifyPlayerChat {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -968,7 +968,7 @@ pub struct PacketZcNotifyPlayerchat {
 }
 
 #[derive(Clone)]
-pub struct PacketServerEntryAck {
+pub struct PacketZcServerEntryAck {
     pub raw: Vec<u8>,
     pub header: i16,
     pub header_raw: [u8; 2],
@@ -977,7 +977,7 @@ pub struct PacketServerEntryAck {
 }
 
 #[derive(Clone)]
-pub struct PacketCzContactnpc {
+pub struct PacketCzContactNpc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -988,7 +988,7 @@ pub struct PacketCzContactnpc {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNpcackMapmove {
+pub struct PacketZcNpcAckMapMove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1001,7 +1001,7 @@ pub struct PacketZcNpcackMapmove {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNpcackServermove {
+pub struct PacketZcNpcAckServerMove {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1016,14 +1016,14 @@ pub struct PacketZcNpcackServermove {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNpcackEnable {
+pub struct PacketZcNpcAckEnable {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqname {
+pub struct PacketCzReqName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1064,7 +1064,7 @@ pub struct PacketCzReqname {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckReqname {
+pub struct PacketZcAckReqName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1305,7 +1305,7 @@ pub struct PacketCzItemPickup {
 }
 
 #[derive(Clone)]
-pub struct PacketZcItemPickupAck {
+pub struct PacketZcItemPickupAckNoExpire {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1416,7 +1416,7 @@ pub struct PacketCzItemThrow {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNormalItemlist {
+pub struct PacketZcNormalItemListNoCards {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1427,7 +1427,7 @@ pub struct PacketZcNormalItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcEquipmentItemlist {
+pub struct PacketZcEquipmentItemListNoExpire {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1438,7 +1438,7 @@ pub struct PacketZcEquipmentItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStoreNormalItemlist {
+pub struct PacketZcStoreNormalItemListNoCards {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1449,7 +1449,7 @@ pub struct PacketZcStoreNormalItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStoreEquipmentItemlist {
+pub struct PacketZcStoreEquipmentItemListNoExpire {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1531,7 +1531,7 @@ pub struct PacketCzUseItem {
 }
 
 #[derive(Clone)]
-pub struct PacketZcUseItemAck {
+pub struct PacketZcUseItemAckNoAid {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1555,7 +1555,7 @@ pub struct PacketCzReqWearEquip {
 }
 
 #[derive(Clone)]
-pub struct PacketZcReqWearEquipAck {
+pub struct PacketZcReqWearEquipAckLegacy {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1570,7 +1570,7 @@ pub struct PacketZcReqWearEquipAck {
 }
 
 #[derive(Clone)]
-pub struct PacketZcReqWearEquipAck2 {
+pub struct PacketZcReqWearEquipAck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1594,7 +1594,7 @@ pub struct PacketCzReqTakeoffEquip {
 }
 
 #[derive(Clone)]
-pub struct PacketZcReqTakeoffEquipAck {
+pub struct PacketZcReqTakeoffEquipAckLegacy {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1607,7 +1607,7 @@ pub struct PacketZcReqTakeoffEquipAck {
 }
 
 #[derive(Clone)]
-pub struct PacketZcReqTakeoffEquipAck2 {
+pub struct PacketZcReqTakeoffEquipAck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1642,7 +1642,7 @@ pub struct PacketZcParChange {
 }
 
 #[derive(Clone)]
-pub struct PacketZcLongparChange {
+pub struct PacketZcLongParChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1874,7 +1874,7 @@ pub struct PacketZcUserCount {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSpriteChange {
+pub struct PacketZcSpriteChangeByteValue {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1887,7 +1887,7 @@ pub struct PacketZcSpriteChange {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSelectDealtype {
+pub struct PacketZcSelectDealType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1896,7 +1896,7 @@ pub struct PacketZcSelectDealtype {
 }
 
 #[derive(Clone)]
-pub struct PacketCzAckSelectDealtype {
+pub struct PacketCzAckSelectDealType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1907,7 +1907,7 @@ pub struct PacketCzAckSelectDealtype {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcPurchaseItemlist {
+pub struct PacketZcPcPurchaseItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1918,7 +1918,7 @@ pub struct PacketZcPcPurchaseItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcSellItemlist {
+pub struct PacketZcPcSellItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1929,7 +1929,7 @@ pub struct PacketZcPcSellItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketCzPcPurchaseItemlist {
+pub struct PacketCzPcPurchaseItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -1940,7 +1940,7 @@ pub struct PacketCzPcPurchaseItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketCzPcSellItemlist {
+pub struct PacketCzPcSellItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2054,7 +2054,7 @@ pub struct PacketZcWhisperList {
 }
 
 #[derive(Clone)]
-pub struct PacketCzCreateChatroom {
+pub struct PacketCzCreateChatRoom {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2071,7 +2071,7 @@ pub struct PacketCzCreateChatroom {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckCreateChatroom {
+pub struct PacketZcAckCreateChatRoom {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2080,7 +2080,7 @@ pub struct PacketZcAckCreateChatroom {
 }
 
 #[derive(Clone)]
-pub struct PacketZcRoomNewentry {
+pub struct PacketZcRoomNewEntry {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2143,7 +2143,7 @@ pub struct PacketZcEnterRoom {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMemberNewentry {
+pub struct PacketZcMemberNewEntry {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2167,7 +2167,7 @@ pub struct PacketZcMemberExit {
 }
 
 #[derive(Clone)]
-pub struct PacketCzChangeChatroom {
+pub struct PacketCzChangeChatRoom {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2184,7 +2184,7 @@ pub struct PacketCzChangeChatroom {
 }
 
 #[derive(Clone)]
-pub struct PacketZcChangeChatroom {
+pub struct PacketZcChangeChatRoom {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2252,7 +2252,7 @@ pub struct PacketCzReqExchangeItem {
 }
 
 #[derive(Clone)]
-pub struct PacketZcReqExchangeItem {
+pub struct PacketZcReqExchangeItemNoLevel {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2270,7 +2270,7 @@ pub struct PacketCzAckExchangeItem {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckExchangeItem {
+pub struct PacketZcAckExchangeItemNoLevel {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2290,7 +2290,7 @@ pub struct PacketCzAddExchangeItem {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddExchangeItem {
+pub struct PacketZcAddExchangeItemNoType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2366,14 +2366,14 @@ pub struct PacketZcExecExchangeItem {
 }
 
 #[derive(Clone)]
-pub struct PacketZcExchangeitemUndo {
+pub struct PacketZcExchangeItemUndo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStoreitemCountinfo {
+pub struct PacketZcNotifyStoreItemCountInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2395,7 +2395,7 @@ pub struct PacketCzPlayerChat {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddItemToStore {
+pub struct PacketZcAddItemToStoreNoType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2589,7 +2589,7 @@ pub struct PacketZcCloseStore {
 }
 
 #[derive(Clone)]
-pub struct PacketCzMakeGroup {
+pub struct PacketCzMakeGroupNoRules {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2669,7 +2669,7 @@ pub struct PacketCzReqLeaveGroup {
 }
 
 #[derive(Clone)]
-pub struct PacketZcGroupinfoChange {
+pub struct PacketZcGroupInfoChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2678,7 +2678,7 @@ pub struct PacketZcGroupinfoChange {
 }
 
 #[derive(Clone)]
-pub struct PacketCzChangeGroupexpoption {
+pub struct PacketCzChangeGroupExpOption {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2698,7 +2698,7 @@ pub struct PacketCzReqExpelGroupMember {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddMemberToGroup {
+pub struct PacketZcAddMemberToGroupNoRules {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2734,7 +2734,7 @@ pub struct PacketZcDeleteMemberFromGroup {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyHpToGroupm {
+pub struct PacketZcNotifyHpToGroupMemberShortHp {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2747,7 +2747,7 @@ pub struct PacketZcNotifyHpToGroupm {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyPositionToGroupm {
+pub struct PacketZcNotifyPositionToGroupMember {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2811,14 +2811,14 @@ pub struct PacketZcMvp {
 }
 
 #[derive(Clone)]
-pub struct PacketZcThrowMvpitem {
+pub struct PacketZcThrowMvpItem {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillinfoUpdate {
+pub struct PacketZcSkillInfoUpdate {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2835,7 +2835,7 @@ pub struct PacketZcSkillinfoUpdate {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillinfoList {
+pub struct PacketZcSkillInfoList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2846,7 +2846,7 @@ pub struct PacketZcSkillinfoList {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckTouseskill {
+pub struct PacketZcAckToUseSkill {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2870,7 +2870,7 @@ pub struct PacketZcAddSkill {
 }
 
 #[derive(Clone)]
-pub struct PacketCzUpgradeSkilllevel {
+pub struct PacketCzUpgradeSkillLevel {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -2996,7 +2996,7 @@ pub struct PacketCzUseSkill {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifySkill {
+pub struct PacketZcNotifySkillShortDamage {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3054,7 +3054,7 @@ pub struct PacketZcNotifySkillPosition {
 }
 
 #[derive(Clone)]
-pub struct PacketCzUseSkillToground {
+pub struct PacketCzUseSkillToGround {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3205,7 +3205,7 @@ pub struct PacketCzUseSkillToground {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyGroundskill {
+pub struct PacketZcNotifyGroundSkill {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3224,14 +3224,14 @@ pub struct PacketZcNotifyGroundskill {
 }
 
 #[derive(Clone)]
-pub struct PacketCzCancelLockon {
+pub struct PacketCzCancelLockOn {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcStateChange {
+pub struct PacketZcStateChangeShortEffect {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3265,7 +3265,7 @@ pub struct PacketZcUseSkill {
 }
 
 #[derive(Clone)]
-pub struct PacketCzSelectWarppoint {
+pub struct PacketCzSelectWarpPoint {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3276,7 +3276,7 @@ pub struct PacketCzSelectWarppoint {
 }
 
 #[derive(Clone)]
-pub struct PacketZcWarplist {
+pub struct PacketZcWarpList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3287,14 +3287,14 @@ pub struct PacketZcWarplist {
 }
 
 #[derive(Clone)]
-pub struct PacketCzRememberWarppoint {
+pub struct PacketCzRememberWarpPoint {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckRememberWarppoint {
+pub struct PacketZcAckRememberWarpPoint {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3331,7 +3331,7 @@ pub struct PacketZcSkillDisappear {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyCartitemCountinfo {
+pub struct PacketZcNotifyCartItemCountInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3346,7 +3346,7 @@ pub struct PacketZcNotifyCartitemCountinfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCartEquipmentItemlist {
+pub struct PacketZcCartEquipmentItemListNoExpire {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3357,7 +3357,7 @@ pub struct PacketZcCartEquipmentItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCartNormalItemlist {
+pub struct PacketZcCartNormalItemListNoCards {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3368,7 +3368,7 @@ pub struct PacketZcCartNormalItemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddItemToCart {
+pub struct PacketZcAddItemToCartNoType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3444,21 +3444,21 @@ pub struct PacketCzMoveItemFromCartToStore {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqCartoff {
+pub struct PacketCzReqCartOff {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcCartoff {
+pub struct PacketZcCartOff {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckAdditemToCart {
+pub struct PacketZcAckAddItemToCart {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3467,7 +3467,7 @@ pub struct PacketZcAckAdditemToCart {
 }
 
 #[derive(Clone)]
-pub struct PacketZcOpenstore {
+pub struct PacketZcOpenStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3476,7 +3476,7 @@ pub struct PacketZcOpenstore {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckOpenstore2 {
+pub struct PacketZcAckOpenStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3485,14 +3485,14 @@ pub struct PacketZcAckOpenstore2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqClosestore {
+pub struct PacketCzReqCloseStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqOpenstore {
+pub struct PacketCzReqOpenStoreNoResult {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3505,7 +3505,7 @@ pub struct PacketCzReqOpenstore {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqBuyFrommc {
+pub struct PacketCzReqBuyFromMc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3534,7 +3534,7 @@ pub struct PacketZcDisappearEntry {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcPurchaseItemlistFrommc {
+pub struct PacketZcPcPurchaseItemListFromMcNoUniqueId {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3547,7 +3547,7 @@ pub struct PacketZcPcPurchaseItemlistFrommc {
 }
 
 #[derive(Clone)]
-pub struct PacketCzPcPurchaseItemlistFrommc {
+pub struct PacketCzPcPurchaseItemListFromMcNoUniqueId {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3560,7 +3560,7 @@ pub struct PacketCzPcPurchaseItemlistFrommc {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcPurchaseResultFrommc {
+pub struct PacketZcPcPurchaseResultFromMc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3573,7 +3573,7 @@ pub struct PacketZcPcPurchaseResultFrommc {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcPurchaseMyitemlist {
+pub struct PacketZcPcPurchaseMyItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3586,7 +3586,7 @@ pub struct PacketZcPcPurchaseMyitemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcDeleteitemFromMcstore {
+pub struct PacketZcDeleteItemFromMcStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3597,7 +3597,7 @@ pub struct PacketZcDeleteitemFromMcstore {
 }
 
 #[derive(Clone)]
-pub struct PacketCzPkmodeChange {
+pub struct PacketCzPkModeChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3663,7 +3663,7 @@ pub struct PacketZcRecovery {
 }
 
 #[derive(Clone)]
-pub struct PacketZcUseskillAck {
+pub struct PacketZcUseSkillAckNoDisposable {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3693,7 +3693,7 @@ pub struct PacketCzItemCreate {
 }
 
 #[derive(Clone)]
-pub struct PacketCzMovetoMap {
+pub struct PacketCzMoveToMap {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3719,7 +3719,7 @@ pub struct PacketZcStatusValues {
 }
 
 #[derive(Clone)]
-pub struct PacketZcOpenEditdlg {
+pub struct PacketZcOpenEditDlg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3728,7 +3728,7 @@ pub struct PacketZcOpenEditdlg {
 }
 
 #[derive(Clone)]
-pub struct PacketCzInputEditdlg {
+pub struct PacketCzInputEditDlg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3758,7 +3758,7 @@ pub struct PacketZcCompass {
 }
 
 #[derive(Clone)]
-pub struct PacketZcShowImage {
+pub struct PacketZcShowImageShortName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3778,7 +3778,7 @@ pub struct PacketCzCloseDialog {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAutorunSkill {
+pub struct PacketZcAutoRunSkill {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3831,7 +3831,7 @@ pub struct PacketZcNotifyMannerPointGiven {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMyguildBasicInfo {
+pub struct PacketZcMyGuildBasicInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3842,14 +3842,14 @@ pub struct PacketZcMyguildBasicInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqGuildMenuinterface {
+pub struct PacketCzReqGuildMenuInterface {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckGuildMenuinterface {
+pub struct PacketZcAckGuildMenuInterface {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3867,7 +3867,7 @@ pub struct PacketCzReqGuildMenu {
 }
 
 #[derive(Clone)]
-pub struct PacketZcGuildInfo {
+pub struct PacketZcGuildInfoNoZeny {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3937,7 +3937,7 @@ pub struct PacketCzRegisterGuildEmblemImg {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMembermgrInfo {
+pub struct PacketZcMemberMgrInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -3948,7 +3948,7 @@ pub struct PacketZcMembermgrInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqChangeMemberpos {
+pub struct PacketCzReqChangeMemberPos {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4078,7 +4078,7 @@ pub struct PacketZcPositionInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketCzRegChangeGuildPositioninfo {
+pub struct PacketCzRegChangeGuildPositionInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4089,7 +4089,7 @@ pub struct PacketCzRegChangeGuildPositioninfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcGuildSkillinfo {
+pub struct PacketZcGuildSkillInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4218,7 +4218,7 @@ pub struct PacketZcUpdateGdid {
 }
 
 #[derive(Clone)]
-pub struct PacketZcUpdateCharstat {
+pub struct PacketZcUpdateCharStatStatusOnly {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4299,7 +4299,7 @@ pub struct PacketZcAckReqAllyGuild {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckChangeGuildPositioninfo {
+pub struct PacketZcAckChangeGuildPositionInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4328,7 +4328,7 @@ pub struct PacketZcAckGuildMemberInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcItemidentifyList {
+pub struct PacketZcItemIdentifyList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4339,7 +4339,7 @@ pub struct PacketZcItemidentifyList {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqItemidentify {
+pub struct PacketCzReqItemIdentify {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4348,7 +4348,7 @@ pub struct PacketCzReqItemidentify {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckItemidentify {
+pub struct PacketZcAckItemIdentify {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4359,7 +4359,7 @@ pub struct PacketZcAckItemidentify {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqItemcompositionList {
+pub struct PacketCzReqItemCompositionList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4368,7 +4368,7 @@ pub struct PacketCzReqItemcompositionList {
 }
 
 #[derive(Clone)]
-pub struct PacketZcItemcompositionList {
+pub struct PacketZcItemCompositionList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4379,7 +4379,7 @@ pub struct PacketZcItemcompositionList {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqItemcomposition {
+pub struct PacketCzReqItemComposition {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4390,7 +4390,7 @@ pub struct PacketCzReqItemcomposition {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckItemcomposition {
+pub struct PacketZcAckItemComposition {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4483,7 +4483,7 @@ pub struct PacketZcAddRelatedGuild {
 }
 
 #[derive(Clone)]
-pub struct PacketCollectordead {
+pub struct PacketZcCollectorDead {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4492,7 +4492,7 @@ pub struct PacketCollectordead {
 }
 
 #[derive(Clone)]
-pub struct PacketPing {
+pub struct PacketBiPing {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4501,7 +4501,7 @@ pub struct PacketPing {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckItemrefining {
+pub struct PacketZcAckItemRefining {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4514,7 +4514,7 @@ pub struct PacketZcAckItemrefining {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMapinfo {
+pub struct PacketZcNotifyMapInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4566,7 +4566,7 @@ pub struct PacketZcMonsterInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMakableitemlist {
+pub struct PacketZcMakableItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4577,7 +4577,7 @@ pub struct PacketZcMakableitemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqmakingitem {
+pub struct PacketCzReqMakingItem {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4586,7 +4586,7 @@ pub struct PacketCzReqmakingitem {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckReqmakingitem {
+pub struct PacketZcAckReqMakingItem {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4597,7 +4597,7 @@ pub struct PacketZcAckReqmakingitem {
 }
 
 #[derive(Clone)]
-pub struct PacketCzUseSkillTogroundWithtalkbox {
+pub struct PacketCzUseSkillToGroundWithTalkBox {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4614,7 +4614,7 @@ pub struct PacketCzUseSkillTogroundWithtalkbox {
 }
 
 #[derive(Clone)]
-pub struct PacketZcTalkboxChatcontents {
+pub struct PacketZcTalkBoxChatContents {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4625,7 +4625,7 @@ pub struct PacketZcTalkboxChatcontents {
 }
 
 #[derive(Clone)]
-pub struct PacketZcUpdateMapinfo {
+pub struct PacketZcUpdateMapInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4640,7 +4640,7 @@ pub struct PacketZcUpdateMapinfo {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqnameBygid {
+pub struct PacketCzReqNameByGid {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4681,7 +4681,7 @@ pub struct PacketCzReqnameBygid {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckReqnameBygid {
+pub struct PacketZcAckReqNameByGid {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4692,7 +4692,7 @@ pub struct PacketZcAckReqnameBygid {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckReqnameall {
+pub struct PacketZcAckReqNameAll {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4709,7 +4709,7 @@ pub struct PacketZcAckReqnameall {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMsgStateChange {
+pub struct PacketZcMsgStateChangeNoTimer {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4731,7 +4731,7 @@ pub struct PacketCzReset {
 }
 
 #[derive(Clone)]
-pub struct PacketCzChangeMaptype {
+pub struct PacketCzChangeMapType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4744,7 +4744,7 @@ pub struct PacketCzChangeMaptype {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMapproperty {
+pub struct PacketZcNotifyMapProperty {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4777,7 +4777,7 @@ pub struct PacketZcNotifyEffect {
 }
 
 #[derive(Clone)]
-pub struct PacketCzChangeEffectstate {
+pub struct PacketCzChangeEffectState {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4793,7 +4793,7 @@ pub struct PacketZcStartCapture {
 }
 
 #[derive(Clone)]
-pub struct PacketCzTrycaptureMonster {
+pub struct PacketCzTryCaptureMonster {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4802,7 +4802,7 @@ pub struct PacketCzTrycaptureMonster {
 }
 
 #[derive(Clone)]
-pub struct PacketZcTrycaptureMonster {
+pub struct PacketZcTryCaptureMonster {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4852,7 +4852,7 @@ pub struct PacketZcFeedPet {
 }
 
 #[derive(Clone)]
-pub struct PacketZcChangestatePet {
+pub struct PacketZcChangeStatePet {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4874,7 +4874,7 @@ pub struct PacketCzRenamePet {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPeteggList {
+pub struct PacketZcPetEggList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4885,7 +4885,7 @@ pub struct PacketZcPeteggList {
 }
 
 #[derive(Clone)]
-pub struct PacketCzSelectPetegg {
+pub struct PacketCzSelectPetEgg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4894,7 +4894,7 @@ pub struct PacketCzSelectPetegg {
 }
 
 #[derive(Clone)]
-pub struct PacketCzPeteggInfo {
+pub struct PacketCzPetEggInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4945,7 +4945,7 @@ pub struct PacketZcSkillUpdate {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMakingarrowList {
+pub struct PacketZcMakingArrowList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4956,7 +4956,7 @@ pub struct PacketZcMakingarrowList {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqMakingarrow {
+pub struct PacketCzReqMakingArrow {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4965,7 +4965,7 @@ pub struct PacketCzReqMakingarrow {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqChangecart {
+pub struct PacketCzReqChangeCart {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4974,7 +4974,7 @@ pub struct PacketCzReqChangecart {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNpcspriteChange {
+pub struct PacketZcNpcSpriteChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4987,7 +4987,7 @@ pub struct PacketZcNpcspriteChange {
 }
 
 #[derive(Clone)]
-pub struct PacketZcShowdigit {
+pub struct PacketZcShowDigit {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -4998,7 +4998,7 @@ pub struct PacketZcShowdigit {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqOpenstore2 {
+pub struct PacketCzReqOpenStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5013,7 +5013,7 @@ pub struct PacketCzReqOpenstore2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcShowImage2 {
+pub struct PacketZcShowImage {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5037,7 +5037,7 @@ pub struct PacketZcChangeGuild {
 }
 
 #[derive(Clone)]
-pub struct PacketScBillingInfo {
+pub struct PacketHcBillingInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5052,7 +5052,7 @@ pub struct PacketScBillingInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcGuildInfo2 {
+pub struct PacketZcGuildInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5152,14 +5152,14 @@ pub struct PacketCzRecallGid {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAskPngameroom {
+pub struct PacketAcAskPnGameRoom {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketCaReplyPngameroom {
+pub struct PacketCaReplyPnGameRoom {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5168,14 +5168,14 @@ pub struct PacketCaReplyPngameroom {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqRemaintime {
+pub struct PacketCzReqRemainTime {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcReplyRemaintime {
+pub struct PacketZcReplyRemainTime {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5188,7 +5188,7 @@ pub struct PacketZcReplyRemaintime {
 }
 
 #[derive(Clone)]
-pub struct PacketZcInfoRemaintime {
+pub struct PacketZcInfoRemainTime {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5199,7 +5199,7 @@ pub struct PacketZcInfoRemaintime {
 }
 
 #[derive(Clone)]
-pub struct PacketZcBroadcast2 {
+pub struct PacketZcBroadcastStyled {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5220,7 +5220,7 @@ pub struct PacketZcBroadcast2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddItemToStore2 {
+pub struct PacketZcAddItemToStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5243,7 +5243,7 @@ pub struct PacketZcAddItemToStore2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddItemToCart2 {
+pub struct PacketZcAddItemToCart {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5266,7 +5266,7 @@ pub struct PacketZcAddItemToCart2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCsReqEncryption {
+pub struct PacketCaReqEncryption {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5277,14 +5277,14 @@ pub struct PacketCsReqEncryption {
 }
 
 #[derive(Clone)]
-pub struct PacketScAckEncryption {
+pub struct PacketAcAckEncryption {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcUseItemAck2 {
+pub struct PacketZcUseItemAck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5301,7 +5301,7 @@ pub struct PacketZcUseItemAck2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillEntry2 {
+pub struct PacketZcSkillEntryWithMsg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5324,7 +5324,7 @@ pub struct PacketZcSkillEntry2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqmakinghomun {
+pub struct PacketCzReqMakingHomun {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5363,7 +5363,7 @@ pub struct PacketZcMonsterTalk {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAutospelllist {
+pub struct PacketZcAutoSpellList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5372,7 +5372,7 @@ pub struct PacketZcAutospelllist {
 }
 
 #[derive(Clone)]
-pub struct PacketCzSelectautospell {
+pub struct PacketCzSelectAutoSpell {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5381,7 +5381,7 @@ pub struct PacketCzSelectautospell {
 }
 
 #[derive(Clone)]
-pub struct PacketZcDevotionlist {
+pub struct PacketZcDevotionList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5418,7 +5418,7 @@ pub struct PacketZcBladestop {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCombodelay {
+pub struct PacketZcComboDelay {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5444,7 +5444,7 @@ pub struct PacketZcSound {
 }
 
 #[derive(Clone)]
-pub struct PacketZcOpenEditdlgstr {
+pub struct PacketZcOpenEditDlgStr {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5453,7 +5453,7 @@ pub struct PacketZcOpenEditdlgstr {
 }
 
 #[derive(Clone)]
-pub struct PacketCzInputEditdlgstr {
+pub struct PacketCzInputEditDlgStr {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5466,7 +5466,7 @@ pub struct PacketCzInputEditdlgstr {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMaptypeproperty2 {
+pub struct PacketZcNotifyMapTypeProperty {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5475,7 +5475,7 @@ pub struct PacketZcNotifyMaptypeproperty2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSpriteChange2 {
+pub struct PacketZcSpriteChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5490,7 +5490,7 @@ pub struct PacketZcSpriteChange2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentry2 {
+pub struct PacketZcNotifyStandEntryShortEffect {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5547,7 +5547,7 @@ pub struct PacketZcNotifyStandentry2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyNewentry2 {
+pub struct PacketZcNotifyNewEntryShortEffect {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5602,7 +5602,7 @@ pub struct PacketZcNotifyNewentry2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMoveentry2 {
+pub struct PacketZcNotifyMoveEntryShortEffect {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5677,7 +5677,7 @@ pub struct PacketAcAckHash {
 }
 
 #[derive(Clone)]
-pub struct PacketCaLogin2 {
+pub struct PacketCaLoginHashed {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5692,7 +5692,7 @@ pub struct PacketCaLogin2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifySkill2 {
+pub struct PacketZcNotifySkill {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5719,7 +5719,7 @@ pub struct PacketZcNotifySkill2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqAccountname {
+pub struct PacketCzReqAccountName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5728,7 +5728,7 @@ pub struct PacketCzReqAccountname {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckAccountname {
+pub struct PacketZcAckAccountName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5739,7 +5739,7 @@ pub struct PacketZcAckAccountname {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSpirits2 {
+pub struct PacketZcSpiritsSingle {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5792,7 +5792,7 @@ pub struct PacketCzReqJoinCouple {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCouplename {
+pub struct PacketZcCoupleName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5808,7 +5808,7 @@ pub struct PacketCzDoridori {
 }
 
 #[derive(Clone)]
-pub struct PacketCzMakeGroup2 {
+pub struct PacketCzMakeGroup {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5821,7 +5821,7 @@ pub struct PacketCzMakeGroup2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddMemberToGroup2 {
+pub struct PacketZcAddMemberToGroup {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5857,7 +5857,7 @@ pub struct PacketZcCongratulation {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyPositionToGuildm {
+pub struct PacketZcNotifyPositionToGuildMember {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5890,7 +5890,7 @@ pub struct PacketCzChopokgi {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNormalItemlist2 {
+pub struct PacketZcNormalItemListNoExpire {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5901,7 +5901,7 @@ pub struct PacketZcNormalItemlist2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCartNormalItemlist2 {
+pub struct PacketZcCartNormalItemListNoExpire {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5912,7 +5912,7 @@ pub struct PacketZcCartNormalItemlist2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStoreNormalItemlist2 {
+pub struct PacketZcStoreNormalItemListNoExpire {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5934,7 +5934,7 @@ pub struct PacketAcNotifyError {
 }
 
 #[derive(Clone)]
-pub struct PacketZcUpdateCharstat2 {
+pub struct PacketZcUpdateCharStat {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5953,7 +5953,7 @@ pub struct PacketZcUpdateCharstat2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyEffect2 {
+pub struct PacketZcNotifyEffectSpecial {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5964,7 +5964,7 @@ pub struct PacketZcNotifyEffect2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcReqExchangeItem2 {
+pub struct PacketZcReqExchangeItem {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -5977,7 +5977,7 @@ pub struct PacketZcReqExchangeItem2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckExchangeItem2 {
+pub struct PacketZcAckExchangeItem {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6032,7 +6032,7 @@ pub struct PacketCzReqJoinBaby {
 }
 
 #[derive(Clone)]
-pub struct PacketCaLogin3 {
+pub struct PacketCaLoginHashedClientInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6049,7 +6049,7 @@ pub struct PacketCaLogin3 {
 }
 
 #[derive(Clone)]
-pub struct PacketChDeleteChar2 {
+pub struct PacketChDeleteCharLongKey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6060,7 +6060,7 @@ pub struct PacketChDeleteChar2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcRepairitemlist {
+pub struct PacketZcRepairItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6071,7 +6071,7 @@ pub struct PacketZcRepairitemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqItemrepair {
+pub struct PacketCzReqItemRepair {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6080,7 +6080,7 @@ pub struct PacketCzReqItemrepair {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckItemrepair {
+pub struct PacketZcAckItemRepair {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6091,7 +6091,7 @@ pub struct PacketZcAckItemrepair {
 }
 
 #[derive(Clone)]
-pub struct PacketZcHighjump {
+pub struct PacketZcHighJump {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6144,7 +6144,7 @@ pub struct PacketCzDeleteFriends {
 }
 
 #[derive(Clone)]
-pub struct PacketCaExeHashcheck {
+pub struct PacketCaExeHashCheck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6227,7 +6227,7 @@ pub struct PacketZcDeleteFriends {
 }
 
 #[derive(Clone)]
-pub struct PacketAcRefuseLoginR3 {
+pub struct PacketAcRefuseLoginIntCodeNewer {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6238,7 +6238,7 @@ pub struct PacketAcRefuseLoginR3 {
 }
 
 #[derive(Clone)]
-pub struct PacketCzExeHashcheck {
+pub struct PacketCzExeHashCheck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6260,7 +6260,7 @@ pub struct PacketHcBlockCharacter {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStarskill {
+pub struct PacketZcStarSkill {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6275,7 +6275,7 @@ pub struct PacketZcStarskill {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqPvppoint {
+pub struct PacketCzReqPvpPoint {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6286,7 +6286,7 @@ pub struct PacketCzReqPvppoint {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckPvppoint {
+pub struct PacketZcAckPvpPoint {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6299,7 +6299,7 @@ pub struct PacketZcAckPvppoint {
 }
 
 #[derive(Clone)]
-pub struct PacketZhMovePvpworld {
+pub struct PacketZcMovePvpWorld {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6308,7 +6308,7 @@ pub struct PacketZhMovePvpworld {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqGiveMannerByname {
+pub struct PacketCzReqGiveMannerByName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6385,7 +6385,7 @@ pub struct PacketZcAckStatusGm {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillmsg {
+pub struct PacketZcSkillMsg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6394,7 +6394,7 @@ pub struct PacketZcSkillmsg {
 }
 
 #[derive(Clone)]
-pub struct PacketZcBabymsg {
+pub struct PacketZcBabyMsg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6461,7 +6461,7 @@ pub struct PacketZcAlchemistPoint {
 }
 
 #[derive(Clone)]
-pub struct PacketCzLesseffect {
+pub struct PacketCzLessEffect {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6470,7 +6470,7 @@ pub struct PacketCzLesseffect {
 }
 
 #[derive(Clone)]
-pub struct PacketZcLesseffect {
+pub struct PacketZcLessEffect {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6479,7 +6479,7 @@ pub struct PacketZcLesseffect {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyPkinfo {
+pub struct PacketZcNotifyPkInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6496,7 +6496,7 @@ pub struct PacketZcNotifyPkinfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyCrazykiller {
+pub struct PacketZcNotifyCrazyKiller {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6507,7 +6507,7 @@ pub struct PacketZcNotifyCrazykiller {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyWeaponitemlist {
+pub struct PacketZcNotifyWeaponItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6518,7 +6518,7 @@ pub struct PacketZcNotifyWeaponitemlist {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqWeaponrefine {
+pub struct PacketCzReqWeaponRefine {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6527,7 +6527,7 @@ pub struct PacketCzReqWeaponrefine {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckWeaponrefine {
+pub struct PacketZcAckWeaponRefine {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6585,7 +6585,7 @@ pub struct PacketCzAckGameGuard {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStateChange3 {
+pub struct PacketZcStateChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6602,7 +6602,7 @@ pub struct PacketZcStateChange3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentry3 {
+pub struct PacketZcNotifyStandEntryNoFont {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6659,7 +6659,7 @@ pub struct PacketZcNotifyStandentry3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyNewentry3 {
+pub struct PacketZcNotifyNewEntryNoFont {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6714,7 +6714,7 @@ pub struct PacketZcNotifyNewentry3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMoveentry3 {
+pub struct PacketZcNotifyMoveEntryNoFont {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6846,7 +6846,7 @@ pub struct PacketZcFeedMer {
 }
 
 #[derive(Clone)]
-pub struct PacketZcChangestateMer {
+pub struct PacketZcChangeStateMer {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6870,7 +6870,7 @@ pub struct PacketCzRenameMer {
 }
 
 #[derive(Clone)]
-pub struct PacketCzRequestMovenpc {
+pub struct PacketCzRequestMoveNpc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6881,7 +6881,7 @@ pub struct PacketCzRequestMovenpc {
 }
 
 #[derive(Clone)]
-pub struct PacketCzRequestActnpc {
+pub struct PacketCzRequestActNpc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6894,7 +6894,7 @@ pub struct PacketCzRequestActnpc {
 }
 
 #[derive(Clone)]
-pub struct PacketCzRequestMovetoowner {
+pub struct PacketCzRequestMoveToOwner {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6903,7 +6903,7 @@ pub struct PacketCzRequestMovetoowner {
 }
 
 #[derive(Clone)]
-pub struct PacketZcHoskillinfoList {
+pub struct PacketZcHoSkillInfoList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -6914,7 +6914,7 @@ pub struct PacketZcHoskillinfoList {
 }
 
 #[derive(Clone)]
-pub struct PacketZcHoskillinfoUpdate {
+pub struct PacketZcHoSkillInfoUpdate {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7228,7 +7228,7 @@ pub struct PacketZcAuctionItemReqSearch {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStarplace {
+pub struct PacketZcStarPlace {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7237,7 +7237,7 @@ pub struct PacketZcStarplace {
 }
 
 #[derive(Clone)]
-pub struct PacketCzAgreeStarplace {
+pub struct PacketCzAgreeStarPlace {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7295,7 +7295,7 @@ pub struct PacketAcAckGameGuard {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMakingitemList {
+pub struct PacketZcMakingItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7306,7 +7306,7 @@ pub struct PacketZcMakingitemList {
 }
 
 #[derive(Clone)]
-pub struct PacketCzReqMakingitem {
+pub struct PacketCzReqMakingItemByType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7362,7 +7362,7 @@ pub struct PacketZcMailWindows {
 }
 
 #[derive(Clone)]
-pub struct PacketAcReqLoginOldekey {
+pub struct PacketAcReqLoginOldEkey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7371,7 +7371,7 @@ pub struct PacketAcReqLoginOldekey {
 }
 
 #[derive(Clone)]
-pub struct PacketAcReqLoginNewekey {
+pub struct PacketAcReqLoginNewEkey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7380,7 +7380,7 @@ pub struct PacketAcReqLoginNewekey {
 }
 
 #[derive(Clone)]
-pub struct PacketAcReqLoginCardpass {
+pub struct PacketAcReqLoginCardPass {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7389,18 +7389,7 @@ pub struct PacketAcReqLoginCardpass {
 }
 
 #[derive(Clone)]
-pub struct PacketCaAckLoginOldekey {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub m_seed_value: [char; 9],
-    pub m_seed_value_raw: [u8; 9],
-    pub m_ekey: [char; 9],
-    pub m_ekey_raw: [u8; 9],
-}
-
-#[derive(Clone)]
-pub struct PacketCaAckLoginNewekey {
+pub struct PacketCaAckLoginOldEkey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7411,7 +7400,18 @@ pub struct PacketCaAckLoginNewekey {
 }
 
 #[derive(Clone)]
-pub struct PacketCaAckLoginCardpass {
+pub struct PacketCaAckLoginNewEkey {
+    pub raw: Vec<u8>,
+    pub packet_id: i16,
+    pub packet_id_raw: [u8; 2],
+    pub m_seed_value: [char; 9],
+    pub m_seed_value_raw: [u8; 9],
+    pub m_ekey: [char; 9],
+    pub m_ekey_raw: [u8; 9],
+}
+
+#[derive(Clone)]
+pub struct PacketCaAckLoginCardPass {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7420,7 +7420,7 @@ pub struct PacketCaAckLoginCardpass {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAckEkeyFailNotexist {
+pub struct PacketAcAckEkeyFailNotExist {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7429,7 +7429,7 @@ pub struct PacketAcAckEkeyFailNotexist {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAckEkeyFailNotusesekey {
+pub struct PacketAcAckEkeyFailNotUseSekey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7438,7 +7438,7 @@ pub struct PacketAcAckEkeyFailNotusesekey {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAckEkeyFailNotusedekey {
+pub struct PacketAcAckEkeyFailNotUsedEkey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7447,7 +7447,7 @@ pub struct PacketAcAckEkeyFailNotusedekey {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAckEkeyFailAuthrefuse {
+pub struct PacketAcAckEkeyFailAuthRefuse {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7456,7 +7456,7 @@ pub struct PacketAcAckEkeyFailAuthrefuse {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAckEkeyFailInputekey {
+pub struct PacketAcAckEkeyFailInputEkey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7474,7 +7474,7 @@ pub struct PacketAcAckEkeyFailNotice {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAckEkeyFailNeedcardpass {
+pub struct PacketAcAckEkeyFailNeedCardPass {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7483,7 +7483,7 @@ pub struct PacketAcAckEkeyFailNeedcardpass {
 }
 
 #[derive(Clone)]
-pub struct PacketAcAckAuthekeyFailNotmatchcardpass {
+pub struct PacketAcAckAuthEkeyFailNotMatchCardPass {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7552,7 +7552,7 @@ pub struct PacketZcAckMailReturn {
 }
 
 #[derive(Clone)]
-pub struct PacketChEnter2 {
+pub struct PacketChEnterWithMac {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7573,7 +7573,7 @@ pub struct PacketChEnter2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCaAcceptLogin2 {
+pub struct PacketCaAcceptLogin {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7596,7 +7596,7 @@ pub struct PacketCaAcceptLogin2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCaLoginPcbang {
+pub struct PacketCaLoginPcBang {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7615,21 +7615,21 @@ pub struct PacketCaLoginPcbang {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyPcbang {
+pub struct PacketZcNotifyPcBang {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketCzHuntinglist {
+pub struct PacketCzHuntingList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcHuntinglist {
+pub struct PacketZcHuntingList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7640,7 +7640,7 @@ pub struct PacketZcHuntinglist {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcbangEffect {
+pub struct PacketZcPcBangEffect {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7653,7 +7653,7 @@ pub struct PacketZcPcbangEffect {
 }
 
 #[derive(Clone)]
-pub struct PacketCaLogin4 {
+pub struct PacketCaLoginHashedMac {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7781,7 +7781,7 @@ pub struct PacketZcAid {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyEffect3 {
+pub struct PacketZcNotifyEffectWithNum {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7814,7 +7814,7 @@ pub struct PacketCzDeathQuestion {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcCashPointItemlist {
+pub struct PacketZcPcCashPointItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7849,7 +7849,7 @@ pub struct PacketZcPcCashPointUpdate {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNpcShowefstUpdate {
+pub struct PacketZcNpcShowEfstUpdate {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7864,7 +7864,7 @@ pub struct PacketZcNpcShowefstUpdate {
 }
 
 #[derive(Clone)]
-pub struct PacketChSelectCharGoingtobeused {
+pub struct PacketChSelectCharGoingToBeUsed {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7877,7 +7877,7 @@ pub struct PacketChSelectCharGoingtobeused {
 }
 
 #[derive(Clone)]
-pub struct PacketChReqIsValidCharname {
+pub struct PacketChReqIsValidCharName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7890,7 +7890,7 @@ pub struct PacketChReqIsValidCharname {
 }
 
 #[derive(Clone)]
-pub struct PacketHcAckIsValidCharname {
+pub struct PacketHcAckIsValidCharName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7899,7 +7899,7 @@ pub struct PacketHcAckIsValidCharname {
 }
 
 #[derive(Clone)]
-pub struct PacketChReqChangeCharname {
+pub struct PacketChReqChangeCharName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7908,7 +7908,7 @@ pub struct PacketChReqChangeCharname {
 }
 
 #[derive(Clone)]
-pub struct PacketHcAckChangeCharname {
+pub struct PacketHcAckChangeCharName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7967,7 +7967,7 @@ pub struct PacketZcReadBook {
 }
 
 #[derive(Clone)]
-pub struct PacketZcEquipmentItemlist2 {
+pub struct PacketZcEquipmentItemListNoBind {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7978,7 +7978,7 @@ pub struct PacketZcEquipmentItemlist2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStoreEquipmentItemlist2 {
+pub struct PacketZcStoreEquipmentItemListNoBind {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -7989,7 +7989,7 @@ pub struct PacketZcStoreEquipmentItemlist2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCartEquipmentItemlist2 {
+pub struct PacketZcCartEquipmentItemListNoBind {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8022,7 +8022,7 @@ pub struct PacketZcCashItemDelete {
 }
 
 #[derive(Clone)]
-pub struct PacketZcItemPickupAck2 {
+pub struct PacketZcItemPickupAckNoBind {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8141,7 +8141,7 @@ pub struct PacketZcMerProperty {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMerSkillinfoList {
+pub struct PacketZcMerSkillInfoList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8152,7 +8152,7 @@ pub struct PacketZcMerSkillinfoList {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMerSkillinfoUpdate {
+pub struct PacketZcMerSkillInfoUpdate {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8178,7 +8178,7 @@ pub struct PacketCzMerCommand {
 }
 
 #[derive(Clone)]
-pub struct UnusedPacketCzMerUseSkill {
+pub struct PacketCzMerUseSkill {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8191,7 +8191,7 @@ pub struct UnusedPacketCzMerUseSkill {
 }
 
 #[derive(Clone)]
-pub struct UnusedPacketCzMerUpgradeSkilllevel {
+pub struct PacketCzMerUpgradeSkillLevel {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8211,7 +8211,7 @@ pub struct PacketZcMerParChange {
 }
 
 #[derive(Clone)]
-pub struct PacketZcGameguardLingoKey {
+pub struct PacketZcGameGuardLingoKey {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8408,7 +8408,7 @@ pub struct PacketZcItemPickupParty {
 }
 
 #[derive(Clone)]
-pub struct PacketZcShortcutKeyList {
+pub struct PacketZcShortcutKeyListFewerSlots {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8428,7 +8428,7 @@ pub struct PacketCzShortcutKeyChange {
 }
 
 #[derive(Clone)]
-pub struct PacketZcEquipitemDamaged {
+pub struct PacketZcEquipItemDamaged {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8439,7 +8439,7 @@ pub struct PacketZcEquipitemDamaged {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyPcbangPlayingTime {
+pub struct PacketZcNotifyPcBangPlayingTime {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8448,7 +8448,7 @@ pub struct PacketZcNotifyPcbangPlayingTime {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSrpacketr2Init {
+pub struct PacketZcSrPacketInit {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8461,7 +8461,7 @@ pub struct PacketZcSrpacketr2Init {
 }
 
 #[derive(Clone)]
-pub struct PacketCzSrpacketr2Start {
+pub struct PacketCzSrPacketStart {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8485,7 +8485,7 @@ pub struct PacketZcNpcChat {
 }
 
 #[derive(Clone)]
-pub struct PacketZcFormatstringMsg {
+pub struct PacketZcFormatStringMsg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8558,7 +8558,7 @@ pub struct PacketZcPartyConfig {
 }
 
 #[derive(Clone)]
-pub struct PacketHcRefuseSelectchar {
+pub struct PacketHcRefuseSelectChar {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8567,7 +8567,7 @@ pub struct PacketHcRefuseSelectchar {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMemorialdungeonSubscriptionInfo {
+pub struct PacketZcMemorialDungeonSubscriptionInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8578,7 +8578,7 @@ pub struct PacketZcMemorialdungeonSubscriptionInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMemorialdungeonSubscriptionNotify {
+pub struct PacketZcMemorialDungeonSubscriptionNotify {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8587,7 +8587,7 @@ pub struct PacketZcMemorialdungeonSubscriptionNotify {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMemorialdungeonInfo {
+pub struct PacketZcMemorialDungeonInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8600,7 +8600,7 @@ pub struct PacketZcMemorialdungeonInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMemorialdungeonNotify {
+pub struct PacketZcMemorialDungeonNotify {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8611,7 +8611,7 @@ pub struct PacketZcMemorialdungeonNotify {
 }
 
 #[derive(Clone)]
-pub struct PacketCzMemorialdungeonCommand {
+pub struct PacketCzMemorialDungeonCommand {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8620,7 +8620,7 @@ pub struct PacketCzMemorialdungeonCommand {
 }
 
 #[derive(Clone)]
-pub struct PacketZcEquipmentItemlist3 {
+pub struct PacketZcEquipmentItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8631,7 +8631,7 @@ pub struct PacketZcEquipmentItemlist3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStoreEquipmentItemlist3 {
+pub struct PacketZcStoreEquipmentItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8642,7 +8642,7 @@ pub struct PacketZcStoreEquipmentItemlist3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCartEquipmentItemlist3 {
+pub struct PacketZcCartEquipmentItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8662,7 +8662,7 @@ pub struct PacketZcNotifyBindOnEquip {
 }
 
 #[derive(Clone)]
-pub struct PacketZcItemPickupAck3 {
+pub struct PacketZcItemPickupAck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8700,7 +8700,7 @@ pub struct PacketZcIsvrDisconnect {
 }
 
 #[derive(Clone)]
-pub struct PacketCzEquipwinMicroscope {
+pub struct PacketCzEquipWinMicroscope {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8709,7 +8709,7 @@ pub struct PacketCzEquipwinMicroscope {
 }
 
 #[derive(Clone)]
-pub struct PacketZcEquipwinMicroscope {
+pub struct PacketZcEquipWinMicroscope {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8795,7 +8795,7 @@ pub struct PacketZcBattlefieldChat {
 }
 
 #[derive(Clone)]
-pub struct PacketZcBattlefieldNotifyCampinfo {
+pub struct PacketZcBattlefieldNotifyCampInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8851,7 +8851,7 @@ pub struct PacketZcBattlefieldNotifyHp {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyAct2 {
+pub struct PacketZcNotifyAct {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8885,7 +8885,7 @@ pub struct PacketCzBotCheck {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMapproperty {
+pub struct PacketZcMapProperty {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8898,7 +8898,7 @@ pub struct PacketZcMapproperty {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNormalItemlist3 {
+pub struct PacketZcNormalItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8909,7 +8909,7 @@ pub struct PacketZcNormalItemlist3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcCartNormalItemlist3 {
+pub struct PacketZcCartNormalItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8920,7 +8920,7 @@ pub struct PacketZcCartNormalItemlist3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcStoreNormalItemlist3 {
+pub struct PacketZcStoreNormalItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8931,7 +8931,7 @@ pub struct PacketZcStoreNormalItemlist3 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAcceptEnter2 {
+pub struct PacketZcAcceptEnter {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -8948,7 +8948,7 @@ pub struct PacketZcAcceptEnter2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMoveentry4 {
+pub struct PacketZcNotifyMoveEntryFixedLength {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9009,7 +9009,7 @@ pub struct PacketZcNotifyMoveentry4 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyNewentry4 {
+pub struct PacketZcNotifyNewEntryFixedLength {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9066,7 +9066,7 @@ pub struct PacketZcNotifyNewentry4 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentry4 {
+pub struct PacketZcNotifyStandEntryFixedLength {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9161,14 +9161,14 @@ pub struct PacketZcProgressCancel {
 }
 
 #[derive(Clone)]
-pub struct PacketCzOpenSimpleCashshopItemlist {
+pub struct PacketCzOpenSimpleCashShopItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcSimpleCashshopPointItemlist {
+pub struct PacketZcSimpleCashShopPointItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9196,7 +9196,7 @@ pub struct PacketCzCloseWindow {
 }
 
 #[derive(Clone)]
-pub struct PacketAhcGameGuard {
+pub struct PacketAcGameGuard {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9205,7 +9205,7 @@ pub struct PacketAhcGameGuard {
 }
 
 #[derive(Clone)]
-pub struct PacketCahAckGameGuard {
+pub struct PacketCaAckGameGuard {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9214,7 +9214,7 @@ pub struct PacketCahAckGameGuard {
 }
 
 #[derive(Clone)]
-pub struct PacketCzEnter2 {
+pub struct PacketCzEnter {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9325,7 +9325,7 @@ pub struct PacketCzEnter2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillPostdelay {
+pub struct PacketZcSkillPostDelay {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9336,7 +9336,7 @@ pub struct PacketZcSkillPostdelay {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillPostdelayList {
+pub struct PacketZcSkillPostDelayList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9347,7 +9347,7 @@ pub struct PacketZcSkillPostdelayList {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMsgStateChange2 {
+pub struct PacketZcMsgStateChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9364,7 +9364,7 @@ pub struct PacketZcMsgStateChange2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMillenniumshield {
+pub struct PacketZcMillenniumShield {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9377,7 +9377,7 @@ pub struct PacketZcMillenniumshield {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillinfoDelete {
+pub struct PacketZcSkillInfoDelete {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9410,7 +9410,7 @@ pub struct PacketCzSkillSelectResponse {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSimpleCashPointItemlist {
+pub struct PacketZcSimpleCashPointItemList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9462,7 +9462,7 @@ pub struct PacketHcCharacterList {
 }
 
 #[derive(Clone)]
-pub struct PacketZcHackshErrorMsg {
+pub struct PacketZcHackShieldErrorMsg {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9480,7 +9480,7 @@ pub struct PacketCzClientVersion {
 }
 
 #[derive(Clone)]
-pub struct PacketCzCloseSimplecashShop {
+pub struct PacketCzCloseSimpleCashShop {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9552,7 +9552,7 @@ pub struct PacketZcEsGoto {
 }
 
 #[derive(Clone)]
-pub struct PacketCzGroupinfoChangeV2 {
+pub struct PacketCzGroupInfoChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9565,7 +9565,7 @@ pub struct PacketCzGroupinfoChangeV2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcReqGroupinfoChangeV2 {
+pub struct PacketZcReqGroupInfoChange {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9578,7 +9578,7 @@ pub struct PacketZcReqGroupinfoChangeV2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcShortcutKeyListV2 {
+pub struct PacketZcShortcutKeyList {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9665,7 +9665,7 @@ pub struct PacketZcSeekPartyMember {
 }
 
 #[derive(Clone)]
-pub struct PacketZcEsNotiMyinfo {
+pub struct PacketZcEsNotiMyInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9676,7 +9676,7 @@ pub struct PacketZcEsNotiMyinfo {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSkillinfoUpdate2 {
+pub struct PacketZcSkillInfoUpdateWithType {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9706,7 +9706,7 @@ pub struct PacketZcMsgValue {
 }
 
 #[derive(Clone)]
-pub struct PacketZcItemlistwinOpen {
+pub struct PacketZcItemListWinOpen {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9715,7 +9715,7 @@ pub struct PacketZcItemlistwinOpen {
 }
 
 #[derive(Clone)]
-pub struct PacketCzItemlistwinRes {
+pub struct PacketCzItemListWinRes {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9730,7 +9730,7 @@ pub struct PacketCzItemlistwinRes {
 }
 
 #[derive(Clone)]
-pub struct PacketChEnterCheckbot {
+pub struct PacketChEnterCheckBot {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9754,7 +9754,7 @@ pub struct PacketZcMsgSkill {
 }
 
 #[derive(Clone)]
-pub struct PacketChCheckbot {
+pub struct PacketChCheckBot {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9767,7 +9767,7 @@ pub struct PacketChCheckbot {
 }
 
 #[derive(Clone)]
-pub struct PacketHcCheckbot {
+pub struct PacketHcCheckBot {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9778,7 +9778,7 @@ pub struct PacketHcCheckbot {
 }
 
 #[derive(Clone)]
-pub struct PacketHcCheckbotResult {
+pub struct PacketHcCheckBotResult {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9916,7 +9916,7 @@ pub struct PacketZcBattleJoinDisableState {
 }
 
 #[derive(Clone)]
-pub struct PacketCzGmFullstrip {
+pub struct PacketCzGmFullStrip {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -9940,7 +9940,7 @@ pub struct PacketZcNotifyExp {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMoveentry7 {
+pub struct PacketZcNotifyMoveEntryNoHp {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10005,7 +10005,7 @@ pub struct PacketZcNotifyMoveentry7 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyNewentry5 {
+pub struct PacketZcNotifyNewEntryNoHp {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10068,7 +10068,7 @@ pub struct PacketZcNotifyNewentry5 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentry5 {
+pub struct PacketZcNotifyStandEntryNoHp {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10146,7 +10146,7 @@ pub struct PacketZcDeleteItemFromBody {
 }
 
 #[derive(Clone)]
-pub struct PacketZcUseskillAck2 {
+pub struct PacketZcUseSkillAck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10200,7 +10200,7 @@ pub struct PacketZcDefineCheck {
 }
 
 #[derive(Clone)]
-pub struct PacketZcPcPurchaseItemlistFrommc2 {
+pub struct PacketZcPcPurchaseItemListFromMc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10215,7 +10215,7 @@ pub struct PacketZcPcPurchaseItemlistFrommc2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCzPcPurchaseItemlistFrommc2 {
+pub struct PacketCzPcPurchaseItemListFromMc {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10342,14 +10342,14 @@ pub struct PacketZcPartyBookingNotifyDelete {
 }
 
 #[derive(Clone)]
-pub struct PacketCzSimpleCashBtnshow {
+pub struct PacketCzSimpleCashBtnShow {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
 }
 
 #[derive(Clone)]
-pub struct PacketZcSimpleCashBtnshow {
+pub struct PacketZcSimpleCashBtnShow {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10358,7 +10358,7 @@ pub struct PacketZcSimpleCashBtnshow {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyHpToGroupmR2 {
+pub struct PacketZcNotifyHpToGroupMember {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10371,7 +10371,7 @@ pub struct PacketZcNotifyHpToGroupmR2 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAddExchangeItem2 {
+pub struct PacketZcAddExchangeItem {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10429,7 +10429,7 @@ pub struct PacketZcFailedOpenBuyingStoreToBuyer {
 }
 
 #[derive(Clone)]
-pub struct PacketZcMyitemlistBuyingStore {
+pub struct PacketZcMyItemListBuyingStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10480,7 +10480,7 @@ pub struct PacketCzReqClickToBuyingStore {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckItemlistBuyingStore {
+pub struct PacketZcAckItemListBuyingStore {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10575,7 +10575,7 @@ pub struct PacketZcElParChange {
 }
 
 #[derive(Clone)]
-pub struct PacketZcBroadcast4 {
+pub struct PacketZcBroadcastRgb {
     pub raw: Vec<u8>,
     pub pakcet_type: i16,
     pub pakcet_type_raw: [u8; 2],
@@ -10641,7 +10641,7 @@ pub struct PacketZcFailedTradeBuyingStoreToSeller {
 }
 
 #[derive(Clone)]
-pub struct PacketCaSsoLoginReqa {
+pub struct PacketCaSsoLoginReqToken {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10694,7 +10694,7 @@ pub struct PacketAcSsoLoginAck {
 }
 
 #[derive(Clone)]
-pub struct PacketChDeleteChar3Reserved {
+pub struct PacketChDeleteCharReserved {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10703,7 +10703,7 @@ pub struct PacketChDeleteChar3Reserved {
 }
 
 #[derive(Clone)]
-pub struct PacketHcDeleteChar3Reserved {
+pub struct PacketHcDeleteCharReserved {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10716,7 +10716,7 @@ pub struct PacketHcDeleteChar3Reserved {
 }
 
 #[derive(Clone)]
-pub struct PacketChDeleteChar3 {
+pub struct PacketChDeleteCharAccept {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10727,7 +10727,7 @@ pub struct PacketChDeleteChar3 {
 }
 
 #[derive(Clone)]
-pub struct PacketHcDeleteChar3 {
+pub struct PacketHcDeleteCharAccept {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10738,7 +10738,7 @@ pub struct PacketHcDeleteChar3 {
 }
 
 #[derive(Clone)]
-pub struct PacketChDeleteChar3Cancel {
+pub struct PacketChDeleteCharCancel {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10747,7 +10747,7 @@ pub struct PacketChDeleteChar3Cancel {
 }
 
 #[derive(Clone)]
-pub struct PacketHcDeleteChar3Cancel {
+pub struct PacketHcDeleteCharCancel {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10839,7 +10839,7 @@ pub struct PacketCzCloseSearchStoreInfo {
 }
 
 #[derive(Clone)]
-pub struct PacketCzSsilistItemClick {
+pub struct PacketCzSsiListItemClick {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10852,7 +10852,7 @@ pub struct PacketCzSsilistItemClick {
 }
 
 #[derive(Clone)]
-pub struct PacketZcSsilistItemClickAck {
+pub struct PacketZcSsiListItemClickAck {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10863,7 +10863,7 @@ pub struct PacketZcSsilistItemClickAck {
 }
 
 #[derive(Clone)]
-pub struct PacketAcRefuseLoginR2 {
+pub struct PacketAcRefuseLoginIntCode {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10874,7 +10874,7 @@ pub struct PacketAcRefuseLoginR2 {
 }
 
 #[derive(Clone)]
-pub struct PacketChSelectAccessibleMapname {
+pub struct PacketChSelectAccessibleMapName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10885,7 +10885,7 @@ pub struct PacketChSelectAccessibleMapname {
 }
 
 #[derive(Clone)]
-pub struct PacketHcNotifyAccessibleMapname {
+pub struct PacketHcNotifyAccessibleMapName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10934,7 +10934,7 @@ pub struct PacketHcAcceptEnterNeoUnionHeader {
 }
 
 #[derive(Clone)]
-pub struct PacketPincodeLoginstate {
+pub struct PacketHcPincodeLoginState {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10947,7 +10947,7 @@ pub struct PacketPincodeLoginstate {
 }
 
 #[derive(Clone)]
-pub struct PacketChMakeChar3 {
+pub struct PacketChMakeCharWithClass {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -10984,7 +10984,7 @@ pub struct PacketZcOverweightPercent {
 }
 
 #[derive(Clone)]
-pub struct PacketZcAckReqnameall2 {
+pub struct PacketZcAckReqNameAllWithTitle {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -11014,7 +11014,7 @@ pub struct PacketZcMsgColor {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMapproperty2 {
+pub struct PacketZcNotifyMapPropertyWithFlags {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -11054,7 +11054,7 @@ pub struct PacketZcLoadConfirm {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentry6 {
+pub struct PacketZcNotifyStandEntryWithName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -11133,7 +11133,7 @@ pub struct PacketZcNotifyStandentry6 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyStandentry7 {
+pub struct PacketZcNotifyStandEntry {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -11210,7 +11210,7 @@ pub struct PacketZcNotifyStandentry7 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyNewentry7 {
+pub struct PacketZcNotifyNewEntry {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -11285,7 +11285,7 @@ pub struct PacketZcNotifyNewentry7 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMoveentry8 {
+pub struct PacketZcNotifyMoveEntryWithName {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -11364,7 +11364,7 @@ pub struct PacketZcNotifyMoveentry8 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyMoveentry9 {
+pub struct PacketZcNotifyMoveEntry {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -11435,7 +11435,7 @@ pub struct PacketZcNotifyMoveentry9 {
 }
 
 #[derive(Clone)]
-pub struct PacketZcNotifyAct3 {
+pub struct PacketZcNotifyActSpDamage {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],

@@ -4,7 +4,7 @@ use std::sync::atomic::AtomicBool;
 use std::sync::{Arc, Mutex};
 
 use configuration::configuration::ProxyConfig;
-use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZonesvr, ZserverAddr};
+use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZoneSvr, ZserverAddr};
 
 use crate::proxy::{PacketHandler, Proxy};
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -33,8 +33,8 @@ impl PacketHandler for CharProxy {
             packet_send_map_info.set_map_server_port(6124);
             packet_send_map_info.fill_raw();
         }
-        if packet.as_any().downcast_ref::<PacketHcNotifyZonesvr>().is_some() {
-            let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketHcNotifyZonesvr>().unwrap();
+        if packet.as_any().downcast_ref::<PacketHcNotifyZoneSvr>().is_some() {
+            let packet_send_map_info = packet.as_any_mut().downcast_mut::<PacketHcNotifyZoneSvr>().unwrap();
             let mut addr = ZserverAddr::new(GlobalConfigService::instance().packetver());
             addr.set_ip(16777343);
             addr.set_port(6124);
