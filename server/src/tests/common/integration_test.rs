@@ -52,6 +52,14 @@ pub async fn before_all() -> Arc<Server> {
                     "/db/alter_itemdb_add_script_compilation_result_column.sql",
                 ))
                 .with_volume((
+                    env::current_dir()
+                        .unwrap()
+                        .join("../db/add_status_bonus_table.sql")
+                        .to_str()
+                        .unwrap(),
+                    "/db/add_status_bonus_table.sql",
+                ))
+                .with_volume((
                     env::current_dir().unwrap().join("../db/test_account.sql").to_str().unwrap(),
                     "/db/test_account.sql",
                 ))
