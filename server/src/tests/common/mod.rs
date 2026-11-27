@@ -15,6 +15,7 @@ pub mod sync_helper;
 
 use std::sync::mpsc::{Receiver, SyncSender};
 use std::sync::{Arc, Mutex, Once};
+use std::time::{Duration, Instant};
 use std::{fs, thread};
 
 use configuration::configuration::Config;
@@ -111,6 +112,22 @@ impl TestContext {
 
     pub fn received_persistence_events(&self) -> Arc<Mutex<Vec<PersistenceEvent>>> {
         self.received_persistence_events.clone()
+    }
+
+    pub fn wait_for_persistence_event(&self, expected: &PersistenceEvent, timeout: Duration) {
+        let deadline = Instant::now() + timeout;
+        loop {
+            {
+                let events = self.received_persistence_events.lock().unwrap();
+                if events.iter().any(|event| event == expected) {
+                    return;
+                }
+                if Instant::now() >= deadline {
+                    panic!("Persistence event {expected:?} not received within {timeout:?}; received: {events:?}");
+                }
+            }
+            thread::sleep(Duration::from_millis(5));
+        }
     }
 
     pub fn countdown_latch(&self) -> &CountDownLatch {

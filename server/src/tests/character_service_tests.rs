@@ -227,19 +227,15 @@ mod tests {
             .character_service
             .change_map(&map_instance_key, Position { x: 120, y: 120, dir: 0 }, &mut character);
         // Then
-        context
-            .test_context
-            .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_sent_persistence_event!(
-            context,
-            PersistenceEvent::SaveCharacterPosition(SavePositionUpdate {
+        context.test_context.wait_for_persistence_event(
+            &PersistenceEvent::SaveCharacterPosition(SavePositionUpdate {
                 char_id: character.char_id,
                 account_id: character.account_id,
                 map_name: "geffen.gat".to_string(),
                 x: 120,
-                y: 120
-            })
+                y: 120,
+            }),
+            Duration::from_secs(2),
         );
     }
 
