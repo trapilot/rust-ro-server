@@ -1,5 +1,4 @@
-use std::collections::HashSet;
-use std::sync::{Arc, Mutex, Once};
+use std::sync::{Arc, Once};
 use std::{env, fs, thread};
 
 use configuration::configuration::DatabaseConfig;
@@ -24,7 +23,6 @@ use crate::server::model::map::Map;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::MapItems;
 use crate::server::model::status::StatusFromDb;
-use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::state::character::Character;
 use crate::tests::common;
 use crate::tests::common::{CONFIGS, create_mpsc};
@@ -148,26 +146,20 @@ pub async fn character_join_game() -> u32 {
     let char_model: CharSelectModel = server.repository.character_fetch(2000000, 0).await.unwrap();
     let char_id = char_model.char_id as u32;
     let skills: Vec<KnownSkill> = server.repository.character_skills(char_id).await.unwrap();
-    let character = Character {
-        name: char_model.name.clone(),
+    let status = StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills);
+    let mut character = Character::new(
+        char_model.name.clone(),
         char_id,
-        status: StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills),
-        loaded_from_client_side: true,
-        x: char_model.last_x as u16,
-        y: char_model.last_y as u16,
-        dir: 0,
-        movements: vec![],
-        attack: None,
-        skill_in_use: None,
-        inventory: vec![],
-        map_view: HashSet::new(),
-        script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
-        account_id: char_model.account_id as u32,
-        map_instance_key: MapInstanceKey::new("prt_fild09".to_string(), 0),
-        last_moved_at: 0,
-        hotkeys: vec![],
-        sex: 1,
-    };
+        char_model.account_id as u32,
+        status,
+        char_model.last_x as u16,
+        char_model.last_y as u16,
+        0,
+        "prt_fild09".to_string(),
+        1,
+        vec![],
+    );
+    character.loaded_from_client_side = true;
     server.state_mut().insert_character(character);
     let character = server.state().get_character_unsafe(char_id);
     server.add_to_next_tick(CharacterJoinGame(character.char_id));
