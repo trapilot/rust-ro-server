@@ -1,18 +1,19 @@
 use std::collections::HashSet;
 use std::net::Shutdown::Both;
 use std::sync::{Arc, Mutex};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use byteorder::{LittleEndian, WriteBytesExt};
 use movement::position::Position;
 use models::status::KnownSkill;
 use packets::packets::{
-    AccessibleMapnameInfo, CharacterInfoNeoUnion, Packet, PacketChDeleteChar, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar,
+    AccessibleMapnameInfo, CharacterInfoNeoUnion, Packet, PacketChDeleteChar, PacketChDeleteChar3Reserved, PacketChEnter, PacketChMakeChar,
     PacketChMakeChar2, PacketChMakeChar3, PacketChSelectAccessibleMapname, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2,
     PacketCzRestart, PacketHcAcceptDeletechar, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader,
-    PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved, PacketHcNotifyAccessibleMapname,
-    PacketHcNotifyZonesvr, PacketHcRefuseDeletechar, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketMapConnection,
+    PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar3Reserved, PacketHcNotifyAccessibleMapname,
+    PacketHcNotifyZonesvr, PacketHcRefuseDeletechar, PacketHcRefuseEnter, PacketHcRefuseMakechar, PacketZcAid,
     PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent,
-    PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr,
+    PacketZcAckReqDisconnect, PacketZcRestartAck, ZserverAddr,
 };
 
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
@@ -325,21 +326,53 @@ pub fn handle_delete_char(server: &Server, context: Request) {
     }
 }
 
+/// HC_DELETE_CHAR3_RESERVED result codes (rAthena `chclif_char_delete2_ack`).
+const DELETE_RESERVE_RESULT_SUCCESS: i32 = 1;
+const DELETE_RESERVE_RESULT_DB_ERROR: i32 = 3;
+/// Must match the `INTERVAL '1 day'` used by `character_delete_reserved`.
+const CHAR_DELETE_DELAY_SECONDS: u64 = 24 * 60 * 60;
+
 pub fn handle_delete_reserved_char(server: &Server, context: Request) {
-    let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
-    server.runtime().block_on(async {
-        server
-            .repository
-            .character_delete_reserved(context.session().account_id, packet_delete_reserved_char.gid)
-            .await
-            .unwrap();
-    });
-    let mut packet_hc_delete_char4reserved = PacketHcDeleteChar4Reserved::new(GlobalConfigService::instance().packetver());
-    packet_hc_delete_char4reserved.set_gid(packet_delete_reserved_char.gid);
-    packet_hc_delete_char4reserved.set_delete_reserved_date(24 * 60 * 60);
-    packet_hc_delete_char4reserved.set_result(1);
-    packet_hc_delete_char4reserved.fill_raw();
-    socket_send!(context, packet_hc_delete_char4reserved);
+    let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar3Reserved);
+    let gid = packet_delete_reserved_char.gid;
+    let db_result = server
+        .runtime()
+        .block_on(async { server.repository.character_delete_reserved(context.session().account_id, gid).await });
+    if let Err(e) = &db_result {
+        error!("Failed to reserve deletion of character {}: {:?}", gid, e);
+    }
+    let ack = delete_reserve_ack(gid, db_result.is_ok(), SystemTime::now());
+    let mut packet_hc_delete_char3reserved = PacketHcDeleteChar3Reserved::new(GlobalConfigService::instance().packetver());
+    packet_hc_delete_char3reserved.set_gid(ack.gid);
+    packet_hc_delete_char3reserved.set_result(ack.result);
+    packet_hc_delete_char3reserved.set_delete_reserved_date(ack.delete_reserved_date);
+    packet_hc_delete_char3reserved.fill_raw();
+    socket_send!(context, packet_hc_delete_char3reserved);
+}
+
+#[derive(Debug, PartialEq)]
+pub(crate) struct DeleteReserveAck {
+    pub gid: u32,
+    pub result: i32,
+    pub delete_reserved_date: i32,
+}
+
+/// Clients before 2013 (rAthena `PACKETVER_CHAR_DELETEDATE` false) read `DeleteReservedDate` as an
+/// absolute unix timestamp, not as remaining seconds.
+pub(crate) fn delete_reserve_ack(gid: u32, reserved: bool, now: SystemTime) -> DeleteReserveAck {
+    if !reserved {
+        return DeleteReserveAck {
+            gid,
+            result: DELETE_RESERVE_RESULT_DB_ERROR,
+            delete_reserved_date: 0,
+        };
+    }
+    let now_seconds = now.duration_since(UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0);
+    DeleteReserveAck {
+        gid,
+        result: DELETE_RESERVE_RESULT_SUCCESS,
+        delete_reserved_date: (now_seconds + CHAR_DELETE_DELAY_SECONDS) as i32,
+    }
 }
 
 pub fn handle_select_char(server: &Server, context: Request) {
@@ -446,7 +479,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
         let session = Arc::new(session.recreate_with_map_socket(context.socket()));
         sessions_guard.insert(aid, session.clone());
     }
-    let mut packet_map_connection = PacketMapConnection::new(GlobalConfigService::instance().packetver());
+    let mut packet_map_connection = PacketZcAid::new(GlobalConfigService::instance().packetver());
     packet_map_connection.set_aid(aid);
     packet_map_connection.fill_raw();
 
@@ -500,15 +533,14 @@ pub fn handle_restart(server: &Server, context: Request) {
     let session = sessions_guard.get(&session_id).unwrap();
     let char_id = session.char_id();
     let character_ref = server.state().get_character_from_context_unsafe(&context);
-    server.add_to_tick(
-        GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap {
-            char_id,
-            map_name: character_ref.current_map_name().clone(),
-            instance_id: character_ref.current_map_instance(),
-        }),
-        1,
-    );
-    server.add_to_tick(GameEvent::CharacterLeaveGame((char_id, packet_restart.atype)), 2);
+    for (event, tick) in leave_game_events(
+        char_id,
+        character_ref.current_map_name().clone(),
+        character_ref.current_map_instance(),
+        packet_restart.atype,
+    ) {
+        server.add_to_tick(event, tick);
+    }
     let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
     sessions_guard.insert(session_id, session);
@@ -519,18 +551,47 @@ pub fn handle_restart(server: &Server, context: Request) {
     socket_send!(context, restart_ack);
 }
 
+/// The character must leave its map instance before `disconnect_character` saves it and drops it
+/// from state.
+pub(crate) fn leave_game_events(char_id: u32, map_name: String, instance_id: u8, atype: u8) -> [(GameEvent, usize); 2] {
+    [
+        (
+            GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap {
+                char_id,
+                map_name,
+                instance_id,
+            }),
+            1,
+        ),
+        (GameEvent::CharacterLeaveGame((char_id, atype)), 2),
+    ]
+}
+
+/// Empty when the session has no character yet or the character is no longer in state.
+pub(crate) fn disconnect_events(char_id: Option<u32>, current_map_of: impl FnOnce(u32) -> Option<(String, u8)>) -> Vec<(GameEvent, usize)> {
+    let Some(char_id) = char_id else {
+        return Vec::new();
+    };
+    let Some((map_name, instance_id)) = current_map_of(char_id) else {
+        return Vec::new();
+    };
+    leave_game_events(char_id, map_name, instance_id, 0).into()
+}
+
 pub fn handle_disconnect(server: &Server, context: Request) {
     let session = context.session();
-    let char_id = session.char_id();
-    let character_ref = server.state().get_character_from_context_unsafe(&context);
-    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap {
-        char_id,
-        map_name: character_ref.current_map_name().clone(),
-        instance_id: character_ref.current_map_instance(),
-    }));
+    let events = disconnect_events(session.char_id, |char_id| {
+        server
+            .state()
+            .get_character(char_id)
+            .map(|character| (character.current_map_name().clone(), character.current_map_instance()))
+    });
+    for (event, tick) in events {
+        server.add_to_tick(event, tick);
+    }
     server.state().remove_session(session.account_id);
 
-    let mut disconnect_ack = PacketZcReqDisconnectAck2::new(GlobalConfigService::instance().packetver());
+    let mut disconnect_ack = PacketZcAckReqDisconnect::new(GlobalConfigService::instance().packetver());
     disconnect_ack.fill_raw();
     socket_send!(context, disconnect_ack);
 }

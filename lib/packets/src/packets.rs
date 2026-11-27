@@ -9325,30 +9325,6 @@ pub struct PacketCzEnter2 {
 }
 
 #[derive(Clone)]
-pub struct PacketCzUseSkill2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub selected_level: i16,
-    pub selected_level_raw: [u8; 2],
-    pub skid: u16,
-    pub skid_raw: [u8; 2],
-    pub target_id: u32,
-    pub target_id_raw: [u8; 4],
-}
-
-#[derive(Clone)]
-pub struct PacketCzUseItem2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub index: u16,
-    pub index_raw: [u8; 2],
-    pub aid: u32,
-    pub aid_raw: [u8; 4],
-}
-
-#[derive(Clone)]
 pub struct PacketZcSkillPostdelay {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -10920,15 +10896,6 @@ pub struct PacketHcNotifyAccessibleMapname {
 }
 
 #[derive(Clone)]
-pub struct PacketCzRequestMove2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub dest: [u16; 3],
-    pub dest_raw: [u8; 6],
-}
-
-#[derive(Clone)]
 pub struct PacketChSendMapInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -10967,33 +10934,6 @@ pub struct PacketHcAcceptEnterNeoUnionHeader {
 }
 
 #[derive(Clone)]
-pub struct PacketCzPing {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub aid: u32,
-    pub aid_raw: [u8; 4],
-}
-
-#[derive(Clone)]
-pub struct PacketZcAid2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub aid: u32,
-    pub aid_raw: [u8; 4],
-}
-
-#[derive(Clone)]
-pub struct PacketMapConnection {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub aid: u32,
-    pub aid_raw: [u8; 4],
-}
-
-#[derive(Clone)]
 pub struct PacketPincodeLoginstate {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -11026,28 +10966,6 @@ pub struct PacketChMakeChar3 {
 }
 
 #[derive(Clone)]
-pub struct PacketChDeleteChar4Reserved {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub gid: u32,
-    pub gid_raw: [u8; 4],
-}
-
-#[derive(Clone)]
-pub struct PacketHcDeleteChar4Reserved {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub gid: u32,
-    pub gid_raw: [u8; 4],
-    pub result: i32,
-    pub result_raw: [u8; 4],
-    pub delete_reserved_date: i32,
-    pub delete_reserved_date_raw: [u8; 4],
-}
-
-#[derive(Clone)]
 pub struct PacketZcInventoryExpansionInfo {
     pub raw: Vec<u8>,
     pub packet_id: i16,
@@ -11063,33 +10981,6 @@ pub struct PacketZcOverweightPercent {
     pub packet_id_raw: [u8; 2],
     pub percent: i32,
     pub percent_raw: [u8; 4],
-}
-
-#[derive(Clone)]
-pub struct PacketCzReqDisconnect2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub empty: i16,
-    pub empty_raw: [u8; 2],
-}
-
-#[derive(Clone)]
-pub struct PacketZcReqDisconnectAck2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub empty: i16,
-    pub empty_raw: [u8; 2],
-}
-
-#[derive(Clone)]
-pub struct PacketCzReqnameall2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub gid: u32,
-    pub gid_raw: [u8; 4],
 }
 
 #[derive(Clone)]
@@ -11109,15 +11000,6 @@ pub struct PacketZcAckReqnameall2 {
     pub position_name_raw: [u8; 24],
     pub title_id: i32,
     pub title_id_raw: [u8; 4],
-}
-
-#[derive(Clone)]
-pub struct PacketCzRequestTime2 {
-    pub raw: Vec<u8>,
-    pub packet_id: i16,
-    pub packet_id_raw: [u8; 2],
-    pub client_time: u32,
-    pub client_time_raw: [u8; 4],
 }
 
 #[derive(Clone)]

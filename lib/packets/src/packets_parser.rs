@@ -2392,12 +2392,6 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x6a && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
-    if buffer[0] == 0x38 && buffer[1] == 0x04 {
-        return Box::new(PacketCzUseSkill2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x39 && buffer[1] == 0x04 {
-        return Box::new(PacketCzUseItem2::from(buffer, packetver));
-    }
     if buffer[0] == 0x3d && buffer[1] == 0x04 {
         return Box::new(PacketZcSkillPostdelay::from(buffer, packetver));
     }
@@ -2755,23 +2749,11 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x40 && buffer[1] == 0x08 {
         return Box::new(PacketHcNotifyAccessibleMapname::from(buffer, packetver));
     }
-    if buffer[0] == 0x5f && buffer[1] == 0x03 {
-        return Box::new(PacketCzRequestMove2::from(buffer, packetver));
-    }
     if buffer[0] == 0xc5 && buffer[1] == 0x0a {
         return Box::new(PacketChSendMapInfo::from(buffer, packetver));
     }
     if buffer[0] == 0x2d && buffer[1] == 0x08 {
         return Box::new(PacketHcAcceptEnterNeoUnionHeader::from(buffer, packetver));
-    }
-    if buffer[0] == 0x87 && buffer[1] == 0x01 {
-        return Box::new(PacketCzPing::from(buffer, packetver));
-    }
-    if buffer[0] == 0x87 && buffer[1] == 0x01 {
-        return Box::new(PacketZcAid2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x83 && buffer[1] == 0x02 {
-        return Box::new(PacketMapConnection::from(buffer, packetver));
     }
     if buffer[0] == 0xb9 && buffer[1] == 0x08 {
         return Box::new(PacketPincodeLoginstate::from(buffer, packetver));
@@ -2779,32 +2761,14 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x39 && buffer[1] == 0x0a {
         return Box::new(PacketChMakeChar3::from(buffer, packetver));
     }
-    if buffer[0] == 0x27 && buffer[1] == 0x08 {
-        return Box::new(PacketChDeleteChar4Reserved::from(buffer, packetver));
-    }
-    if buffer[0] == 0x28 && buffer[1] == 0x08 {
-        return Box::new(PacketHcDeleteChar4Reserved::from(buffer, packetver));
-    }
     if buffer[0] == 0x18 && buffer[1] == 0x0b {
         return Box::new(PacketZcInventoryExpansionInfo::from(buffer, packetver));
     }
     if buffer[0] == 0xde && buffer[1] == 0x0a {
         return Box::new(PacketZcOverweightPercent::from(buffer, packetver));
     }
-    if buffer[0] == 0x8a && buffer[1] == 0x01 {
-        return Box::new(PacketCzReqDisconnect2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x8b && buffer[1] == 0x01 {
-        return Box::new(PacketZcReqDisconnectAck2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x68 && buffer[1] == 0x03 {
-        return Box::new(PacketCzReqnameall2::from(buffer, packetver));
-    }
     if buffer[0] == 0x30 && buffer[1] == 0x0a {
         return Box::new(PacketZcAckReqnameall2::from(buffer, packetver));
-    }
-    if buffer[0] == 0x60 && buffer[1] == 0x03 {
-        return Box::new(PacketCzRequestTime2::from(buffer, packetver));
     }
     if buffer[0] == 0xcd && buffer[1] == 0x09 {
         return Box::new(PacketZcMsgColor::from(buffer, packetver));
@@ -3663,8 +3627,6 @@ pub fn packet_len(packet_id: [u8; 2], packetver: u32) -> Option<usize> {
     if packet_id == [0xdd, 0x03] { return Some(PacketAhcGameGuard::base_len(packetver)); }
     if packet_id == [0xde, 0x03] { return Some(PacketCahAckGameGuard::base_len(packetver)); }
     if packet_id == [0x6a, 0x08] { return Some(PacketCzEnter2::base_len(packetver)); }
-    if packet_id == [0x38, 0x04] { return Some(PacketCzUseSkill2::base_len(packetver)); }
-    if packet_id == [0x39, 0x04] { return Some(PacketCzUseItem2::base_len(packetver)); }
     if packet_id == [0x3d, 0x04] { return Some(PacketZcSkillPostdelay::base_len(packetver)); }
     if packet_id == [0x3f, 0x04] { return Some(PacketZcMsgStateChange2::base_len(packetver)); }
     if packet_id == [0x40, 0x04] { return Some(PacketZcMillenniumshield::base_len(packetver)); }
@@ -3765,23 +3727,13 @@ pub fn packet_len(packet_id: [u8; 2], packetver: u32) -> Option<usize> {
     if packet_id == [0x3d, 0x08] { return Some(PacketZcSsilistItemClickAck::base_len(packetver)); }
     if packet_id == [0x3e, 0x08] { return Some(PacketAcRefuseLoginR2::base_len(packetver)); }
     if packet_id == [0x41, 0x08] { return Some(PacketChSelectAccessibleMapname::base_len(packetver)); }
-    if packet_id == [0x5f, 0x03] { return Some(PacketCzRequestMove2::base_len(packetver)); }
     if packet_id == [0xc5, 0x0a] { return Some(PacketChSendMapInfo::base_len(packetver)); }
     if packet_id == [0x2d, 0x08] { return Some(PacketHcAcceptEnterNeoUnionHeader::base_len(packetver)); }
-    if packet_id == [0x87, 0x01] { return Some(PacketCzPing::base_len(packetver)); }
-    if packet_id == [0x87, 0x01] { return Some(PacketZcAid2::base_len(packetver)); }
-    if packet_id == [0x83, 0x02] { return Some(PacketMapConnection::base_len(packetver)); }
     if packet_id == [0xb9, 0x08] { return Some(PacketPincodeLoginstate::base_len(packetver)); }
     if packet_id == [0x39, 0x0a] { return Some(PacketChMakeChar3::base_len(packetver)); }
-    if packet_id == [0x27, 0x08] { return Some(PacketChDeleteChar4Reserved::base_len(packetver)); }
-    if packet_id == [0x28, 0x08] { return Some(PacketHcDeleteChar4Reserved::base_len(packetver)); }
     if packet_id == [0x18, 0x0b] { return Some(PacketZcInventoryExpansionInfo::base_len(packetver)); }
     if packet_id == [0xde, 0x0a] { return Some(PacketZcOverweightPercent::base_len(packetver)); }
-    if packet_id == [0x8a, 0x01] { return Some(PacketCzReqDisconnect2::base_len(packetver)); }
-    if packet_id == [0x8b, 0x01] { return Some(PacketZcReqDisconnectAck2::base_len(packetver)); }
-    if packet_id == [0x68, 0x03] { return Some(PacketCzReqnameall2::base_len(packetver)); }
     if packet_id == [0x30, 0x0a] { return Some(PacketZcAckReqnameall2::base_len(packetver)); }
-    if packet_id == [0x60, 0x03] { return Some(PacketCzRequestTime2::base_len(packetver)); }
     if packet_id == [0xcd, 0x09] { return Some(PacketZcMsgColor::base_len(packetver)); }
     if packet_id == [0x9b, 0x09] { return Some(PacketZcNotifyMapproperty2::base_len(packetver)); }
     if packet_id == [0x47, 0x04] { return Some(PacketCzBlockingPlayCancel::base_len(packetver)); }
@@ -6186,12 +6138,6 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packet_id.value.unwrap().eq("0x6a08") {
         return PacketCzEnter2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0x3804") {
-        return PacketCzUseSkill2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x3904") {
-        return PacketCzUseItem2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
     if packet_id.value.unwrap().eq("0x3d04") {
         return PacketZcSkillPostdelay::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
@@ -6549,23 +6495,11 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packet_id.value.unwrap().eq("0x4008") {
         return PacketHcNotifyAccessibleMapname::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0x5f03") {
-        return PacketCzRequestMove2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
     if packet_id.value.unwrap().eq("0xc50a") {
         return PacketChSendMapInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0x2d08") {
         return PacketHcAcceptEnterNeoUnionHeader::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8701") {
-        return PacketCzPing::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8701") {
-        return PacketZcAid2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8302") {
-        return PacketMapConnection::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xb908") {
         return PacketPincodeLoginstate::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
@@ -6573,32 +6507,14 @@ pub fn parse_json(json: &str, packetver: u32) -> Result<Box<dyn Packet>, String>
     if packet_id.value.unwrap().eq("0x390a") {
         return PacketChMakeChar3::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0x2708") {
-        return PacketChDeleteChar4Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x2808") {
-        return PacketHcDeleteChar4Reserved::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
     if packet_id.value.unwrap().eq("0x180b") {
         return PacketZcInventoryExpansionInfo::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xde0a") {
         return PacketZcOverweightPercent::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
-    if packet_id.value.unwrap().eq("0x8a01") {
-        return PacketCzReqDisconnect2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x8b01") {
-        return PacketZcReqDisconnectAck2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6803") {
-        return PacketCzReqnameall2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
     if packet_id.value.unwrap().eq("0x300a") {
         return PacketZcAckReqnameall2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
-    }
-    if packet_id.value.unwrap().eq("0x6003") {
-        return PacketCzRequestTime2::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);
     }
     if packet_id.value.unwrap().eq("0xcd09") {
         return PacketZcMsgColor::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);

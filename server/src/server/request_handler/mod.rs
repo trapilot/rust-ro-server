@@ -1,14 +1,14 @@
 use std::sync::Arc;
 
 use packets::packets::{
-    PacketCaLogin, PacketChDeleteChar, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3,
+    PacketCaLogin, PacketChDeleteChar, PacketChDeleteChar3Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3,
     PacketChSelectAccessibleMapname, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu,
     PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow,
-    PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2,
+    PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect,
     PacketCzReqItemcomposition, PacketCzReqItemcompositionList, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzReqWearEquip,
-    PacketCzReqname, PacketCzReqnameall2, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime,
+    PacketCzReqname, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestTime,
     PacketCzRestart, PacketCzShortcutKeyChange, PacketCzStatusChange, PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill,
-    PacketUnknown, PacketZcNotifyTime,
+    PacketPing, PacketUnknown, PacketZcNotifyTime,
 };
 
 use crate::packets::packets::Packet;
@@ -111,8 +111,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         return handle_make_char(server.as_ref(), context);
     }
     // Delete char reservation
-    if context.packet().as_any().downcast_ref::<PacketChDeleteChar4Reserved>().is_some() {
-        debug!("PacketChDeleteChar4Reserved");
+    if context.packet().as_any().downcast_ref::<PacketChDeleteChar3Reserved>().is_some() {
+        debug!("PacketChDeleteChar3Reserved");
         return handle_delete_reserved_char(server.as_ref(), context);
     }
     // Delete char confirmation with the account password
@@ -131,15 +131,11 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         return handle_restart(server.as_ref(), context);
     }
     // Game menu "Exit to windows"
-    if context.packet().as_any().downcast_ref::<PacketCzReqDisconnect2>().is_some() {
-        debug!("PacketCzReqDisconnect2");
+    if context.packet().as_any().downcast_ref::<PacketCzReqDisconnect>().is_some() {
+        debug!("PacketCzReqDisconnect");
         return handle_disconnect(server.as_ref(), context);
     }
     // Player click on map cell
-    if context.packet().as_any().downcast_ref::<PacketCzRequestMove2>().is_some() {
-        debug!("PacketCzRequestMove2");
-        return handle_char_move(server.as_ref(), context);
-    }
     if context.packet().as_any().downcast_ref::<PacketCzRequestMove>().is_some() {
         debug!("PacketCzRequestMove");
         return handle_char_move(server.as_ref(), context);
@@ -161,11 +157,6 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     if context.packet().as_any().downcast_ref::<PacketCzItemPickup>().is_some() {
         debug!("PacketCzItemPickup");
         return handle_pickup_item(server.as_ref(), context);
-    }
-
-    if context.packet().as_any().downcast_ref::<PacketCzReqnameall2>().is_some() {
-        debug!("PacketCzReqnameall2");
-        return handle_map_item_name(server.as_ref(), context);
     }
 
     if context.packet().as_any().downcast_ref::<PacketCzReqname>().is_some() {
@@ -272,11 +263,8 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         return;
     }
 
-    if context.packet().id(GlobalConfigService::instance().packetver()) == "0x6003" // PacketCzRequestTime2
-        || context.packet().id(GlobalConfigService::instance().packetver()) == "0x187"
-    // PacketPing
-    {
-        // TODO handle those packets
+    // Keepalive (0x0187) carries nothing to act on
+    if context.packet().as_any().downcast_ref::<PacketPing>().is_some() {
         return;
     }
     context.packet().display();
