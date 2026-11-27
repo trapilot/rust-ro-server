@@ -78,10 +78,11 @@ mod tests {
     use models::enums::status::StatusTypes;
     use models::enums::{EnumWithNumberValue, EnumWithStringValue};
     use movement::position::Position;
+    use movement::Movable;
     use models::status::KnownSkill;
     use packets::packets::{
         PacketZcLongParChange, PacketZcNotifyEffect, PacketZcParChange, PacketZcSkillInfoList, PacketZcSpriteChange,
-        PacketZcStatusChangeAck,
+        PacketZcStatusChangeAck, PacketZcStopMove,
     };
     use sqlx::Error;
 
@@ -3057,5 +3058,102 @@ mod tests {
         character_state.last_regen_sp_at = 8000;
         context.character_service.regen_sp(&mut character_state, 12200);
         assert_eq!(character_state.status.sp, 100);
+    }
+
+    // PL-5 removed GameEvent::CharacterCancelMove, so cancel_movement is now only reached
+    // through skill use, attack range and damage. These pin its contract for those callers.
+    #[test]
+    fn test_cancel_movement_before_half_step_should_keep_position_clear_movement_and_notify_area() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.update_position(100, 100);
+        character.set_last_moved_at(1000);
+        character.movements = vec![Movement::new(101, 100, 1200)];
+        // When
+        context.character_service.cancel_movement(&mut character, 1050);
+        // Then
+        assert!(!character.is_moving());
+        assert_eq!((character.x, character.y), (100, 100));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(100, 100, vec![SentPacket::with_id(PacketZcStopMove::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
+    }
+
+    #[test]
+    fn test_cancel_movement_after_half_step_should_snap_to_next_cell_and_notify_area_at_new_position() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.update_position(100, 100);
+        character.set_last_moved_at(1000);
+        character.movements = vec![Movement::new(102, 100, 1400), Movement::new(101, 100, 1200)];
+        // When
+        context.character_service.cancel_movement(&mut character, 1150);
+        // Then
+        assert!(!character.is_moving());
+        assert_eq!((character.x, character.y), (101, 100));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(101, 100, vec![SentPacket::with_id(PacketZcStopMove::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
+    }
+
+    #[test]
+    fn test_cancel_movement_should_not_panic_or_snap_when_step_has_no_duration_or_tick_is_in_the_past() {
+        // Given: move_at == last_moved_at would divide by zero, tick < last_moved_at would underflow.
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.update_position(100, 100);
+        character.set_last_moved_at(1000);
+        character.movements = vec![Movement::new(101, 100, 1000)];
+        // When
+        context.character_service.cancel_movement(&mut character, 2000);
+        // Then
+        assert!(!character.is_moving());
+        assert_eq!((character.x, character.y), (100, 100));
+
+        // Given
+        character.movements = vec![Movement::new(101, 100, 1200)];
+        // When
+        context.character_service.cancel_movement(&mut character, 500);
+        // Then
+        assert!(!character.is_moving());
+        assert_eq!((character.x, character.y), (100, 100));
+    }
+
+    #[test]
+    fn test_cancel_movement_when_not_moving_should_still_notify_stop_at_current_position() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.update_position(100, 100);
+        // When
+        context.character_service.cancel_movement(&mut character, 1000);
+        // Then
+        assert_eq!((character.x, character.y), (100, 100));
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_fov(100, 100, vec![SentPacket::with_id(PacketZcStopMove::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
     }
 }
