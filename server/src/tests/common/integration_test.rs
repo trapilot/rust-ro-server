@@ -20,7 +20,6 @@ use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent::CharacterJoinGame;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map::Map;
-use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::MapItems;
 use crate::server::model::status::StatusFromDb;
 use crate::server::state::character::Character;
