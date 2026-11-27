@@ -353,4 +353,112 @@ mod tests {
         }
         assert_eq!(packet_id(&build_notify_map_property(20120307, MAP_PROPERTY_NOTHING, 0)), 0x0199);
     }
+
+    // The day before a cutoff must still get the old packet: an off-by-one sends a
+    // packet the client cannot decode and silently desyncs the stream.
+    #[test]
+    fn notify_act_switches_exactly_at_cutoffs() {
+        let id = |packetver| packet_id(&build_notify_act(packetver, NotifyAct::default()));
+        assert_eq!(id(NOTIFY_ACT_LONG_DAMAGE_SINCE - 1), 0x008A);
+        assert_eq!(id(NOTIFY_ACT_LONG_DAMAGE_SINCE), 0x02E1);
+        assert_eq!(id(NOTIFY_ACT_SP_DAMAGE_SINCE - 1), 0x02E1);
+        assert_eq!(id(NOTIFY_ACT_SP_DAMAGE_SINCE), 0x08C8);
+        assert_eq!((NOTIFY_ACT_LONG_DAMAGE_SINCE, NOTIFY_ACT_SP_DAMAGE_SINCE), (20071113, 20131223));
+    }
+
+    #[test]
+    fn ack_req_name_all_switches_exactly_at_cutoff() {
+        let id = |packetver| packet_id(&build_ack_req_name_all(packetver, 1, [0 as char; 24]));
+        assert_eq!(id(ACK_REQ_NAME_ALL_WITH_TITLE_SINCE - 1), 0x0195);
+        assert_eq!(id(ACK_REQ_NAME_ALL_WITH_TITLE_SINCE), 0x0A30);
+        assert_eq!(ACK_REQ_NAME_ALL_WITH_TITLE_SINCE, 20150225);
+    }
+
+    #[test]
+    fn notify_map_property_switches_exactly_at_cutoff() {
+        let id = |packetver| packet_id(&build_notify_map_property(packetver, MAP_PROPERTY_NOTHING, 0));
+        assert_eq!(id(NOTIFY_MAP_PROPERTY_WITH_FLAGS_SINCE - 1), 0x0199);
+        assert_eq!(id(NOTIFY_MAP_PROPERTY_WITH_FLAGS_SINCE), 0x099B);
+        assert_eq!(NOTIFY_MAP_PROPERTY_WITH_FLAGS_SINCE, 20121010);
+    }
+
+    #[test]
+    fn notify_act_short_damage_saturates_negative_damage() {
+        let raw = build_notify_act(20060101, NotifyAct {
+            damage: -70000,
+            ..Default::default()
+        });
+        let parsed = parse(&raw, 20060101);
+        let packet = parsed
+            .as_any()
+            .downcast_ref::<PacketZcNotifyActShortDamage>()
+            .expect("PacketZcNotifyActShortDamage");
+        assert_eq!(packet.damage, i16::MIN);
+    }
+
+    #[test]
+    fn notify_act_sp_damage_keeps_fields_and_is_not_sp() {
+        let act = NotifyAct {
+            gid: 150001,
+            target_gid: 2000001,
+            attack_mt: 200,
+            attacked_mt: 480,
+            damage: 70000,
+            count: 2,
+            action: 8,
+        };
+        let packetver = 20160101;
+        let raw = build_notify_act(packetver, act);
+        let parsed = parse(&raw, packetver);
+        let packet = parsed
+            .as_any()
+            .downcast_ref::<PacketZcNotifyActSpDamage>()
+            .expect("PacketZcNotifyActSpDamage");
+        assert_eq!(raw.len(), parsed.raw().len());
+        assert_eq!(
+            (packet.gid, packet.target_gid, packet.damage, packet.count, packet.action),
+            (150001, 2000001, 70000, 2, 8)
+        );
+        assert!(!packet.is_sp_damaged);
+    }
+
+    #[test]
+    fn ack_req_name_all_keeps_gid_and_name_before_title_packet() {
+        let mut name = [0 as char; 24];
+        for (slot, c) in name.iter_mut().zip("Poring".chars()) {
+            *slot = c;
+        }
+        let packetver = 20120229;
+        let raw = build_ack_req_name_all(packetver, 110001, name);
+        let parsed = parse(&raw, packetver);
+        let packet = parsed
+            .as_any()
+            .downcast_ref::<PacketZcAckReqNameAll>()
+            .expect("PacketZcAckReqNameAll");
+        assert_eq!(raw.len(), parsed.raw().len());
+        assert_eq!(packet.aid, 110001);
+        assert_eq!(packet.cname, name);
+    }
+
+    #[test]
+    fn notify_map_property_keeps_type_and_drops_flags_before_flags_packet() {
+        let packetver = 20120229;
+        let raw = build_notify_map_property(packetver, MAP_PROPERTY_NOTHING, u32::MAX);
+        let parsed = parse(&raw, packetver);
+        let packet = parsed
+            .as_any()
+            .downcast_ref::<PacketZcNotifyMapProperty>()
+            .expect("PacketZcNotifyMapProperty");
+        assert_eq!(raw.len(), parsed.raw().len());
+        assert_eq!(packet.atype, MAP_PROPERTY_NOTHING);
+
+        let packetver = 20160101;
+        let raw = build_notify_map_property(packetver, MAP_PROPERTY_NOTHING, 0b101);
+        let parsed = parse(&raw, packetver);
+        let packet = parsed
+            .as_any()
+            .downcast_ref::<PacketZcNotifyMapPropertyWithFlags>()
+            .expect("PacketZcNotifyMapPropertyWithFlags");
+        assert_eq!((packet.atype, packet.flags), (MAP_PROPERTY_NOTHING, 0b101));
+    }
 }
