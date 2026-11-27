@@ -6,16 +6,16 @@
 When `mob_being_attacked()` is called:
 - `mob.last_attacked_at = tick` is set
 - Server pauses mob movement during `damage_motion` (in `map_instance_loop.rs:134`)
-- **No `PacketZcStopmove` sent to client**
+- **No `PacketZcStopMove` sent to client**
 - Movement queue is NOT cleared
 
 **Result:** Client continues animating mob along original path while server has paused it. When mob resumes, positions diverge → visible teleport.
 
-**Original Fix Proposal:** Send `PacketZcStopmove` with mob's current position when attacked, and clear movement queue.
+**Original Fix Proposal:** Send `PacketZcStopMove` with mob's current position when attacked, and clear movement queue.
 
 ### Research Findings (rathena)
 
-**rathena does NOT send `PacketZcStopmove` when mobs are attacked.** Instead, it uses a damage motion delay mechanism:
+**rathena does NOT send `PacketZcStopMove` when mobs are attacked.** Instead, it uses a damage motion delay mechanism:
 
 - Sets `canmove_tick` to prevent movement for `dmotion` (damage motion) duration
 - The mob AI simply doesn't issue new movement commands during hitlock/flinch time
@@ -24,7 +24,7 @@ When `mob_being_attacked()` is called:
 - Mobs with Endure status have `dMotion = 0` and don't flinch
 
 **Correct Implementation:**
-- Do NOT send `PacketZcStopmove` for mob damage
+- Do NOT send `PacketZcStopMove` for mob damage
 - Use `canmove_tick` delay approach instead
 - Mob AI should check if enough time has passed before issuing new movement commands
 - The client naturally shows the flinch animation based on the damage packet
@@ -106,13 +106,13 @@ The client naturally blocks sending attack/skill commands during animation delay
 ## 4. Position Mismatch on Movement Cancel
 **File:** `server/src/server/service/character/character_service.rs:1530-1540`
 
-`cancel_movement()` sends `PacketZcStopmove` with server's `character.x/y`. If movement loop (16ms tick) hasn't updated position yet, client sees teleport back.
+`cancel_movement()` sends `PacketZcStopMove` with server's `character.x/y`. If movement loop (16ms tick) hasn't updated position yet, client sees teleport back.
 
 ### Research Findings (rathena)
 
 **rathena uses `clif_fixpos()` strategically at key events:**
 
-Position sync packets (`ZC_STOPMOVE` 0x88) are sent:
+Position sync packets (`ZC_STOP_MOVE` 0x88) are sent:
 - After taking damage (with walkdelay applied)
 - After skill casting completion
 - After knockback effects
@@ -121,7 +121,7 @@ Position sync packets (`ZC_STOPMOVE` 0x88) are sent:
 
 The packet contains the **server's authoritative position**:
 ```c
-struct PACKET_ZC_STOPMOVE {
+struct PACKET_ZC_STOP_MOVE {
   short PacketType;  // 0x88
   unsigned long AID; // Account ID
   short xPos;        // Final X coordinate
@@ -224,7 +224,7 @@ Subtracts 40ms (one game tick), allowing movement 40ms before attack animation e
 
 | Issue | Original Proposal | Correct Fix (per rathena) |
 |-------|-------------------|---------------------------|
-| 1. Mob stop packet | Send `PacketZcStopmove` | Do NOT send - use `canmove_tick` delay |
+| 1. Mob stop packet | Send `PacketZcStopMove` | Do NOT send - use `canmove_tick` delay |
 <<<<<<< HEAD
 | 2. Attack tick init | Pass current tick | Pass current tick + calculate future `attackabletime` |
 =======

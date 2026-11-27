@@ -19,7 +19,7 @@ if (validation error) then (yes)
         :**PacketZcActionFailure**;
 
     else (no)
-        :**PacketZcAckTouseskill**;
+        :**PacketZcAckToUseSkill**;
     endif
     end
 endif
@@ -28,7 +28,7 @@ endif
 :calculate after cast act delay (acad);
 :calculate after cast walk delay (acwd);
 :update skill with cast time, acad, acwd;
-:**PacketZcUseskillAck2**;
+:**PacketZcUseSkillAck**;
 :add to character state
 **"skill in use"**
 SkillInUse {{ target, start_skill_tick, skill }}
@@ -55,7 +55,7 @@ if (validation error?) then (yes)
     if (missing ammo?) then (yes)
         :**PacketZcActionFailure**;
     else (no)
-        :**PacketZcAckTouseskill**;
+        :**PacketZcAckToUseSkill**;
     endif
     end
     else(no)
@@ -82,7 +82,7 @@ endswitch
 :update character status to apply after cast act delay;
 :update character status to apply after cast walk delay;
 
-:**PacketZcNotifySkill2**;
+:**PacketZcNotifySkill**;
 end
 
 

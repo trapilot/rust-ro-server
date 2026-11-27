@@ -1,7 +1,7 @@
-Handle packet PacketCzReqItemcomposition whith following structure
+Handle packet PacketCzReqItemComposition whith following structure
 ```rust
 #[derive(Clone)]
-pub struct PacketCzReqItemcomposition {
+pub struct PacketCzReqItemComposition {
     pub raw: Vec<u8>,
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
@@ -18,12 +18,12 @@ The business logic implementation, to be written in `inventory_service` is this 
 - Enqueue a new Persistence Task, slot card
 - Handle the new Persistence Task in the persistence event loop
 - Implement sql in inventory repository, don't forget to define the new function in the trait `InventoryRepository`
-- Answer to client with packet `PacketZcAckItemcomposition`
+- Answer to client with packet `PacketZcAckItemComposition`
 - Write unit test for the new service function, use mock for repository layer as already done in some test case like `test_add_items_in_inventory_should_add_items_in_memory_save_added_item_in_database` in `server/src/tests/inventory_service_test.rs`
 
 Guidance:
 - Read how repositories are implemented
-- Read how packet `PacketCzReqItemcompositionList` is implemented the entry point is `server/src/server/request_handler/mod.rs`
+- Read how packet `PacketCzReqItemCompositionList` is implemented the entry point is `server/src/server/request_handler/mod.rs`
 
 # Feedback 1
 I forgot to give you sql to write in inventory repository.
