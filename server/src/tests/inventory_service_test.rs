@@ -70,8 +70,8 @@ mod tests {
     use models::enums::item::EquipmentLocation;
     use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
     use packets::packets::{
-        Packet, PacketZcAckItemcomposition, PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcItemcompositionList,
-        PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2,
+        Packet, PacketZcAckItemComposition, PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcItemCompositionList,
+        PacketZcReqTakeoffEquipAck, PacketZcReqWearEquipAck, PacketZcSpriteChange,
     };
     use sqlx::Error;
 
@@ -348,7 +348,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
-                PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcSpriteChange::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
     }
@@ -369,7 +369,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
-                PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcReqWearEquipAck::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![]));
@@ -398,12 +398,12 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
-                PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcReqWearEquipAck::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
         assert_sent_packet_in_current_packetver!(
             context,
-            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange::packet_id(
                 GlobalConfigService::instance().packetver()
             ))])
         );
@@ -433,7 +433,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
-                PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcReqWearEquipAck::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
         assert_sent_persistence_event!(
@@ -535,14 +535,14 @@ mod tests {
         assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
         assert_sent_packet_in_current_packetver!(
             context,
-            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange::packet_id(
                 GlobalConfigService::instance().packetver()
             ))])
         );
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
-                PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcReqWearEquipAck::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
         assert_sent_packet_in_current_packetver!(
@@ -577,7 +577,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
-                PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcReqWearEquipAck::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
         assert_sent_persistence_event!(
@@ -673,7 +673,7 @@ mod tests {
         assert_not_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
-                PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcReqTakeoffEquipAck::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
         context.test_context.clear_sent_packet();
@@ -706,7 +706,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()),
+                PacketZcReqTakeoffEquipAck::packet_id(GlobalConfigService::instance().packetver()),
                 1
             )])
         );
@@ -750,7 +750,7 @@ mod tests {
         assert_not_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
-                PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcReqTakeoffEquipAck::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
         context.test_context.clear_sent_packet();
@@ -783,7 +783,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()),
+                PacketZcReqTakeoffEquipAck::packet_id(GlobalConfigService::instance().packetver()),
                 2
             )])
         );
@@ -911,7 +911,7 @@ mod tests {
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(
             context,
-            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange::packet_id(
                 GlobalConfigService::instance().packetver()
             ))])
         );
@@ -1264,14 +1264,14 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcItemcompositionList::packet_id(packetver),
+                PacketZcItemCompositionList::packet_id(packetver),
                 1
             )])
         );
         let packets = context
             .test_context
-            .get_sent_packet(vec![PacketZcItemcompositionList::packet_id(packetver)], packetver);
-        let packet = cast!(packets[0], PacketZcItemcompositionList);
+            .get_sent_packet(vec![PacketZcItemCompositionList::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcItemCompositionList);
 
         assert!(packet.itidlist.contains(&1));
         assert!(packet.itidlist.contains(&3));
@@ -1355,7 +1355,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckItemcomposition::packet_id(packetver),
+                PacketZcAckItemComposition::packet_id(packetver),
                 1
             )])
         );
@@ -1418,7 +1418,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckItemcomposition::packet_id(packetver),
+                PacketZcAckItemComposition::packet_id(packetver),
                 1
             )])
         );
@@ -1468,7 +1468,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcAckItemcomposition::packet_id(packetver),
+                PacketZcAckItemComposition::packet_id(packetver),
                 1
             )])
         );

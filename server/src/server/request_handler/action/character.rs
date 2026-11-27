@@ -1,4 +1,4 @@
-use packets::packets::{PacketCzStatusChange, PacketCzUpgradeSkilllevel};
+use packets::packets::{PacketCzStatusChange, PacketCzUpgradeSkillLevel};
 
 use crate::server::Server;
 use crate::server::model::events::game_event::{CharacterSkillUpgrade, CharacterUpdateStat, GameEvent};
@@ -16,7 +16,7 @@ pub fn handle_player_status_change(server: &Server, context: Request) {
 }
 
 pub fn handle_player_skill_allocation(server: &Server, context: Request) {
-    let packez_cz_upgrade_skill = cast!(context.packet(), PacketCzUpgradeSkilllevel);
+    let packez_cz_upgrade_skill = cast!(context.packet(), PacketCzUpgradeSkillLevel);
     server
         .tasks_queue
         .add_to_first_index(GameEvent::CharacterSkillUpgrade(CharacterSkillUpgrade {

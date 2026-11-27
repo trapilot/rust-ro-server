@@ -5,7 +5,7 @@ use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use models::enums::skill_enums::SkillEnum;
-use packets::packets::{Packet, PacketZcNotifyMove, PacketZcNotifyPlayermove};
+use packets::packets::{Packet, PacketZcNotifyMove, PacketZcNotifyPlayerMove};
 
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
@@ -428,7 +428,7 @@ impl Server {
                             continue;
                         }
                         let new_movement = character_movement.path.last().unwrap();
-                        let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new(GlobalConfigService::instance().packetver());
+                        let mut packet_zc_notify_playermove = PacketZcNotifyPlayerMove::new(GlobalConfigService::instance().packetver());
 
                         let move_at = tick + Movement::delay(speed, new_movement.is_diagonal());
                         if let Some(previous_movement) = character.peek_movement() {
@@ -478,7 +478,7 @@ impl Server {
                                 character.char_id,
                                 std::mem::take(packet_zc_notify_playermove.raw_mut()),
                             )))
-                            .expect("Failed to send notification event with PacketZcNotifyPlayermove");
+                            .expect("Failed to send notification event with PacketZcNotifyPlayerMove");
                         let mut packet_zc_notify_move = PacketZcNotifyMove::new(GlobalConfigService::instance().packetver());
                         packet_zc_notify_move.set_move_data(movement);
                         packet_zc_notify_move.set_gid(character.char_id);
@@ -489,7 +489,7 @@ impl Server {
                                 character,
                                 std::mem::take(packet_zc_notify_move.raw_mut()),
                             )))
-                            .expect("Failed to send notification event with PacketZcNotifyPlayermove");
+                            .expect("Failed to send notification event with PacketZcNotifyPlayerMove");
                     }
                 }
             }

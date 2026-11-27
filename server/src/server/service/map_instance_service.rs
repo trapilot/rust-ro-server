@@ -7,7 +7,7 @@ use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
 use models::item::DroppedItem;
 use movement::position::Position;
-use packets::packets::{Packet, PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyAct, PacketZcNotifyMove, PacketZcNotifyVanish};
+use packets::packets::{Packet, PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyActShortDamage, PacketZcNotifyMove, PacketZcNotifyVanish};
 
 use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
@@ -166,7 +166,7 @@ impl MapInstanceService {
     }
 
     pub fn mob_attack_character(&self, map_instance_state: &MapInstanceState, attack: MobAttackCharacter, tick: u128) {
-        let mut packet = PacketZcNotifyAct::new(self.configuration_service.packetver());
+        let mut packet = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
         packet.set_gid(attack.mob_id);
         packet.set_target_gid(attack.target_char_id);
         packet.set_action(ActionType::Attack.value() as u8);

@@ -1017,13 +1017,13 @@ impl Packet for PacketChMakeChar {
     }
 }
 
-impl PacketChMakeChar2 {
+impl PacketChMakeCharNoStats {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7009"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChMakeChar2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChMakeCharNoStats {
         let mut offset: usize = 0;
-        PacketChMakeChar2 {
+        PacketChMakeCharNoStats {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -1117,10 +1117,10 @@ impl PacketChMakeChar2 {
     pub fn set_head_raw(&mut self, value: [u8; 2]) {
         self.head_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChMakeChar2 {
+    pub fn new(packetver: u32) -> PacketChMakeCharNoStats {
         let packet_id = i16::from_le_bytes([0x70, 0x09]);
         let packet_id_raw = [0x70, 0x09];
-        PacketChMakeChar2 {
+        PacketChMakeCharNoStats {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -1136,7 +1136,7 @@ impl PacketChMakeChar2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChMakeChar2::new(packetver);
+        let mut packet = PacketChMakeCharNoStats::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -1168,12 +1168,12 @@ impl PacketChMakeChar2 {
     }
 }
 
-impl Packet for PacketChMakeChar2 {
+impl Packet for PacketChMakeCharNoStats {
     fn id(&self, packetver: u32) -> &str {
-       PacketChMakeChar2::packet_id(packetver)
+       PacketChMakeCharNoStats::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChMakeChar2"
+       "PacketChMakeCharNoStats"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -1765,11 +1765,11 @@ impl Packet for PacketAcAcceptLogin {
     }
 }
 
-impl PacketAcAcceptLogin2 {
+impl PacketAcAcceptLoginWithTwitter {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc40a"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAcceptLogin2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAcceptLoginWithTwitter {
         let mut offset: usize = 0;
         let vec_type_len = ServerAddr2::base_len(packetver);
         let vec_start: usize = 64;
@@ -1782,7 +1782,7 @@ impl PacketAcAcceptLogin2 {
             vec_field.push(ServerAddr2::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketAcAcceptLogin2 {
+        PacketAcAcceptLoginWithTwitter {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -1978,10 +1978,10 @@ impl PacketAcAcceptLogin2 {
     pub fn set_server_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.server_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAcceptLogin2 {
+    pub fn new(packetver: u32) -> PacketAcAcceptLoginWithTwitter {
         let packet_id = i16::from_le_bytes([0xc4, 0x0a]);
         let packet_id_raw = [0xc4, 0x0a];
-        PacketAcAcceptLogin2 {
+        PacketAcAcceptLoginWithTwitter {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -2009,7 +2009,7 @@ impl PacketAcAcceptLogin2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAcceptLogin2::new(packetver);
+        let mut packet = PacketAcAcceptLoginWithTwitter::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -2077,12 +2077,12 @@ impl PacketAcAcceptLogin2 {
     }
 }
 
-impl Packet for PacketAcAcceptLogin2 {
+impl Packet for PacketAcAcceptLoginWithTwitter {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAcceptLogin2::packet_id(packetver)
+       PacketAcAcceptLoginWithTwitter::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAcceptLogin2"
+       "PacketAcAcceptLoginWithTwitter"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -2939,13 +2939,13 @@ impl Packet for PacketHcRefuseEnter {
     }
 }
 
-impl PacketHcAcceptMakecharNeoUnion {
+impl PacketHcAcceptMakeCharNeoUnion {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6d00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAcceptMakecharNeoUnion {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAcceptMakeCharNeoUnion {
         let mut offset: usize = 0;
-        PacketHcAcceptMakecharNeoUnion {
+        PacketHcAcceptMakeCharNeoUnion {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -2985,10 +2985,10 @@ impl PacketHcAcceptMakecharNeoUnion {
     pub fn set_charinfo_raw(&mut self, value: Vec<u8>) {
         self.charinfo_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcAcceptMakecharNeoUnion {
+    pub fn new(packetver: u32) -> PacketHcAcceptMakeCharNeoUnion {
         let packet_id = i16::from_le_bytes([0x6d, 0x00]);
         let packet_id_raw = [0x6d, 0x00];
-        PacketHcAcceptMakecharNeoUnion {
+        PacketHcAcceptMakeCharNeoUnion {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -2998,7 +2998,7 @@ impl PacketHcAcceptMakecharNeoUnion {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcAcceptMakecharNeoUnion::new(packetver);
+        let mut packet = PacketHcAcceptMakeCharNeoUnion::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/charinfo")) {
             if let Some(value) = entry.value {
             }
@@ -3007,12 +3007,12 @@ impl PacketHcAcceptMakecharNeoUnion {
     }
 }
 
-impl Packet for PacketHcAcceptMakecharNeoUnion {
+impl Packet for PacketHcAcceptMakeCharNeoUnion {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcAcceptMakecharNeoUnion::packet_id(packetver)
+       PacketHcAcceptMakeCharNeoUnion::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcAcceptMakecharNeoUnion"
+       "PacketHcAcceptMakeCharNeoUnion"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -3065,13 +3065,13 @@ impl Packet for PacketHcAcceptMakecharNeoUnion {
     }
 }
 
-impl PacketHcRefuseMakechar {
+impl PacketHcRefuseMakeChar {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6e00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseMakechar {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseMakeChar {
         let mut offset: usize = 0;
-        PacketHcRefuseMakechar {
+        PacketHcRefuseMakeChar {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3111,10 +3111,10 @@ impl PacketHcRefuseMakechar {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcRefuseMakechar {
+    pub fn new(packetver: u32) -> PacketHcRefuseMakeChar {
         let packet_id = i16::from_le_bytes([0x6e, 0x00]);
         let packet_id_raw = [0x6e, 0x00];
-        PacketHcRefuseMakechar {
+        PacketHcRefuseMakeChar {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -3124,7 +3124,7 @@ impl PacketHcRefuseMakechar {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcRefuseMakechar::new(packetver);
+        let mut packet = PacketHcRefuseMakeChar::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -3134,12 +3134,12 @@ impl PacketHcRefuseMakechar {
     }
 }
 
-impl Packet for PacketHcRefuseMakechar {
+impl Packet for PacketHcRefuseMakeChar {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcRefuseMakechar::packet_id(packetver)
+       PacketHcRefuseMakeChar::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcRefuseMakechar"
+       "PacketHcRefuseMakeChar"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -3193,13 +3193,13 @@ impl Packet for PacketHcRefuseMakechar {
     }
 }
 
-impl PacketHcAcceptDeletechar {
+impl PacketHcAcceptDeleteChar {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6f00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAcceptDeletechar {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAcceptDeleteChar {
         let mut offset: usize = 0;
-        PacketHcAcceptDeletechar {
+        PacketHcAcceptDeleteChar {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3223,10 +3223,10 @@ impl PacketHcAcceptDeletechar {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcAcceptDeletechar {
+    pub fn new(packetver: u32) -> PacketHcAcceptDeleteChar {
         let packet_id = i16::from_le_bytes([0x6f, 0x00]);
         let packet_id_raw = [0x6f, 0x00];
-        PacketHcAcceptDeletechar {
+        PacketHcAcceptDeleteChar {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -3234,17 +3234,17 @@ impl PacketHcAcceptDeletechar {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcAcceptDeletechar::new(packetver);
+        let mut packet = PacketHcAcceptDeleteChar::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketHcAcceptDeletechar {
+impl Packet for PacketHcAcceptDeleteChar {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcAcceptDeletechar::packet_id(packetver)
+       PacketHcAcceptDeleteChar::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcAcceptDeletechar"
+       "PacketHcAcceptDeleteChar"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -3293,13 +3293,13 @@ impl Packet for PacketHcAcceptDeletechar {
     }
 }
 
-impl PacketHcRefuseDeletechar {
+impl PacketHcRefuseDeleteChar {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7000"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseDeletechar {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseDeleteChar {
         let mut offset: usize = 0;
-        PacketHcRefuseDeletechar {
+        PacketHcRefuseDeleteChar {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3339,10 +3339,10 @@ impl PacketHcRefuseDeletechar {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcRefuseDeletechar {
+    pub fn new(packetver: u32) -> PacketHcRefuseDeleteChar {
         let packet_id = i16::from_le_bytes([0x70, 0x00]);
         let packet_id_raw = [0x70, 0x00];
-        PacketHcRefuseDeletechar {
+        PacketHcRefuseDeleteChar {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -3352,7 +3352,7 @@ impl PacketHcRefuseDeletechar {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcRefuseDeletechar::new(packetver);
+        let mut packet = PacketHcRefuseDeleteChar::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -3362,12 +3362,12 @@ impl PacketHcRefuseDeletechar {
     }
 }
 
-impl Packet for PacketHcRefuseDeletechar {
+impl Packet for PacketHcRefuseDeleteChar {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcRefuseDeletechar::packet_id(packetver)
+       PacketHcRefuseDeleteChar::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcRefuseDeletechar"
+       "PacketHcRefuseDeleteChar"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -3421,13 +3421,13 @@ impl Packet for PacketHcRefuseDeletechar {
     }
 }
 
-impl PacketHcNotifyZonesvr {
+impl PacketHcNotifyZoneSvr {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7100"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcNotifyZonesvr {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcNotifyZoneSvr {
         let mut offset: usize = 0;
-        PacketHcNotifyZonesvr {
+        PacketHcNotifyZoneSvr {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3505,10 +3505,10 @@ impl PacketHcNotifyZonesvr {
     pub fn set_addr_raw(&mut self, value: Vec<u8>) {
         self.addr_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcNotifyZonesvr {
+    pub fn new(packetver: u32) -> PacketHcNotifyZoneSvr {
         let packet_id = i16::from_le_bytes([0x71, 0x00]);
         let packet_id_raw = [0x71, 0x00];
-        PacketHcNotifyZonesvr {
+        PacketHcNotifyZoneSvr {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -3522,7 +3522,7 @@ impl PacketHcNotifyZonesvr {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcNotifyZonesvr::new(packetver);
+        let mut packet = PacketHcNotifyZoneSvr::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -3548,12 +3548,12 @@ impl PacketHcNotifyZonesvr {
     }
 }
 
-impl Packet for PacketHcNotifyZonesvr {
+impl Packet for PacketHcNotifyZoneSvr {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcNotifyZonesvr::packet_id(packetver)
+       PacketHcNotifyZoneSvr::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcNotifyZonesvr"
+       "PacketHcNotifyZoneSvr"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -3618,13 +3618,13 @@ impl Packet for PacketHcNotifyZonesvr {
     }
 }
 
-impl PacketCzEnter {
+impl PacketCzEnterUnpadded {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7200"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEnter {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEnterUnpadded {
         let mut offset: usize = 0;
-        PacketCzEnter {
+        PacketCzEnterUnpadded {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3728,10 +3728,10 @@ impl PacketCzEnter {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzEnter {
+    pub fn new(packetver: u32) -> PacketCzEnterUnpadded {
         let packet_id = i16::from_le_bytes([0x72, 0x00]);
         let packet_id_raw = [0x72, 0x00];
-        PacketCzEnter {
+        PacketCzEnterUnpadded {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -3749,7 +3749,7 @@ impl PacketCzEnter {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzEnter::new(packetver);
+        let mut packet = PacketCzEnterUnpadded::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -3779,12 +3779,12 @@ impl PacketCzEnter {
     }
 }
 
-impl Packet for PacketCzEnter {
+impl Packet for PacketCzEnterUnpadded {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzEnter::packet_id(packetver)
+       PacketCzEnterUnpadded::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzEnter"
+       "PacketCzEnterUnpadded"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -3858,13 +3858,13 @@ impl Packet for PacketCzEnter {
     }
 }
 
-impl PacketZcAcceptEnter {
+impl PacketZcAcceptEnterNoFont {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7300"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAcceptEnter {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAcceptEnterNoFont {
         let mut offset: usize = 0;
-        PacketZcAcceptEnter {
+        PacketZcAcceptEnterNoFont {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -3958,10 +3958,10 @@ impl PacketZcAcceptEnter {
     pub fn set_y_size_raw(&mut self, value: [u8; 1]) {
         self.y_size_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAcceptEnter {
+    pub fn new(packetver: u32) -> PacketZcAcceptEnterNoFont {
         let packet_id = i16::from_le_bytes([0x73, 0x00]);
         let packet_id_raw = [0x73, 0x00];
-        PacketZcAcceptEnter {
+        PacketZcAcceptEnterNoFont {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -3977,7 +3977,7 @@ impl PacketZcAcceptEnter {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAcceptEnter::new(packetver);
+        let mut packet = PacketZcAcceptEnterNoFont::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/start_time")) {
             if let Some(value) = entry.value {
                 packet.set_start_time(value.parse().map_err(|_| format!("Invalid value {} for start_time", value))?);
@@ -4009,12 +4009,12 @@ impl PacketZcAcceptEnter {
     }
 }
 
-impl Packet for PacketZcAcceptEnter {
+impl Packet for PacketZcAcceptEnterNoFont {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAcceptEnter::packet_id(packetver)
+       PacketZcAcceptEnterNoFont::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAcceptEnter"
+       "PacketZcAcceptEnterNoFont"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -4216,13 +4216,13 @@ impl Packet for PacketZcRefuseEnter {
     }
 }
 
-impl PacketZcNotifyInitchar {
+impl PacketZcNotifyInitChar {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7500"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyInitchar {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyInitChar {
         let mut offset: usize = 0;
-        PacketZcNotifyInitchar {
+        PacketZcNotifyInitChar {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -4310,10 +4310,10 @@ impl PacketZcNotifyInitchar {
     pub fn set_item_raw(&mut self, value: [u8; 1]) {
         self.item_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyInitchar {
+    pub fn new(packetver: u32) -> PacketZcNotifyInitChar {
         let packet_id = i16::from_le_bytes([0x75, 0x00]);
         let packet_id_raw = [0x75, 0x00];
-        PacketZcNotifyInitchar {
+        PacketZcNotifyInitChar {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -4329,7 +4329,7 @@ impl PacketZcNotifyInitchar {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyInitchar::new(packetver);
+        let mut packet = PacketZcNotifyInitChar::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -4354,12 +4354,12 @@ impl PacketZcNotifyInitchar {
     }
 }
 
-impl Packet for PacketZcNotifyInitchar {
+impl Packet for PacketZcNotifyInitChar {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyInitchar::packet_id(packetver)
+       PacketZcNotifyInitChar::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyInitchar"
+       "PacketZcNotifyInitChar"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -4428,13 +4428,13 @@ impl Packet for PacketZcNotifyInitchar {
     }
 }
 
-impl PacketZcNotifyUpdatechar {
+impl PacketZcNotifyUpdateChar {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7600"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyUpdatechar {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyUpdateChar {
         let mut offset: usize = 0;
-        PacketZcNotifyUpdatechar {
+        PacketZcNotifyUpdateChar {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -4506,10 +4506,10 @@ impl PacketZcNotifyUpdatechar {
     pub fn set_item_raw(&mut self, value: [u8; 1]) {
         self.item_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyUpdatechar {
+    pub fn new(packetver: u32) -> PacketZcNotifyUpdateChar {
         let packet_id = i16::from_le_bytes([0x76, 0x00]);
         let packet_id_raw = [0x76, 0x00];
-        PacketZcNotifyUpdatechar {
+        PacketZcNotifyUpdateChar {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -4523,7 +4523,7 @@ impl PacketZcNotifyUpdatechar {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyUpdatechar::new(packetver);
+        let mut packet = PacketZcNotifyUpdateChar::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -4543,12 +4543,12 @@ impl PacketZcNotifyUpdatechar {
     }
 }
 
-impl Packet for PacketZcNotifyUpdatechar {
+impl Packet for PacketZcNotifyUpdateChar {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyUpdatechar::packet_id(packetver)
+       PacketZcNotifyUpdateChar::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyUpdatechar"
+       "PacketZcNotifyUpdateChar"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -4612,13 +4612,13 @@ impl Packet for PacketZcNotifyUpdatechar {
     }
 }
 
-impl PacketZcNotifyUpdateplayer {
+impl PacketZcNotifyUpdatePlayer {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7700"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyUpdateplayer {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyUpdatePlayer {
         let mut offset: usize = 0;
-        PacketZcNotifyUpdateplayer {
+        PacketZcNotifyUpdatePlayer {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -4674,10 +4674,10 @@ impl PacketZcNotifyUpdateplayer {
     pub fn set_item_raw(&mut self, value: [u8; 1]) {
         self.item_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyUpdateplayer {
+    pub fn new(packetver: u32) -> PacketZcNotifyUpdatePlayer {
         let packet_id = i16::from_le_bytes([0x77, 0x00]);
         let packet_id_raw = [0x77, 0x00];
-        PacketZcNotifyUpdateplayer {
+        PacketZcNotifyUpdatePlayer {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -4689,7 +4689,7 @@ impl PacketZcNotifyUpdateplayer {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyUpdateplayer::new(packetver);
+        let mut packet = PacketZcNotifyUpdatePlayer::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/style")) {
             if let Some(value) = entry.value {
                 packet.set_style(value.parse().map_err(|_| format!("Invalid value {} for style", value))?);
@@ -4704,12 +4704,12 @@ impl PacketZcNotifyUpdateplayer {
     }
 }
 
-impl Packet for PacketZcNotifyUpdateplayer {
+impl Packet for PacketZcNotifyUpdatePlayer {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyUpdateplayer::packet_id(packetver)
+       PacketZcNotifyUpdatePlayer::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyUpdateplayer"
+       "PacketZcNotifyUpdatePlayer"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -4768,13 +4768,13 @@ impl Packet for PacketZcNotifyUpdateplayer {
     }
 }
 
-impl PacketZcNotifyStandentry {
+impl PacketZcNotifyStandEntrySplitWeapon {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7800"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntrySplitWeapon {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentry {
+        PacketZcNotifyStandEntrySplitWeapon {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -5236,10 +5236,10 @@ impl PacketZcNotifyStandentry {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentry {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntrySplitWeapon {
         let packet_id = i16::from_le_bytes([0x78, 0x00]);
         let packet_id_raw = [0x78, 0x00];
-        PacketZcNotifyStandentry {
+        PacketZcNotifyStandEntrySplitWeapon {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -5301,7 +5301,7 @@ impl PacketZcNotifyStandentry {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentry::new(packetver);
+        let mut packet = PacketZcNotifyStandEntrySplitWeapon::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/objecttype")) {
             if let Some(value) = entry.value {
                 packet.set_objecttype(value.parse().map_err(|_| format!("Invalid value {} for objecttype", value))?);
@@ -5448,12 +5448,12 @@ impl PacketZcNotifyStandentry {
     }
 }
 
-impl Packet for PacketZcNotifyStandentry {
+impl Packet for PacketZcNotifyStandEntrySplitWeapon {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentry::packet_id(packetver)
+       PacketZcNotifyStandEntrySplitWeapon::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentry"
+       "PacketZcNotifyStandEntrySplitWeapon"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -5642,13 +5642,13 @@ impl Packet for PacketZcNotifyStandentry {
     }
 }
 
-impl PacketZcNotifyNewentry {
+impl PacketZcNotifyNewEntrySplitWeapon {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7900"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewEntrySplitWeapon {
         let mut offset: usize = 0;
-        PacketZcNotifyNewentry {
+        PacketZcNotifyNewEntrySplitWeapon {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -6078,10 +6078,10 @@ impl PacketZcNotifyNewentry {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyNewentry {
+    pub fn new(packetver: u32) -> PacketZcNotifyNewEntrySplitWeapon {
         let packet_id = i16::from_le_bytes([0x79, 0x00]);
         let packet_id_raw = [0x79, 0x00];
-        PacketZcNotifyNewentry {
+        PacketZcNotifyNewEntrySplitWeapon {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -6139,7 +6139,7 @@ impl PacketZcNotifyNewentry {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyNewentry::new(packetver);
+        let mut packet = PacketZcNotifyNewEntrySplitWeapon::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -6276,12 +6276,12 @@ impl PacketZcNotifyNewentry {
     }
 }
 
-impl Packet for PacketZcNotifyNewentry {
+impl Packet for PacketZcNotifyNewEntrySplitWeapon {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyNewentry::packet_id(packetver)
+       PacketZcNotifyNewEntrySplitWeapon::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyNewentry"
+       "PacketZcNotifyNewEntrySplitWeapon"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -6460,13 +6460,13 @@ impl Packet for PacketZcNotifyNewentry {
     }
 }
 
-impl PacketZcNotifyActentry {
+impl PacketZcNotifyActEntry {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7a00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyActentry {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyActEntry {
         let mut offset: usize = 0;
-        PacketZcNotifyActentry {
+        PacketZcNotifyActEntry {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -6928,10 +6928,10 @@ impl PacketZcNotifyActentry {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyActentry {
+    pub fn new(packetver: u32) -> PacketZcNotifyActEntry {
         let packet_id = i16::from_le_bytes([0x7a, 0x00]);
         let packet_id_raw = [0x7a, 0x00];
-        PacketZcNotifyActentry {
+        PacketZcNotifyActEntry {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -6993,7 +6993,7 @@ impl PacketZcNotifyActentry {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyActentry::new(packetver);
+        let mut packet = PacketZcNotifyActEntry::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -7140,12 +7140,12 @@ impl PacketZcNotifyActentry {
     }
 }
 
-impl Packet for PacketZcNotifyActentry {
+impl Packet for PacketZcNotifyActEntry {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyActentry::packet_id(packetver)
+       PacketZcNotifyActEntry::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyActentry"
+       "PacketZcNotifyActEntry"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -7334,13 +7334,13 @@ impl Packet for PacketZcNotifyActentry {
     }
 }
 
-impl PacketZcNotifyMoveentry {
+impl PacketZcNotifyMoveEntrySplitWeapon {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7b00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveEntrySplitWeapon {
         let mut offset: usize = 0;
-        PacketZcNotifyMoveentry {
+        PacketZcNotifyMoveEntrySplitWeapon {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -7786,10 +7786,10 @@ impl PacketZcNotifyMoveentry {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMoveentry {
+    pub fn new(packetver: u32) -> PacketZcNotifyMoveEntrySplitWeapon {
         let packet_id = i16::from_le_bytes([0x7b, 0x00]);
         let packet_id_raw = [0x7b, 0x00];
-        PacketZcNotifyMoveentry {
+        PacketZcNotifyMoveEntrySplitWeapon {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -7849,7 +7849,7 @@ impl PacketZcNotifyMoveentry {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMoveentry::new(packetver);
+        let mut packet = PacketZcNotifyMoveEntrySplitWeapon::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -7983,12 +7983,12 @@ impl PacketZcNotifyMoveentry {
     }
 }
 
-impl Packet for PacketZcNotifyMoveentry {
+impl Packet for PacketZcNotifyMoveEntrySplitWeapon {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMoveentry::packet_id(packetver)
+       PacketZcNotifyMoveEntrySplitWeapon::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMoveentry"
+       "PacketZcNotifyMoveEntrySplitWeapon"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -8169,13 +8169,13 @@ impl Packet for PacketZcNotifyMoveentry {
     }
 }
 
-impl PacketZcNotifyStandentryNpc {
+impl PacketZcNotifyStandEntryNpc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7c00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentryNpc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntryNpc {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentryNpc {
+        PacketZcNotifyStandEntryNpc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8541,10 +8541,10 @@ impl PacketZcNotifyStandentryNpc {
     pub fn set_y_size_raw(&mut self, value: [u8; 1]) {
         self.y_size_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentryNpc {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntryNpc {
         let packet_id = i16::from_le_bytes([0x7c, 0x00]);
         let packet_id_raw = [0x7c, 0x00];
-        PacketZcNotifyStandentryNpc {
+        PacketZcNotifyStandEntryNpc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -8594,7 +8594,7 @@ impl PacketZcNotifyStandentryNpc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentryNpc::new(packetver);
+        let mut packet = PacketZcNotifyStandEntryNpc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/objecttype")) {
             if let Some(value) = entry.value {
                 packet.set_objecttype(value.parse().map_err(|_| format!("Invalid value {} for objecttype", value))?);
@@ -8711,12 +8711,12 @@ impl PacketZcNotifyStandentryNpc {
     }
 }
 
-impl Packet for PacketZcNotifyStandentryNpc {
+impl Packet for PacketZcNotifyStandEntryNpc {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentryNpc::packet_id(packetver)
+       PacketZcNotifyStandEntryNpc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentryNpc"
+       "PacketZcNotifyStandEntryNpc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -8875,13 +8875,13 @@ impl Packet for PacketZcNotifyStandentryNpc {
     }
 }
 
-impl PacketCzNotifyActorinit {
+impl PacketCzNotifyActorInit {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7d00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzNotifyActorinit {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzNotifyActorInit {
         let mut offset: usize = 0;
-        PacketCzNotifyActorinit {
+        PacketCzNotifyActorInit {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -8905,10 +8905,10 @@ impl PacketCzNotifyActorinit {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzNotifyActorinit {
+    pub fn new(packetver: u32) -> PacketCzNotifyActorInit {
         let packet_id = i16::from_le_bytes([0x7d, 0x00]);
         let packet_id_raw = [0x7d, 0x00];
-        PacketCzNotifyActorinit {
+        PacketCzNotifyActorInit {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -8916,17 +8916,17 @@ impl PacketCzNotifyActorinit {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzNotifyActorinit::new(packetver);
+        let mut packet = PacketCzNotifyActorInit::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzNotifyActorinit {
+impl Packet for PacketCzNotifyActorInit {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzNotifyActorinit::packet_id(packetver)
+       PacketCzNotifyActorInit::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzNotifyActorinit"
+       "PacketCzNotifyActorInit"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -10138,13 +10138,13 @@ impl Packet for PacketZcNotifyVanish {
     }
 }
 
-impl PacketScNotifyBan {
+impl PacketZcNotifyBan {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8100"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketScNotifyBan {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyBan {
         let mut offset: usize = 0;
-        PacketScNotifyBan {
+        PacketZcNotifyBan {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -10184,10 +10184,10 @@ impl PacketScNotifyBan {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketScNotifyBan {
+    pub fn new(packetver: u32) -> PacketZcNotifyBan {
         let packet_id = i16::from_le_bytes([0x81, 0x00]);
         let packet_id_raw = [0x81, 0x00];
-        PacketScNotifyBan {
+        PacketZcNotifyBan {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -10197,7 +10197,7 @@ impl PacketScNotifyBan {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketScNotifyBan::new(packetver);
+        let mut packet = PacketZcNotifyBan::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -10207,12 +10207,12 @@ impl PacketScNotifyBan {
     }
 }
 
-impl Packet for PacketScNotifyBan {
+impl Packet for PacketZcNotifyBan {
     fn id(&self, packetver: u32) -> &str {
-       PacketScNotifyBan::packet_id(packetver)
+       PacketZcNotifyBan::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketScNotifyBan"
+       "PacketZcNotifyBan"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -11702,13 +11702,13 @@ impl Packet for PacketZcNotifyMove {
     }
 }
 
-impl PacketZcNotifyPlayermove {
+impl PacketZcNotifyPlayerMove {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8700"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPlayermove {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPlayerMove {
         let mut offset: usize = 0;
-        PacketZcNotifyPlayermove {
+        PacketZcNotifyPlayerMove {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11770,10 +11770,10 @@ impl PacketZcNotifyPlayermove {
     pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
         self.move_data_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyPlayermove {
+    pub fn new(packetver: u32) -> PacketZcNotifyPlayerMove {
         let packet_id = i16::from_le_bytes([0x87, 0x00]);
         let packet_id_raw = [0x87, 0x00];
-        PacketZcNotifyPlayermove {
+        PacketZcNotifyPlayerMove {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -11785,7 +11785,7 @@ impl PacketZcNotifyPlayermove {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyPlayermove::new(packetver);
+        let mut packet = PacketZcNotifyPlayerMove::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/move_start_time")) {
             if let Some(value) = entry.value {
                 packet.set_move_start_time(value.parse().map_err(|_| format!("Invalid value {} for move_start_time", value))?);
@@ -11799,12 +11799,12 @@ impl PacketZcNotifyPlayermove {
     }
 }
 
-impl Packet for PacketZcNotifyPlayermove {
+impl Packet for PacketZcNotifyPlayerMove {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyPlayermove::packet_id(packetver)
+       PacketZcNotifyPlayerMove::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyPlayermove"
+       "PacketZcNotifyPlayerMove"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -11865,13 +11865,13 @@ impl Packet for PacketZcNotifyPlayermove {
     }
 }
 
-impl PacketZcStopmove {
+impl PacketZcStopMove {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8800"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStopmove {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStopMove {
         let mut offset: usize = 0;
-        PacketZcStopmove {
+        PacketZcStopMove {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -11943,10 +11943,10 @@ impl PacketZcStopmove {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStopmove {
+    pub fn new(packetver: u32) -> PacketZcStopMove {
         let packet_id = i16::from_le_bytes([0x88, 0x00]);
         let packet_id_raw = [0x88, 0x00];
-        PacketZcStopmove {
+        PacketZcStopMove {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -11960,7 +11960,7 @@ impl PacketZcStopmove {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStopmove::new(packetver);
+        let mut packet = PacketZcStopMove::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -11980,12 +11980,12 @@ impl PacketZcStopmove {
     }
 }
 
-impl Packet for PacketZcStopmove {
+impl Packet for PacketZcStopMove {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStopmove::packet_id(packetver)
+       PacketZcStopMove::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStopmove"
+       "PacketZcStopMove"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -12049,13 +12049,13 @@ impl Packet for PacketZcStopmove {
     }
 }
 
-impl PacketZcFastmove {
+impl PacketZcFastMove {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd208"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFastmove {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFastMove {
         let mut offset: usize = 0;
-        PacketZcFastmove {
+        PacketZcFastMove {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -12127,10 +12127,10 @@ impl PacketZcFastmove {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcFastmove {
+    pub fn new(packetver: u32) -> PacketZcFastMove {
         let packet_id = i16::from_le_bytes([0xd2, 0x08]);
         let packet_id_raw = [0xd2, 0x08];
-        PacketZcFastmove {
+        PacketZcFastMove {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -12144,7 +12144,7 @@ impl PacketZcFastmove {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcFastmove::new(packetver);
+        let mut packet = PacketZcFastMove::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -12164,12 +12164,12 @@ impl PacketZcFastmove {
     }
 }
 
-impl Packet for PacketZcFastmove {
+impl Packet for PacketZcFastMove {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcFastmove::packet_id(packetver)
+       PacketZcFastMove::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcFastmove"
+       "PacketZcFastMove"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -13864,13 +13864,13 @@ impl Packet for PacketCzRequestAct {
     }
 }
 
-impl PacketZcNotifyAct {
+impl PacketZcNotifyActShortDamage {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8a00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyActShortDamage {
         let mut offset: usize = 0;
-        PacketZcNotifyAct {
+        PacketZcNotifyActShortDamage {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14038,10 +14038,10 @@ impl PacketZcNotifyAct {
     pub fn set_left_damage_raw(&mut self, value: [u8; 2]) {
         self.left_damage_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyAct {
+    pub fn new(packetver: u32) -> PacketZcNotifyActShortDamage {
         let packet_id = i16::from_le_bytes([0x8a, 0x00]);
         let packet_id_raw = [0x8a, 0x00];
-        PacketZcNotifyAct {
+        PacketZcNotifyActShortDamage {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -14067,7 +14067,7 @@ impl PacketZcNotifyAct {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyAct::new(packetver);
+        let mut packet = PacketZcNotifyActShortDamage::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -14117,12 +14117,12 @@ impl PacketZcNotifyAct {
     }
 }
 
-impl Packet for PacketZcNotifyAct {
+impl Packet for PacketZcNotifyActShortDamage {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyAct::packet_id(packetver)
+       PacketZcNotifyActShortDamage::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyAct"
+       "PacketZcNotifyActShortDamage"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -14874,13 +14874,13 @@ impl Packet for PacketZcNotifyChat {
     }
 }
 
-impl PacketZcNotifyPlayerchat {
+impl PacketZcNotifyPlayerChat {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8e00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPlayerchat {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPlayerChat {
         let mut offset: usize = 0;
-        PacketZcNotifyPlayerchat {
+        PacketZcNotifyPlayerChat {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -14935,10 +14935,10 @@ impl PacketZcNotifyPlayerchat {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyPlayerchat {
+    pub fn new(packetver: u32) -> PacketZcNotifyPlayerChat {
         let packet_id = i16::from_le_bytes([0x8e, 0x00]);
         let packet_id_raw = [0x8e, 0x00];
-        PacketZcNotifyPlayerchat {
+        PacketZcNotifyPlayerChat {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -14950,7 +14950,7 @@ impl PacketZcNotifyPlayerchat {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyPlayerchat::new(packetver);
+        let mut packet = PacketZcNotifyPlayerChat::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -14965,12 +14965,12 @@ impl PacketZcNotifyPlayerchat {
     }
 }
 
-impl Packet for PacketZcNotifyPlayerchat {
+impl Packet for PacketZcNotifyPlayerChat {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyPlayerchat::packet_id(packetver)
+       PacketZcNotifyPlayerChat::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyPlayerchat"
+       "PacketZcNotifyPlayerChat"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -15027,13 +15027,13 @@ impl Packet for PacketZcNotifyPlayerchat {
     }
 }
 
-impl PacketServerEntryAck {
+impl PacketZcServerEntryAck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8f00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketServerEntryAck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcServerEntryAck {
         let mut offset: usize = 0;
-        PacketServerEntryAck {
+        PacketZcServerEntryAck {
             header: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15073,10 +15073,10 @@ impl PacketServerEntryAck {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketServerEntryAck {
+    pub fn new(packetver: u32) -> PacketZcServerEntryAck {
         let packet_id = i16::from_le_bytes([0x8f, 0x00]);
         let packet_id_raw = [0x8f, 0x00];
-        PacketServerEntryAck {
+        PacketZcServerEntryAck {
         raw: vec![],
         header: 0,
         header_raw: [0; 2],
@@ -15086,7 +15086,7 @@ impl PacketServerEntryAck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketServerEntryAck::new(packetver);
+        let mut packet = PacketZcServerEntryAck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/header")) {
             if let Some(value) = entry.value {
                 packet.set_header(value.parse().map_err(|_| format!("Invalid value {} for header", value))?);
@@ -15101,12 +15101,12 @@ impl PacketServerEntryAck {
     }
 }
 
-impl Packet for PacketServerEntryAck {
+impl Packet for PacketZcServerEntryAck {
     fn id(&self, packetver: u32) -> &str {
-       PacketServerEntryAck::packet_id(packetver)
+       PacketZcServerEntryAck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketServerEntryAck"
+       "PacketZcServerEntryAck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -15160,13 +15160,13 @@ impl Packet for PacketServerEntryAck {
     }
 }
 
-impl PacketCzContactnpc {
+impl PacketCzContactNpc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9000"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzContactnpc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzContactNpc {
         let mut offset: usize = 0;
-        PacketCzContactnpc {
+        PacketCzContactNpc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15222,10 +15222,10 @@ impl PacketCzContactnpc {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzContactnpc {
+    pub fn new(packetver: u32) -> PacketCzContactNpc {
         let packet_id = i16::from_le_bytes([0x90, 0x00]);
         let packet_id_raw = [0x90, 0x00];
-        PacketCzContactnpc {
+        PacketCzContactNpc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -15237,7 +15237,7 @@ impl PacketCzContactnpc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzContactnpc::new(packetver);
+        let mut packet = PacketCzContactNpc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/naid")) {
             if let Some(value) = entry.value {
                 packet.set_naid(value.parse().map_err(|_| format!("Invalid value {} for naid", value))?);
@@ -15252,12 +15252,12 @@ impl PacketCzContactnpc {
     }
 }
 
-impl Packet for PacketCzContactnpc {
+impl Packet for PacketCzContactNpc {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzContactnpc::packet_id(packetver)
+       PacketCzContactNpc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzContactnpc"
+       "PacketCzContactNpc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -15316,13 +15316,13 @@ impl Packet for PacketCzContactnpc {
     }
 }
 
-impl PacketZcNpcackMapmove {
+impl PacketZcNpcAckMapMove {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9100"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcackMapmove {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcAckMapMove {
         let mut offset: usize = 0;
-        PacketZcNpcackMapmove {
+        PacketZcNpcAckMapMove {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15400,10 +15400,10 @@ impl PacketZcNpcackMapmove {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNpcackMapmove {
+    pub fn new(packetver: u32) -> PacketZcNpcAckMapMove {
         let packet_id = i16::from_le_bytes([0x91, 0x00]);
         let packet_id_raw = [0x91, 0x00];
-        PacketZcNpcackMapmove {
+        PacketZcNpcAckMapMove {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -15417,7 +15417,7 @@ impl PacketZcNpcackMapmove {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNpcackMapmove::new(packetver);
+        let mut packet = PacketZcNpcAckMapMove::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/map_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 16] = [0 as char; 16];
@@ -15444,12 +15444,12 @@ impl PacketZcNpcackMapmove {
     }
 }
 
-impl Packet for PacketZcNpcackMapmove {
+impl Packet for PacketZcNpcAckMapMove {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNpcackMapmove::packet_id(packetver)
+       PacketZcNpcAckMapMove::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNpcackMapmove"
+       "PacketZcNpcAckMapMove"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -15515,13 +15515,13 @@ impl Packet for PacketZcNpcackMapmove {
     }
 }
 
-impl PacketZcNpcackServermove {
+impl PacketZcNpcAckServerMove {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9200"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcackServermove {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcAckServerMove {
         let mut offset: usize = 0;
-        PacketZcNpcackServermove {
+        PacketZcNpcAckServerMove {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15615,10 +15615,10 @@ impl PacketZcNpcackServermove {
     pub fn set_addr_raw(&mut self, value: Vec<u8>) {
         self.addr_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNpcackServermove {
+    pub fn new(packetver: u32) -> PacketZcNpcAckServerMove {
         let packet_id = i16::from_le_bytes([0x92, 0x00]);
         let packet_id_raw = [0x92, 0x00];
-        PacketZcNpcackServermove {
+        PacketZcNpcAckServerMove {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -15634,7 +15634,7 @@ impl PacketZcNpcackServermove {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNpcackServermove::new(packetver);
+        let mut packet = PacketZcNpcAckServerMove::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/map_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 16] = [0 as char; 16];
@@ -15665,12 +15665,12 @@ impl PacketZcNpcackServermove {
     }
 }
 
-impl Packet for PacketZcNpcackServermove {
+impl Packet for PacketZcNpcAckServerMove {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNpcackServermove::packet_id(packetver)
+       PacketZcNpcAckServerMove::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNpcackServermove"
+       "PacketZcNpcAckServerMove"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -15740,13 +15740,13 @@ impl Packet for PacketZcNpcackServermove {
     }
 }
 
-impl PacketZcNpcackEnable {
+impl PacketZcNpcAckEnable {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9300"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcackEnable {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcAckEnable {
         let mut offset: usize = 0;
-        PacketZcNpcackEnable {
+        PacketZcNpcAckEnable {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -15770,10 +15770,10 @@ impl PacketZcNpcackEnable {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNpcackEnable {
+    pub fn new(packetver: u32) -> PacketZcNpcAckEnable {
         let packet_id = i16::from_le_bytes([0x93, 0x00]);
         let packet_id_raw = [0x93, 0x00];
-        PacketZcNpcackEnable {
+        PacketZcNpcAckEnable {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -15781,17 +15781,17 @@ impl PacketZcNpcackEnable {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNpcackEnable::new(packetver);
+        let mut packet = PacketZcNpcAckEnable::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketZcNpcackEnable {
+impl Packet for PacketZcNpcAckEnable {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNpcackEnable::packet_id(packetver)
+       PacketZcNpcAckEnable::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNpcackEnable"
+       "PacketZcNpcAckEnable"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -15840,7 +15840,7 @@ impl Packet for PacketZcNpcackEnable {
     }
 }
 
-impl PacketCzReqname {
+impl PacketCzReqName {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20120307 {
             "0x6a09"
@@ -15860,9 +15860,9 @@ impl PacketCzReqname {
             "0x9400"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqName {
         let mut offset: usize = 0;
-        PacketCzReqname {
+        PacketCzReqName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16398,7 +16398,7 @@ impl PacketCzReqname {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqname {
+    pub fn new(packetver: u32) -> PacketCzReqName {
         let (packet_id, packet_id_raw) = if packetver >= 20120307 {
             (i16::from_le_bytes([0x6a, 0x09]), [0x6a, 0x09])
         } else if packetver >= 20111005 {
@@ -16416,7 +16416,7 @@ impl PacketCzReqname {
         } else {
             (i16::from_le_bytes([0x94, 0x00]), [0x94, 0x00])
         };
-        PacketCzReqname {
+        PacketCzReqName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -16458,7 +16458,7 @@ impl PacketCzReqname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqname::new(packetver);
+        let mut packet = PacketCzReqName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/p0")) {
             if let Some(value) = entry.value {
             }
@@ -16532,12 +16532,12 @@ impl PacketCzReqname {
     }
 }
 
-impl Packet for PacketCzReqname {
+impl Packet for PacketCzReqName {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqname::packet_id(packetver)
+       PacketCzReqName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqname"
+       "PacketCzReqName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -16767,13 +16767,13 @@ impl Packet for PacketCzReqname {
     }
 }
 
-impl PacketZcAckReqname {
+impl PacketZcAckReqName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9500"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqName {
         let mut offset: usize = 0;
-        PacketZcAckReqname {
+        PacketZcAckReqName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -16835,10 +16835,10 @@ impl PacketZcAckReqname {
     pub fn set_cname_raw(&mut self, value: [u8; 24]) {
         self.cname_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckReqname {
+    pub fn new(packetver: u32) -> PacketZcAckReqName {
         let packet_id = i16::from_le_bytes([0x95, 0x00]);
         let packet_id_raw = [0x95, 0x00];
-        PacketZcAckReqname {
+        PacketZcAckReqName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -16850,7 +16850,7 @@ impl PacketZcAckReqname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckReqname::new(packetver);
+        let mut packet = PacketZcAckReqName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -16872,12 +16872,12 @@ impl PacketZcAckReqname {
     }
 }
 
-impl Packet for PacketZcAckReqname {
+impl Packet for PacketZcAckReqName {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckReqname::packet_id(packetver)
+       PacketZcAckReqName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckReqname"
+       "PacketZcAckReqName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -21195,13 +21195,13 @@ impl Packet for PacketCzItemPickup {
     }
 }
 
-impl PacketZcItemPickupAck {
+impl PacketZcItemPickupAckNoExpire {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa000"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAckNoExpire {
         let mut offset: usize = 0;
-        PacketZcItemPickupAck {
+        PacketZcItemPickupAckNoExpire {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -21385,10 +21385,10 @@ impl PacketZcItemPickupAck {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcItemPickupAck {
+    pub fn new(packetver: u32) -> PacketZcItemPickupAckNoExpire {
         let packet_id = i16::from_le_bytes([0xa0, 0x00]);
         let packet_id_raw = [0xa0, 0x00];
-        PacketZcItemPickupAck {
+        PacketZcItemPickupAckNoExpire {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -21416,7 +21416,7 @@ impl PacketZcItemPickupAck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcItemPickupAck::new(packetver);
+        let mut packet = PacketZcItemPickupAckNoExpire::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -21470,12 +21470,12 @@ impl PacketZcItemPickupAck {
     }
 }
 
-impl Packet for PacketZcItemPickupAck {
+impl Packet for PacketZcItemPickupAckNoExpire {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcItemPickupAck::packet_id(packetver)
+       PacketZcItemPickupAckNoExpire::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcItemPickupAck"
+       "PacketZcItemPickupAckNoExpire"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -23424,11 +23424,11 @@ impl Packet for PacketCzItemThrow {
     }
 }
 
-impl PacketZcNormalItemlist {
+impl PacketZcNormalItemListNoCards {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa300"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemListNoCards {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -23441,7 +23441,7 @@ impl PacketZcNormalItemlist {
             vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcNormalItemlist {
+        PacketZcNormalItemListNoCards {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23497,10 +23497,10 @@ impl PacketZcNormalItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNormalItemlist {
+    pub fn new(packetver: u32) -> PacketZcNormalItemListNoCards {
         let packet_id = i16::from_le_bytes([0xa3, 0x00]);
         let packet_id_raw = [0xa3, 0x00];
-        PacketZcNormalItemlist {
+        PacketZcNormalItemListNoCards {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -23512,7 +23512,7 @@ impl PacketZcNormalItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNormalItemlist::new(packetver);
+        let mut packet = PacketZcNormalItemListNoCards::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -23526,12 +23526,12 @@ impl PacketZcNormalItemlist {
     }
 }
 
-impl Packet for PacketZcNormalItemlist {
+impl Packet for PacketZcNormalItemListNoCards {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNormalItemlist::packet_id(packetver)
+       PacketZcNormalItemListNoCards::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNormalItemlist"
+       "PacketZcNormalItemListNoCards"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -23591,11 +23591,11 @@ impl Packet for PacketZcNormalItemlist {
     }
 }
 
-impl PacketZcEquipmentItemlist {
+impl PacketZcEquipmentItemListNoExpire {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa400"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemListNoExpire {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -23608,7 +23608,7 @@ impl PacketZcEquipmentItemlist {
             vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcEquipmentItemlist {
+        PacketZcEquipmentItemListNoExpire {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23664,10 +23664,10 @@ impl PacketZcEquipmentItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcEquipmentItemlist {
+    pub fn new(packetver: u32) -> PacketZcEquipmentItemListNoExpire {
         let packet_id = i16::from_le_bytes([0xa4, 0x00]);
         let packet_id_raw = [0xa4, 0x00];
-        PacketZcEquipmentItemlist {
+        PacketZcEquipmentItemListNoExpire {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -23679,7 +23679,7 @@ impl PacketZcEquipmentItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcEquipmentItemlist::new(packetver);
+        let mut packet = PacketZcEquipmentItemListNoExpire::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -23693,12 +23693,12 @@ impl PacketZcEquipmentItemlist {
     }
 }
 
-impl Packet for PacketZcEquipmentItemlist {
+impl Packet for PacketZcEquipmentItemListNoExpire {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcEquipmentItemlist::packet_id(packetver)
+       PacketZcEquipmentItemListNoExpire::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcEquipmentItemlist"
+       "PacketZcEquipmentItemListNoExpire"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -23758,11 +23758,11 @@ impl Packet for PacketZcEquipmentItemlist {
     }
 }
 
-impl PacketZcStoreNormalItemlist {
+impl PacketZcStoreNormalItemListNoCards {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa500"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemListNoCards {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -23775,7 +23775,7 @@ impl PacketZcStoreNormalItemlist {
             vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcStoreNormalItemlist {
+        PacketZcStoreNormalItemListNoCards {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23831,10 +23831,10 @@ impl PacketZcStoreNormalItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStoreNormalItemlist {
+    pub fn new(packetver: u32) -> PacketZcStoreNormalItemListNoCards {
         let packet_id = i16::from_le_bytes([0xa5, 0x00]);
         let packet_id_raw = [0xa5, 0x00];
-        PacketZcStoreNormalItemlist {
+        PacketZcStoreNormalItemListNoCards {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -23846,7 +23846,7 @@ impl PacketZcStoreNormalItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStoreNormalItemlist::new(packetver);
+        let mut packet = PacketZcStoreNormalItemListNoCards::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -23860,12 +23860,12 @@ impl PacketZcStoreNormalItemlist {
     }
 }
 
-impl Packet for PacketZcStoreNormalItemlist {
+impl Packet for PacketZcStoreNormalItemListNoCards {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStoreNormalItemlist::packet_id(packetver)
+       PacketZcStoreNormalItemListNoCards::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStoreNormalItemlist"
+       "PacketZcStoreNormalItemListNoCards"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -23925,11 +23925,11 @@ impl Packet for PacketZcStoreNormalItemlist {
     }
 }
 
-impl PacketZcStoreEquipmentItemlist {
+impl PacketZcStoreEquipmentItemListNoExpire {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa600"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemListNoExpire {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -23942,7 +23942,7 @@ impl PacketZcStoreEquipmentItemlist {
             vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcStoreEquipmentItemlist {
+        PacketZcStoreEquipmentItemListNoExpire {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -23998,10 +23998,10 @@ impl PacketZcStoreEquipmentItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStoreEquipmentItemlist {
+    pub fn new(packetver: u32) -> PacketZcStoreEquipmentItemListNoExpire {
         let packet_id = i16::from_le_bytes([0xa6, 0x00]);
         let packet_id_raw = [0xa6, 0x00];
-        PacketZcStoreEquipmentItemlist {
+        PacketZcStoreEquipmentItemListNoExpire {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -24013,7 +24013,7 @@ impl PacketZcStoreEquipmentItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStoreEquipmentItemlist::new(packetver);
+        let mut packet = PacketZcStoreEquipmentItemListNoExpire::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -24027,12 +24027,12 @@ impl PacketZcStoreEquipmentItemlist {
     }
 }
 
-impl Packet for PacketZcStoreEquipmentItemlist {
+impl Packet for PacketZcStoreEquipmentItemListNoExpire {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStoreEquipmentItemlist::packet_id(packetver)
+       PacketZcStoreEquipmentItemListNoExpire::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStoreEquipmentItemlist"
+       "PacketZcStoreEquipmentItemListNoExpire"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -25719,13 +25719,13 @@ impl Packet for PacketCzUseItem {
     }
 }
 
-impl PacketZcUseItemAck {
+impl PacketZcUseItemAckNoAid {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa800"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAckNoAid {
         let mut offset: usize = 0;
-        PacketZcUseItemAck {
+        PacketZcUseItemAckNoAid {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -25797,10 +25797,10 @@ impl PacketZcUseItemAck {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcUseItemAck {
+    pub fn new(packetver: u32) -> PacketZcUseItemAckNoAid {
         let packet_id = i16::from_le_bytes([0xa8, 0x00]);
         let packet_id_raw = [0xa8, 0x00];
-        PacketZcUseItemAck {
+        PacketZcUseItemAckNoAid {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -25814,7 +25814,7 @@ impl PacketZcUseItemAck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcUseItemAck::new(packetver);
+        let mut packet = PacketZcUseItemAckNoAid::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -25834,12 +25834,12 @@ impl PacketZcUseItemAck {
     }
 }
 
-impl Packet for PacketZcUseItemAck {
+impl Packet for PacketZcUseItemAckNoAid {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcUseItemAck::packet_id(packetver)
+       PacketZcUseItemAckNoAid::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcUseItemAck"
+       "PacketZcUseItemAckNoAid"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26059,13 +26059,13 @@ impl Packet for PacketCzReqWearEquip {
     }
 }
 
-impl PacketZcReqWearEquipAck {
+impl PacketZcReqWearEquipAckLegacy {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xaa00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqWearEquipAck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqWearEquipAckLegacy {
         let mut offset: usize = 0;
-        PacketZcReqWearEquipAck {
+        PacketZcReqWearEquipAckLegacy {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26162,10 +26162,10 @@ impl PacketZcReqWearEquipAck {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcReqWearEquipAck {
+    pub fn new(packetver: u32) -> PacketZcReqWearEquipAckLegacy {
         let packet_id = i16::from_le_bytes([0xaa, 0x00]);
         let packet_id_raw = [0xaa, 0x00];
-        PacketZcReqWearEquipAck {
+        PacketZcReqWearEquipAckLegacy {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -26181,7 +26181,7 @@ impl PacketZcReqWearEquipAck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcReqWearEquipAck::new(packetver);
+        let mut packet = PacketZcReqWearEquipAckLegacy::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -26206,12 +26206,12 @@ impl PacketZcReqWearEquipAck {
     }
 }
 
-impl Packet for PacketZcReqWearEquipAck {
+impl Packet for PacketZcReqWearEquipAckLegacy {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcReqWearEquipAck::packet_id(packetver)
+       PacketZcReqWearEquipAckLegacy::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcReqWearEquipAck"
+       "PacketZcReqWearEquipAckLegacy"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26284,13 +26284,13 @@ impl Packet for PacketZcReqWearEquipAck {
     }
 }
 
-impl PacketZcReqWearEquipAck2 {
+impl PacketZcReqWearEquipAck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd008"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqWearEquipAck2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqWearEquipAck {
         let mut offset: usize = 0;
-        PacketZcReqWearEquipAck2 {
+        PacketZcReqWearEquipAck {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -26378,10 +26378,10 @@ impl PacketZcReqWearEquipAck2 {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcReqWearEquipAck2 {
+    pub fn new(packetver: u32) -> PacketZcReqWearEquipAck {
         let packet_id = i16::from_le_bytes([0xd0, 0x08]);
         let packet_id_raw = [0xd0, 0x08];
-        PacketZcReqWearEquipAck2 {
+        PacketZcReqWearEquipAck {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -26397,7 +26397,7 @@ impl PacketZcReqWearEquipAck2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcReqWearEquipAck2::new(packetver);
+        let mut packet = PacketZcReqWearEquipAck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -26422,12 +26422,12 @@ impl PacketZcReqWearEquipAck2 {
     }
 }
 
-impl Packet for PacketZcReqWearEquipAck2 {
+impl Packet for PacketZcReqWearEquipAck {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcReqWearEquipAck2::packet_id(packetver)
+       PacketZcReqWearEquipAck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcReqWearEquipAck2"
+       "PacketZcReqWearEquipAck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -26624,9 +26624,193 @@ impl Packet for PacketCzReqTakeoffEquip {
     }
 }
 
-impl PacketZcReqTakeoffEquipAck {
+impl PacketZcReqTakeoffEquipAckLegacy {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xac00"
+    }
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqTakeoffEquipAckLegacy {
+        let mut offset: usize = 0;
+        PacketZcReqTakeoffEquipAckLegacy {
+            packet_id: {
+                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            packet_id_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            index: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            index_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            wear_location: {
+                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
+                field
+            },
+            wear_location_raw: {
+                let mut dst: [u8; 2] = [0u8; 2];
+                dst.clone_from_slice(&buffer[offset..offset + 2]);
+                offset += 2;
+                dst
+            },
+            result: {
+                let field = u8::from_le_bytes([buffer[offset]]);
+                field
+            },
+            result_raw: {
+                let mut dst: [u8; 1] = [0u8; 1];
+                dst.clone_from_slice(&buffer[offset..offset + 1]);
+                offset += 1;
+                dst
+            },
+            raw: (&buffer[..offset]).to_vec(),
+        }
+    }
+    pub fn base_len(packetver: u32) -> usize {
+        let  base_len: usize = 7;
+        base_len
+    }
+    pub fn set_packet_id(&mut self, value: i16) {
+        self.packet_id = value;
+    }
+    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
+        self.packet_id_raw = value;
+    }
+    pub fn set_index(&mut self, value: u16) {
+        self.index = value;
+    }
+    pub fn set_index_raw(&mut self, value: [u8; 2]) {
+        self.index_raw = value;
+    }
+    pub fn set_wear_location(&mut self, value: u16) {
+        self.wear_location = value;
+    }
+    pub fn set_wear_location_raw(&mut self, value: [u8; 2]) {
+        self.wear_location_raw = value;
+    }
+    pub fn set_result(&mut self, value: u8) {
+        self.result = value;
+    }
+    pub fn set_result_raw(&mut self, value: [u8; 1]) {
+        self.result_raw = value;
+    }
+    pub fn new(packetver: u32) -> PacketZcReqTakeoffEquipAckLegacy {
+        let packet_id = i16::from_le_bytes([0xac, 0x00]);
+        let packet_id_raw = [0xac, 0x00];
+        PacketZcReqTakeoffEquipAckLegacy {
+        raw: vec![],
+        packet_id,
+        packet_id_raw,
+        index: 0,
+        index_raw: [0; 2],
+        wear_location: 0,
+        wear_location_raw: [0; 2],
+        result: 0,
+        result_raw: [0; 1],
+        }
+    }
+    #[allow(unused_mut)]
+    pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
+        let mut packet = PacketZcReqTakeoffEquipAckLegacy::new(packetver);
+        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
+            if let Some(value) = entry.value {
+                packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
+            }
+        }
+        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/wear_location")) {
+            if let Some(value) = entry.value {
+                packet.set_wear_location(value.parse().map_err(|_| format!("Invalid value {} for wear_location", value))?);
+            }
+        }
+        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
+            if let Some(value) = entry.value {
+                packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
+            }
+        }
+        Ok(packet)
+    }
+}
+
+impl Packet for PacketZcReqTakeoffEquipAckLegacy {
+    fn id(&self, packetver: u32) -> &str {
+       PacketZcReqTakeoffEquipAckLegacy::packet_id(packetver)
+    }
+    fn name(&self) -> &str {
+       "PacketZcReqTakeoffEquipAckLegacy"
+    }
+    fn debug(&self) {
+            println!("{:?}", self)
+    }
+    fn display(&self) {
+            println!("{}", self)
+    }
+    fn pretty_debug(&self) {
+            println!("{:#?}", self)
+    }
+    fn raw(&self) -> &Vec<u8> {
+            &self.raw
+    }
+    fn raw_mut(&mut self) -> &mut Vec<u8> {
+            &mut self.raw
+    }
+    fn as_any(&self) -> &dyn Any{
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any{
+        self
+    }
+    fn base_len(&self, packetver: u32) -> usize {
+        Self::base_len(packetver)
+    }
+    fn to_json(&self, packetver: u32) -> String {
+        let mut json = String::from("{\n");
+        json.push_str(format!("\"packet_id\": {},\n",format!("\"{}\"", self.id(packetver))).as_str());
+        json.push_str(format!("\"index\": {},\n",self.index.to_string()).as_str());
+        json.push_str(format!("\"wear_location\": {},\n",self.wear_location.to_string()).as_str());
+        json.push_str(format!("\"result\": {},\n",self.result.to_string()).as_str());
+        json.pop();
+        json.pop();
+        json.push_str("\n}");
+        json
+    }
+    fn fill_raw(&mut self) {
+      self.fill_raw_with_packetver(None)
+    }
+    fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {
+    let mut wtr;
+        wtr = vec![];
+        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
+        self.packet_id_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.index).unwrap();
+        self.index_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u16::<LittleEndian>(self.wear_location).unwrap();
+        self.wear_location_raw = wtr.try_into().unwrap();
+        wtr = vec![];
+        wtr.write_u8(self.result).unwrap();
+        self.result_raw = wtr.try_into().unwrap();
+
+        wtr = vec![];
+        wtr.append(&mut self.packet_id_raw.to_vec());
+        wtr.append(&mut self.index_raw.to_vec());
+        wtr.append(&mut self.wear_location_raw.to_vec());
+        wtr.append(&mut self.result_raw.to_vec());
+        self.raw = wtr;
+    }
+}
+
+impl PacketZcReqTakeoffEquipAck {
+    pub fn packet_id(packetver: u32) -> &'static str {
+        "0xd108"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqTakeoffEquipAck {
         let mut offset: usize = 0;
@@ -26703,8 +26887,8 @@ impl PacketZcReqTakeoffEquipAck {
         self.result_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcReqTakeoffEquipAck {
-        let packet_id = i16::from_le_bytes([0xac, 0x00]);
-        let packet_id_raw = [0xac, 0x00];
+        let packet_id = i16::from_le_bytes([0xd1, 0x08]);
+        let packet_id_raw = [0xd1, 0x08];
         PacketZcReqTakeoffEquipAck {
         raw: vec![],
         packet_id,
@@ -26745,190 +26929,6 @@ impl Packet for PacketZcReqTakeoffEquipAck {
     }
     fn name(&self) -> &str {
        "PacketZcReqTakeoffEquipAck"
-    }
-    fn debug(&self) {
-            println!("{:?}", self)
-    }
-    fn display(&self) {
-            println!("{}", self)
-    }
-    fn pretty_debug(&self) {
-            println!("{:#?}", self)
-    }
-    fn raw(&self) -> &Vec<u8> {
-            &self.raw
-    }
-    fn raw_mut(&mut self) -> &mut Vec<u8> {
-            &mut self.raw
-    }
-    fn as_any(&self) -> &dyn Any{
-        self
-    }
-    fn as_any_mut(&mut self) -> &mut dyn Any{
-        self
-    }
-    fn base_len(&self, packetver: u32) -> usize {
-        Self::base_len(packetver)
-    }
-    fn to_json(&self, packetver: u32) -> String {
-        let mut json = String::from("{\n");
-        json.push_str(format!("\"packet_id\": {},\n",format!("\"{}\"", self.id(packetver))).as_str());
-        json.push_str(format!("\"index\": {},\n",self.index.to_string()).as_str());
-        json.push_str(format!("\"wear_location\": {},\n",self.wear_location.to_string()).as_str());
-        json.push_str(format!("\"result\": {},\n",self.result.to_string()).as_str());
-        json.pop();
-        json.pop();
-        json.push_str("\n}");
-        json
-    }
-    fn fill_raw(&mut self) {
-      self.fill_raw_with_packetver(None)
-    }
-    fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {
-    let mut wtr;
-        wtr = vec![];
-        wtr.write_i16::<LittleEndian>(self.packet_id).unwrap();
-        self.packet_id_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.index).unwrap();
-        self.index_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u16::<LittleEndian>(self.wear_location).unwrap();
-        self.wear_location_raw = wtr.try_into().unwrap();
-        wtr = vec![];
-        wtr.write_u8(self.result).unwrap();
-        self.result_raw = wtr.try_into().unwrap();
-
-        wtr = vec![];
-        wtr.append(&mut self.packet_id_raw.to_vec());
-        wtr.append(&mut self.index_raw.to_vec());
-        wtr.append(&mut self.wear_location_raw.to_vec());
-        wtr.append(&mut self.result_raw.to_vec());
-        self.raw = wtr;
-    }
-}
-
-impl PacketZcReqTakeoffEquipAck2 {
-    pub fn packet_id(packetver: u32) -> &'static str {
-        "0xd108"
-    }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqTakeoffEquipAck2 {
-        let mut offset: usize = 0;
-        PacketZcReqTakeoffEquipAck2 {
-            packet_id: {
-                let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
-                field
-            },
-            packet_id_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[offset..offset + 2]);
-                offset += 2;
-                dst
-            },
-            index: {
-                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
-                field
-            },
-            index_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[offset..offset + 2]);
-                offset += 2;
-                dst
-            },
-            wear_location: {
-                let field = u16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
-                field
-            },
-            wear_location_raw: {
-                let mut dst: [u8; 2] = [0u8; 2];
-                dst.clone_from_slice(&buffer[offset..offset + 2]);
-                offset += 2;
-                dst
-            },
-            result: {
-                let field = u8::from_le_bytes([buffer[offset]]);
-                field
-            },
-            result_raw: {
-                let mut dst: [u8; 1] = [0u8; 1];
-                dst.clone_from_slice(&buffer[offset..offset + 1]);
-                offset += 1;
-                dst
-            },
-            raw: (&buffer[..offset]).to_vec(),
-        }
-    }
-    pub fn base_len(packetver: u32) -> usize {
-        let  base_len: usize = 7;
-        base_len
-    }
-    pub fn set_packet_id(&mut self, value: i16) {
-        self.packet_id = value;
-    }
-    pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
-        self.packet_id_raw = value;
-    }
-    pub fn set_index(&mut self, value: u16) {
-        self.index = value;
-    }
-    pub fn set_index_raw(&mut self, value: [u8; 2]) {
-        self.index_raw = value;
-    }
-    pub fn set_wear_location(&mut self, value: u16) {
-        self.wear_location = value;
-    }
-    pub fn set_wear_location_raw(&mut self, value: [u8; 2]) {
-        self.wear_location_raw = value;
-    }
-    pub fn set_result(&mut self, value: u8) {
-        self.result = value;
-    }
-    pub fn set_result_raw(&mut self, value: [u8; 1]) {
-        self.result_raw = value;
-    }
-    pub fn new(packetver: u32) -> PacketZcReqTakeoffEquipAck2 {
-        let packet_id = i16::from_le_bytes([0xd1, 0x08]);
-        let packet_id_raw = [0xd1, 0x08];
-        PacketZcReqTakeoffEquipAck2 {
-        raw: vec![],
-        packet_id,
-        packet_id_raw,
-        index: 0,
-        index_raw: [0; 2],
-        wear_location: 0,
-        wear_location_raw: [0; 2],
-        result: 0,
-        result_raw: [0; 1],
-        }
-    }
-    #[allow(unused_mut)]
-    pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcReqTakeoffEquipAck2::new(packetver);
-        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
-            if let Some(value) = entry.value {
-                packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
-            }
-        }
-        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/wear_location")) {
-            if let Some(value) = entry.value {
-                packet.set_wear_location(value.parse().map_err(|_| format!("Invalid value {} for wear_location", value))?);
-            }
-        }
-        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
-            if let Some(value) = entry.value {
-                packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
-            }
-        }
-        Ok(packet)
-    }
-}
-
-impl Packet for PacketZcReqTakeoffEquipAck2 {
-    fn id(&self, packetver: u32) -> &str {
-       PacketZcReqTakeoffEquipAck2::packet_id(packetver)
-    }
-    fn name(&self) -> &str {
-       "PacketZcReqTakeoffEquipAck2"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -27304,13 +27304,13 @@ impl Packet for PacketZcParChange {
     }
 }
 
-impl PacketZcLongparChange {
+impl PacketZcLongParChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb100"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLongparChange {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLongParChange {
         let mut offset: usize = 0;
-        PacketZcLongparChange {
+        PacketZcLongParChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -27366,10 +27366,10 @@ impl PacketZcLongparChange {
     pub fn set_amount_raw(&mut self, value: [u8; 4]) {
         self.amount_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcLongparChange {
+    pub fn new(packetver: u32) -> PacketZcLongParChange {
         let packet_id = i16::from_le_bytes([0xb1, 0x00]);
         let packet_id_raw = [0xb1, 0x00];
-        PacketZcLongparChange {
+        PacketZcLongParChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -27381,7 +27381,7 @@ impl PacketZcLongparChange {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcLongparChange::new(packetver);
+        let mut packet = PacketZcLongParChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/var_id")) {
             if let Some(value) = entry.value {
                 packet.set_var_id(value.parse().map_err(|_| format!("Invalid value {} for var_id", value))?);
@@ -27396,12 +27396,12 @@ impl PacketZcLongparChange {
     }
 }
 
-impl Packet for PacketZcLongparChange {
+impl Packet for PacketZcLongParChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcLongparChange::packet_id(packetver)
+       PacketZcLongParChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcLongparChange"
+       "PacketZcLongParChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30582,13 +30582,13 @@ impl Packet for PacketZcUserCount {
     }
 }
 
-impl PacketZcSpriteChange {
+impl PacketZcSpriteChangeByteValue {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc300"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpriteChange {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpriteChangeByteValue {
         let mut offset: usize = 0;
-        PacketZcSpriteChange {
+        PacketZcSpriteChangeByteValue {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30660,10 +30660,10 @@ impl PacketZcSpriteChange {
     pub fn set_value_raw(&mut self, value: [u8; 1]) {
         self.value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSpriteChange {
+    pub fn new(packetver: u32) -> PacketZcSpriteChangeByteValue {
         let packet_id = i16::from_le_bytes([0xc3, 0x00]);
         let packet_id_raw = [0xc3, 0x00];
-        PacketZcSpriteChange {
+        PacketZcSpriteChangeByteValue {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -30677,7 +30677,7 @@ impl PacketZcSpriteChange {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSpriteChange::new(packetver);
+        let mut packet = PacketZcSpriteChangeByteValue::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -30697,12 +30697,12 @@ impl PacketZcSpriteChange {
     }
 }
 
-impl Packet for PacketZcSpriteChange {
+impl Packet for PacketZcSpriteChangeByteValue {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSpriteChange::packet_id(packetver)
+       PacketZcSpriteChangeByteValue::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSpriteChange"
+       "PacketZcSpriteChangeByteValue"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30766,13 +30766,13 @@ impl Packet for PacketZcSpriteChange {
     }
 }
 
-impl PacketZcSelectDealtype {
+impl PacketZcSelectDealType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc400"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSelectDealtype {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSelectDealType {
         let mut offset: usize = 0;
-        PacketZcSelectDealtype {
+        PacketZcSelectDealType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30812,10 +30812,10 @@ impl PacketZcSelectDealtype {
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSelectDealtype {
+    pub fn new(packetver: u32) -> PacketZcSelectDealType {
         let packet_id = i16::from_le_bytes([0xc4, 0x00]);
         let packet_id_raw = [0xc4, 0x00];
-        PacketZcSelectDealtype {
+        PacketZcSelectDealType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -30825,7 +30825,7 @@ impl PacketZcSelectDealtype {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSelectDealtype::new(packetver);
+        let mut packet = PacketZcSelectDealType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/naid")) {
             if let Some(value) = entry.value {
                 packet.set_naid(value.parse().map_err(|_| format!("Invalid value {} for naid", value))?);
@@ -30835,12 +30835,12 @@ impl PacketZcSelectDealtype {
     }
 }
 
-impl Packet for PacketZcSelectDealtype {
+impl Packet for PacketZcSelectDealType {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSelectDealtype::packet_id(packetver)
+       PacketZcSelectDealType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSelectDealtype"
+       "PacketZcSelectDealType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -30894,13 +30894,13 @@ impl Packet for PacketZcSelectDealtype {
     }
 }
 
-impl PacketCzAckSelectDealtype {
+impl PacketCzAckSelectDealType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc500"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckSelectDealtype {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAckSelectDealType {
         let mut offset: usize = 0;
-        PacketCzAckSelectDealtype {
+        PacketCzAckSelectDealType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -30956,10 +30956,10 @@ impl PacketCzAckSelectDealtype {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzAckSelectDealtype {
+    pub fn new(packetver: u32) -> PacketCzAckSelectDealType {
         let packet_id = i16::from_le_bytes([0xc5, 0x00]);
         let packet_id_raw = [0xc5, 0x00];
-        PacketCzAckSelectDealtype {
+        PacketCzAckSelectDealType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -30971,7 +30971,7 @@ impl PacketCzAckSelectDealtype {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzAckSelectDealtype::new(packetver);
+        let mut packet = PacketCzAckSelectDealType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/naid")) {
             if let Some(value) = entry.value {
                 packet.set_naid(value.parse().map_err(|_| format!("Invalid value {} for naid", value))?);
@@ -30986,12 +30986,12 @@ impl PacketCzAckSelectDealtype {
     }
 }
 
-impl Packet for PacketCzAckSelectDealtype {
+impl Packet for PacketCzAckSelectDealType {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzAckSelectDealtype::packet_id(packetver)
+       PacketCzAckSelectDealType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzAckSelectDealtype"
+       "PacketCzAckSelectDealType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31050,11 +31050,11 @@ impl Packet for PacketCzAckSelectDealtype {
     }
 }
 
-impl PacketZcPcPurchaseItemlist {
+impl PacketZcPcPurchaseItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc600"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemList {
         let mut offset: usize = 0;
         let vec_type_len = PurchaseItem::base_len(packetver);
         let vec_start: usize = 4;
@@ -31067,7 +31067,7 @@ impl PacketZcPcPurchaseItemlist {
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcPcPurchaseItemlist {
+        PacketZcPcPurchaseItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31123,10 +31123,10 @@ impl PacketZcPcPurchaseItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcPurchaseItemlist {
+    pub fn new(packetver: u32) -> PacketZcPcPurchaseItemList {
         let packet_id = i16::from_le_bytes([0xc6, 0x00]);
         let packet_id_raw = [0xc6, 0x00];
-        PacketZcPcPurchaseItemlist {
+        PacketZcPcPurchaseItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -31138,7 +31138,7 @@ impl PacketZcPcPurchaseItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcPurchaseItemlist::new(packetver);
+        let mut packet = PacketZcPcPurchaseItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -31152,12 +31152,12 @@ impl PacketZcPcPurchaseItemlist {
     }
 }
 
-impl Packet for PacketZcPcPurchaseItemlist {
+impl Packet for PacketZcPcPurchaseItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcPurchaseItemlist::packet_id(packetver)
+       PacketZcPcPurchaseItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcPurchaseItemlist"
+       "PacketZcPcPurchaseItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31217,11 +31217,11 @@ impl Packet for PacketZcPcPurchaseItemlist {
     }
 }
 
-impl PacketZcPcSellItemlist {
+impl PacketZcPcSellItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc700"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcSellItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcSellItemList {
         let mut offset: usize = 0;
         let vec_type_len = SellItem::base_len(packetver);
         let vec_start: usize = 4;
@@ -31234,7 +31234,7 @@ impl PacketZcPcSellItemlist {
             vec_field.push(SellItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcPcSellItemlist {
+        PacketZcPcSellItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31290,10 +31290,10 @@ impl PacketZcPcSellItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcSellItemlist {
+    pub fn new(packetver: u32) -> PacketZcPcSellItemList {
         let packet_id = i16::from_le_bytes([0xc7, 0x00]);
         let packet_id_raw = [0xc7, 0x00];
-        PacketZcPcSellItemlist {
+        PacketZcPcSellItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -31305,7 +31305,7 @@ impl PacketZcPcSellItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcSellItemlist::new(packetver);
+        let mut packet = PacketZcPcSellItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -31319,12 +31319,12 @@ impl PacketZcPcSellItemlist {
     }
 }
 
-impl Packet for PacketZcPcSellItemlist {
+impl Packet for PacketZcPcSellItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcSellItemlist::packet_id(packetver)
+       PacketZcPcSellItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcSellItemlist"
+       "PacketZcPcSellItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31384,11 +31384,11 @@ impl Packet for PacketZcPcSellItemlist {
     }
 }
 
-impl PacketCzPcPurchaseItemlist {
+impl PacketCzPcPurchaseItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc800"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemList {
         let mut offset: usize = 0;
         let vec_type_len = CzPurchaseItem::base_len(packetver);
         let vec_start: usize = 4;
@@ -31401,7 +31401,7 @@ impl PacketCzPcPurchaseItemlist {
             vec_field.push(CzPurchaseItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzPcPurchaseItemlist {
+        PacketCzPcPurchaseItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31457,10 +31457,10 @@ impl PacketCzPcPurchaseItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzPcPurchaseItemlist {
+    pub fn new(packetver: u32) -> PacketCzPcPurchaseItemList {
         let packet_id = i16::from_le_bytes([0xc8, 0x00]);
         let packet_id_raw = [0xc8, 0x00];
-        PacketCzPcPurchaseItemlist {
+        PacketCzPcPurchaseItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -31472,7 +31472,7 @@ impl PacketCzPcPurchaseItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzPcPurchaseItemlist::new(packetver);
+        let mut packet = PacketCzPcPurchaseItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -31486,12 +31486,12 @@ impl PacketCzPcPurchaseItemlist {
     }
 }
 
-impl Packet for PacketCzPcPurchaseItemlist {
+impl Packet for PacketCzPcPurchaseItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzPcPurchaseItemlist::packet_id(packetver)
+       PacketCzPcPurchaseItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzPcPurchaseItemlist"
+       "PacketCzPcPurchaseItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -31551,11 +31551,11 @@ impl Packet for PacketCzPcPurchaseItemlist {
     }
 }
 
-impl PacketCzPcSellItemlist {
+impl PacketCzPcSellItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc900"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcSellItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcSellItemList {
         let mut offset: usize = 0;
         let vec_type_len = CzSellItem::base_len(packetver);
         let vec_start: usize = 4;
@@ -31568,7 +31568,7 @@ impl PacketCzPcSellItemlist {
             vec_field.push(CzSellItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzPcSellItemlist {
+        PacketCzPcSellItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -31624,10 +31624,10 @@ impl PacketCzPcSellItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzPcSellItemlist {
+    pub fn new(packetver: u32) -> PacketCzPcSellItemList {
         let packet_id = i16::from_le_bytes([0xc9, 0x00]);
         let packet_id_raw = [0xc9, 0x00];
-        PacketCzPcSellItemlist {
+        PacketCzPcSellItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -31639,7 +31639,7 @@ impl PacketCzPcSellItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzPcSellItemlist::new(packetver);
+        let mut packet = PacketCzPcSellItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -31653,12 +31653,12 @@ impl PacketCzPcSellItemlist {
     }
 }
 
-impl Packet for PacketCzPcSellItemlist {
+impl Packet for PacketCzPcSellItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzPcSellItemlist::packet_id(packetver)
+       PacketCzPcSellItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzPcSellItemlist"
+       "PacketCzPcSellItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33208,13 +33208,13 @@ impl Packet for PacketZcWhisperList {
     }
 }
 
-impl PacketCzCreateChatroom {
+impl PacketCzCreateChatRoom {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd500"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCreateChatroom {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCreateChatRoom {
         let mut offset: usize = 0;
-        PacketCzCreateChatroom {
+        PacketCzCreateChatRoom {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33323,10 +33323,10 @@ impl PacketCzCreateChatroom {
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzCreateChatroom {
+    pub fn new(packetver: u32) -> PacketCzCreateChatRoom {
         let packet_id = i16::from_le_bytes([0xd5, 0x00]);
         let packet_id_raw = [0xd5, 0x00];
-        PacketCzCreateChatroom {
+        PacketCzCreateChatRoom {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -33344,7 +33344,7 @@ impl PacketCzCreateChatroom {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzCreateChatroom::new(packetver);
+        let mut packet = PacketCzCreateChatRoom::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -33381,12 +33381,12 @@ impl PacketCzCreateChatroom {
     }
 }
 
-impl Packet for PacketCzCreateChatroom {
+impl Packet for PacketCzCreateChatRoom {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzCreateChatroom::packet_id(packetver)
+       PacketCzCreateChatRoom::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzCreateChatroom"
+       "PacketCzCreateChatRoom"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33460,13 +33460,13 @@ impl Packet for PacketCzCreateChatroom {
     }
 }
 
-impl PacketZcAckCreateChatroom {
+impl PacketZcAckCreateChatRoom {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd600"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckCreateChatroom {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckCreateChatRoom {
         let mut offset: usize = 0;
-        PacketZcAckCreateChatroom {
+        PacketZcAckCreateChatRoom {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33506,10 +33506,10 @@ impl PacketZcAckCreateChatroom {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckCreateChatroom {
+    pub fn new(packetver: u32) -> PacketZcAckCreateChatRoom {
         let packet_id = i16::from_le_bytes([0xd6, 0x00]);
         let packet_id_raw = [0xd6, 0x00];
-        PacketZcAckCreateChatroom {
+        PacketZcAckCreateChatRoom {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -33519,7 +33519,7 @@ impl PacketZcAckCreateChatroom {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckCreateChatroom::new(packetver);
+        let mut packet = PacketZcAckCreateChatRoom::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -33529,12 +33529,12 @@ impl PacketZcAckCreateChatroom {
     }
 }
 
-impl Packet for PacketZcAckCreateChatroom {
+impl Packet for PacketZcAckCreateChatRoom {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckCreateChatroom::packet_id(packetver)
+       PacketZcAckCreateChatRoom::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckCreateChatroom"
+       "PacketZcAckCreateChatRoom"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -33588,13 +33588,13 @@ impl Packet for PacketZcAckCreateChatroom {
     }
 }
 
-impl PacketZcRoomNewentry {
+impl PacketZcRoomNewEntry {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd700"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRoomNewentry {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRoomNewEntry {
         let mut offset: usize = 0;
-        PacketZcRoomNewentry {
+        PacketZcRoomNewEntry {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -33729,10 +33729,10 @@ impl PacketZcRoomNewentry {
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcRoomNewentry {
+    pub fn new(packetver: u32) -> PacketZcRoomNewEntry {
         let packet_id = i16::from_le_bytes([0xd7, 0x00]);
         let packet_id_raw = [0xd7, 0x00];
-        PacketZcRoomNewentry {
+        PacketZcRoomNewEntry {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -33754,7 +33754,7 @@ impl PacketZcRoomNewentry {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcRoomNewentry::new(packetver);
+        let mut packet = PacketZcRoomNewEntry::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -33794,12 +33794,12 @@ impl PacketZcRoomNewentry {
     }
 }
 
-impl Packet for PacketZcRoomNewentry {
+impl Packet for PacketZcRoomNewEntry {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcRoomNewentry::packet_id(packetver)
+       PacketZcRoomNewEntry::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcRoomNewentry"
+       "PacketZcRoomNewEntry"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34503,13 +34503,13 @@ impl Packet for PacketZcEnterRoom {
     }
 }
 
-impl PacketZcMemberNewentry {
+impl PacketZcMemberNewEntry {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xdc00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemberNewentry {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemberNewEntry {
         let mut offset: usize = 0;
-        PacketZcMemberNewentry {
+        PacketZcMemberNewEntry {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34571,10 +34571,10 @@ impl PacketZcMemberNewentry {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMemberNewentry {
+    pub fn new(packetver: u32) -> PacketZcMemberNewEntry {
         let packet_id = i16::from_le_bytes([0xdc, 0x00]);
         let packet_id_raw = [0xdc, 0x00];
-        PacketZcMemberNewentry {
+        PacketZcMemberNewEntry {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -34586,7 +34586,7 @@ impl PacketZcMemberNewentry {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMemberNewentry::new(packetver);
+        let mut packet = PacketZcMemberNewEntry::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/curcount")) {
             if let Some(value) = entry.value {
                 packet.set_curcount(value.parse().map_err(|_| format!("Invalid value {} for curcount", value))?);
@@ -34608,12 +34608,12 @@ impl PacketZcMemberNewentry {
     }
 }
 
-impl Packet for PacketZcMemberNewentry {
+impl Packet for PacketZcMemberNewEntry {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMemberNewentry::packet_id(packetver)
+       PacketZcMemberNewEntry::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMemberNewentry"
+       "PacketZcMemberNewEntry"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -34873,13 +34873,13 @@ impl Packet for PacketZcMemberExit {
     }
 }
 
-impl PacketCzChangeChatroom {
+impl PacketCzChangeChatRoom {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xde00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeChatroom {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeChatRoom {
         let mut offset: usize = 0;
-        PacketCzChangeChatroom {
+        PacketCzChangeChatRoom {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -34988,10 +34988,10 @@ impl PacketCzChangeChatroom {
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzChangeChatroom {
+    pub fn new(packetver: u32) -> PacketCzChangeChatRoom {
         let packet_id = i16::from_le_bytes([0xde, 0x00]);
         let packet_id_raw = [0xde, 0x00];
-        PacketCzChangeChatroom {
+        PacketCzChangeChatRoom {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -35009,7 +35009,7 @@ impl PacketCzChangeChatroom {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzChangeChatroom::new(packetver);
+        let mut packet = PacketCzChangeChatRoom::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -35046,12 +35046,12 @@ impl PacketCzChangeChatroom {
     }
 }
 
-impl Packet for PacketCzChangeChatroom {
+impl Packet for PacketCzChangeChatRoom {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzChangeChatroom::packet_id(packetver)
+       PacketCzChangeChatRoom::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzChangeChatroom"
+       "PacketCzChangeChatRoom"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -35125,13 +35125,13 @@ impl Packet for PacketCzChangeChatroom {
     }
 }
 
-impl PacketZcChangeChatroom {
+impl PacketZcChangeChatRoom {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xdf00"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeChatroom {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeChatRoom {
         let mut offset: usize = 0;
-        PacketZcChangeChatroom {
+        PacketZcChangeChatRoom {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -35266,10 +35266,10 @@ impl PacketZcChangeChatroom {
     pub fn set_title_raw(&mut self, value: Vec<u8>) {
         self.title_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcChangeChatroom {
+    pub fn new(packetver: u32) -> PacketZcChangeChatRoom {
         let packet_id = i16::from_le_bytes([0xdf, 0x00]);
         let packet_id_raw = [0xdf, 0x00];
-        PacketZcChangeChatroom {
+        PacketZcChangeChatRoom {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -35291,7 +35291,7 @@ impl PacketZcChangeChatroom {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcChangeChatroom::new(packetver);
+        let mut packet = PacketZcChangeChatRoom::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -35331,12 +35331,12 @@ impl PacketZcChangeChatroom {
     }
 }
 
-impl Packet for PacketZcChangeChatroom {
+impl Packet for PacketZcChangeChatRoom {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcChangeChatroom::packet_id(packetver)
+       PacketZcChangeChatRoom::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcChangeChatroom"
+       "PacketZcChangeChatRoom"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36131,13 +36131,13 @@ impl Packet for PacketCzReqExchangeItem {
     }
 }
 
-impl PacketZcReqExchangeItem {
+impl PacketZcReqExchangeItemNoLevel {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe500"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqExchangeItem {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqExchangeItemNoLevel {
         let mut offset: usize = 0;
-        PacketZcReqExchangeItem {
+        PacketZcReqExchangeItemNoLevel {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36183,10 +36183,10 @@ impl PacketZcReqExchangeItem {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcReqExchangeItem {
+    pub fn new(packetver: u32) -> PacketZcReqExchangeItemNoLevel {
         let packet_id = i16::from_le_bytes([0xe5, 0x00]);
         let packet_id_raw = [0xe5, 0x00];
-        PacketZcReqExchangeItem {
+        PacketZcReqExchangeItemNoLevel {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -36196,7 +36196,7 @@ impl PacketZcReqExchangeItem {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcReqExchangeItem::new(packetver);
+        let mut packet = PacketZcReqExchangeItemNoLevel::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -36213,12 +36213,12 @@ impl PacketZcReqExchangeItem {
     }
 }
 
-impl Packet for PacketZcReqExchangeItem {
+impl Packet for PacketZcReqExchangeItemNoLevel {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcReqExchangeItem::packet_id(packetver)
+       PacketZcReqExchangeItemNoLevel::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcReqExchangeItem"
+       "PacketZcReqExchangeItemNoLevel"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36402,13 +36402,13 @@ impl Packet for PacketCzAckExchangeItem {
     }
 }
 
-impl PacketZcAckExchangeItem {
+impl PacketZcAckExchangeItemNoLevel {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe700"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckExchangeItem {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckExchangeItemNoLevel {
         let mut offset: usize = 0;
-        PacketZcAckExchangeItem {
+        PacketZcAckExchangeItemNoLevel {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36448,10 +36448,10 @@ impl PacketZcAckExchangeItem {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckExchangeItem {
+    pub fn new(packetver: u32) -> PacketZcAckExchangeItemNoLevel {
         let packet_id = i16::from_le_bytes([0xe7, 0x00]);
         let packet_id_raw = [0xe7, 0x00];
-        PacketZcAckExchangeItem {
+        PacketZcAckExchangeItemNoLevel {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -36461,7 +36461,7 @@ impl PacketZcAckExchangeItem {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckExchangeItem::new(packetver);
+        let mut packet = PacketZcAckExchangeItemNoLevel::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -36471,12 +36471,12 @@ impl PacketZcAckExchangeItem {
     }
 }
 
-impl Packet for PacketZcAckExchangeItem {
+impl Packet for PacketZcAckExchangeItemNoLevel {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckExchangeItem::packet_id(packetver)
+       PacketZcAckExchangeItemNoLevel::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckExchangeItem"
+       "PacketZcAckExchangeItemNoLevel"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -36686,13 +36686,13 @@ impl Packet for PacketCzAddExchangeItem {
     }
 }
 
-impl PacketZcAddExchangeItem {
+impl PacketZcAddExchangeItemNoType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe900"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddExchangeItem {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddExchangeItemNoType {
         let mut offset: usize = 0;
-        PacketZcAddExchangeItem {
+        PacketZcAddExchangeItemNoType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -36812,10 +36812,10 @@ impl PacketZcAddExchangeItem {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddExchangeItem {
+    pub fn new(packetver: u32) -> PacketZcAddExchangeItemNoType {
         let packet_id = i16::from_le_bytes([0xe9, 0x00]);
         let packet_id_raw = [0xe9, 0x00];
-        PacketZcAddExchangeItem {
+        PacketZcAddExchangeItemNoType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -36835,7 +36835,7 @@ impl PacketZcAddExchangeItem {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddExchangeItem::new(packetver);
+        let mut packet = PacketZcAddExchangeItemNoType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/count")) {
             if let Some(value) = entry.value {
                 packet.set_count(value.parse().map_err(|_| format!("Invalid value {} for count", value))?);
@@ -36869,12 +36869,12 @@ impl PacketZcAddExchangeItem {
     }
 }
 
-impl Packet for PacketZcAddExchangeItem {
+impl Packet for PacketZcAddExchangeItemNoType {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddExchangeItem::packet_id(packetver)
+       PacketZcAddExchangeItemNoType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddExchangeItem"
+       "PacketZcAddExchangeItemNoType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37764,13 +37764,13 @@ impl Packet for PacketZcExecExchangeItem {
     }
 }
 
-impl PacketZcExchangeitemUndo {
+impl PacketZcExchangeItemUndo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf100"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcExchangeitemUndo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcExchangeItemUndo {
         let mut offset: usize = 0;
-        PacketZcExchangeitemUndo {
+        PacketZcExchangeItemUndo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37794,10 +37794,10 @@ impl PacketZcExchangeitemUndo {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcExchangeitemUndo {
+    pub fn new(packetver: u32) -> PacketZcExchangeItemUndo {
         let packet_id = i16::from_le_bytes([0xf1, 0x00]);
         let packet_id_raw = [0xf1, 0x00];
-        PacketZcExchangeitemUndo {
+        PacketZcExchangeItemUndo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -37805,17 +37805,17 @@ impl PacketZcExchangeitemUndo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcExchangeitemUndo::new(packetver);
+        let mut packet = PacketZcExchangeItemUndo::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketZcExchangeitemUndo {
+impl Packet for PacketZcExchangeItemUndo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcExchangeitemUndo::packet_id(packetver)
+       PacketZcExchangeItemUndo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcExchangeitemUndo"
+       "PacketZcExchangeItemUndo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -37864,13 +37864,13 @@ impl Packet for PacketZcExchangeitemUndo {
     }
 }
 
-impl PacketZcNotifyStoreitemCountinfo {
+impl PacketZcNotifyStoreItemCountInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf200"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStoreitemCountinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStoreItemCountInfo {
         let mut offset: usize = 0;
-        PacketZcNotifyStoreitemCountinfo {
+        PacketZcNotifyStoreItemCountInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -37926,10 +37926,10 @@ impl PacketZcNotifyStoreitemCountinfo {
     pub fn set_max_count_raw(&mut self, value: [u8; 2]) {
         self.max_count_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStoreitemCountinfo {
+    pub fn new(packetver: u32) -> PacketZcNotifyStoreItemCountInfo {
         let packet_id = i16::from_le_bytes([0xf2, 0x00]);
         let packet_id_raw = [0xf2, 0x00];
-        PacketZcNotifyStoreitemCountinfo {
+        PacketZcNotifyStoreItemCountInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -37941,7 +37941,7 @@ impl PacketZcNotifyStoreitemCountinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStoreitemCountinfo::new(packetver);
+        let mut packet = PacketZcNotifyStoreItemCountInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/cur_count")) {
             if let Some(value) = entry.value {
                 packet.set_cur_count(value.parse().map_err(|_| format!("Invalid value {} for cur_count", value))?);
@@ -37956,12 +37956,12 @@ impl PacketZcNotifyStoreitemCountinfo {
     }
 }
 
-impl Packet for PacketZcNotifyStoreitemCountinfo {
+impl Packet for PacketZcNotifyStoreItemCountInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStoreitemCountinfo::packet_id(packetver)
+       PacketZcNotifyStoreItemCountInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStoreitemCountinfo"
+       "PacketZcNotifyStoreItemCountInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -38196,13 +38196,13 @@ impl Packet for PacketCzPlayerChat {
     }
 }
 
-impl PacketZcAddItemToStore {
+impl PacketZcAddItemToStoreNoType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf400"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToStore {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToStoreNoType {
         let mut offset: usize = 0;
-        PacketZcAddItemToStore {
+        PacketZcAddItemToStoreNoType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -38338,10 +38338,10 @@ impl PacketZcAddItemToStore {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddItemToStore {
+    pub fn new(packetver: u32) -> PacketZcAddItemToStoreNoType {
         let packet_id = i16::from_le_bytes([0xf4, 0x00]);
         let packet_id_raw = [0xf4, 0x00];
-        PacketZcAddItemToStore {
+        PacketZcAddItemToStoreNoType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -38363,7 +38363,7 @@ impl PacketZcAddItemToStore {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddItemToStore::new(packetver);
+        let mut packet = PacketZcAddItemToStoreNoType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -38402,12 +38402,12 @@ impl PacketZcAddItemToStore {
     }
 }
 
-impl Packet for PacketZcAddItemToStore {
+impl Packet for PacketZcAddItemToStoreNoType {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddItemToStore::packet_id(packetver)
+       PacketZcAddItemToStoreNoType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddItemToStore"
+       "PacketZcAddItemToStoreNoType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -42267,13 +42267,13 @@ impl Packet for PacketZcCloseStore {
     }
 }
 
-impl PacketCzMakeGroup {
+impl PacketCzMakeGroupNoRules {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf900"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMakeGroup {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMakeGroupNoRules {
         let mut offset: usize = 0;
-        PacketCzMakeGroup {
+        PacketCzMakeGroupNoRules {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -42319,10 +42319,10 @@ impl PacketCzMakeGroup {
     pub fn set_group_name_raw(&mut self, value: [u8; 24]) {
         self.group_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzMakeGroup {
+    pub fn new(packetver: u32) -> PacketCzMakeGroupNoRules {
         let packet_id = i16::from_le_bytes([0xf9, 0x00]);
         let packet_id_raw = [0xf9, 0x00];
-        PacketCzMakeGroup {
+        PacketCzMakeGroupNoRules {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -42332,7 +42332,7 @@ impl PacketCzMakeGroup {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzMakeGroup::new(packetver);
+        let mut packet = PacketCzMakeGroupNoRules::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/group_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -42349,12 +42349,12 @@ impl PacketCzMakeGroup {
     }
 }
 
-impl Packet for PacketCzMakeGroup {
+impl Packet for PacketCzMakeGroupNoRules {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzMakeGroup::packet_id(packetver)
+       PacketCzMakeGroupNoRules::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzMakeGroup"
+       "PacketCzMakeGroupNoRules"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43474,13 +43474,13 @@ impl Packet for PacketCzReqLeaveGroup {
     }
 }
 
-impl PacketZcGroupinfoChange {
+impl PacketZcGroupInfoChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0101"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGroupinfoChange {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGroupInfoChange {
         let mut offset: usize = 0;
-        PacketZcGroupinfoChange {
+        PacketZcGroupInfoChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43520,10 +43520,10 @@ impl PacketZcGroupinfoChange {
     pub fn set_exp_option_raw(&mut self, value: [u8; 4]) {
         self.exp_option_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcGroupinfoChange {
+    pub fn new(packetver: u32) -> PacketZcGroupInfoChange {
         let packet_id = i16::from_le_bytes([0x01, 0x01]);
         let packet_id_raw = [0x01, 0x01];
-        PacketZcGroupinfoChange {
+        PacketZcGroupInfoChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -43533,7 +43533,7 @@ impl PacketZcGroupinfoChange {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcGroupinfoChange::new(packetver);
+        let mut packet = PacketZcGroupInfoChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/exp_option")) {
             if let Some(value) = entry.value {
                 packet.set_exp_option(value.parse().map_err(|_| format!("Invalid value {} for exp_option", value))?);
@@ -43543,12 +43543,12 @@ impl PacketZcGroupinfoChange {
     }
 }
 
-impl Packet for PacketZcGroupinfoChange {
+impl Packet for PacketZcGroupInfoChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcGroupinfoChange::packet_id(packetver)
+       PacketZcGroupInfoChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcGroupinfoChange"
+       "PacketZcGroupInfoChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43602,13 +43602,13 @@ impl Packet for PacketZcGroupinfoChange {
     }
 }
 
-impl PacketCzChangeGroupexpoption {
+impl PacketCzChangeGroupExpOption {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeGroupexpoption {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeGroupExpOption {
         let mut offset: usize = 0;
-        PacketCzChangeGroupexpoption {
+        PacketCzChangeGroupExpOption {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -43648,10 +43648,10 @@ impl PacketCzChangeGroupexpoption {
     pub fn set_exp_option_raw(&mut self, value: [u8; 4]) {
         self.exp_option_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzChangeGroupexpoption {
+    pub fn new(packetver: u32) -> PacketCzChangeGroupExpOption {
         let packet_id = i16::from_le_bytes([0x02, 0x01]);
         let packet_id_raw = [0x02, 0x01];
-        PacketCzChangeGroupexpoption {
+        PacketCzChangeGroupExpOption {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -43661,7 +43661,7 @@ impl PacketCzChangeGroupexpoption {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzChangeGroupexpoption::new(packetver);
+        let mut packet = PacketCzChangeGroupExpOption::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/exp_option")) {
             if let Some(value) = entry.value {
                 packet.set_exp_option(value.parse().map_err(|_| format!("Invalid value {} for exp_option", value))?);
@@ -43671,12 +43671,12 @@ impl PacketCzChangeGroupexpoption {
     }
 }
 
-impl Packet for PacketCzChangeGroupexpoption {
+impl Packet for PacketCzChangeGroupExpOption {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzChangeGroupexpoption::packet_id(packetver)
+       PacketCzChangeGroupExpOption::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzChangeGroupexpoption"
+       "PacketCzChangeGroupExpOption"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -43901,13 +43901,13 @@ impl Packet for PacketCzReqExpelGroupMember {
     }
 }
 
-impl PacketZcAddMemberToGroup {
+impl PacketZcAddMemberToGroupNoRules {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroup {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroupNoRules {
         let mut offset: usize = 0;
-        PacketZcAddMemberToGroup {
+        PacketZcAddMemberToGroupNoRules {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44077,10 +44077,10 @@ impl PacketZcAddMemberToGroup {
     pub fn set_map_name_raw(&mut self, value: [u8; 16]) {
         self.map_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddMemberToGroup {
+    pub fn new(packetver: u32) -> PacketZcAddMemberToGroupNoRules {
         let packet_id = i16::from_le_bytes([0x04, 0x01]);
         let packet_id_raw = [0x04, 0x01];
-        PacketZcAddMemberToGroup {
+        PacketZcAddMemberToGroupNoRules {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -44104,7 +44104,7 @@ impl PacketZcAddMemberToGroup {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddMemberToGroup::new(packetver);
+        let mut packet = PacketZcAddMemberToGroupNoRules::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -44170,12 +44170,12 @@ impl PacketZcAddMemberToGroup {
     }
 }
 
-impl Packet for PacketZcAddMemberToGroup {
+impl Packet for PacketZcAddMemberToGroupNoRules {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddMemberToGroup::packet_id(packetver)
+       PacketZcAddMemberToGroupNoRules::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddMemberToGroup"
+       "PacketZcAddMemberToGroupNoRules"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44469,13 +44469,13 @@ impl Packet for PacketZcDeleteMemberFromGroup {
     }
 }
 
-impl PacketZcNotifyHpToGroupm {
+impl PacketZcNotifyHpToGroupMemberShortHp {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyHpToGroupm {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyHpToGroupMemberShortHp {
         let mut offset: usize = 0;
-        PacketZcNotifyHpToGroupm {
+        PacketZcNotifyHpToGroupMemberShortHp {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44547,10 +44547,10 @@ impl PacketZcNotifyHpToGroupm {
     pub fn set_maxhp_raw(&mut self, value: [u8; 2]) {
         self.maxhp_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyHpToGroupm {
+    pub fn new(packetver: u32) -> PacketZcNotifyHpToGroupMemberShortHp {
         let packet_id = i16::from_le_bytes([0x06, 0x01]);
         let packet_id_raw = [0x06, 0x01];
-        PacketZcNotifyHpToGroupm {
+        PacketZcNotifyHpToGroupMemberShortHp {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -44564,7 +44564,7 @@ impl PacketZcNotifyHpToGroupm {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyHpToGroupm::new(packetver);
+        let mut packet = PacketZcNotifyHpToGroupMemberShortHp::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -44584,12 +44584,12 @@ impl PacketZcNotifyHpToGroupm {
     }
 }
 
-impl Packet for PacketZcNotifyHpToGroupm {
+impl Packet for PacketZcNotifyHpToGroupMemberShortHp {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyHpToGroupm::packet_id(packetver)
+       PacketZcNotifyHpToGroupMemberShortHp::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyHpToGroupm"
+       "PacketZcNotifyHpToGroupMemberShortHp"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -44653,13 +44653,13 @@ impl Packet for PacketZcNotifyHpToGroupm {
     }
 }
 
-impl PacketZcNotifyPositionToGroupm {
+impl PacketZcNotifyPositionToGroupMember {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGroupm {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGroupMember {
         let mut offset: usize = 0;
-        PacketZcNotifyPositionToGroupm {
+        PacketZcNotifyPositionToGroupMember {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -44731,10 +44731,10 @@ impl PacketZcNotifyPositionToGroupm {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyPositionToGroupm {
+    pub fn new(packetver: u32) -> PacketZcNotifyPositionToGroupMember {
         let packet_id = i16::from_le_bytes([0x07, 0x01]);
         let packet_id_raw = [0x07, 0x01];
-        PacketZcNotifyPositionToGroupm {
+        PacketZcNotifyPositionToGroupMember {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -44748,7 +44748,7 @@ impl PacketZcNotifyPositionToGroupm {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyPositionToGroupm::new(packetver);
+        let mut packet = PacketZcNotifyPositionToGroupMember::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -44768,12 +44768,12 @@ impl PacketZcNotifyPositionToGroupm {
     }
 }
 
-impl Packet for PacketZcNotifyPositionToGroupm {
+impl Packet for PacketZcNotifyPositionToGroupMember {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyPositionToGroupm::packet_id(packetver)
+       PacketZcNotifyPositionToGroupMember::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyPositionToGroupm"
+       "PacketZcNotifyPositionToGroupMember"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45555,13 +45555,13 @@ impl Packet for PacketZcMvp {
     }
 }
 
-impl PacketZcThrowMvpitem {
+impl PacketZcThrowMvpItem {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcThrowMvpitem {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcThrowMvpItem {
         let mut offset: usize = 0;
-        PacketZcThrowMvpitem {
+        PacketZcThrowMvpItem {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45585,10 +45585,10 @@ impl PacketZcThrowMvpitem {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcThrowMvpitem {
+    pub fn new(packetver: u32) -> PacketZcThrowMvpItem {
         let packet_id = i16::from_le_bytes([0x0d, 0x01]);
         let packet_id_raw = [0x0d, 0x01];
-        PacketZcThrowMvpitem {
+        PacketZcThrowMvpItem {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -45596,17 +45596,17 @@ impl PacketZcThrowMvpitem {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcThrowMvpitem::new(packetver);
+        let mut packet = PacketZcThrowMvpItem::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketZcThrowMvpitem {
+impl Packet for PacketZcThrowMvpItem {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcThrowMvpitem::packet_id(packetver)
+       PacketZcThrowMvpItem::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcThrowMvpitem"
+       "PacketZcThrowMvpItem"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45655,13 +45655,13 @@ impl Packet for PacketZcThrowMvpitem {
     }
 }
 
-impl PacketZcSkillinfoUpdate {
+impl PacketZcSkillInfoUpdate {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0e01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoUpdate {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillInfoUpdate {
         let mut offset: usize = 0;
-        PacketZcSkillinfoUpdate {
+        PacketZcSkillInfoUpdate {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45765,10 +45765,10 @@ impl PacketZcSkillinfoUpdate {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillinfoUpdate {
+    pub fn new(packetver: u32) -> PacketZcSkillInfoUpdate {
         let packet_id = i16::from_le_bytes([0x0e, 0x01]);
         let packet_id_raw = [0x0e, 0x01];
-        PacketZcSkillinfoUpdate {
+        PacketZcSkillInfoUpdate {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -45786,7 +45786,7 @@ impl PacketZcSkillinfoUpdate {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillinfoUpdate::new(packetver);
+        let mut packet = PacketZcSkillInfoUpdate::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -45816,12 +45816,12 @@ impl PacketZcSkillinfoUpdate {
     }
 }
 
-impl Packet for PacketZcSkillinfoUpdate {
+impl Packet for PacketZcSkillInfoUpdate {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillinfoUpdate::packet_id(packetver)
+       PacketZcSkillInfoUpdate::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillinfoUpdate"
+       "PacketZcSkillInfoUpdate"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -45895,11 +45895,11 @@ impl Packet for PacketZcSkillinfoUpdate {
     }
 }
 
-impl PacketZcSkillinfoList {
+impl PacketZcSkillInfoList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0f01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillInfoList {
         let mut offset: usize = 0;
         let vec_type_len = SKILLINFO::base_len(packetver);
         let vec_start: usize = 4;
@@ -45912,7 +45912,7 @@ impl PacketZcSkillinfoList {
             vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcSkillinfoList {
+        PacketZcSkillInfoList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -45968,10 +45968,10 @@ impl PacketZcSkillinfoList {
     pub fn set_skill_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.skill_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillinfoList {
+    pub fn new(packetver: u32) -> PacketZcSkillInfoList {
         let packet_id = i16::from_le_bytes([0x0f, 0x01]);
         let packet_id_raw = [0x0f, 0x01];
-        PacketZcSkillinfoList {
+        PacketZcSkillInfoList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -45983,7 +45983,7 @@ impl PacketZcSkillinfoList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillinfoList::new(packetver);
+        let mut packet = PacketZcSkillInfoList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -45997,12 +45997,12 @@ impl PacketZcSkillinfoList {
     }
 }
 
-impl Packet for PacketZcSkillinfoList {
+impl Packet for PacketZcSkillInfoList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillinfoList::packet_id(packetver)
+       PacketZcSkillInfoList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillinfoList"
+       "PacketZcSkillInfoList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46062,13 +46062,13 @@ impl Packet for PacketZcSkillinfoList {
     }
 }
 
-impl PacketZcAckTouseskill {
+impl PacketZcAckToUseSkill {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckTouseskill {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckToUseSkill {
         let mut offset: usize = 0;
-        PacketZcAckTouseskill {
+        PacketZcAckToUseSkill {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46156,10 +46156,10 @@ impl PacketZcAckTouseskill {
     pub fn set_cause_raw(&mut self, value: [u8; 1]) {
         self.cause_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckTouseskill {
+    pub fn new(packetver: u32) -> PacketZcAckToUseSkill {
         let packet_id = i16::from_le_bytes([0x10, 0x01]);
         let packet_id_raw = [0x10, 0x01];
-        PacketZcAckTouseskill {
+        PacketZcAckToUseSkill {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -46175,7 +46175,7 @@ impl PacketZcAckTouseskill {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckTouseskill::new(packetver);
+        let mut packet = PacketZcAckToUseSkill::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -46200,12 +46200,12 @@ impl PacketZcAckTouseskill {
     }
 }
 
-impl Packet for PacketZcAckTouseskill {
+impl Packet for PacketZcAckToUseSkill {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckTouseskill::packet_id(packetver)
+       PacketZcAckToUseSkill::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckTouseskill"
+       "PacketZcAckToUseSkill"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -46400,13 +46400,13 @@ impl Packet for PacketZcAddSkill {
     }
 }
 
-impl PacketCzUpgradeSkilllevel {
+impl PacketCzUpgradeSkillLevel {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUpgradeSkilllevel {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUpgradeSkillLevel {
         let mut offset: usize = 0;
-        PacketCzUpgradeSkilllevel {
+        PacketCzUpgradeSkillLevel {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -46446,10 +46446,10 @@ impl PacketCzUpgradeSkilllevel {
     pub fn set_skid_raw(&mut self, value: [u8; 2]) {
         self.skid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzUpgradeSkilllevel {
+    pub fn new(packetver: u32) -> PacketCzUpgradeSkillLevel {
         let packet_id = i16::from_le_bytes([0x12, 0x01]);
         let packet_id_raw = [0x12, 0x01];
-        PacketCzUpgradeSkilllevel {
+        PacketCzUpgradeSkillLevel {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -46459,7 +46459,7 @@ impl PacketCzUpgradeSkilllevel {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzUpgradeSkilllevel::new(packetver);
+        let mut packet = PacketCzUpgradeSkillLevel::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -46469,12 +46469,12 @@ impl PacketCzUpgradeSkilllevel {
     }
 }
 
-impl Packet for PacketCzUpgradeSkilllevel {
+impl Packet for PacketCzUpgradeSkillLevel {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzUpgradeSkilllevel::packet_id(packetver)
+       PacketCzUpgradeSkillLevel::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzUpgradeSkilllevel"
+       "PacketCzUpgradeSkillLevel"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -49239,13 +49239,13 @@ impl Packet for PacketCzUseSkill {
     }
 }
 
-impl PacketZcNotifySkill {
+impl PacketZcNotifySkillShortDamage {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkill {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkillShortDamage {
         let mut offset: usize = 0;
-        PacketZcNotifySkill {
+        PacketZcNotifySkillShortDamage {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -49429,10 +49429,10 @@ impl PacketZcNotifySkill {
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifySkill {
+    pub fn new(packetver: u32) -> PacketZcNotifySkillShortDamage {
         let packet_id = i16::from_le_bytes([0x14, 0x01]);
         let packet_id_raw = [0x14, 0x01];
-        PacketZcNotifySkill {
+        PacketZcNotifySkillShortDamage {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -49460,7 +49460,7 @@ impl PacketZcNotifySkill {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifySkill::new(packetver);
+        let mut packet = PacketZcNotifySkillShortDamage::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -49515,12 +49515,12 @@ impl PacketZcNotifySkill {
     }
 }
 
-impl Packet for PacketZcNotifySkill {
+impl Packet for PacketZcNotifySkillShortDamage {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifySkill::packet_id(packetver)
+       PacketZcNotifySkillShortDamage::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifySkill"
+       "PacketZcNotifySkillShortDamage"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -50055,7 +50055,7 @@ impl Packet for PacketZcNotifySkillPosition {
     }
 }
 
-impl PacketCzUseSkillToground {
+impl PacketCzUseSkillToGround {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20120307 {
             "0x3804"
@@ -50077,9 +50077,9 @@ impl PacketCzUseSkillToground {
             "0x1601"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillToground {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillToGround {
         let mut offset: usize = 0;
-        PacketCzUseSkillToground {
+        PacketCzUseSkillToGround {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -52275,7 +52275,7 @@ impl PacketCzUseSkillToground {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzUseSkillToground {
+    pub fn new(packetver: u32) -> PacketCzUseSkillToGround {
         let (packet_id, packet_id_raw) = if packetver >= 20120307 {
             (i16::from_le_bytes([0x38, 0x04]), [0x38, 0x04])
         } else if packetver >= 20111005 {
@@ -52295,7 +52295,7 @@ impl PacketCzUseSkillToground {
         } else {
             (i16::from_le_bytes([0x16, 0x01]), [0x16, 0x01])
         };
-        PacketCzUseSkillToground {
+        PacketCzUseSkillToGround {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -52447,7 +52447,7 @@ impl PacketCzUseSkillToground {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzUseSkillToground::new(packetver);
+        let mut packet = PacketCzUseSkillToGround::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/a0")) {
             if let Some(value) = entry.value {
             }
@@ -52744,12 +52744,12 @@ impl PacketCzUseSkillToground {
     }
 }
 
-impl Packet for PacketCzUseSkillToground {
+impl Packet for PacketCzUseSkillToGround {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzUseSkillToground::packet_id(packetver)
+       PacketCzUseSkillToGround::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzUseSkillToground"
+       "PacketCzUseSkillToGround"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53566,13 +53566,13 @@ impl Packet for PacketCzUseSkillToground {
     }
 }
 
-impl PacketZcNotifyGroundskill {
+impl PacketZcNotifyGroundSkill {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyGroundskill {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyGroundSkill {
         let mut offset: usize = 0;
-        PacketZcNotifyGroundskill {
+        PacketZcNotifyGroundSkill {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53692,10 +53692,10 @@ impl PacketZcNotifyGroundskill {
     pub fn set_start_time_raw(&mut self, value: [u8; 4]) {
         self.start_time_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyGroundskill {
+    pub fn new(packetver: u32) -> PacketZcNotifyGroundSkill {
         let packet_id = i16::from_le_bytes([0x17, 0x01]);
         let packet_id_raw = [0x17, 0x01];
-        PacketZcNotifyGroundskill {
+        PacketZcNotifyGroundSkill {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -53715,7 +53715,7 @@ impl PacketZcNotifyGroundskill {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyGroundskill::new(packetver);
+        let mut packet = PacketZcNotifyGroundSkill::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -53750,12 +53750,12 @@ impl PacketZcNotifyGroundskill {
     }
 }
 
-impl Packet for PacketZcNotifyGroundskill {
+impl Packet for PacketZcNotifyGroundSkill {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyGroundskill::packet_id(packetver)
+       PacketZcNotifyGroundSkill::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyGroundskill"
+       "PacketZcNotifyGroundSkill"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53834,13 +53834,13 @@ impl Packet for PacketZcNotifyGroundskill {
     }
 }
 
-impl PacketCzCancelLockon {
+impl PacketCzCancelLockOn {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCancelLockon {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCancelLockOn {
         let mut offset: usize = 0;
-        PacketCzCancelLockon {
+        PacketCzCancelLockOn {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -53864,10 +53864,10 @@ impl PacketCzCancelLockon {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzCancelLockon {
+    pub fn new(packetver: u32) -> PacketCzCancelLockOn {
         let packet_id = i16::from_le_bytes([0x18, 0x01]);
         let packet_id_raw = [0x18, 0x01];
-        PacketCzCancelLockon {
+        PacketCzCancelLockOn {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -53875,17 +53875,17 @@ impl PacketCzCancelLockon {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzCancelLockon::new(packetver);
+        let mut packet = PacketCzCancelLockOn::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzCancelLockon {
+impl Packet for PacketCzCancelLockOn {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzCancelLockon::packet_id(packetver)
+       PacketCzCancelLockOn::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzCancelLockon"
+       "PacketCzCancelLockOn"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -53934,13 +53934,13 @@ impl Packet for PacketCzCancelLockon {
     }
 }
 
-impl PacketZcStateChange {
+impl PacketZcStateChangeShortEffect {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1901"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChange {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChangeShortEffect {
         let mut offset: usize = 0;
-        PacketZcStateChange {
+        PacketZcStateChangeShortEffect {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54044,10 +54044,10 @@ impl PacketZcStateChange {
     pub fn set_is_pkmode_on_raw(&mut self, value: [u8; 1]) {
         self.is_pkmode_on_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStateChange {
+    pub fn new(packetver: u32) -> PacketZcStateChangeShortEffect {
         let packet_id = i16::from_le_bytes([0x19, 0x01]);
         let packet_id_raw = [0x19, 0x01];
-        PacketZcStateChange {
+        PacketZcStateChangeShortEffect {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -54065,7 +54065,7 @@ impl PacketZcStateChange {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStateChange::new(packetver);
+        let mut packet = PacketZcStateChangeShortEffect::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -54095,12 +54095,12 @@ impl PacketZcStateChange {
     }
 }
 
-impl Packet for PacketZcStateChange {
+impl Packet for PacketZcStateChangeShortEffect {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStateChange::packet_id(packetver)
+       PacketZcStateChangeShortEffect::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStateChange"
+       "PacketZcStateChangeShortEffect"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54414,13 +54414,13 @@ impl Packet for PacketZcUseSkill {
     }
 }
 
-impl PacketCzSelectWarppoint {
+impl PacketCzSelectWarpPoint {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1b01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectWarppoint {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectWarpPoint {
         let mut offset: usize = 0;
-        PacketCzSelectWarppoint {
+        PacketCzSelectWarpPoint {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54482,10 +54482,10 @@ impl PacketCzSelectWarppoint {
     pub fn set_map_name_raw(&mut self, value: [u8; 16]) {
         self.map_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzSelectWarppoint {
+    pub fn new(packetver: u32) -> PacketCzSelectWarpPoint {
         let packet_id = i16::from_le_bytes([0x1b, 0x01]);
         let packet_id_raw = [0x1b, 0x01];
-        PacketCzSelectWarppoint {
+        PacketCzSelectWarpPoint {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -54497,7 +54497,7 @@ impl PacketCzSelectWarppoint {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzSelectWarppoint::new(packetver);
+        let mut packet = PacketCzSelectWarpPoint::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -54519,12 +54519,12 @@ impl PacketCzSelectWarppoint {
     }
 }
 
-impl Packet for PacketCzSelectWarppoint {
+impl Packet for PacketCzSelectWarpPoint {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzSelectWarppoint::packet_id(packetver)
+       PacketCzSelectWarpPoint::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzSelectWarppoint"
+       "PacketCzSelectWarpPoint"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54585,13 +54585,13 @@ impl Packet for PacketCzSelectWarppoint {
     }
 }
 
-impl PacketZcWarplist {
+impl PacketZcWarpList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1c01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcWarplist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcWarpList {
         let mut offset: usize = 0;
-        PacketZcWarplist {
+        PacketZcWarpList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54653,10 +54653,10 @@ impl PacketZcWarplist {
     pub fn set_map_name_raw(&mut self, value: [u8; 64]) {
         self.map_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcWarplist {
+    pub fn new(packetver: u32) -> PacketZcWarpList {
         let packet_id = i16::from_le_bytes([0x1c, 0x01]);
         let packet_id_raw = [0x1c, 0x01];
-        PacketZcWarplist {
+        PacketZcWarpList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -54668,7 +54668,7 @@ impl PacketZcWarplist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcWarplist::new(packetver);
+        let mut packet = PacketZcWarpList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -54690,12 +54690,12 @@ impl PacketZcWarplist {
     }
 }
 
-impl Packet for PacketZcWarplist {
+impl Packet for PacketZcWarpList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcWarplist::packet_id(packetver)
+       PacketZcWarpList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcWarplist"
+       "PacketZcWarpList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54756,13 +54756,13 @@ impl Packet for PacketZcWarplist {
     }
 }
 
-impl PacketCzRememberWarppoint {
+impl PacketCzRememberWarpPoint {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRememberWarppoint {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRememberWarpPoint {
         let mut offset: usize = 0;
-        PacketCzRememberWarppoint {
+        PacketCzRememberWarpPoint {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54786,10 +54786,10 @@ impl PacketCzRememberWarppoint {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzRememberWarppoint {
+    pub fn new(packetver: u32) -> PacketCzRememberWarpPoint {
         let packet_id = i16::from_le_bytes([0x1d, 0x01]);
         let packet_id_raw = [0x1d, 0x01];
-        PacketCzRememberWarppoint {
+        PacketCzRememberWarpPoint {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -54797,17 +54797,17 @@ impl PacketCzRememberWarppoint {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzRememberWarppoint::new(packetver);
+        let mut packet = PacketCzRememberWarpPoint::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzRememberWarppoint {
+impl Packet for PacketCzRememberWarpPoint {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzRememberWarppoint::packet_id(packetver)
+       PacketCzRememberWarpPoint::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzRememberWarppoint"
+       "PacketCzRememberWarpPoint"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -54856,13 +54856,13 @@ impl Packet for PacketCzRememberWarppoint {
     }
 }
 
-impl PacketZcAckRememberWarppoint {
+impl PacketZcAckRememberWarpPoint {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1e01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckRememberWarppoint {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckRememberWarpPoint {
         let mut offset: usize = 0;
-        PacketZcAckRememberWarppoint {
+        PacketZcAckRememberWarpPoint {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -54902,10 +54902,10 @@ impl PacketZcAckRememberWarppoint {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckRememberWarppoint {
+    pub fn new(packetver: u32) -> PacketZcAckRememberWarpPoint {
         let packet_id = i16::from_le_bytes([0x1e, 0x01]);
         let packet_id_raw = [0x1e, 0x01];
-        PacketZcAckRememberWarppoint {
+        PacketZcAckRememberWarpPoint {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -54915,7 +54915,7 @@ impl PacketZcAckRememberWarppoint {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckRememberWarppoint::new(packetver);
+        let mut packet = PacketZcAckRememberWarpPoint::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -54925,12 +54925,12 @@ impl PacketZcAckRememberWarppoint {
     }
 }
 
-impl Packet for PacketZcAckRememberWarppoint {
+impl Packet for PacketZcAckRememberWarpPoint {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckRememberWarppoint::packet_id(packetver)
+       PacketZcAckRememberWarpPoint::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckRememberWarppoint"
+       "PacketZcAckRememberWarpPoint"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55380,13 +55380,13 @@ impl Packet for PacketZcSkillDisappear {
     }
 }
 
-impl PacketZcNotifyCartitemCountinfo {
+impl PacketZcNotifyCartItemCountInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2101"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCartitemCountinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCartItemCountInfo {
         let mut offset: usize = 0;
-        PacketZcNotifyCartitemCountinfo {
+        PacketZcNotifyCartItemCountInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55474,10 +55474,10 @@ impl PacketZcNotifyCartitemCountinfo {
     pub fn set_max_weight_raw(&mut self, value: [u8; 4]) {
         self.max_weight_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyCartitemCountinfo {
+    pub fn new(packetver: u32) -> PacketZcNotifyCartItemCountInfo {
         let packet_id = i16::from_le_bytes([0x21, 0x01]);
         let packet_id_raw = [0x21, 0x01];
-        PacketZcNotifyCartitemCountinfo {
+        PacketZcNotifyCartItemCountInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -55493,7 +55493,7 @@ impl PacketZcNotifyCartitemCountinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyCartitemCountinfo::new(packetver);
+        let mut packet = PacketZcNotifyCartItemCountInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/cur_count")) {
             if let Some(value) = entry.value {
                 packet.set_cur_count(value.parse().map_err(|_| format!("Invalid value {} for cur_count", value))?);
@@ -55518,12 +55518,12 @@ impl PacketZcNotifyCartitemCountinfo {
     }
 }
 
-impl Packet for PacketZcNotifyCartitemCountinfo {
+impl Packet for PacketZcNotifyCartItemCountInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyCartitemCountinfo::packet_id(packetver)
+       PacketZcNotifyCartItemCountInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyCartitemCountinfo"
+       "PacketZcNotifyCartItemCountInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55592,11 +55592,11 @@ impl Packet for PacketZcNotifyCartitemCountinfo {
     }
 }
 
-impl PacketZcCartEquipmentItemlist {
+impl PacketZcCartEquipmentItemListNoExpire {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemListNoExpire {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -55609,7 +55609,7 @@ impl PacketZcCartEquipmentItemlist {
             vec_field.push(EquipmentitemExtrainfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcCartEquipmentItemlist {
+        PacketZcCartEquipmentItemListNoExpire {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55665,10 +55665,10 @@ impl PacketZcCartEquipmentItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCartEquipmentItemlist {
+    pub fn new(packetver: u32) -> PacketZcCartEquipmentItemListNoExpire {
         let packet_id = i16::from_le_bytes([0x22, 0x01]);
         let packet_id_raw = [0x22, 0x01];
-        PacketZcCartEquipmentItemlist {
+        PacketZcCartEquipmentItemListNoExpire {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -55680,7 +55680,7 @@ impl PacketZcCartEquipmentItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCartEquipmentItemlist::new(packetver);
+        let mut packet = PacketZcCartEquipmentItemListNoExpire::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -55694,12 +55694,12 @@ impl PacketZcCartEquipmentItemlist {
     }
 }
 
-impl Packet for PacketZcCartEquipmentItemlist {
+impl Packet for PacketZcCartEquipmentItemListNoExpire {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCartEquipmentItemlist::packet_id(packetver)
+       PacketZcCartEquipmentItemListNoExpire::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCartEquipmentItemlist"
+       "PacketZcCartEquipmentItemListNoExpire"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55759,11 +55759,11 @@ impl Packet for PacketZcCartEquipmentItemlist {
     }
 }
 
-impl PacketZcCartNormalItemlist {
+impl PacketZcCartNormalItemListNoCards {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2301"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemListNoCards {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -55776,7 +55776,7 @@ impl PacketZcCartNormalItemlist {
             vec_field.push(NormalitemExtrainfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcCartNormalItemlist {
+        PacketZcCartNormalItemListNoCards {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -55832,10 +55832,10 @@ impl PacketZcCartNormalItemlist {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCartNormalItemlist {
+    pub fn new(packetver: u32) -> PacketZcCartNormalItemListNoCards {
         let packet_id = i16::from_le_bytes([0x23, 0x01]);
         let packet_id_raw = [0x23, 0x01];
-        PacketZcCartNormalItemlist {
+        PacketZcCartNormalItemListNoCards {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -55847,7 +55847,7 @@ impl PacketZcCartNormalItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCartNormalItemlist::new(packetver);
+        let mut packet = PacketZcCartNormalItemListNoCards::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -55861,12 +55861,12 @@ impl PacketZcCartNormalItemlist {
     }
 }
 
-impl Packet for PacketZcCartNormalItemlist {
+impl Packet for PacketZcCartNormalItemListNoCards {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCartNormalItemlist::packet_id(packetver)
+       PacketZcCartNormalItemListNoCards::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCartNormalItemlist"
+       "PacketZcCartNormalItemListNoCards"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -55926,13 +55926,13 @@ impl Packet for PacketZcCartNormalItemlist {
     }
 }
 
-impl PacketZcAddItemToCart {
+impl PacketZcAddItemToCartNoType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCart {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCartNoType {
         let mut offset: usize = 0;
-        PacketZcAddItemToCart {
+        PacketZcAddItemToCartNoType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -56068,10 +56068,10 @@ impl PacketZcAddItemToCart {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddItemToCart {
+    pub fn new(packetver: u32) -> PacketZcAddItemToCartNoType {
         let packet_id = i16::from_le_bytes([0x24, 0x01]);
         let packet_id_raw = [0x24, 0x01];
-        PacketZcAddItemToCart {
+        PacketZcAddItemToCartNoType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -56093,7 +56093,7 @@ impl PacketZcAddItemToCart {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddItemToCart::new(packetver);
+        let mut packet = PacketZcAddItemToCartNoType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -56132,12 +56132,12 @@ impl PacketZcAddItemToCart {
     }
 }
 
-impl Packet for PacketZcAddItemToCart {
+impl Packet for PacketZcAddItemToCartNoType {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddItemToCart::packet_id(packetver)
+       PacketZcAddItemToCartNoType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddItemToCart"
+       "PacketZcAddItemToCartNoType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57000,13 +57000,13 @@ impl Packet for PacketCzMoveItemFromCartToStore {
     }
 }
 
-impl PacketCzReqCartoff {
+impl PacketCzReqCartOff {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2a01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqCartoff {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqCartOff {
         let mut offset: usize = 0;
-        PacketCzReqCartoff {
+        PacketCzReqCartOff {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57030,10 +57030,10 @@ impl PacketCzReqCartoff {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqCartoff {
+    pub fn new(packetver: u32) -> PacketCzReqCartOff {
         let packet_id = i16::from_le_bytes([0x2a, 0x01]);
         let packet_id_raw = [0x2a, 0x01];
-        PacketCzReqCartoff {
+        PacketCzReqCartOff {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57041,17 +57041,17 @@ impl PacketCzReqCartoff {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqCartoff::new(packetver);
+        let mut packet = PacketCzReqCartOff::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzReqCartoff {
+impl Packet for PacketCzReqCartOff {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqCartoff::packet_id(packetver)
+       PacketCzReqCartOff::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqCartoff"
+       "PacketCzReqCartOff"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57100,13 +57100,13 @@ impl Packet for PacketCzReqCartoff {
     }
 }
 
-impl PacketZcCartoff {
+impl PacketZcCartOff {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2b01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartoff {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartOff {
         let mut offset: usize = 0;
-        PacketZcCartoff {
+        PacketZcCartOff {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57130,10 +57130,10 @@ impl PacketZcCartoff {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCartoff {
+    pub fn new(packetver: u32) -> PacketZcCartOff {
         let packet_id = i16::from_le_bytes([0x2b, 0x01]);
         let packet_id_raw = [0x2b, 0x01];
-        PacketZcCartoff {
+        PacketZcCartOff {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57141,17 +57141,17 @@ impl PacketZcCartoff {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCartoff::new(packetver);
+        let mut packet = PacketZcCartOff::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketZcCartoff {
+impl Packet for PacketZcCartOff {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCartoff::packet_id(packetver)
+       PacketZcCartOff::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCartoff"
+       "PacketZcCartOff"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57200,13 +57200,13 @@ impl Packet for PacketZcCartoff {
     }
 }
 
-impl PacketZcAckAdditemToCart {
+impl PacketZcAckAddItemToCart {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2c01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAdditemToCart {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAddItemToCart {
         let mut offset: usize = 0;
-        PacketZcAckAdditemToCart {
+        PacketZcAckAddItemToCart {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57246,10 +57246,10 @@ impl PacketZcAckAdditemToCart {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckAdditemToCart {
+    pub fn new(packetver: u32) -> PacketZcAckAddItemToCart {
         let packet_id = i16::from_le_bytes([0x2c, 0x01]);
         let packet_id_raw = [0x2c, 0x01];
-        PacketZcAckAdditemToCart {
+        PacketZcAckAddItemToCart {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57259,7 +57259,7 @@ impl PacketZcAckAdditemToCart {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckAdditemToCart::new(packetver);
+        let mut packet = PacketZcAckAddItemToCart::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -57269,12 +57269,12 @@ impl PacketZcAckAdditemToCart {
     }
 }
 
-impl Packet for PacketZcAckAdditemToCart {
+impl Packet for PacketZcAckAddItemToCart {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckAdditemToCart::packet_id(packetver)
+       PacketZcAckAddItemToCart::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckAdditemToCart"
+       "PacketZcAckAddItemToCart"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57328,13 +57328,13 @@ impl Packet for PacketZcAckAdditemToCart {
     }
 }
 
-impl PacketZcOpenstore {
+impl PacketZcOpenStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenstore {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenStore {
         let mut offset: usize = 0;
-        PacketZcOpenstore {
+        PacketZcOpenStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57374,10 +57374,10 @@ impl PacketZcOpenstore {
     pub fn set_itemcount_raw(&mut self, value: [u8; 2]) {
         self.itemcount_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcOpenstore {
+    pub fn new(packetver: u32) -> PacketZcOpenStore {
         let packet_id = i16::from_le_bytes([0x2d, 0x01]);
         let packet_id_raw = [0x2d, 0x01];
-        PacketZcOpenstore {
+        PacketZcOpenStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57387,7 +57387,7 @@ impl PacketZcOpenstore {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcOpenstore::new(packetver);
+        let mut packet = PacketZcOpenStore::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/itemcount")) {
             if let Some(value) = entry.value {
                 packet.set_itemcount(value.parse().map_err(|_| format!("Invalid value {} for itemcount", value))?);
@@ -57397,12 +57397,12 @@ impl PacketZcOpenstore {
     }
 }
 
-impl Packet for PacketZcOpenstore {
+impl Packet for PacketZcOpenStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcOpenstore::packet_id(packetver)
+       PacketZcOpenStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcOpenstore"
+       "PacketZcOpenStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57456,13 +57456,13 @@ impl Packet for PacketZcOpenstore {
     }
 }
 
-impl PacketZcAckOpenstore2 {
+impl PacketZcAckOpenStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x280a"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckOpenstore2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckOpenStore {
         let mut offset: usize = 0;
-        PacketZcAckOpenstore2 {
+        PacketZcAckOpenStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57502,10 +57502,10 @@ impl PacketZcAckOpenstore2 {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckOpenstore2 {
+    pub fn new(packetver: u32) -> PacketZcAckOpenStore {
         let packet_id = i16::from_le_bytes([0x28, 0x0a]);
         let packet_id_raw = [0x28, 0x0a];
-        PacketZcAckOpenstore2 {
+        PacketZcAckOpenStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57515,7 +57515,7 @@ impl PacketZcAckOpenstore2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckOpenstore2::new(packetver);
+        let mut packet = PacketZcAckOpenStore::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -57525,12 +57525,12 @@ impl PacketZcAckOpenstore2 {
     }
 }
 
-impl Packet for PacketZcAckOpenstore2 {
+impl Packet for PacketZcAckOpenStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckOpenstore2::packet_id(packetver)
+       PacketZcAckOpenStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckOpenstore2"
+       "PacketZcAckOpenStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57584,13 +57584,13 @@ impl Packet for PacketZcAckOpenstore2 {
     }
 }
 
-impl PacketCzReqClosestore {
+impl PacketCzReqCloseStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2e01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqClosestore {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqCloseStore {
         let mut offset: usize = 0;
-        PacketCzReqClosestore {
+        PacketCzReqCloseStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57614,10 +57614,10 @@ impl PacketCzReqClosestore {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqClosestore {
+    pub fn new(packetver: u32) -> PacketCzReqCloseStore {
         let packet_id = i16::from_le_bytes([0x2e, 0x01]);
         let packet_id_raw = [0x2e, 0x01];
-        PacketCzReqClosestore {
+        PacketCzReqCloseStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57625,17 +57625,17 @@ impl PacketCzReqClosestore {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqClosestore::new(packetver);
+        let mut packet = PacketCzReqCloseStore::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzReqClosestore {
+impl Packet for PacketCzReqCloseStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqClosestore::packet_id(packetver)
+       PacketCzReqCloseStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqClosestore"
+       "PacketCzReqCloseStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57684,11 +57684,11 @@ impl Packet for PacketCzReqClosestore {
     }
 }
 
-impl PacketCzReqOpenstore {
+impl PacketCzReqOpenStoreNoResult {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2f01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenstore {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenStoreNoResult {
         let mut offset: usize = 0;
         let vec_type_len = StoreItem::base_len(packetver);
         let vec_start: usize = 84;
@@ -57701,7 +57701,7 @@ impl PacketCzReqOpenstore {
             vec_field.push(StoreItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzReqOpenstore {
+        PacketCzReqOpenStoreNoResult {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57779,10 +57779,10 @@ impl PacketCzReqOpenstore {
     pub fn set_store_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.store_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqOpenstore {
+    pub fn new(packetver: u32) -> PacketCzReqOpenStoreNoResult {
         let packet_id = i16::from_le_bytes([0x2f, 0x01]);
         let packet_id_raw = [0x2f, 0x01];
-        PacketCzReqOpenstore {
+        PacketCzReqOpenStoreNoResult {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57796,7 +57796,7 @@ impl PacketCzReqOpenstore {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqOpenstore::new(packetver);
+        let mut packet = PacketCzReqOpenStoreNoResult::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -57822,12 +57822,12 @@ impl PacketCzReqOpenstore {
     }
 }
 
-impl Packet for PacketCzReqOpenstore {
+impl Packet for PacketCzReqOpenStoreNoResult {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqOpenstore::packet_id(packetver)
+       PacketCzReqOpenStoreNoResult::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqOpenstore"
+       "PacketCzReqOpenStoreNoResult"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -57894,13 +57894,13 @@ impl Packet for PacketCzReqOpenstore {
     }
 }
 
-impl PacketCzReqBuyFrommc {
+impl PacketCzReqBuyFromMc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBuyFrommc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqBuyFromMc {
         let mut offset: usize = 0;
-        PacketCzReqBuyFrommc {
+        PacketCzReqBuyFromMc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -57940,10 +57940,10 @@ impl PacketCzReqBuyFrommc {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqBuyFrommc {
+    pub fn new(packetver: u32) -> PacketCzReqBuyFromMc {
         let packet_id = i16::from_le_bytes([0x30, 0x01]);
         let packet_id_raw = [0x30, 0x01];
-        PacketCzReqBuyFrommc {
+        PacketCzReqBuyFromMc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -57953,7 +57953,7 @@ impl PacketCzReqBuyFrommc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqBuyFrommc::new(packetver);
+        let mut packet = PacketCzReqBuyFromMc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -57963,12 +57963,12 @@ impl PacketCzReqBuyFrommc {
     }
 }
 
-impl Packet for PacketCzReqBuyFrommc {
+impl Packet for PacketCzReqBuyFromMc {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqBuyFrommc::packet_id(packetver)
+       PacketCzReqBuyFromMc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqBuyFrommc"
+       "PacketCzReqBuyFromMc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -58321,11 +58321,11 @@ impl Packet for PacketZcDisappearEntry {
     }
 }
 
-impl PacketZcPcPurchaseItemlistFrommc {
+impl PacketZcPcPurchaseItemListFromMcNoUniqueId {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3301"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemlistFrommc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemListFromMcNoUniqueId {
         let mut offset: usize = 0;
         let vec_type_len = PurchaseItemFrommc::base_len(packetver);
         let vec_start: usize = 8;
@@ -58338,7 +58338,7 @@ impl PacketZcPcPurchaseItemlistFrommc {
             vec_field.push(PurchaseItemFrommc::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcPcPurchaseItemlistFrommc {
+        PacketZcPcPurchaseItemListFromMcNoUniqueId {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58410,10 +58410,10 @@ impl PacketZcPcPurchaseItemlistFrommc {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcPurchaseItemlistFrommc {
+    pub fn new(packetver: u32) -> PacketZcPcPurchaseItemListFromMcNoUniqueId {
         let packet_id = i16::from_le_bytes([0x33, 0x01]);
         let packet_id_raw = [0x33, 0x01];
-        PacketZcPcPurchaseItemlistFrommc {
+        PacketZcPcPurchaseItemListFromMcNoUniqueId {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -58427,7 +58427,7 @@ impl PacketZcPcPurchaseItemlistFrommc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcPurchaseItemlistFrommc::new(packetver);
+        let mut packet = PacketZcPcPurchaseItemListFromMcNoUniqueId::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -58446,12 +58446,12 @@ impl PacketZcPcPurchaseItemlistFrommc {
     }
 }
 
-impl Packet for PacketZcPcPurchaseItemlistFrommc {
+impl Packet for PacketZcPcPurchaseItemListFromMcNoUniqueId {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcPurchaseItemlistFrommc::packet_id(packetver)
+       PacketZcPcPurchaseItemListFromMcNoUniqueId::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcPurchaseItemlistFrommc"
+       "PacketZcPcPurchaseItemListFromMcNoUniqueId"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -58516,11 +58516,11 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc {
     }
 }
 
-impl PacketCzPcPurchaseItemlistFrommc {
+impl PacketCzPcPurchaseItemListFromMcNoUniqueId {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemlistFrommc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemListFromMcNoUniqueId {
         let mut offset: usize = 0;
         let vec_type_len = CzPurchaseItemFrommc::base_len(packetver);
         let vec_start: usize = 8;
@@ -58533,7 +58533,7 @@ impl PacketCzPcPurchaseItemlistFrommc {
             vec_field.push(CzPurchaseItemFrommc::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzPcPurchaseItemlistFrommc {
+        PacketCzPcPurchaseItemListFromMcNoUniqueId {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58605,10 +58605,10 @@ impl PacketCzPcPurchaseItemlistFrommc {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzPcPurchaseItemlistFrommc {
+    pub fn new(packetver: u32) -> PacketCzPcPurchaseItemListFromMcNoUniqueId {
         let packet_id = i16::from_le_bytes([0x34, 0x01]);
         let packet_id_raw = [0x34, 0x01];
-        PacketCzPcPurchaseItemlistFrommc {
+        PacketCzPcPurchaseItemListFromMcNoUniqueId {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -58622,7 +58622,7 @@ impl PacketCzPcPurchaseItemlistFrommc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzPcPurchaseItemlistFrommc::new(packetver);
+        let mut packet = PacketCzPcPurchaseItemListFromMcNoUniqueId::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -58641,12 +58641,12 @@ impl PacketCzPcPurchaseItemlistFrommc {
     }
 }
 
-impl Packet for PacketCzPcPurchaseItemlistFrommc {
+impl Packet for PacketCzPcPurchaseItemListFromMcNoUniqueId {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzPcPurchaseItemlistFrommc::packet_id(packetver)
+       PacketCzPcPurchaseItemListFromMcNoUniqueId::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzPcPurchaseItemlistFrommc"
+       "PacketCzPcPurchaseItemListFromMcNoUniqueId"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -58711,13 +58711,13 @@ impl Packet for PacketCzPcPurchaseItemlistFrommc {
     }
 }
 
-impl PacketZcPcPurchaseResultFrommc {
+impl PacketZcPcPurchaseResultFromMc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseResultFrommc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseResultFromMc {
         let mut offset: usize = 0;
-        PacketZcPcPurchaseResultFrommc {
+        PacketZcPcPurchaseResultFromMc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58789,10 +58789,10 @@ impl PacketZcPcPurchaseResultFrommc {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcPurchaseResultFrommc {
+    pub fn new(packetver: u32) -> PacketZcPcPurchaseResultFromMc {
         let packet_id = i16::from_le_bytes([0x35, 0x01]);
         let packet_id_raw = [0x35, 0x01];
-        PacketZcPcPurchaseResultFrommc {
+        PacketZcPcPurchaseResultFromMc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -58806,7 +58806,7 @@ impl PacketZcPcPurchaseResultFrommc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcPurchaseResultFrommc::new(packetver);
+        let mut packet = PacketZcPcPurchaseResultFromMc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -58826,12 +58826,12 @@ impl PacketZcPcPurchaseResultFrommc {
     }
 }
 
-impl Packet for PacketZcPcPurchaseResultFrommc {
+impl Packet for PacketZcPcPurchaseResultFromMc {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcPurchaseResultFrommc::packet_id(packetver)
+       PacketZcPcPurchaseResultFromMc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcPurchaseResultFrommc"
+       "PacketZcPcPurchaseResultFromMc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -58895,11 +58895,11 @@ impl Packet for PacketZcPcPurchaseResultFrommc {
     }
 }
 
-impl PacketZcPcPurchaseMyitemlist {
+impl PacketZcPcPurchaseMyItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseMyitemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseMyItemList {
         let mut offset: usize = 0;
         let vec_type_len = PurchaseMyitem::base_len(packetver);
         let vec_start: usize = 8;
@@ -58912,7 +58912,7 @@ impl PacketZcPcPurchaseMyitemlist {
             vec_field.push(PurchaseMyitem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcPcPurchaseMyitemlist {
+        PacketZcPcPurchaseMyItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -58984,10 +58984,10 @@ impl PacketZcPcPurchaseMyitemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcPurchaseMyitemlist {
+    pub fn new(packetver: u32) -> PacketZcPcPurchaseMyItemList {
         let packet_id = i16::from_le_bytes([0x36, 0x01]);
         let packet_id_raw = [0x36, 0x01];
-        PacketZcPcPurchaseMyitemlist {
+        PacketZcPcPurchaseMyItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -59001,7 +59001,7 @@ impl PacketZcPcPurchaseMyitemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcPurchaseMyitemlist::new(packetver);
+        let mut packet = PacketZcPcPurchaseMyItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -59020,12 +59020,12 @@ impl PacketZcPcPurchaseMyitemlist {
     }
 }
 
-impl Packet for PacketZcPcPurchaseMyitemlist {
+impl Packet for PacketZcPcPurchaseMyItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcPurchaseMyitemlist::packet_id(packetver)
+       PacketZcPcPurchaseMyItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcPurchaseMyitemlist"
+       "PacketZcPcPurchaseMyItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59090,13 +59090,13 @@ impl Packet for PacketZcPcPurchaseMyitemlist {
     }
 }
 
-impl PacketZcDeleteitemFromMcstore {
+impl PacketZcDeleteItemFromMcStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteitemFromMcstore {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDeleteItemFromMcStore {
         let mut offset: usize = 0;
-        PacketZcDeleteitemFromMcstore {
+        PacketZcDeleteItemFromMcStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59152,10 +59152,10 @@ impl PacketZcDeleteitemFromMcstore {
     pub fn set_count_raw(&mut self, value: [u8; 2]) {
         self.count_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcDeleteitemFromMcstore {
+    pub fn new(packetver: u32) -> PacketZcDeleteItemFromMcStore {
         let packet_id = i16::from_le_bytes([0x37, 0x01]);
         let packet_id_raw = [0x37, 0x01];
-        PacketZcDeleteitemFromMcstore {
+        PacketZcDeleteItemFromMcStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -59167,7 +59167,7 @@ impl PacketZcDeleteitemFromMcstore {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcDeleteitemFromMcstore::new(packetver);
+        let mut packet = PacketZcDeleteItemFromMcStore::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -59182,12 +59182,12 @@ impl PacketZcDeleteitemFromMcstore {
     }
 }
 
-impl Packet for PacketZcDeleteitemFromMcstore {
+impl Packet for PacketZcDeleteItemFromMcStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcDeleteitemFromMcstore::packet_id(packetver)
+       PacketZcDeleteItemFromMcStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcDeleteitemFromMcstore"
+       "PacketZcDeleteItemFromMcStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -59246,13 +59246,13 @@ impl Packet for PacketZcDeleteitemFromMcstore {
     }
 }
 
-impl PacketCzPkmodeChange {
+impl PacketCzPkModeChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPkmodeChange {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPkModeChange {
         let mut offset: usize = 0;
-        PacketCzPkmodeChange {
+        PacketCzPkModeChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -59292,10 +59292,10 @@ impl PacketCzPkmodeChange {
     pub fn set_is_turn_on_raw(&mut self, value: [u8; 1]) {
         self.is_turn_on_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzPkmodeChange {
+    pub fn new(packetver: u32) -> PacketCzPkModeChange {
         let packet_id = i16::from_le_bytes([0x38, 0x01]);
         let packet_id_raw = [0x38, 0x01];
-        PacketCzPkmodeChange {
+        PacketCzPkModeChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -59305,7 +59305,7 @@ impl PacketCzPkmodeChange {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzPkmodeChange::new(packetver);
+        let mut packet = PacketCzPkModeChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/is_turn_on")) {
             if let Some(value) = entry.value {
                 packet.set_is_turn_on(value.parse().map_err(|_| format!("Invalid value {} for is_turn_on", value))?);
@@ -59315,12 +59315,12 @@ impl PacketCzPkmodeChange {
     }
 }
 
-impl Packet for PacketCzPkmodeChange {
+impl Packet for PacketCzPkModeChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzPkmodeChange::packet_id(packetver)
+       PacketCzPkModeChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzPkmodeChange"
+       "PacketCzPkModeChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60182,13 +60182,13 @@ impl Packet for PacketZcRecovery {
     }
 }
 
-impl PacketZcUseskillAck {
+impl PacketZcUseSkillAckNoDisposable {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3e01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseskillAck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseSkillAckNoDisposable {
         let mut offset: usize = 0;
-        PacketZcUseskillAck {
+        PacketZcUseSkillAckNoDisposable {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60324,10 +60324,10 @@ impl PacketZcUseskillAck {
     pub fn set_delay_time_raw(&mut self, value: [u8; 4]) {
         self.delay_time_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcUseskillAck {
+    pub fn new(packetver: u32) -> PacketZcUseSkillAckNoDisposable {
         let packet_id = i16::from_le_bytes([0x3e, 0x01]);
         let packet_id_raw = [0x3e, 0x01];
-        PacketZcUseskillAck {
+        PacketZcUseSkillAckNoDisposable {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -60349,7 +60349,7 @@ impl PacketZcUseskillAck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcUseskillAck::new(packetver);
+        let mut packet = PacketZcUseSkillAckNoDisposable::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -60389,12 +60389,12 @@ impl PacketZcUseskillAck {
     }
 }
 
-impl Packet for PacketZcUseskillAck {
+impl Packet for PacketZcUseSkillAckNoDisposable {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcUseskillAck::packet_id(packetver)
+       PacketZcUseSkillAckNoDisposable::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcUseskillAck"
+       "PacketZcUseSkillAckNoDisposable"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -60621,13 +60621,13 @@ impl Packet for PacketCzItemCreate {
     }
 }
 
-impl PacketCzMovetoMap {
+impl PacketCzMoveToMap {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMovetoMap {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMoveToMap {
         let mut offset: usize = 0;
-        PacketCzMovetoMap {
+        PacketCzMoveToMap {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -60705,10 +60705,10 @@ impl PacketCzMovetoMap {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzMovetoMap {
+    pub fn new(packetver: u32) -> PacketCzMoveToMap {
         let packet_id = i16::from_le_bytes([0x40, 0x01]);
         let packet_id_raw = [0x40, 0x01];
-        PacketCzMovetoMap {
+        PacketCzMoveToMap {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -60722,7 +60722,7 @@ impl PacketCzMovetoMap {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzMovetoMap::new(packetver);
+        let mut packet = PacketCzMoveToMap::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/map_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 16] = [0 as char; 16];
@@ -60749,12 +60749,12 @@ impl PacketCzMovetoMap {
     }
 }
 
-impl Packet for PacketCzMovetoMap {
+impl Packet for PacketCzMoveToMap {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzMovetoMap::packet_id(packetver)
+       PacketCzMoveToMap::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzMovetoMap"
+       "PacketCzMoveToMap"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61004,13 +61004,13 @@ impl Packet for PacketZcStatusValues {
     }
 }
 
-impl PacketZcOpenEditdlg {
+impl PacketZcOpenEditDlg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditdlg {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditDlg {
         let mut offset: usize = 0;
-        PacketZcOpenEditdlg {
+        PacketZcOpenEditDlg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61050,10 +61050,10 @@ impl PacketZcOpenEditdlg {
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcOpenEditdlg {
+    pub fn new(packetver: u32) -> PacketZcOpenEditDlg {
         let packet_id = i16::from_le_bytes([0x42, 0x01]);
         let packet_id_raw = [0x42, 0x01];
-        PacketZcOpenEditdlg {
+        PacketZcOpenEditDlg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -61063,7 +61063,7 @@ impl PacketZcOpenEditdlg {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcOpenEditdlg::new(packetver);
+        let mut packet = PacketZcOpenEditDlg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/naid")) {
             if let Some(value) = entry.value {
                 packet.set_naid(value.parse().map_err(|_| format!("Invalid value {} for naid", value))?);
@@ -61073,12 +61073,12 @@ impl PacketZcOpenEditdlg {
     }
 }
 
-impl Packet for PacketZcOpenEditdlg {
+impl Packet for PacketZcOpenEditDlg {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcOpenEditdlg::packet_id(packetver)
+       PacketZcOpenEditDlg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcOpenEditdlg"
+       "PacketZcOpenEditDlg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61132,13 +61132,13 @@ impl Packet for PacketZcOpenEditdlg {
     }
 }
 
-impl PacketCzInputEditdlg {
+impl PacketCzInputEditDlg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4301"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditdlg {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditDlg {
         let mut offset: usize = 0;
-        PacketCzInputEditdlg {
+        PacketCzInputEditDlg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61194,10 +61194,10 @@ impl PacketCzInputEditdlg {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzInputEditdlg {
+    pub fn new(packetver: u32) -> PacketCzInputEditDlg {
         let packet_id = i16::from_le_bytes([0x43, 0x01]);
         let packet_id_raw = [0x43, 0x01];
-        PacketCzInputEditdlg {
+        PacketCzInputEditDlg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -61209,7 +61209,7 @@ impl PacketCzInputEditdlg {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzInputEditdlg::new(packetver);
+        let mut packet = PacketCzInputEditDlg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/naid")) {
             if let Some(value) = entry.value {
                 packet.set_naid(value.parse().map_err(|_| format!("Invalid value {} for naid", value))?);
@@ -61224,12 +61224,12 @@ impl PacketCzInputEditdlg {
     }
 }
 
-impl Packet for PacketCzInputEditdlg {
+impl Packet for PacketCzInputEditDlg {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzInputEditdlg::packet_id(packetver)
+       PacketCzInputEditDlg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzInputEditdlg"
+       "PacketCzInputEditDlg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61556,13 +61556,13 @@ impl Packet for PacketZcCompass {
     }
 }
 
-impl PacketZcShowImage {
+impl PacketZcShowImageShortName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImageShortName {
         let mut offset: usize = 0;
-        PacketZcShowImage {
+        PacketZcShowImageShortName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61624,10 +61624,10 @@ impl PacketZcShowImage {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcShowImage {
+    pub fn new(packetver: u32) -> PacketZcShowImageShortName {
         let packet_id = i16::from_le_bytes([0x45, 0x01]);
         let packet_id_raw = [0x45, 0x01];
-        PacketZcShowImage {
+        PacketZcShowImageShortName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -61639,7 +61639,7 @@ impl PacketZcShowImage {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcShowImage::new(packetver);
+        let mut packet = PacketZcShowImageShortName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/image_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 16] = [0 as char; 16];
@@ -61661,12 +61661,12 @@ impl PacketZcShowImage {
     }
 }
 
-impl Packet for PacketZcShowImage {
+impl Packet for PacketZcShowImageShortName {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcShowImage::packet_id(packetver)
+       PacketZcShowImageShortName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcShowImage"
+       "PacketZcShowImageShortName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -61855,13 +61855,13 @@ impl Packet for PacketCzCloseDialog {
     }
 }
 
-impl PacketZcAutorunSkill {
+impl PacketZcAutoRunSkill {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutorunSkill {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutoRunSkill {
         let mut offset: usize = 0;
-        PacketZcAutorunSkill {
+        PacketZcAutoRunSkill {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -61901,10 +61901,10 @@ impl PacketZcAutorunSkill {
     pub fn set_data_raw(&mut self, value: Vec<u8>) {
         self.data_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAutorunSkill {
+    pub fn new(packetver: u32) -> PacketZcAutoRunSkill {
         let packet_id = i16::from_le_bytes([0x47, 0x01]);
         let packet_id_raw = [0x47, 0x01];
-        PacketZcAutorunSkill {
+        PacketZcAutoRunSkill {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -61914,7 +61914,7 @@ impl PacketZcAutorunSkill {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAutorunSkill::new(packetver);
+        let mut packet = PacketZcAutoRunSkill::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/data")) {
             if let Some(value) = entry.value {
             }
@@ -61923,12 +61923,12 @@ impl PacketZcAutorunSkill {
     }
 }
 
-impl Packet for PacketZcAutorunSkill {
+impl Packet for PacketZcAutoRunSkill {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAutorunSkill::packet_id(packetver)
+       PacketZcAutoRunSkill::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAutorunSkill"
+       "PacketZcAutoRunSkill"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62620,11 +62620,11 @@ impl Packet for PacketZcNotifyMannerPointGiven {
     }
 }
 
-impl PacketZcMyguildBasicInfo {
+impl PacketZcMyGuildBasicInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4c01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMyguildBasicInfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMyGuildBasicInfo {
         let mut offset: usize = 0;
         let vec_type_len = RelatedGuild::base_len(packetver);
         let vec_start: usize = 4;
@@ -62637,7 +62637,7 @@ impl PacketZcMyguildBasicInfo {
             vec_field.push(RelatedGuild::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcMyguildBasicInfo {
+        PacketZcMyGuildBasicInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62693,10 +62693,10 @@ impl PacketZcMyguildBasicInfo {
     pub fn set_related_guild_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.related_guild_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMyguildBasicInfo {
+    pub fn new(packetver: u32) -> PacketZcMyGuildBasicInfo {
         let packet_id = i16::from_le_bytes([0x4c, 0x01]);
         let packet_id_raw = [0x4c, 0x01];
-        PacketZcMyguildBasicInfo {
+        PacketZcMyGuildBasicInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -62708,7 +62708,7 @@ impl PacketZcMyguildBasicInfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMyguildBasicInfo::new(packetver);
+        let mut packet = PacketZcMyGuildBasicInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -62722,12 +62722,12 @@ impl PacketZcMyguildBasicInfo {
     }
 }
 
-impl Packet for PacketZcMyguildBasicInfo {
+impl Packet for PacketZcMyGuildBasicInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMyguildBasicInfo::packet_id(packetver)
+       PacketZcMyGuildBasicInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMyguildBasicInfo"
+       "PacketZcMyGuildBasicInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62787,13 +62787,13 @@ impl Packet for PacketZcMyguildBasicInfo {
     }
 }
 
-impl PacketCzReqGuildMenuinterface {
+impl PacketCzReqGuildMenuInterface {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMenuinterface {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGuildMenuInterface {
         let mut offset: usize = 0;
-        PacketCzReqGuildMenuinterface {
+        PacketCzReqGuildMenuInterface {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62817,10 +62817,10 @@ impl PacketCzReqGuildMenuinterface {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqGuildMenuinterface {
+    pub fn new(packetver: u32) -> PacketCzReqGuildMenuInterface {
         let packet_id = i16::from_le_bytes([0x4d, 0x01]);
         let packet_id_raw = [0x4d, 0x01];
-        PacketCzReqGuildMenuinterface {
+        PacketCzReqGuildMenuInterface {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -62828,17 +62828,17 @@ impl PacketCzReqGuildMenuinterface {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqGuildMenuinterface::new(packetver);
+        let mut packet = PacketCzReqGuildMenuInterface::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzReqGuildMenuinterface {
+impl Packet for PacketCzReqGuildMenuInterface {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqGuildMenuinterface::packet_id(packetver)
+       PacketCzReqGuildMenuInterface::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqGuildMenuinterface"
+       "PacketCzReqGuildMenuInterface"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -62887,13 +62887,13 @@ impl Packet for PacketCzReqGuildMenuinterface {
     }
 }
 
-impl PacketZcAckGuildMenuinterface {
+impl PacketZcAckGuildMenuInterface {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4e01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGuildMenuinterface {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckGuildMenuInterface {
         let mut offset: usize = 0;
-        PacketZcAckGuildMenuinterface {
+        PacketZcAckGuildMenuInterface {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -62933,10 +62933,10 @@ impl PacketZcAckGuildMenuinterface {
     pub fn set_guild_memu_flag_raw(&mut self, value: [u8; 4]) {
         self.guild_memu_flag_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckGuildMenuinterface {
+    pub fn new(packetver: u32) -> PacketZcAckGuildMenuInterface {
         let packet_id = i16::from_le_bytes([0x4e, 0x01]);
         let packet_id_raw = [0x4e, 0x01];
-        PacketZcAckGuildMenuinterface {
+        PacketZcAckGuildMenuInterface {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -62946,7 +62946,7 @@ impl PacketZcAckGuildMenuinterface {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckGuildMenuinterface::new(packetver);
+        let mut packet = PacketZcAckGuildMenuInterface::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/guild_memu_flag")) {
             if let Some(value) = entry.value {
                 packet.set_guild_memu_flag(value.parse().map_err(|_| format!("Invalid value {} for guild_memu_flag", value))?);
@@ -62956,12 +62956,12 @@ impl PacketZcAckGuildMenuinterface {
     }
 }
 
-impl Packet for PacketZcAckGuildMenuinterface {
+impl Packet for PacketZcAckGuildMenuInterface {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckGuildMenuinterface::packet_id(packetver)
+       PacketZcAckGuildMenuInterface::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckGuildMenuinterface"
+       "PacketZcAckGuildMenuInterface"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -63143,13 +63143,13 @@ impl Packet for PacketCzReqGuildMenu {
     }
 }
 
-impl PacketZcGuildInfo {
+impl PacketZcGuildInfoNoZeny {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfoNoZeny {
         let mut offset: usize = 0;
-        PacketZcGuildInfo {
+        PacketZcGuildInfoNoZeny {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -63415,10 +63415,10 @@ impl PacketZcGuildInfo {
     pub fn set_manage_land_raw(&mut self, value: [u8; 16]) {
         self.manage_land_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcGuildInfo {
+    pub fn new(packetver: u32) -> PacketZcGuildInfoNoZeny {
         let packet_id = i16::from_le_bytes([0x50, 0x01]);
         let packet_id_raw = [0x50, 0x01];
-        PacketZcGuildInfo {
+        PacketZcGuildInfoNoZeny {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -63454,7 +63454,7 @@ impl PacketZcGuildInfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcGuildInfo::new(packetver);
+        let mut packet = PacketZcGuildInfoNoZeny::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gdid")) {
             if let Some(value) = entry.value {
                 packet.set_gdid(value.parse().map_err(|_| format!("Invalid value {} for gdid", value))?);
@@ -63550,12 +63550,12 @@ impl PacketZcGuildInfo {
     }
 }
 
-impl Packet for PacketZcGuildInfo {
+impl Packet for PacketZcGuildInfoNoZeny {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcGuildInfo::packet_id(packetver)
+       PacketZcGuildInfoNoZeny::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcGuildInfo"
+       "PacketZcGuildInfoNoZeny"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64170,11 +64170,11 @@ impl Packet for PacketCzRegisterGuildEmblemImg {
     }
 }
 
-impl PacketZcMembermgrInfo {
+impl PacketZcMemberMgrInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMembermgrInfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemberMgrInfo {
         let mut offset: usize = 0;
         let vec_type_len = GuildMembermgrInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -64187,7 +64187,7 @@ impl PacketZcMembermgrInfo {
             vec_field.push(GuildMembermgrInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcMembermgrInfo {
+        PacketZcMemberMgrInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64243,10 +64243,10 @@ impl PacketZcMembermgrInfo {
     pub fn set_member_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMembermgrInfo {
+    pub fn new(packetver: u32) -> PacketZcMemberMgrInfo {
         let packet_id = i16::from_le_bytes([0x54, 0x01]);
         let packet_id_raw = [0x54, 0x01];
-        PacketZcMembermgrInfo {
+        PacketZcMemberMgrInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -64258,7 +64258,7 @@ impl PacketZcMembermgrInfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMembermgrInfo::new(packetver);
+        let mut packet = PacketZcMemberMgrInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -64272,12 +64272,12 @@ impl PacketZcMembermgrInfo {
     }
 }
 
-impl Packet for PacketZcMembermgrInfo {
+impl Packet for PacketZcMemberMgrInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMembermgrInfo::packet_id(packetver)
+       PacketZcMemberMgrInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMembermgrInfo"
+       "PacketZcMemberMgrInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -64337,11 +64337,11 @@ impl Packet for PacketZcMembermgrInfo {
     }
 }
 
-impl PacketCzReqChangeMemberpos {
+impl PacketCzReqChangeMemberPos {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqChangeMemberpos {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqChangeMemberPos {
         let mut offset: usize = 0;
         let vec_type_len = MemberPositionInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -64354,7 +64354,7 @@ impl PacketCzReqChangeMemberpos {
             vec_field.push(MemberPositionInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzReqChangeMemberpos {
+        PacketCzReqChangeMemberPos {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -64410,10 +64410,10 @@ impl PacketCzReqChangeMemberpos {
     pub fn set_member_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqChangeMemberpos {
+    pub fn new(packetver: u32) -> PacketCzReqChangeMemberPos {
         let packet_id = i16::from_le_bytes([0x55, 0x01]);
         let packet_id_raw = [0x55, 0x01];
-        PacketCzReqChangeMemberpos {
+        PacketCzReqChangeMemberPos {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -64425,7 +64425,7 @@ impl PacketCzReqChangeMemberpos {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqChangeMemberpos::new(packetver);
+        let mut packet = PacketCzReqChangeMemberPos::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -64439,12 +64439,12 @@ impl PacketCzReqChangeMemberpos {
     }
 }
 
-impl Packet for PacketCzReqChangeMemberpos {
+impl Packet for PacketCzReqChangeMemberPos {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqChangeMemberpos::packet_id(packetver)
+       PacketCzReqChangeMemberPos::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqChangeMemberpos"
+       "PacketCzReqChangeMemberPos"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66349,11 +66349,11 @@ impl Packet for PacketZcPositionInfo {
     }
 }
 
-impl PacketCzRegChangeGuildPositioninfo {
+impl PacketCzRegChangeGuildPositionInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6101"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRegChangeGuildPositioninfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRegChangeGuildPositionInfo {
         let mut offset: usize = 0;
         let vec_type_len = GuildRegPositionInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -66366,7 +66366,7 @@ impl PacketCzRegChangeGuildPositioninfo {
             vec_field.push(GuildRegPositionInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzRegChangeGuildPositioninfo {
+        PacketCzRegChangeGuildPositionInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66422,10 +66422,10 @@ impl PacketCzRegChangeGuildPositioninfo {
     pub fn set_member_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzRegChangeGuildPositioninfo {
+    pub fn new(packetver: u32) -> PacketCzRegChangeGuildPositionInfo {
         let packet_id = i16::from_le_bytes([0x61, 0x01]);
         let packet_id_raw = [0x61, 0x01];
-        PacketCzRegChangeGuildPositioninfo {
+        PacketCzRegChangeGuildPositionInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -66437,7 +66437,7 @@ impl PacketCzRegChangeGuildPositioninfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzRegChangeGuildPositioninfo::new(packetver);
+        let mut packet = PacketCzRegChangeGuildPositionInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -66451,12 +66451,12 @@ impl PacketCzRegChangeGuildPositioninfo {
     }
 }
 
-impl Packet for PacketCzRegChangeGuildPositioninfo {
+impl Packet for PacketCzRegChangeGuildPositionInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzRegChangeGuildPositioninfo::packet_id(packetver)
+       PacketCzRegChangeGuildPositionInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzRegChangeGuildPositioninfo"
+       "PacketCzRegChangeGuildPositionInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -66516,11 +66516,11 @@ impl Packet for PacketCzRegChangeGuildPositioninfo {
     }
 }
 
-impl PacketZcGuildSkillinfo {
+impl PacketZcGuildSkillInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildSkillinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildSkillInfo {
         let mut offset: usize = 0;
         let vec_type_len = SKILLINFO::base_len(packetver);
         let vec_start: usize = 6;
@@ -66533,7 +66533,7 @@ impl PacketZcGuildSkillinfo {
             vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcGuildSkillinfo {
+        PacketZcGuildSkillInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -66605,10 +66605,10 @@ impl PacketZcGuildSkillinfo {
     pub fn set_skill_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.skill_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcGuildSkillinfo {
+    pub fn new(packetver: u32) -> PacketZcGuildSkillInfo {
         let packet_id = i16::from_le_bytes([0x62, 0x01]);
         let packet_id_raw = [0x62, 0x01];
-        PacketZcGuildSkillinfo {
+        PacketZcGuildSkillInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -66622,7 +66622,7 @@ impl PacketZcGuildSkillinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcGuildSkillinfo::new(packetver);
+        let mut packet = PacketZcGuildSkillInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -66641,12 +66641,12 @@ impl PacketZcGuildSkillinfo {
     }
 }
 
-impl Packet for PacketZcGuildSkillinfo {
+impl Packet for PacketZcGuildSkillInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcGuildSkillinfo::packet_id(packetver)
+       PacketZcGuildSkillInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcGuildSkillinfo"
+       "PacketZcGuildSkillInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -68433,13 +68433,13 @@ impl Packet for PacketZcUpdateGdid {
     }
 }
 
-impl PacketZcUpdateCharstat {
+impl PacketZcUpdateCharStatStatusOnly {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharstat {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharStatStatusOnly {
         let mut offset: usize = 0;
-        PacketZcUpdateCharstat {
+        PacketZcUpdateCharStatStatusOnly {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -68511,10 +68511,10 @@ impl PacketZcUpdateCharstat {
     pub fn set_status_raw(&mut self, value: [u8; 4]) {
         self.status_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcUpdateCharstat {
+    pub fn new(packetver: u32) -> PacketZcUpdateCharStatStatusOnly {
         let packet_id = i16::from_le_bytes([0x6d, 0x01]);
         let packet_id_raw = [0x6d, 0x01];
-        PacketZcUpdateCharstat {
+        PacketZcUpdateCharStatStatusOnly {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -68528,7 +68528,7 @@ impl PacketZcUpdateCharstat {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcUpdateCharstat::new(packetver);
+        let mut packet = PacketZcUpdateCharStatStatusOnly::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -68548,12 +68548,12 @@ impl PacketZcUpdateCharstat {
     }
 }
 
-impl Packet for PacketZcUpdateCharstat {
+impl Packet for PacketZcUpdateCharStatStatusOnly {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcUpdateCharstat::packet_id(packetver)
+       PacketZcUpdateCharStatStatusOnly::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcUpdateCharstat"
+       "PacketZcUpdateCharStatStatusOnly"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -69656,11 +69656,11 @@ impl Packet for PacketZcAckReqAllyGuild {
     }
 }
 
-impl PacketZcAckChangeGuildPositioninfo {
+impl PacketZcAckChangeGuildPositionInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckChangeGuildPositioninfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckChangeGuildPositionInfo {
         let mut offset: usize = 0;
         let vec_type_len = GuildRegPositionInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -69673,7 +69673,7 @@ impl PacketZcAckChangeGuildPositioninfo {
             vec_field.push(GuildRegPositionInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcAckChangeGuildPositioninfo {
+        PacketZcAckChangeGuildPositionInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -69729,10 +69729,10 @@ impl PacketZcAckChangeGuildPositioninfo {
     pub fn set_member_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.member_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckChangeGuildPositioninfo {
+    pub fn new(packetver: u32) -> PacketZcAckChangeGuildPositionInfo {
         let packet_id = i16::from_le_bytes([0x74, 0x01]);
         let packet_id_raw = [0x74, 0x01];
-        PacketZcAckChangeGuildPositioninfo {
+        PacketZcAckChangeGuildPositionInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -69744,7 +69744,7 @@ impl PacketZcAckChangeGuildPositioninfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckChangeGuildPositioninfo::new(packetver);
+        let mut packet = PacketZcAckChangeGuildPositionInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -69758,12 +69758,12 @@ impl PacketZcAckChangeGuildPositioninfo {
     }
 }
 
-impl Packet for PacketZcAckChangeGuildPositioninfo {
+impl Packet for PacketZcAckChangeGuildPositionInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckChangeGuildPositioninfo::packet_id(packetver)
+       PacketZcAckChangeGuildPositionInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckChangeGuildPositioninfo"
+       "PacketZcAckChangeGuildPositionInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70077,13 +70077,13 @@ impl Packet for PacketZcAckGuildMemberInfo {
     }
 }
 
-impl PacketZcItemidentifyList {
+impl PacketZcItemIdentifyList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemidentifyList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemIdentifyList {
         let mut offset: usize = 0;
-        PacketZcItemidentifyList {
+        PacketZcItemIdentifyList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70147,10 +70147,10 @@ impl PacketZcItemidentifyList {
     pub fn set_itidlist_raw(&mut self, value: Vec<u8>) {
         self.itidlist_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcItemidentifyList {
+    pub fn new(packetver: u32) -> PacketZcItemIdentifyList {
         let packet_id = i16::from_le_bytes([0x77, 0x01]);
         let packet_id_raw = [0x77, 0x01];
-        PacketZcItemidentifyList {
+        PacketZcItemIdentifyList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -70162,7 +70162,7 @@ impl PacketZcItemidentifyList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcItemidentifyList::new(packetver);
+        let mut packet = PacketZcItemIdentifyList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -70176,12 +70176,12 @@ impl PacketZcItemidentifyList {
     }
 }
 
-impl Packet for PacketZcItemidentifyList {
+impl Packet for PacketZcItemIdentifyList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcItemidentifyList::packet_id(packetver)
+       PacketZcItemIdentifyList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcItemidentifyList"
+       "PacketZcItemIdentifyList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70240,13 +70240,13 @@ impl Packet for PacketZcItemidentifyList {
     }
 }
 
-impl PacketCzReqItemidentify {
+impl PacketCzReqItemIdentify {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemidentify {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemIdentify {
         let mut offset: usize = 0;
-        PacketCzReqItemidentify {
+        PacketCzReqItemIdentify {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70286,10 +70286,10 @@ impl PacketCzReqItemidentify {
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqItemidentify {
+    pub fn new(packetver: u32) -> PacketCzReqItemIdentify {
         let packet_id = i16::from_le_bytes([0x78, 0x01]);
         let packet_id_raw = [0x78, 0x01];
-        PacketCzReqItemidentify {
+        PacketCzReqItemIdentify {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -70299,7 +70299,7 @@ impl PacketCzReqItemidentify {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqItemidentify::new(packetver);
+        let mut packet = PacketCzReqItemIdentify::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -70309,12 +70309,12 @@ impl PacketCzReqItemidentify {
     }
 }
 
-impl Packet for PacketCzReqItemidentify {
+impl Packet for PacketCzReqItemIdentify {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqItemidentify::packet_id(packetver)
+       PacketCzReqItemIdentify::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqItemidentify"
+       "PacketCzReqItemIdentify"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70368,13 +70368,13 @@ impl Packet for PacketCzReqItemidentify {
     }
 }
 
-impl PacketZcAckItemidentify {
+impl PacketZcAckItemIdentify {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7901"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemidentify {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemIdentify {
         let mut offset: usize = 0;
-        PacketZcAckItemidentify {
+        PacketZcAckItemIdentify {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70430,10 +70430,10 @@ impl PacketZcAckItemidentify {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckItemidentify {
+    pub fn new(packetver: u32) -> PacketZcAckItemIdentify {
         let packet_id = i16::from_le_bytes([0x79, 0x01]);
         let packet_id_raw = [0x79, 0x01];
-        PacketZcAckItemidentify {
+        PacketZcAckItemIdentify {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -70445,7 +70445,7 @@ impl PacketZcAckItemidentify {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckItemidentify::new(packetver);
+        let mut packet = PacketZcAckItemIdentify::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -70460,12 +70460,12 @@ impl PacketZcAckItemidentify {
     }
 }
 
-impl Packet for PacketZcAckItemidentify {
+impl Packet for PacketZcAckItemIdentify {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckItemidentify::packet_id(packetver)
+       PacketZcAckItemIdentify::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckItemidentify"
+       "PacketZcAckItemIdentify"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70524,13 +70524,13 @@ impl Packet for PacketZcAckItemidentify {
     }
 }
 
-impl PacketCzReqItemcompositionList {
+impl PacketCzReqItemCompositionList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7a01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemcompositionList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemCompositionList {
         let mut offset: usize = 0;
-        PacketCzReqItemcompositionList {
+        PacketCzReqItemCompositionList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70570,10 +70570,10 @@ impl PacketCzReqItemcompositionList {
     pub fn set_card_index_raw(&mut self, value: [u8; 2]) {
         self.card_index_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqItemcompositionList {
+    pub fn new(packetver: u32) -> PacketCzReqItemCompositionList {
         let packet_id = i16::from_le_bytes([0x7a, 0x01]);
         let packet_id_raw = [0x7a, 0x01];
-        PacketCzReqItemcompositionList {
+        PacketCzReqItemCompositionList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -70583,7 +70583,7 @@ impl PacketCzReqItemcompositionList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqItemcompositionList::new(packetver);
+        let mut packet = PacketCzReqItemCompositionList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/card_index")) {
             if let Some(value) = entry.value {
                 packet.set_card_index(value.parse().map_err(|_| format!("Invalid value {} for card_index", value))?);
@@ -70593,12 +70593,12 @@ impl PacketCzReqItemcompositionList {
     }
 }
 
-impl Packet for PacketCzReqItemcompositionList {
+impl Packet for PacketCzReqItemCompositionList {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqItemcompositionList::packet_id(packetver)
+       PacketCzReqItemCompositionList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqItemcompositionList"
+       "PacketCzReqItemCompositionList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70652,13 +70652,13 @@ impl Packet for PacketCzReqItemcompositionList {
     }
 }
 
-impl PacketZcItemcompositionList {
+impl PacketZcItemCompositionList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7b01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemcompositionList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemCompositionList {
         let mut offset: usize = 0;
-        PacketZcItemcompositionList {
+        PacketZcItemCompositionList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70722,10 +70722,10 @@ impl PacketZcItemcompositionList {
     pub fn set_itidlist_raw(&mut self, value: Vec<u8>) {
         self.itidlist_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcItemcompositionList {
+    pub fn new(packetver: u32) -> PacketZcItemCompositionList {
         let packet_id = i16::from_le_bytes([0x7b, 0x01]);
         let packet_id_raw = [0x7b, 0x01];
-        PacketZcItemcompositionList {
+        PacketZcItemCompositionList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -70737,7 +70737,7 @@ impl PacketZcItemcompositionList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcItemcompositionList::new(packetver);
+        let mut packet = PacketZcItemCompositionList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -70751,12 +70751,12 @@ impl PacketZcItemcompositionList {
     }
 }
 
-impl Packet for PacketZcItemcompositionList {
+impl Packet for PacketZcItemCompositionList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcItemcompositionList::packet_id(packetver)
+       PacketZcItemCompositionList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcItemcompositionList"
+       "PacketZcItemCompositionList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70815,13 +70815,13 @@ impl Packet for PacketZcItemcompositionList {
     }
 }
 
-impl PacketCzReqItemcomposition {
+impl PacketCzReqItemComposition {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7c01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemcomposition {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemComposition {
         let mut offset: usize = 0;
-        PacketCzReqItemcomposition {
+        PacketCzReqItemComposition {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -70877,10 +70877,10 @@ impl PacketCzReqItemcomposition {
     pub fn set_equip_index_raw(&mut self, value: [u8; 2]) {
         self.equip_index_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqItemcomposition {
+    pub fn new(packetver: u32) -> PacketCzReqItemComposition {
         let packet_id = i16::from_le_bytes([0x7c, 0x01]);
         let packet_id_raw = [0x7c, 0x01];
-        PacketCzReqItemcomposition {
+        PacketCzReqItemComposition {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -70892,7 +70892,7 @@ impl PacketCzReqItemcomposition {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqItemcomposition::new(packetver);
+        let mut packet = PacketCzReqItemComposition::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/card_index")) {
             if let Some(value) = entry.value {
                 packet.set_card_index(value.parse().map_err(|_| format!("Invalid value {} for card_index", value))?);
@@ -70907,12 +70907,12 @@ impl PacketCzReqItemcomposition {
     }
 }
 
-impl Packet for PacketCzReqItemcomposition {
+impl Packet for PacketCzReqItemComposition {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqItemcomposition::packet_id(packetver)
+       PacketCzReqItemComposition::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqItemcomposition"
+       "PacketCzReqItemComposition"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -70971,13 +70971,13 @@ impl Packet for PacketCzReqItemcomposition {
     }
 }
 
-impl PacketZcAckItemcomposition {
+impl PacketZcAckItemComposition {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemcomposition {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemComposition {
         let mut offset: usize = 0;
-        PacketZcAckItemcomposition {
+        PacketZcAckItemComposition {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -71049,10 +71049,10 @@ impl PacketZcAckItemcomposition {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckItemcomposition {
+    pub fn new(packetver: u32) -> PacketZcAckItemComposition {
         let packet_id = i16::from_le_bytes([0x7d, 0x01]);
         let packet_id_raw = [0x7d, 0x01];
-        PacketZcAckItemcomposition {
+        PacketZcAckItemComposition {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -71066,7 +71066,7 @@ impl PacketZcAckItemcomposition {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckItemcomposition::new(packetver);
+        let mut packet = PacketZcAckItemComposition::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/equip_index")) {
             if let Some(value) = entry.value {
                 packet.set_equip_index(value.parse().map_err(|_| format!("Invalid value {} for equip_index", value))?);
@@ -71086,12 +71086,12 @@ impl PacketZcAckItemcomposition {
     }
 }
 
-impl Packet for PacketZcAckItemcomposition {
+impl Packet for PacketZcAckItemComposition {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckItemcomposition::packet_id(packetver)
+       PacketZcAckItemComposition::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckItemcomposition"
+       "PacketZcAckItemComposition"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -72281,13 +72281,13 @@ impl Packet for PacketZcAddRelatedGuild {
     }
 }
 
-impl PacketCollectordead {
+impl PacketZcCollectorDead {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCollectordead {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCollectorDead {
         let mut offset: usize = 0;
-        PacketCollectordead {
+        PacketZcCollectorDead {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72327,10 +72327,10 @@ impl PacketCollectordead {
     pub fn set_server_id_raw(&mut self, value: [u8; 4]) {
         self.server_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCollectordead {
+    pub fn new(packetver: u32) -> PacketZcCollectorDead {
         let packet_id = i16::from_le_bytes([0x86, 0x01]);
         let packet_id_raw = [0x86, 0x01];
-        PacketCollectordead {
+        PacketZcCollectorDead {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -72340,7 +72340,7 @@ impl PacketCollectordead {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCollectordead::new(packetver);
+        let mut packet = PacketZcCollectorDead::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/server_id")) {
             if let Some(value) = entry.value {
                 packet.set_server_id(value.parse().map_err(|_| format!("Invalid value {} for server_id", value))?);
@@ -72350,12 +72350,12 @@ impl PacketCollectordead {
     }
 }
 
-impl Packet for PacketCollectordead {
+impl Packet for PacketZcCollectorDead {
     fn id(&self, packetver: u32) -> &str {
-       PacketCollectordead::packet_id(packetver)
+       PacketZcCollectorDead::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCollectordead"
+       "PacketZcCollectorDead"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -72409,13 +72409,13 @@ impl Packet for PacketCollectordead {
     }
 }
 
-impl PacketPing {
+impl PacketBiPing {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketPing {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketBiPing {
         let mut offset: usize = 0;
-        PacketPing {
+        PacketBiPing {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72455,10 +72455,10 @@ impl PacketPing {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketPing {
+    pub fn new(packetver: u32) -> PacketBiPing {
         let packet_id = i16::from_le_bytes([0x87, 0x01]);
         let packet_id_raw = [0x87, 0x01];
-        PacketPing {
+        PacketBiPing {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -72468,7 +72468,7 @@ impl PacketPing {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketPing::new(packetver);
+        let mut packet = PacketBiPing::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -72478,12 +72478,12 @@ impl PacketPing {
     }
 }
 
-impl Packet for PacketPing {
+impl Packet for PacketBiPing {
     fn id(&self, packetver: u32) -> &str {
-       PacketPing::packet_id(packetver)
+       PacketBiPing::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketPing"
+       "PacketBiPing"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -72537,13 +72537,13 @@ impl Packet for PacketPing {
     }
 }
 
-impl PacketZcAckItemrefining {
+impl PacketZcAckItemRefining {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemrefining {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemRefining {
         let mut offset: usize = 0;
-        PacketZcAckItemrefining {
+        PacketZcAckItemRefining {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72615,10 +72615,10 @@ impl PacketZcAckItemrefining {
     pub fn set_refining_level_raw(&mut self, value: [u8; 2]) {
         self.refining_level_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckItemrefining {
+    pub fn new(packetver: u32) -> PacketZcAckItemRefining {
         let packet_id = i16::from_le_bytes([0x88, 0x01]);
         let packet_id_raw = [0x88, 0x01];
-        PacketZcAckItemrefining {
+        PacketZcAckItemRefining {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -72632,7 +72632,7 @@ impl PacketZcAckItemrefining {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckItemrefining::new(packetver);
+        let mut packet = PacketZcAckItemRefining::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -72652,12 +72652,12 @@ impl PacketZcAckItemrefining {
     }
 }
 
-impl Packet for PacketZcAckItemrefining {
+impl Packet for PacketZcAckItemRefining {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckItemrefining::packet_id(packetver)
+       PacketZcAckItemRefining::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckItemrefining"
+       "PacketZcAckItemRefining"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -72721,13 +72721,13 @@ impl Packet for PacketZcAckItemrefining {
     }
 }
 
-impl PacketZcNotifyMapinfo {
+impl PacketZcNotifyMapInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8901"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapInfo {
         let mut offset: usize = 0;
-        PacketZcNotifyMapinfo {
+        PacketZcNotifyMapInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -72767,10 +72767,10 @@ impl PacketZcNotifyMapinfo {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMapinfo {
+    pub fn new(packetver: u32) -> PacketZcNotifyMapInfo {
         let packet_id = i16::from_le_bytes([0x89, 0x01]);
         let packet_id_raw = [0x89, 0x01];
-        PacketZcNotifyMapinfo {
+        PacketZcNotifyMapInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -72780,7 +72780,7 @@ impl PacketZcNotifyMapinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMapinfo::new(packetver);
+        let mut packet = PacketZcNotifyMapInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -72790,12 +72790,12 @@ impl PacketZcNotifyMapinfo {
     }
 }
 
-impl Packet for PacketZcNotifyMapinfo {
+impl Packet for PacketZcNotifyMapInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMapinfo::packet_id(packetver)
+       PacketZcNotifyMapInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMapinfo"
+       "PacketZcNotifyMapInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73455,11 +73455,11 @@ impl Packet for PacketZcMonsterInfo {
     }
 }
 
-impl PacketZcMakableitemlist {
+impl PacketZcMakableItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakableitemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakableItemList {
         let mut offset: usize = 0;
         let vec_type_len = MakableitemInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -73472,7 +73472,7 @@ impl PacketZcMakableitemlist {
             vec_field.push(MakableitemInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcMakableitemlist {
+        PacketZcMakableItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73528,10 +73528,10 @@ impl PacketZcMakableitemlist {
     pub fn set_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMakableitemlist {
+    pub fn new(packetver: u32) -> PacketZcMakableItemList {
         let packet_id = i16::from_le_bytes([0x8d, 0x01]);
         let packet_id_raw = [0x8d, 0x01];
-        PacketZcMakableitemlist {
+        PacketZcMakableItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -73543,7 +73543,7 @@ impl PacketZcMakableitemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMakableitemlist::new(packetver);
+        let mut packet = PacketZcMakableItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -73557,12 +73557,12 @@ impl PacketZcMakableitemlist {
     }
 }
 
-impl Packet for PacketZcMakableitemlist {
+impl Packet for PacketZcMakableItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMakableitemlist::packet_id(packetver)
+       PacketZcMakableItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMakableitemlist"
+       "PacketZcMakableItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73622,13 +73622,13 @@ impl Packet for PacketZcMakableitemlist {
     }
 }
 
-impl PacketCzReqmakingitem {
+impl PacketCzReqMakingItem {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8e01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqmakingitem {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingItem {
         let mut offset: usize = 0;
-        PacketCzReqmakingitem {
+        PacketCzReqMakingItem {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73668,10 +73668,10 @@ impl PacketCzReqmakingitem {
     pub fn set_info_raw(&mut self, value: Vec<u8>) {
         self.info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqmakingitem {
+    pub fn new(packetver: u32) -> PacketCzReqMakingItem {
         let packet_id = i16::from_le_bytes([0x8e, 0x01]);
         let packet_id_raw = [0x8e, 0x01];
-        PacketCzReqmakingitem {
+        PacketCzReqMakingItem {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -73681,7 +73681,7 @@ impl PacketCzReqmakingitem {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqmakingitem::new(packetver);
+        let mut packet = PacketCzReqMakingItem::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/info")) {
             if let Some(value) = entry.value {
             }
@@ -73690,12 +73690,12 @@ impl PacketCzReqmakingitem {
     }
 }
 
-impl Packet for PacketCzReqmakingitem {
+impl Packet for PacketCzReqMakingItem {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqmakingitem::packet_id(packetver)
+       PacketCzReqMakingItem::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqmakingitem"
+       "PacketCzReqMakingItem"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73748,13 +73748,13 @@ impl Packet for PacketCzReqmakingitem {
     }
 }
 
-impl PacketZcAckReqmakingitem {
+impl PacketZcAckReqMakingItem {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8f01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqmakingitem {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqMakingItem {
         let mut offset: usize = 0;
-        PacketZcAckReqmakingitem {
+        PacketZcAckReqMakingItem {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -73810,10 +73810,10 @@ impl PacketZcAckReqmakingitem {
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckReqmakingitem {
+    pub fn new(packetver: u32) -> PacketZcAckReqMakingItem {
         let packet_id = i16::from_le_bytes([0x8f, 0x01]);
         let packet_id_raw = [0x8f, 0x01];
-        PacketZcAckReqmakingitem {
+        PacketZcAckReqMakingItem {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -73825,7 +73825,7 @@ impl PacketZcAckReqmakingitem {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckReqmakingitem::new(packetver);
+        let mut packet = PacketZcAckReqMakingItem::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -73840,12 +73840,12 @@ impl PacketZcAckReqmakingitem {
     }
 }
 
-impl Packet for PacketZcAckReqmakingitem {
+impl Packet for PacketZcAckReqMakingItem {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckReqmakingitem::packet_id(packetver)
+       PacketZcAckReqMakingItem::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckReqmakingitem"
+       "PacketZcAckReqMakingItem"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -73904,7 +73904,7 @@ impl Packet for PacketZcAckReqmakingitem {
     }
 }
 
-impl PacketCzUseSkillTogroundWithtalkbox {
+impl PacketCzUseSkillToGroundWithTalkBox {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20120307 {
             "0x6603"
@@ -73924,9 +73924,9 @@ impl PacketCzUseSkillTogroundWithtalkbox {
             "0xa200"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillTogroundWithtalkbox {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkillToGroundWithTalkBox {
         let mut offset: usize = 0;
-        PacketCzUseSkillTogroundWithtalkbox {
+        PacketCzUseSkillToGroundWithTalkBox {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74036,7 +74036,7 @@ impl PacketCzUseSkillTogroundWithtalkbox {
     pub fn set_contents_raw(&mut self, value: [u8; 80]) {
         self.contents_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzUseSkillTogroundWithtalkbox {
+    pub fn new(packetver: u32) -> PacketCzUseSkillToGroundWithTalkBox {
         let (packet_id, packet_id_raw) = if packetver >= 20120307 {
             (i16::from_le_bytes([0x66, 0x03]), [0x66, 0x03])
         } else if packetver >= 20111005 {
@@ -74054,7 +74054,7 @@ impl PacketCzUseSkillTogroundWithtalkbox {
         } else {
             (i16::from_le_bytes([0xa2, 0x00]), [0xa2, 0x00])
         };
-        PacketCzUseSkillTogroundWithtalkbox {
+        PacketCzUseSkillToGroundWithTalkBox {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -74072,7 +74072,7 @@ impl PacketCzUseSkillTogroundWithtalkbox {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzUseSkillTogroundWithtalkbox::new(packetver);
+        let mut packet = PacketCzUseSkillToGroundWithTalkBox::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/selected_level")) {
             if let Some(value) = entry.value {
                 packet.set_selected_level(value.parse().map_err(|_| format!("Invalid value {} for selected_level", value))?);
@@ -74109,12 +74109,12 @@ impl PacketCzUseSkillTogroundWithtalkbox {
     }
 }
 
-impl Packet for PacketCzUseSkillTogroundWithtalkbox {
+impl Packet for PacketCzUseSkillToGroundWithTalkBox {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzUseSkillTogroundWithtalkbox::packet_id(packetver)
+       PacketCzUseSkillToGroundWithTalkBox::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzUseSkillTogroundWithtalkbox"
+       "PacketCzUseSkillToGroundWithTalkBox"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74190,13 +74190,13 @@ impl Packet for PacketCzUseSkillTogroundWithtalkbox {
     }
 }
 
-impl PacketZcTalkboxChatcontents {
+impl PacketZcTalkBoxChatContents {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9101"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTalkboxChatcontents {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTalkBoxChatContents {
         let mut offset: usize = 0;
-        PacketZcTalkboxChatcontents {
+        PacketZcTalkBoxChatContents {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74258,10 +74258,10 @@ impl PacketZcTalkboxChatcontents {
     pub fn set_contents_raw(&mut self, value: [u8; 80]) {
         self.contents_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcTalkboxChatcontents {
+    pub fn new(packetver: u32) -> PacketZcTalkBoxChatContents {
         let packet_id = i16::from_le_bytes([0x91, 0x01]);
         let packet_id_raw = [0x91, 0x01];
-        PacketZcTalkboxChatcontents {
+        PacketZcTalkBoxChatContents {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -74273,7 +74273,7 @@ impl PacketZcTalkboxChatcontents {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcTalkboxChatcontents::new(packetver);
+        let mut packet = PacketZcTalkBoxChatContents::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -74295,12 +74295,12 @@ impl PacketZcTalkboxChatcontents {
     }
 }
 
-impl Packet for PacketZcTalkboxChatcontents {
+impl Packet for PacketZcTalkBoxChatContents {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcTalkboxChatcontents::packet_id(packetver)
+       PacketZcTalkBoxChatContents::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcTalkboxChatcontents"
+       "PacketZcTalkBoxChatContents"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74361,13 +74361,13 @@ impl Packet for PacketZcTalkboxChatcontents {
     }
 }
 
-impl PacketZcUpdateMapinfo {
+impl PacketZcUpdateMapInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateMapinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateMapInfo {
         let mut offset: usize = 0;
-        PacketZcUpdateMapinfo {
+        PacketZcUpdateMapInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -74461,10 +74461,10 @@ impl PacketZcUpdateMapinfo {
     pub fn set_map_name_raw(&mut self, value: [u8; 16]) {
         self.map_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcUpdateMapinfo {
+    pub fn new(packetver: u32) -> PacketZcUpdateMapInfo {
         let packet_id = i16::from_le_bytes([0x92, 0x01]);
         let packet_id_raw = [0x92, 0x01];
-        PacketZcUpdateMapinfo {
+        PacketZcUpdateMapInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -74480,7 +74480,7 @@ impl PacketZcUpdateMapinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcUpdateMapinfo::new(packetver);
+        let mut packet = PacketZcUpdateMapInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/x_pos")) {
             if let Some(value) = entry.value {
                 packet.set_x_pos(value.parse().map_err(|_| format!("Invalid value {} for x_pos", value))?);
@@ -74512,12 +74512,12 @@ impl PacketZcUpdateMapinfo {
     }
 }
 
-impl Packet for PacketZcUpdateMapinfo {
+impl Packet for PacketZcUpdateMapInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcUpdateMapinfo::packet_id(packetver)
+       PacketZcUpdateMapInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcUpdateMapinfo"
+       "PacketZcUpdateMapInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -74588,7 +74588,7 @@ impl Packet for PacketZcUpdateMapinfo {
     }
 }
 
-impl PacketCzReqnameBygid {
+impl PacketCzReqNameByGid {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20120307 {
             "0x6803"
@@ -74610,9 +74610,9 @@ impl PacketCzReqnameBygid {
             "0x9301"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqnameBygid {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqNameByGid {
         let mut offset: usize = 0;
-        PacketCzReqnameBygid {
+        PacketCzReqNameByGid {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75148,7 +75148,7 @@ impl PacketCzReqnameBygid {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqnameBygid {
+    pub fn new(packetver: u32) -> PacketCzReqNameByGid {
         let (packet_id, packet_id_raw) = if packetver >= 20120307 {
             (i16::from_le_bytes([0x68, 0x03]), [0x68, 0x03])
         } else if packetver >= 20111005 {
@@ -75168,7 +75168,7 @@ impl PacketCzReqnameBygid {
         } else {
             (i16::from_le_bytes([0x93, 0x01]), [0x93, 0x01])
         };
-        PacketCzReqnameBygid {
+        PacketCzReqNameByGid {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -75210,7 +75210,7 @@ impl PacketCzReqnameBygid {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqnameBygid::new(packetver);
+        let mut packet = PacketCzReqNameByGid::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/p0")) {
             if let Some(value) = entry.value {
             }
@@ -75284,12 +75284,12 @@ impl PacketCzReqnameBygid {
     }
 }
 
-impl Packet for PacketCzReqnameBygid {
+impl Packet for PacketCzReqNameByGid {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqnameBygid::packet_id(packetver)
+       PacketCzReqNameByGid::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqnameBygid"
+       "PacketCzReqNameByGid"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75519,13 +75519,13 @@ impl Packet for PacketCzReqnameBygid {
     }
 }
 
-impl PacketZcAckReqnameBygid {
+impl PacketZcAckReqNameByGid {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameBygid {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqNameByGid {
         let mut offset: usize = 0;
-        PacketZcAckReqnameBygid {
+        PacketZcAckReqNameByGid {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75587,10 +75587,10 @@ impl PacketZcAckReqnameBygid {
     pub fn set_cname_raw(&mut self, value: [u8; 24]) {
         self.cname_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckReqnameBygid {
+    pub fn new(packetver: u32) -> PacketZcAckReqNameByGid {
         let packet_id = i16::from_le_bytes([0x94, 0x01]);
         let packet_id_raw = [0x94, 0x01];
-        PacketZcAckReqnameBygid {
+        PacketZcAckReqNameByGid {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -75602,7 +75602,7 @@ impl PacketZcAckReqnameBygid {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckReqnameBygid::new(packetver);
+        let mut packet = PacketZcAckReqNameByGid::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -75624,12 +75624,12 @@ impl PacketZcAckReqnameBygid {
     }
 }
 
-impl Packet for PacketZcAckReqnameBygid {
+impl Packet for PacketZcAckReqNameByGid {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckReqnameBygid::packet_id(packetver)
+       PacketZcAckReqNameByGid::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckReqnameBygid"
+       "PacketZcAckReqNameByGid"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75690,13 +75690,13 @@ impl Packet for PacketZcAckReqnameBygid {
     }
 }
 
-impl PacketZcAckReqnameall {
+impl PacketZcAckReqNameAll {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameall {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqNameAll {
         let mut offset: usize = 0;
-        PacketZcAckReqnameall {
+        PacketZcAckReqNameAll {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -75824,10 +75824,10 @@ impl PacketZcAckReqnameall {
     pub fn set_rname_raw(&mut self, value: [u8; 24]) {
         self.rname_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckReqnameall {
+    pub fn new(packetver: u32) -> PacketZcAckReqNameAll {
         let packet_id = i16::from_le_bytes([0x95, 0x01]);
         let packet_id_raw = [0x95, 0x01];
-        PacketZcAckReqnameall {
+        PacketZcAckReqNameAll {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -75845,7 +75845,7 @@ impl PacketZcAckReqnameall {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckReqnameall::new(packetver);
+        let mut packet = PacketZcAckReqNameAll::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -75903,12 +75903,12 @@ impl PacketZcAckReqnameall {
     }
 }
 
-impl Packet for PacketZcAckReqnameall {
+impl Packet for PacketZcAckReqNameAll {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckReqnameall::packet_id(packetver)
+       PacketZcAckReqNameAll::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckReqnameall"
+       "PacketZcAckReqNameAll"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -75990,13 +75990,13 @@ impl Packet for PacketZcAckReqnameall {
     }
 }
 
-impl PacketZcMsgStateChange {
+impl PacketZcMsgStateChangeNoTimer {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChange {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChangeNoTimer {
         let mut offset: usize = 0;
-        PacketZcMsgStateChange {
+        PacketZcMsgStateChangeNoTimer {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76068,10 +76068,10 @@ impl PacketZcMsgStateChange {
     pub fn set_state_raw(&mut self, value: [u8; 1]) {
         self.state_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMsgStateChange {
+    pub fn new(packetver: u32) -> PacketZcMsgStateChangeNoTimer {
         let packet_id = i16::from_le_bytes([0x96, 0x01]);
         let packet_id_raw = [0x96, 0x01];
-        PacketZcMsgStateChange {
+        PacketZcMsgStateChangeNoTimer {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -76085,7 +76085,7 @@ impl PacketZcMsgStateChange {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMsgStateChange::new(packetver);
+        let mut packet = PacketZcMsgStateChangeNoTimer::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -76105,12 +76105,12 @@ impl PacketZcMsgStateChange {
     }
 }
 
-impl Packet for PacketZcMsgStateChange {
+impl Packet for PacketZcMsgStateChangeNoTimer {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMsgStateChange::packet_id(packetver)
+       PacketZcMsgStateChangeNoTimer::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMsgStateChange"
+       "PacketZcMsgStateChangeNoTimer"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76302,13 +76302,13 @@ impl Packet for PacketCzReset {
     }
 }
 
-impl PacketCzChangeMaptype {
+impl PacketCzChangeMapType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeMaptype {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeMapType {
         let mut offset: usize = 0;
-        PacketCzChangeMaptype {
+        PacketCzChangeMapType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76380,10 +76380,10 @@ impl PacketCzChangeMaptype {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzChangeMaptype {
+    pub fn new(packetver: u32) -> PacketCzChangeMapType {
         let packet_id = i16::from_le_bytes([0x98, 0x01]);
         let packet_id_raw = [0x98, 0x01];
-        PacketCzChangeMaptype {
+        PacketCzChangeMapType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -76397,7 +76397,7 @@ impl PacketCzChangeMaptype {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzChangeMaptype::new(packetver);
+        let mut packet = PacketCzChangeMapType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/x_pos")) {
             if let Some(value) = entry.value {
                 packet.set_x_pos(value.parse().map_err(|_| format!("Invalid value {} for x_pos", value))?);
@@ -76417,12 +76417,12 @@ impl PacketCzChangeMaptype {
     }
 }
 
-impl Packet for PacketCzChangeMaptype {
+impl Packet for PacketCzChangeMapType {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzChangeMaptype::packet_id(packetver)
+       PacketCzChangeMapType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzChangeMaptype"
+       "PacketCzChangeMapType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76486,13 +76486,13 @@ impl Packet for PacketCzChangeMaptype {
     }
 }
 
-impl PacketZcNotifyMapproperty {
+impl PacketZcNotifyMapProperty {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9901"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapproperty {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapProperty {
         let mut offset: usize = 0;
-        PacketZcNotifyMapproperty {
+        PacketZcNotifyMapProperty {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -76532,10 +76532,10 @@ impl PacketZcNotifyMapproperty {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMapproperty {
+    pub fn new(packetver: u32) -> PacketZcNotifyMapProperty {
         let packet_id = i16::from_le_bytes([0x99, 0x01]);
         let packet_id_raw = [0x99, 0x01];
-        PacketZcNotifyMapproperty {
+        PacketZcNotifyMapProperty {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -76545,7 +76545,7 @@ impl PacketZcNotifyMapproperty {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMapproperty::new(packetver);
+        let mut packet = PacketZcNotifyMapProperty::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -76555,12 +76555,12 @@ impl PacketZcNotifyMapproperty {
     }
 }
 
-impl Packet for PacketZcNotifyMapproperty {
+impl Packet for PacketZcNotifyMapProperty {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMapproperty::packet_id(packetver)
+       PacketZcNotifyMapProperty::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMapproperty"
+       "PacketZcNotifyMapProperty"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -76954,13 +76954,13 @@ impl Packet for PacketZcNotifyEffect {
     }
 }
 
-impl PacketCzChangeEffectstate {
+impl PacketCzChangeEffectState {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9d01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeEffectstate {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzChangeEffectState {
         let mut offset: usize = 0;
-        PacketCzChangeEffectstate {
+        PacketCzChangeEffectState {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77000,10 +77000,10 @@ impl PacketCzChangeEffectstate {
     pub fn set_effect_state_raw(&mut self, value: [u8; 4]) {
         self.effect_state_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzChangeEffectstate {
+    pub fn new(packetver: u32) -> PacketCzChangeEffectState {
         let packet_id = i16::from_le_bytes([0x9d, 0x01]);
         let packet_id_raw = [0x9d, 0x01];
-        PacketCzChangeEffectstate {
+        PacketCzChangeEffectState {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -77013,7 +77013,7 @@ impl PacketCzChangeEffectstate {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzChangeEffectstate::new(packetver);
+        let mut packet = PacketCzChangeEffectState::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/effect_state")) {
             if let Some(value) = entry.value {
                 packet.set_effect_state(value.parse().map_err(|_| format!("Invalid value {} for effect_state", value))?);
@@ -77023,12 +77023,12 @@ impl PacketCzChangeEffectstate {
     }
 }
 
-impl Packet for PacketCzChangeEffectstate {
+impl Packet for PacketCzChangeEffectState {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzChangeEffectstate::packet_id(packetver)
+       PacketCzChangeEffectState::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzChangeEffectstate"
+       "PacketCzChangeEffectState"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77182,13 +77182,13 @@ impl Packet for PacketZcStartCapture {
     }
 }
 
-impl PacketCzTrycaptureMonster {
+impl PacketCzTryCaptureMonster {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9f01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzTrycaptureMonster {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzTryCaptureMonster {
         let mut offset: usize = 0;
-        PacketCzTrycaptureMonster {
+        PacketCzTryCaptureMonster {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77228,10 +77228,10 @@ impl PacketCzTrycaptureMonster {
     pub fn set_target_aid_raw(&mut self, value: [u8; 4]) {
         self.target_aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzTrycaptureMonster {
+    pub fn new(packetver: u32) -> PacketCzTryCaptureMonster {
         let packet_id = i16::from_le_bytes([0x9f, 0x01]);
         let packet_id_raw = [0x9f, 0x01];
-        PacketCzTrycaptureMonster {
+        PacketCzTryCaptureMonster {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -77241,7 +77241,7 @@ impl PacketCzTrycaptureMonster {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzTrycaptureMonster::new(packetver);
+        let mut packet = PacketCzTryCaptureMonster::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/target_aid")) {
             if let Some(value) = entry.value {
                 packet.set_target_aid(value.parse().map_err(|_| format!("Invalid value {} for target_aid", value))?);
@@ -77251,12 +77251,12 @@ impl PacketCzTrycaptureMonster {
     }
 }
 
-impl Packet for PacketCzTrycaptureMonster {
+impl Packet for PacketCzTryCaptureMonster {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzTrycaptureMonster::packet_id(packetver)
+       PacketCzTryCaptureMonster::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzTrycaptureMonster"
+       "PacketCzTryCaptureMonster"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -77310,13 +77310,13 @@ impl Packet for PacketCzTrycaptureMonster {
     }
 }
 
-impl PacketZcTrycaptureMonster {
+impl PacketZcTryCaptureMonster {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTrycaptureMonster {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcTryCaptureMonster {
         let mut offset: usize = 0;
-        PacketZcTrycaptureMonster {
+        PacketZcTryCaptureMonster {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -77356,10 +77356,10 @@ impl PacketZcTrycaptureMonster {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcTrycaptureMonster {
+    pub fn new(packetver: u32) -> PacketZcTryCaptureMonster {
         let packet_id = i16::from_le_bytes([0xa0, 0x01]);
         let packet_id_raw = [0xa0, 0x01];
-        PacketZcTrycaptureMonster {
+        PacketZcTryCaptureMonster {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -77369,7 +77369,7 @@ impl PacketZcTrycaptureMonster {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcTrycaptureMonster::new(packetver);
+        let mut packet = PacketZcTryCaptureMonster::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -77379,12 +77379,12 @@ impl PacketZcTrycaptureMonster {
     }
 }
 
-impl Packet for PacketZcTrycaptureMonster {
+impl Packet for PacketZcTryCaptureMonster {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcTrycaptureMonster::packet_id(packetver)
+       PacketZcTryCaptureMonster::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcTrycaptureMonster"
+       "PacketZcTryCaptureMonster"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78046,13 +78046,13 @@ impl Packet for PacketZcFeedPet {
     }
 }
 
-impl PacketZcChangestatePet {
+impl PacketZcChangeStatePet {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangestatePet {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeStatePet {
         let mut offset: usize = 0;
-        PacketZcChangestatePet {
+        PacketZcChangeStatePet {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78124,10 +78124,10 @@ impl PacketZcChangestatePet {
     pub fn set_data_raw(&mut self, value: [u8; 4]) {
         self.data_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcChangestatePet {
+    pub fn new(packetver: u32) -> PacketZcChangeStatePet {
         let packet_id = i16::from_le_bytes([0xa4, 0x01]);
         let packet_id_raw = [0xa4, 0x01];
-        PacketZcChangestatePet {
+        PacketZcChangeStatePet {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -78141,7 +78141,7 @@ impl PacketZcChangestatePet {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcChangestatePet::new(packetver);
+        let mut packet = PacketZcChangeStatePet::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -78161,12 +78161,12 @@ impl PacketZcChangestatePet {
     }
 }
 
-impl Packet for PacketZcChangestatePet {
+impl Packet for PacketZcChangeStatePet {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcChangestatePet::packet_id(packetver)
+       PacketZcChangeStatePet::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcChangestatePet"
+       "PacketZcChangeStatePet"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78373,11 +78373,11 @@ impl Packet for PacketCzRenamePet {
     }
 }
 
-impl PacketZcPeteggList {
+impl PacketZcPetEggList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPeteggList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPetEggList {
         let mut offset: usize = 0;
         let vec_type_len = PeteggitemInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -78390,7 +78390,7 @@ impl PacketZcPeteggList {
             vec_field.push(PeteggitemInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcPeteggList {
+        PacketZcPetEggList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78446,10 +78446,10 @@ impl PacketZcPeteggList {
     pub fn set_egg_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.egg_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPeteggList {
+    pub fn new(packetver: u32) -> PacketZcPetEggList {
         let packet_id = i16::from_le_bytes([0xa6, 0x01]);
         let packet_id_raw = [0xa6, 0x01];
-        PacketZcPeteggList {
+        PacketZcPetEggList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -78461,7 +78461,7 @@ impl PacketZcPeteggList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPeteggList::new(packetver);
+        let mut packet = PacketZcPetEggList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -78475,12 +78475,12 @@ impl PacketZcPeteggList {
     }
 }
 
-impl Packet for PacketZcPeteggList {
+impl Packet for PacketZcPetEggList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPeteggList::packet_id(packetver)
+       PacketZcPetEggList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPeteggList"
+       "PacketZcPetEggList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78540,13 +78540,13 @@ impl Packet for PacketZcPeteggList {
     }
 }
 
-impl PacketCzSelectPetegg {
+impl PacketCzSelectPetEgg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectPetegg {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectPetEgg {
         let mut offset: usize = 0;
-        PacketCzSelectPetegg {
+        PacketCzSelectPetEgg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78586,10 +78586,10 @@ impl PacketCzSelectPetegg {
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzSelectPetegg {
+    pub fn new(packetver: u32) -> PacketCzSelectPetEgg {
         let packet_id = i16::from_le_bytes([0xa7, 0x01]);
         let packet_id_raw = [0xa7, 0x01];
-        PacketCzSelectPetegg {
+        PacketCzSelectPetEgg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -78599,7 +78599,7 @@ impl PacketCzSelectPetegg {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzSelectPetegg::new(packetver);
+        let mut packet = PacketCzSelectPetEgg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -78609,12 +78609,12 @@ impl PacketCzSelectPetegg {
     }
 }
 
-impl Packet for PacketCzSelectPetegg {
+impl Packet for PacketCzSelectPetEgg {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzSelectPetegg::packet_id(packetver)
+       PacketCzSelectPetEgg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzSelectPetegg"
+       "PacketCzSelectPetEgg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -78668,13 +78668,13 @@ impl Packet for PacketCzSelectPetegg {
     }
 }
 
-impl PacketCzPeteggInfo {
+impl PacketCzPetEggInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPeteggInfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPetEggInfo {
         let mut offset: usize = 0;
-        PacketCzPeteggInfo {
+        PacketCzPetEggInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -78714,10 +78714,10 @@ impl PacketCzPeteggInfo {
     pub fn set_index_raw(&mut self, value: [u8; 2]) {
         self.index_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzPeteggInfo {
+    pub fn new(packetver: u32) -> PacketCzPetEggInfo {
         let packet_id = i16::from_le_bytes([0xa8, 0x01]);
         let packet_id_raw = [0xa8, 0x01];
-        PacketCzPeteggInfo {
+        PacketCzPetEggInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -78727,7 +78727,7 @@ impl PacketCzPeteggInfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzPeteggInfo::new(packetver);
+        let mut packet = PacketCzPetEggInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -78737,12 +78737,12 @@ impl PacketCzPeteggInfo {
     }
 }
 
-impl Packet for PacketCzPeteggInfo {
+impl Packet for PacketCzPetEggInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzPeteggInfo::packet_id(packetver)
+       PacketCzPetEggInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzPeteggInfo"
+       "PacketCzPetEggInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79392,11 +79392,11 @@ impl Packet for PacketZcSkillUpdate {
     }
 }
 
-impl PacketZcMakingarrowList {
+impl PacketZcMakingArrowList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xad01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakingarrowList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakingArrowList {
         let mut offset: usize = 0;
         let vec_type_len = ArrowitemInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -79409,7 +79409,7 @@ impl PacketZcMakingarrowList {
             vec_field.push(ArrowitemInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcMakingarrowList {
+        PacketZcMakingArrowList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79465,10 +79465,10 @@ impl PacketZcMakingarrowList {
     pub fn set_arrow_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.arrow_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMakingarrowList {
+    pub fn new(packetver: u32) -> PacketZcMakingArrowList {
         let packet_id = i16::from_le_bytes([0xad, 0x01]);
         let packet_id_raw = [0xad, 0x01];
-        PacketZcMakingarrowList {
+        PacketZcMakingArrowList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -79480,7 +79480,7 @@ impl PacketZcMakingarrowList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMakingarrowList::new(packetver);
+        let mut packet = PacketZcMakingArrowList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -79494,12 +79494,12 @@ impl PacketZcMakingarrowList {
     }
 }
 
-impl Packet for PacketZcMakingarrowList {
+impl Packet for PacketZcMakingArrowList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMakingarrowList::packet_id(packetver)
+       PacketZcMakingArrowList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMakingarrowList"
+       "PacketZcMakingArrowList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79559,13 +79559,13 @@ impl Packet for PacketZcMakingarrowList {
     }
 }
 
-impl PacketCzReqMakingarrow {
+impl PacketCzReqMakingArrow {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xae01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingarrow {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingArrow {
         let mut offset: usize = 0;
-        PacketCzReqMakingarrow {
+        PacketCzReqMakingArrow {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79605,10 +79605,10 @@ impl PacketCzReqMakingarrow {
     pub fn set_id_raw(&mut self, value: [u8; 2]) {
         self.id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqMakingarrow {
+    pub fn new(packetver: u32) -> PacketCzReqMakingArrow {
         let packet_id = i16::from_le_bytes([0xae, 0x01]);
         let packet_id_raw = [0xae, 0x01];
-        PacketCzReqMakingarrow {
+        PacketCzReqMakingArrow {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -79618,7 +79618,7 @@ impl PacketCzReqMakingarrow {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqMakingarrow::new(packetver);
+        let mut packet = PacketCzReqMakingArrow::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/id")) {
             if let Some(value) = entry.value {
                 packet.set_id(value.parse().map_err(|_| format!("Invalid value {} for id", value))?);
@@ -79628,12 +79628,12 @@ impl PacketCzReqMakingarrow {
     }
 }
 
-impl Packet for PacketCzReqMakingarrow {
+impl Packet for PacketCzReqMakingArrow {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqMakingarrow::packet_id(packetver)
+       PacketCzReqMakingArrow::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqMakingarrow"
+       "PacketCzReqMakingArrow"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79687,13 +79687,13 @@ impl Packet for PacketCzReqMakingarrow {
     }
 }
 
-impl PacketCzReqChangecart {
+impl PacketCzReqChangeCart {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xaf01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqChangecart {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqChangeCart {
         let mut offset: usize = 0;
-        PacketCzReqChangecart {
+        PacketCzReqChangeCart {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79733,10 +79733,10 @@ impl PacketCzReqChangecart {
     pub fn set_num_raw(&mut self, value: [u8; 2]) {
         self.num_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqChangecart {
+    pub fn new(packetver: u32) -> PacketCzReqChangeCart {
         let packet_id = i16::from_le_bytes([0xaf, 0x01]);
         let packet_id_raw = [0xaf, 0x01];
-        PacketCzReqChangecart {
+        PacketCzReqChangeCart {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -79746,7 +79746,7 @@ impl PacketCzReqChangecart {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqChangecart::new(packetver);
+        let mut packet = PacketCzReqChangeCart::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/num")) {
             if let Some(value) = entry.value {
                 packet.set_num(value.parse().map_err(|_| format!("Invalid value {} for num", value))?);
@@ -79756,12 +79756,12 @@ impl PacketCzReqChangecart {
     }
 }
 
-impl Packet for PacketCzReqChangecart {
+impl Packet for PacketCzReqChangeCart {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqChangecart::packet_id(packetver)
+       PacketCzReqChangeCart::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqChangecart"
+       "PacketCzReqChangeCart"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79815,13 +79815,13 @@ impl Packet for PacketCzReqChangecart {
     }
 }
 
-impl PacketZcNpcspriteChange {
+impl PacketZcNpcSpriteChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcspriteChange {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcSpriteChange {
         let mut offset: usize = 0;
-        PacketZcNpcspriteChange {
+        PacketZcNpcSpriteChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -79893,10 +79893,10 @@ impl PacketZcNpcspriteChange {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNpcspriteChange {
+    pub fn new(packetver: u32) -> PacketZcNpcSpriteChange {
         let packet_id = i16::from_le_bytes([0xb0, 0x01]);
         let packet_id_raw = [0xb0, 0x01];
-        PacketZcNpcspriteChange {
+        PacketZcNpcSpriteChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -79910,7 +79910,7 @@ impl PacketZcNpcspriteChange {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNpcspriteChange::new(packetver);
+        let mut packet = PacketZcNpcSpriteChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -79930,12 +79930,12 @@ impl PacketZcNpcspriteChange {
     }
 }
 
-impl Packet for PacketZcNpcspriteChange {
+impl Packet for PacketZcNpcSpriteChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNpcspriteChange::packet_id(packetver)
+       PacketZcNpcSpriteChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNpcspriteChange"
+       "PacketZcNpcSpriteChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -79999,13 +79999,13 @@ impl Packet for PacketZcNpcspriteChange {
     }
 }
 
-impl PacketZcShowdigit {
+impl PacketZcShowDigit {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb101"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowdigit {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowDigit {
         let mut offset: usize = 0;
-        PacketZcShowdigit {
+        PacketZcShowDigit {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80061,10 +80061,10 @@ impl PacketZcShowdigit {
     pub fn set_value_raw(&mut self, value: [u8; 4]) {
         self.value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcShowdigit {
+    pub fn new(packetver: u32) -> PacketZcShowDigit {
         let packet_id = i16::from_le_bytes([0xb1, 0x01]);
         let packet_id_raw = [0xb1, 0x01];
-        PacketZcShowdigit {
+        PacketZcShowDigit {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -80076,7 +80076,7 @@ impl PacketZcShowdigit {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcShowdigit::new(packetver);
+        let mut packet = PacketZcShowDigit::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -80091,12 +80091,12 @@ impl PacketZcShowdigit {
     }
 }
 
-impl Packet for PacketZcShowdigit {
+impl Packet for PacketZcShowDigit {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcShowdigit::packet_id(packetver)
+       PacketZcShowDigit::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcShowdigit"
+       "PacketZcShowDigit"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80155,11 +80155,11 @@ impl Packet for PacketZcShowdigit {
     }
 }
 
-impl PacketCzReqOpenstore2 {
+impl PacketCzReqOpenStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenstore2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqOpenStore {
         let mut offset: usize = 0;
         let vec_type_len = StoreItem::base_len(packetver);
         let vec_start: usize = 85;
@@ -80172,7 +80172,7 @@ impl PacketCzReqOpenstore2 {
             vec_field.push(StoreItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzReqOpenstore2 {
+        PacketCzReqOpenStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80266,10 +80266,10 @@ impl PacketCzReqOpenstore2 {
     pub fn set_store_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.store_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqOpenstore2 {
+    pub fn new(packetver: u32) -> PacketCzReqOpenStore {
         let packet_id = i16::from_le_bytes([0xb2, 0x01]);
         let packet_id_raw = [0xb2, 0x01];
-        PacketCzReqOpenstore2 {
+        PacketCzReqOpenStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -80285,7 +80285,7 @@ impl PacketCzReqOpenstore2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqOpenstore2::new(packetver);
+        let mut packet = PacketCzReqOpenStore::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -80316,12 +80316,12 @@ impl PacketCzReqOpenstore2 {
     }
 }
 
-impl Packet for PacketCzReqOpenstore2 {
+impl Packet for PacketCzReqOpenStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqOpenstore2::packet_id(packetver)
+       PacketCzReqOpenStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqOpenstore2"
+       "PacketCzReqOpenStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80393,13 +80393,13 @@ impl Packet for PacketCzReqOpenstore2 {
     }
 }
 
-impl PacketZcShowImage2 {
+impl PacketZcShowImage {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb301"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShowImage {
         let mut offset: usize = 0;
-        PacketZcShowImage2 {
+        PacketZcShowImage {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80461,10 +80461,10 @@ impl PacketZcShowImage2 {
     pub fn set_atype_raw(&mut self, value: [u8; 1]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcShowImage2 {
+    pub fn new(packetver: u32) -> PacketZcShowImage {
         let packet_id = i16::from_le_bytes([0xb3, 0x01]);
         let packet_id_raw = [0xb3, 0x01];
-        PacketZcShowImage2 {
+        PacketZcShowImage {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -80476,7 +80476,7 @@ impl PacketZcShowImage2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcShowImage2::new(packetver);
+        let mut packet = PacketZcShowImage::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/image_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 64] = [0 as char; 64];
@@ -80498,12 +80498,12 @@ impl PacketZcShowImage2 {
     }
 }
 
-impl Packet for PacketZcShowImage2 {
+impl Packet for PacketZcShowImage {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcShowImage2::packet_id(packetver)
+       PacketZcShowImage::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcShowImage2"
+       "PacketZcShowImage"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80748,13 +80748,13 @@ impl Packet for PacketZcChangeGuild {
     }
 }
 
-impl PacketScBillingInfo {
+impl PacketHcBillingInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketScBillingInfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcBillingInfo {
         let mut offset: usize = 0;
-        PacketScBillingInfo {
+        PacketHcBillingInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -80842,10 +80842,10 @@ impl PacketScBillingInfo {
     pub fn set_dw_reserved2_raw(&mut self, value: [u8; 4]) {
         self.dw_reserved2_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketScBillingInfo {
+    pub fn new(packetver: u32) -> PacketHcBillingInfo {
         let packet_id = i16::from_le_bytes([0xb5, 0x01]);
         let packet_id_raw = [0xb5, 0x01];
-        PacketScBillingInfo {
+        PacketHcBillingInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -80861,7 +80861,7 @@ impl PacketScBillingInfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketScBillingInfo::new(packetver);
+        let mut packet = PacketHcBillingInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/dw_amount_remain")) {
             if let Some(value) = entry.value {
                 packet.set_dw_amount_remain(value.parse().map_err(|_| format!("Invalid value {} for dw_amount_remain", value))?);
@@ -80886,12 +80886,12 @@ impl PacketScBillingInfo {
     }
 }
 
-impl Packet for PacketScBillingInfo {
+impl Packet for PacketHcBillingInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketScBillingInfo::packet_id(packetver)
+       PacketHcBillingInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketScBillingInfo"
+       "PacketHcBillingInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -80960,13 +80960,13 @@ impl Packet for PacketScBillingInfo {
     }
 }
 
-impl PacketZcGuildInfo2 {
+impl PacketZcGuildInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfo2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGuildInfo {
         let mut offset: usize = 0;
-        PacketZcGuildInfo2 {
+        PacketZcGuildInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -81248,10 +81248,10 @@ impl PacketZcGuildInfo2 {
     pub fn set_zeny_raw(&mut self, value: [u8; 4]) {
         self.zeny_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcGuildInfo2 {
+    pub fn new(packetver: u32) -> PacketZcGuildInfo {
         let packet_id = i16::from_le_bytes([0xb6, 0x01]);
         let packet_id_raw = [0xb6, 0x01];
-        PacketZcGuildInfo2 {
+        PacketZcGuildInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -81289,7 +81289,7 @@ impl PacketZcGuildInfo2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcGuildInfo2::new(packetver);
+        let mut packet = PacketZcGuildInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gdid")) {
             if let Some(value) = entry.value {
                 packet.set_gdid(value.parse().map_err(|_| format!("Invalid value {} for gdid", value))?);
@@ -81390,12 +81390,12 @@ impl PacketZcGuildInfo2 {
     }
 }
 
-impl Packet for PacketZcGuildInfo2 {
+impl Packet for PacketZcGuildInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcGuildInfo2::packet_id(packetver)
+       PacketZcGuildInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcGuildInfo2"
+       "PacketZcGuildInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82481,13 +82481,13 @@ impl Packet for PacketCzRecallGid {
     }
 }
 
-impl PacketAcAskPngameroom {
+impl PacketAcAskPnGameRoom {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xbe01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAskPngameroom {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAskPnGameRoom {
         let mut offset: usize = 0;
-        PacketAcAskPngameroom {
+        PacketAcAskPnGameRoom {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82511,10 +82511,10 @@ impl PacketAcAskPngameroom {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAskPngameroom {
+    pub fn new(packetver: u32) -> PacketAcAskPnGameRoom {
         let packet_id = i16::from_le_bytes([0xbe, 0x01]);
         let packet_id_raw = [0xbe, 0x01];
-        PacketAcAskPngameroom {
+        PacketAcAskPnGameRoom {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -82522,17 +82522,17 @@ impl PacketAcAskPngameroom {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAskPngameroom::new(packetver);
+        let mut packet = PacketAcAskPnGameRoom::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketAcAskPngameroom {
+impl Packet for PacketAcAskPnGameRoom {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAskPngameroom::packet_id(packetver)
+       PacketAcAskPnGameRoom::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAskPngameroom"
+       "PacketAcAskPnGameRoom"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82581,13 +82581,13 @@ impl Packet for PacketAcAskPngameroom {
     }
 }
 
-impl PacketCaReplyPngameroom {
+impl PacketCaReplyPnGameRoom {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xbf01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReplyPngameroom {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReplyPnGameRoom {
         let mut offset: usize = 0;
-        PacketCaReplyPngameroom {
+        PacketCaReplyPnGameRoom {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82627,10 +82627,10 @@ impl PacketCaReplyPngameroom {
     pub fn set_permission_raw(&mut self, value: [u8; 1]) {
         self.permission_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaReplyPngameroom {
+    pub fn new(packetver: u32) -> PacketCaReplyPnGameRoom {
         let packet_id = i16::from_le_bytes([0xbf, 0x01]);
         let packet_id_raw = [0xbf, 0x01];
-        PacketCaReplyPngameroom {
+        PacketCaReplyPnGameRoom {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -82640,7 +82640,7 @@ impl PacketCaReplyPngameroom {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaReplyPngameroom::new(packetver);
+        let mut packet = PacketCaReplyPnGameRoom::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/permission")) {
             if let Some(value) = entry.value {
                 packet.set_permission(value.parse().map_err(|_| format!("Invalid value {} for permission", value))?);
@@ -82650,12 +82650,12 @@ impl PacketCaReplyPngameroom {
     }
 }
 
-impl Packet for PacketCaReplyPngameroom {
+impl Packet for PacketCaReplyPnGameRoom {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaReplyPngameroom::packet_id(packetver)
+       PacketCaReplyPnGameRoom::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaReplyPngameroom"
+       "PacketCaReplyPnGameRoom"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82709,13 +82709,13 @@ impl Packet for PacketCaReplyPngameroom {
     }
 }
 
-impl PacketCzReqRemaintime {
+impl PacketCzReqRemainTime {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqRemaintime {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqRemainTime {
         let mut offset: usize = 0;
-        PacketCzReqRemaintime {
+        PacketCzReqRemainTime {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82739,10 +82739,10 @@ impl PacketCzReqRemaintime {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqRemaintime {
+    pub fn new(packetver: u32) -> PacketCzReqRemainTime {
         let packet_id = i16::from_le_bytes([0xc0, 0x01]);
         let packet_id_raw = [0xc0, 0x01];
-        PacketCzReqRemaintime {
+        PacketCzReqRemainTime {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -82750,17 +82750,17 @@ impl PacketCzReqRemaintime {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqRemaintime::new(packetver);
+        let mut packet = PacketCzReqRemainTime::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzReqRemaintime {
+impl Packet for PacketCzReqRemainTime {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqRemaintime::packet_id(packetver)
+       PacketCzReqRemainTime::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqRemaintime"
+       "PacketCzReqRemainTime"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82809,13 +82809,13 @@ impl Packet for PacketCzReqRemaintime {
     }
 }
 
-impl PacketZcReplyRemaintime {
+impl PacketZcReplyRemainTime {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc101"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReplyRemaintime {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReplyRemainTime {
         let mut offset: usize = 0;
-        PacketZcReplyRemaintime {
+        PacketZcReplyRemainTime {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -82887,10 +82887,10 @@ impl PacketZcReplyRemaintime {
     pub fn set_remain_time_raw(&mut self, value: [u8; 4]) {
         self.remain_time_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcReplyRemaintime {
+    pub fn new(packetver: u32) -> PacketZcReplyRemainTime {
         let packet_id = i16::from_le_bytes([0xc1, 0x01]);
         let packet_id_raw = [0xc1, 0x01];
-        PacketZcReplyRemaintime {
+        PacketZcReplyRemainTime {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -82904,7 +82904,7 @@ impl PacketZcReplyRemaintime {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcReplyRemaintime::new(packetver);
+        let mut packet = PacketZcReplyRemainTime::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -82924,12 +82924,12 @@ impl PacketZcReplyRemaintime {
     }
 }
 
-impl Packet for PacketZcReplyRemaintime {
+impl Packet for PacketZcReplyRemainTime {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcReplyRemaintime::packet_id(packetver)
+       PacketZcReplyRemainTime::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcReplyRemaintime"
+       "PacketZcReplyRemainTime"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -82993,13 +82993,13 @@ impl Packet for PacketZcReplyRemaintime {
     }
 }
 
-impl PacketZcInfoRemaintime {
+impl PacketZcInfoRemainTime {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcInfoRemaintime {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcInfoRemainTime {
         let mut offset: usize = 0;
-        PacketZcInfoRemaintime {
+        PacketZcInfoRemainTime {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83055,10 +83055,10 @@ impl PacketZcInfoRemaintime {
     pub fn set_remain_time_raw(&mut self, value: [u8; 4]) {
         self.remain_time_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcInfoRemaintime {
+    pub fn new(packetver: u32) -> PacketZcInfoRemainTime {
         let packet_id = i16::from_le_bytes([0xc2, 0x01]);
         let packet_id_raw = [0xc2, 0x01];
-        PacketZcInfoRemaintime {
+        PacketZcInfoRemainTime {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -83070,7 +83070,7 @@ impl PacketZcInfoRemaintime {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcInfoRemaintime::new(packetver);
+        let mut packet = PacketZcInfoRemainTime::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -83085,12 +83085,12 @@ impl PacketZcInfoRemaintime {
     }
 }
 
-impl Packet for PacketZcInfoRemaintime {
+impl Packet for PacketZcInfoRemainTime {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcInfoRemaintime::packet_id(packetver)
+       PacketZcInfoRemainTime::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcInfoRemaintime"
+       "PacketZcInfoRemainTime"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83149,13 +83149,13 @@ impl Packet for PacketZcInfoRemaintime {
     }
 }
 
-impl PacketZcBroadcast2 {
+impl PacketZcBroadcastStyled {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc301"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcast2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcastStyled {
         let mut offset: usize = 0;
-        PacketZcBroadcast2 {
+        PacketZcBroadcastStyled {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83290,10 +83290,10 @@ impl PacketZcBroadcast2 {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcBroadcast2 {
+    pub fn new(packetver: u32) -> PacketZcBroadcastStyled {
         let packet_id = i16::from_le_bytes([0xc3, 0x01]);
         let packet_id_raw = [0xc3, 0x01];
-        PacketZcBroadcast2 {
+        PacketZcBroadcastStyled {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -83315,7 +83315,7 @@ impl PacketZcBroadcast2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcBroadcast2::new(packetver);
+        let mut packet = PacketZcBroadcastStyled::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -83355,12 +83355,12 @@ impl PacketZcBroadcast2 {
     }
 }
 
-impl Packet for PacketZcBroadcast2 {
+impl Packet for PacketZcBroadcastStyled {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcBroadcast2::packet_id(packetver)
+       PacketZcBroadcastStyled::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcBroadcast2"
+       "PacketZcBroadcastStyled"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83442,13 +83442,13 @@ impl Packet for PacketZcBroadcast2 {
     }
 }
 
-impl PacketZcAddItemToStore2 {
+impl PacketZcAddItemToStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToStore2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToStore {
         let mut offset: usize = 0;
-        PacketZcAddItemToStore2 {
+        PacketZcAddItemToStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83600,10 +83600,10 @@ impl PacketZcAddItemToStore2 {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddItemToStore2 {
+    pub fn new(packetver: u32) -> PacketZcAddItemToStore {
         let packet_id = i16::from_le_bytes([0xc4, 0x01]);
         let packet_id_raw = [0xc4, 0x01];
-        PacketZcAddItemToStore2 {
+        PacketZcAddItemToStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -83627,7 +83627,7 @@ impl PacketZcAddItemToStore2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddItemToStore2::new(packetver);
+        let mut packet = PacketZcAddItemToStore::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -83671,12 +83671,12 @@ impl PacketZcAddItemToStore2 {
     }
 }
 
-impl Packet for PacketZcAddItemToStore2 {
+impl Packet for PacketZcAddItemToStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddItemToStore2::packet_id(packetver)
+       PacketZcAddItemToStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddItemToStore2"
+       "PacketZcAddItemToStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -83764,13 +83764,13 @@ impl Packet for PacketZcAddItemToStore2 {
     }
 }
 
-impl PacketZcAddItemToCart2 {
+impl PacketZcAddItemToCart {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCart2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddItemToCart {
         let mut offset: usize = 0;
-        PacketZcAddItemToCart2 {
+        PacketZcAddItemToCart {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -83922,10 +83922,10 @@ impl PacketZcAddItemToCart2 {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddItemToCart2 {
+    pub fn new(packetver: u32) -> PacketZcAddItemToCart {
         let packet_id = i16::from_le_bytes([0xc5, 0x01]);
         let packet_id_raw = [0xc5, 0x01];
-        PacketZcAddItemToCart2 {
+        PacketZcAddItemToCart {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -83949,7 +83949,7 @@ impl PacketZcAddItemToCart2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddItemToCart2::new(packetver);
+        let mut packet = PacketZcAddItemToCart::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -83993,12 +83993,12 @@ impl PacketZcAddItemToCart2 {
     }
 }
 
-impl Packet for PacketZcAddItemToCart2 {
+impl Packet for PacketZcAddItemToCart {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddItemToCart2::packet_id(packetver)
+       PacketZcAddItemToCart::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddItemToCart2"
+       "PacketZcAddItemToCart"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84086,13 +84086,13 @@ impl Packet for PacketZcAddItemToCart2 {
     }
 }
 
-impl PacketCsReqEncryption {
+impl PacketCaReqEncryption {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCsReqEncryption {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaReqEncryption {
         let mut offset: usize = 0;
-        PacketCsReqEncryption {
+        PacketCaReqEncryption {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84148,10 +84148,10 @@ impl PacketCsReqEncryption {
     pub fn set_dec_count_raw(&mut self, value: [u8; 1]) {
         self.dec_count_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCsReqEncryption {
+    pub fn new(packetver: u32) -> PacketCaReqEncryption {
         let packet_id = i16::from_le_bytes([0xc6, 0x01]);
         let packet_id_raw = [0xc6, 0x01];
-        PacketCsReqEncryption {
+        PacketCaReqEncryption {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -84163,7 +84163,7 @@ impl PacketCsReqEncryption {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCsReqEncryption::new(packetver);
+        let mut packet = PacketCaReqEncryption::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/enc_count")) {
             if let Some(value) = entry.value {
                 packet.set_enc_count(value.parse().map_err(|_| format!("Invalid value {} for enc_count", value))?);
@@ -84178,12 +84178,12 @@ impl PacketCsReqEncryption {
     }
 }
 
-impl Packet for PacketCsReqEncryption {
+impl Packet for PacketCaReqEncryption {
     fn id(&self, packetver: u32) -> &str {
-       PacketCsReqEncryption::packet_id(packetver)
+       PacketCaReqEncryption::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCsReqEncryption"
+       "PacketCaReqEncryption"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84242,13 +84242,13 @@ impl Packet for PacketCsReqEncryption {
     }
 }
 
-impl PacketScAckEncryption {
+impl PacketAcAckEncryption {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketScAckEncryption {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEncryption {
         let mut offset: usize = 0;
-        PacketScAckEncryption {
+        PacketAcAckEncryption {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84272,10 +84272,10 @@ impl PacketScAckEncryption {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketScAckEncryption {
+    pub fn new(packetver: u32) -> PacketAcAckEncryption {
         let packet_id = i16::from_le_bytes([0xc7, 0x01]);
         let packet_id_raw = [0xc7, 0x01];
-        PacketScAckEncryption {
+        PacketAcAckEncryption {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -84283,17 +84283,17 @@ impl PacketScAckEncryption {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketScAckEncryption::new(packetver);
+        let mut packet = PacketAcAckEncryption::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketScAckEncryption {
+impl Packet for PacketAcAckEncryption {
     fn id(&self, packetver: u32) -> &str {
-       PacketScAckEncryption::packet_id(packetver)
+       PacketAcAckEncryption::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketScAckEncryption"
+       "PacketAcAckEncryption"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84342,13 +84342,13 @@ impl Packet for PacketScAckEncryption {
     }
 }
 
-impl PacketZcUseItemAck2 {
+impl PacketZcUseItemAck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAck2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseItemAck {
         let mut offset: usize = 0;
-        PacketZcUseItemAck2 {
+        PacketZcUseItemAck {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84452,10 +84452,10 @@ impl PacketZcUseItemAck2 {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcUseItemAck2 {
+    pub fn new(packetver: u32) -> PacketZcUseItemAck {
         let packet_id = i16::from_le_bytes([0xc8, 0x01]);
         let packet_id_raw = [0xc8, 0x01];
-        PacketZcUseItemAck2 {
+        PacketZcUseItemAck {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -84473,7 +84473,7 @@ impl PacketZcUseItemAck2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcUseItemAck2::new(packetver);
+        let mut packet = PacketZcUseItemAck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -84503,12 +84503,12 @@ impl PacketZcUseItemAck2 {
     }
 }
 
-impl Packet for PacketZcUseItemAck2 {
+impl Packet for PacketZcUseItemAck {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcUseItemAck2::packet_id(packetver)
+       PacketZcUseItemAck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcUseItemAck2"
+       "PacketZcUseItemAck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84582,13 +84582,13 @@ impl Packet for PacketZcUseItemAck2 {
     }
 }
 
-impl PacketZcSkillEntry2 {
+impl PacketZcSkillEntryWithMsg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc901"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillEntry2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillEntryWithMsg {
         let mut offset: usize = 0;
-        PacketZcSkillEntry2 {
+        PacketZcSkillEntryWithMsg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84746,10 +84746,10 @@ impl PacketZcSkillEntry2 {
     pub fn set_msg_raw(&mut self, value: [u8; 80]) {
         self.msg_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillEntry2 {
+    pub fn new(packetver: u32) -> PacketZcSkillEntryWithMsg {
         let packet_id = i16::from_le_bytes([0xc9, 0x01]);
         let packet_id_raw = [0xc9, 0x01];
-        PacketZcSkillEntry2 {
+        PacketZcSkillEntryWithMsg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -84773,7 +84773,7 @@ impl PacketZcSkillEntry2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillEntry2::new(packetver);
+        let mut packet = PacketZcSkillEntryWithMsg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -84825,12 +84825,12 @@ impl PacketZcSkillEntry2 {
     }
 }
 
-impl Packet for PacketZcSkillEntry2 {
+impl Packet for PacketZcSkillEntryWithMsg {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillEntry2::packet_id(packetver)
+       PacketZcSkillEntryWithMsg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillEntry2"
+       "PacketZcSkillEntryWithMsg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -84921,13 +84921,13 @@ impl Packet for PacketZcSkillEntry2 {
     }
 }
 
-impl PacketCzReqmakinghomun {
+impl PacketCzReqMakingHomun {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xca01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqmakinghomun {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingHomun {
         let mut offset: usize = 0;
-        PacketCzReqmakinghomun {
+        PacketCzReqMakingHomun {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -84967,10 +84967,10 @@ impl PacketCzReqmakinghomun {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqmakinghomun {
+    pub fn new(packetver: u32) -> PacketCzReqMakingHomun {
         let packet_id = i16::from_le_bytes([0xca, 0x01]);
         let packet_id_raw = [0xca, 0x01];
-        PacketCzReqmakinghomun {
+        PacketCzReqMakingHomun {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -84980,7 +84980,7 @@ impl PacketCzReqmakinghomun {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqmakinghomun::new(packetver);
+        let mut packet = PacketCzReqMakingHomun::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -84990,12 +84990,12 @@ impl PacketCzReqmakinghomun {
     }
 }
 
-impl Packet for PacketCzReqmakinghomun {
+impl Packet for PacketCzReqMakingHomun {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqmakinghomun::packet_id(packetver)
+       PacketCzReqMakingHomun::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqmakinghomun"
+       "PacketCzReqMakingHomun"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85473,13 +85473,13 @@ impl Packet for PacketZcMonsterTalk {
     }
 }
 
-impl PacketZcAutospelllist {
+impl PacketZcAutoSpellList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xcd01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutospelllist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAutoSpellList {
         let mut offset: usize = 0;
-        PacketZcAutospelllist {
+        PacketZcAutoSpellList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85526,10 +85526,10 @@ impl PacketZcAutospelllist {
     pub fn set_skid_raw(&mut self, value: [u8; 28]) {
         self.skid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAutospelllist {
+    pub fn new(packetver: u32) -> PacketZcAutoSpellList {
         let packet_id = i16::from_le_bytes([0xcd, 0x01]);
         let packet_id_raw = [0xcd, 0x01];
-        PacketZcAutospelllist {
+        PacketZcAutoSpellList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -85539,7 +85539,7 @@ impl PacketZcAutospelllist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAutospelllist::new(packetver);
+        let mut packet = PacketZcAutoSpellList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
             }
@@ -85548,12 +85548,12 @@ impl PacketZcAutospelllist {
     }
 }
 
-impl Packet for PacketZcAutospelllist {
+impl Packet for PacketZcAutoSpellList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAutospelllist::packet_id(packetver)
+       PacketZcAutoSpellList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAutospelllist"
+       "PacketZcAutoSpellList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85609,13 +85609,13 @@ impl Packet for PacketZcAutospelllist {
     }
 }
 
-impl PacketCzSelectautospell {
+impl PacketCzSelectAutoSpell {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xce01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectautospell {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSelectAutoSpell {
         let mut offset: usize = 0;
-        PacketCzSelectautospell {
+        PacketCzSelectAutoSpell {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85655,10 +85655,10 @@ impl PacketCzSelectautospell {
     pub fn set_skid_raw(&mut self, value: [u8; 4]) {
         self.skid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzSelectautospell {
+    pub fn new(packetver: u32) -> PacketCzSelectAutoSpell {
         let packet_id = i16::from_le_bytes([0xce, 0x01]);
         let packet_id_raw = [0xce, 0x01];
-        PacketCzSelectautospell {
+        PacketCzSelectAutoSpell {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -85668,7 +85668,7 @@ impl PacketCzSelectautospell {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzSelectautospell::new(packetver);
+        let mut packet = PacketCzSelectAutoSpell::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -85678,12 +85678,12 @@ impl PacketCzSelectautospell {
     }
 }
 
-impl Packet for PacketCzSelectautospell {
+impl Packet for PacketCzSelectAutoSpell {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzSelectautospell::packet_id(packetver)
+       PacketCzSelectAutoSpell::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzSelectautospell"
+       "PacketCzSelectAutoSpell"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -85737,13 +85737,13 @@ impl Packet for PacketCzSelectautospell {
     }
 }
 
-impl PacketZcDevotionlist {
+impl PacketZcDevotionList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xcf01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDevotionlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcDevotionList {
         let mut offset: usize = 0;
-        PacketZcDevotionlist {
+        PacketZcDevotionList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -85822,10 +85822,10 @@ impl PacketZcDevotionlist {
     pub fn set_range_raw(&mut self, value: [u8; 2]) {
         self.range_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcDevotionlist {
+    pub fn new(packetver: u32) -> PacketZcDevotionList {
         let packet_id = i16::from_le_bytes([0xcf, 0x01]);
         let packet_id_raw = [0xcf, 0x01];
-        PacketZcDevotionlist {
+        PacketZcDevotionList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -85839,7 +85839,7 @@ impl PacketZcDevotionlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcDevotionlist::new(packetver);
+        let mut packet = PacketZcDevotionList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/my_aid")) {
             if let Some(value) = entry.value {
                 packet.set_my_aid(value.parse().map_err(|_| format!("Invalid value {} for my_aid", value))?);
@@ -85858,12 +85858,12 @@ impl PacketZcDevotionlist {
     }
 }
 
-impl Packet for PacketZcDevotionlist {
+impl Packet for PacketZcDevotionList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcDevotionlist::packet_id(packetver)
+       PacketZcDevotionList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcDevotionlist"
+       "PacketZcDevotionList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86269,13 +86269,13 @@ impl Packet for PacketZcBladestop {
     }
 }
 
-impl PacketZcCombodelay {
+impl PacketZcComboDelay {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCombodelay {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcComboDelay {
         let mut offset: usize = 0;
-        PacketZcCombodelay {
+        PacketZcComboDelay {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -86331,10 +86331,10 @@ impl PacketZcCombodelay {
     pub fn set_delay_time_raw(&mut self, value: [u8; 4]) {
         self.delay_time_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCombodelay {
+    pub fn new(packetver: u32) -> PacketZcComboDelay {
         let packet_id = i16::from_le_bytes([0xd2, 0x01]);
         let packet_id_raw = [0xd2, 0x01];
-        PacketZcCombodelay {
+        PacketZcComboDelay {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -86346,7 +86346,7 @@ impl PacketZcCombodelay {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCombodelay::new(packetver);
+        let mut packet = PacketZcComboDelay::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -86361,12 +86361,12 @@ impl PacketZcCombodelay {
     }
 }
 
-impl Packet for PacketZcCombodelay {
+impl Packet for PacketZcComboDelay {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCombodelay::packet_id(packetver)
+       PacketZcComboDelay::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCombodelay"
+       "PacketZcComboDelay"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86652,13 +86652,13 @@ impl Packet for PacketZcSound {
     }
 }
 
-impl PacketZcOpenEditdlgstr {
+impl PacketZcOpenEditDlgStr {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditdlgstr {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcOpenEditDlgStr {
         let mut offset: usize = 0;
-        PacketZcOpenEditdlgstr {
+        PacketZcOpenEditDlgStr {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -86698,10 +86698,10 @@ impl PacketZcOpenEditdlgstr {
     pub fn set_naid_raw(&mut self, value: [u8; 4]) {
         self.naid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcOpenEditdlgstr {
+    pub fn new(packetver: u32) -> PacketZcOpenEditDlgStr {
         let packet_id = i16::from_le_bytes([0xd4, 0x01]);
         let packet_id_raw = [0xd4, 0x01];
-        PacketZcOpenEditdlgstr {
+        PacketZcOpenEditDlgStr {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -86711,7 +86711,7 @@ impl PacketZcOpenEditdlgstr {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcOpenEditdlgstr::new(packetver);
+        let mut packet = PacketZcOpenEditDlgStr::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/naid")) {
             if let Some(value) = entry.value {
                 packet.set_naid(value.parse().map_err(|_| format!("Invalid value {} for naid", value))?);
@@ -86721,12 +86721,12 @@ impl PacketZcOpenEditdlgstr {
     }
 }
 
-impl Packet for PacketZcOpenEditdlgstr {
+impl Packet for PacketZcOpenEditDlgStr {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcOpenEditdlgstr::packet_id(packetver)
+       PacketZcOpenEditDlgStr::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcOpenEditdlgstr"
+       "PacketZcOpenEditDlgStr"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86780,13 +86780,13 @@ impl Packet for PacketZcOpenEditdlgstr {
     }
 }
 
-impl PacketCzInputEditdlgstr {
+impl PacketCzInputEditDlgStr {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditdlgstr {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzInputEditDlgStr {
         let mut offset: usize = 0;
-        PacketCzInputEditdlgstr {
+        PacketCzInputEditDlgStr {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -86857,10 +86857,10 @@ impl PacketCzInputEditdlgstr {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzInputEditdlgstr {
+    pub fn new(packetver: u32) -> PacketCzInputEditDlgStr {
         let packet_id = i16::from_le_bytes([0xd5, 0x01]);
         let packet_id_raw = [0xd5, 0x01];
-        PacketCzInputEditdlgstr {
+        PacketCzInputEditDlgStr {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -86874,7 +86874,7 @@ impl PacketCzInputEditdlgstr {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzInputEditdlgstr::new(packetver);
+        let mut packet = PacketCzInputEditDlgStr::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -86894,12 +86894,12 @@ impl PacketCzInputEditdlgstr {
     }
 }
 
-impl Packet for PacketCzInputEditdlgstr {
+impl Packet for PacketCzInputEditDlgStr {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzInputEditdlgstr::packet_id(packetver)
+       PacketCzInputEditDlgStr::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzInputEditdlgstr"
+       "PacketCzInputEditDlgStr"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -86961,13 +86961,13 @@ impl Packet for PacketCzInputEditdlgstr {
     }
 }
 
-impl PacketZcNotifyMaptypeproperty2 {
+impl PacketZcNotifyMapTypeProperty {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMaptypeproperty2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapTypeProperty {
         let mut offset: usize = 0;
-        PacketZcNotifyMaptypeproperty2 {
+        PacketZcNotifyMapTypeProperty {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87007,10 +87007,10 @@ impl PacketZcNotifyMaptypeproperty2 {
     pub fn set_atype_raw(&mut self, value: [u8; 2]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMaptypeproperty2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMapTypeProperty {
         let packet_id = i16::from_le_bytes([0xd6, 0x01]);
         let packet_id_raw = [0xd6, 0x01];
-        PacketZcNotifyMaptypeproperty2 {
+        PacketZcNotifyMapTypeProperty {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -87020,7 +87020,7 @@ impl PacketZcNotifyMaptypeproperty2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMaptypeproperty2::new(packetver);
+        let mut packet = PacketZcNotifyMapTypeProperty::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -87030,12 +87030,12 @@ impl PacketZcNotifyMaptypeproperty2 {
     }
 }
 
-impl Packet for PacketZcNotifyMaptypeproperty2 {
+impl Packet for PacketZcNotifyMapTypeProperty {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMaptypeproperty2::packet_id(packetver)
+       PacketZcNotifyMapTypeProperty::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMaptypeproperty2"
+       "PacketZcNotifyMapTypeProperty"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -87089,13 +87089,13 @@ impl Packet for PacketZcNotifyMaptypeproperty2 {
     }
 }
 
-impl PacketZcSpriteChange2 {
+impl PacketZcSpriteChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd701"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpriteChange2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpriteChange {
         let mut offset: usize = 0;
-        PacketZcSpriteChange2 {
+        PacketZcSpriteChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87183,10 +87183,10 @@ impl PacketZcSpriteChange2 {
     pub fn set_value2_raw(&mut self, value: [u8; 2]) {
         self.value2_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSpriteChange2 {
+    pub fn new(packetver: u32) -> PacketZcSpriteChange {
         let packet_id = i16::from_le_bytes([0xd7, 0x01]);
         let packet_id_raw = [0xd7, 0x01];
-        PacketZcSpriteChange2 {
+        PacketZcSpriteChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -87202,7 +87202,7 @@ impl PacketZcSpriteChange2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSpriteChange2::new(packetver);
+        let mut packet = PacketZcSpriteChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -87227,12 +87227,12 @@ impl PacketZcSpriteChange2 {
     }
 }
 
-impl Packet for PacketZcSpriteChange2 {
+impl Packet for PacketZcSpriteChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSpriteChange2::packet_id(packetver)
+       PacketZcSpriteChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSpriteChange2"
+       "PacketZcSpriteChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -87301,13 +87301,13 @@ impl Packet for PacketZcSpriteChange2 {
     }
 }
 
-impl PacketZcNotifyStandentry2 {
+impl PacketZcNotifyStandEntryShortEffect {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntryShortEffect {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentry2 {
+        PacketZcNotifyStandEntryShortEffect {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -87737,10 +87737,10 @@ impl PacketZcNotifyStandentry2 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentry2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntryShortEffect {
         let packet_id = i16::from_le_bytes([0xd8, 0x01]);
         let packet_id_raw = [0xd8, 0x01];
-        PacketZcNotifyStandentry2 {
+        PacketZcNotifyStandEntryShortEffect {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -87798,7 +87798,7 @@ impl PacketZcNotifyStandentry2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentry2::new(packetver);
+        let mut packet = PacketZcNotifyStandEntryShortEffect::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -87935,12 +87935,12 @@ impl PacketZcNotifyStandentry2 {
     }
 }
 
-impl Packet for PacketZcNotifyStandentry2 {
+impl Packet for PacketZcNotifyStandEntryShortEffect {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentry2::packet_id(packetver)
+       PacketZcNotifyStandEntryShortEffect::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentry2"
+       "PacketZcNotifyStandEntryShortEffect"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -88119,13 +88119,13 @@ impl Packet for PacketZcNotifyStandentry2 {
     }
 }
 
-impl PacketZcNotifyNewentry2 {
+impl PacketZcNotifyNewEntryShortEffect {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd901"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewEntryShortEffect {
         let mut offset: usize = 0;
-        PacketZcNotifyNewentry2 {
+        PacketZcNotifyNewEntryShortEffect {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -88539,10 +88539,10 @@ impl PacketZcNotifyNewentry2 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyNewentry2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyNewEntryShortEffect {
         let packet_id = i16::from_le_bytes([0xd9, 0x01]);
         let packet_id_raw = [0xd9, 0x01];
-        PacketZcNotifyNewentry2 {
+        PacketZcNotifyNewEntryShortEffect {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -88598,7 +88598,7 @@ impl PacketZcNotifyNewentry2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyNewentry2::new(packetver);
+        let mut packet = PacketZcNotifyNewEntryShortEffect::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -88730,12 +88730,12 @@ impl PacketZcNotifyNewentry2 {
     }
 }
 
-impl Packet for PacketZcNotifyNewentry2 {
+impl Packet for PacketZcNotifyNewEntryShortEffect {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyNewentry2::packet_id(packetver)
+       PacketZcNotifyNewEntryShortEffect::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyNewentry2"
+       "PacketZcNotifyNewEntryShortEffect"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -88909,13 +88909,13 @@ impl Packet for PacketZcNotifyNewentry2 {
     }
 }
 
-impl PacketZcNotifyMoveentry2 {
+impl PacketZcNotifyMoveEntryShortEffect {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xda01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveEntryShortEffect {
         let mut offset: usize = 0;
-        PacketZcNotifyMoveentry2 {
+        PacketZcNotifyMoveEntryShortEffect {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -89345,10 +89345,10 @@ impl PacketZcNotifyMoveentry2 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMoveentry2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMoveEntryShortEffect {
         let packet_id = i16::from_le_bytes([0xda, 0x01]);
         let packet_id_raw = [0xda, 0x01];
-        PacketZcNotifyMoveentry2 {
+        PacketZcNotifyMoveEntryShortEffect {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -89406,7 +89406,7 @@ impl PacketZcNotifyMoveentry2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMoveentry2::new(packetver);
+        let mut packet = PacketZcNotifyMoveEntryShortEffect::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -89535,12 +89535,12 @@ impl PacketZcNotifyMoveentry2 {
     }
 }
 
-impl Packet for PacketZcNotifyMoveentry2 {
+impl Packet for PacketZcNotifyMoveEntryShortEffect {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMoveentry2::packet_id(packetver)
+       PacketZcNotifyMoveEntryShortEffect::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMoveentry2"
+       "PacketZcNotifyMoveEntryShortEffect"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -89969,13 +89969,13 @@ impl Packet for PacketAcAckHash {
     }
 }
 
-impl PacketCaLogin2 {
+impl PacketCaLoginHashed {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xdd01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginHashed {
         let mut offset: usize = 0;
-        PacketCaLogin2 {
+        PacketCaLoginHashed {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90075,10 +90075,10 @@ impl PacketCaLogin2 {
     pub fn set_clienttype_raw(&mut self, value: [u8; 1]) {
         self.clienttype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaLogin2 {
+    pub fn new(packetver: u32) -> PacketCaLoginHashed {
         let packet_id = i16::from_le_bytes([0xdd, 0x01]);
         let packet_id_raw = [0xdd, 0x01];
-        PacketCaLogin2 {
+        PacketCaLoginHashed {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -90094,7 +90094,7 @@ impl PacketCaLogin2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaLogin2::new(packetver);
+        let mut packet = PacketCaLoginHashed::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/version")) {
             if let Some(value) = entry.value {
                 packet.set_version(value.parse().map_err(|_| format!("Invalid value {} for version", value))?);
@@ -90133,12 +90133,12 @@ impl PacketCaLogin2 {
     }
 }
 
-impl Packet for PacketCaLogin2 {
+impl Packet for PacketCaLoginHashed {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaLogin2::packet_id(packetver)
+       PacketCaLoginHashed::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaLogin2"
+       "PacketCaLoginHashed"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90211,13 +90211,13 @@ impl Packet for PacketCaLogin2 {
     }
 }
 
-impl PacketZcNotifySkill2 {
+impl PacketZcNotifySkill {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xde01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkill2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifySkill {
         let mut offset: usize = 0;
-        PacketZcNotifySkill2 {
+        PacketZcNotifySkill {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90401,10 +90401,10 @@ impl PacketZcNotifySkill2 {
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifySkill2 {
+    pub fn new(packetver: u32) -> PacketZcNotifySkill {
         let packet_id = i16::from_le_bytes([0xde, 0x01]);
         let packet_id_raw = [0xde, 0x01];
-        PacketZcNotifySkill2 {
+        PacketZcNotifySkill {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -90432,7 +90432,7 @@ impl PacketZcNotifySkill2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifySkill2::new(packetver);
+        let mut packet = PacketZcNotifySkill::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -90487,12 +90487,12 @@ impl PacketZcNotifySkill2 {
     }
 }
 
-impl Packet for PacketZcNotifySkill2 {
+impl Packet for PacketZcNotifySkill {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifySkill2::packet_id(packetver)
+       PacketZcNotifySkill::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifySkill2"
+       "PacketZcNotifySkill"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90591,13 +90591,13 @@ impl Packet for PacketZcNotifySkill2 {
     }
 }
 
-impl PacketCzReqAccountname {
+impl PacketCzReqAccountName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xdf01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqAccountname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqAccountName {
         let mut offset: usize = 0;
-        PacketCzReqAccountname {
+        PacketCzReqAccountName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90637,10 +90637,10 @@ impl PacketCzReqAccountname {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqAccountname {
+    pub fn new(packetver: u32) -> PacketCzReqAccountName {
         let packet_id = i16::from_le_bytes([0xdf, 0x01]);
         let packet_id_raw = [0xdf, 0x01];
-        PacketCzReqAccountname {
+        PacketCzReqAccountName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -90650,7 +90650,7 @@ impl PacketCzReqAccountname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqAccountname::new(packetver);
+        let mut packet = PacketCzReqAccountName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -90660,12 +90660,12 @@ impl PacketCzReqAccountname {
     }
 }
 
-impl Packet for PacketCzReqAccountname {
+impl Packet for PacketCzReqAccountName {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqAccountname::packet_id(packetver)
+       PacketCzReqAccountName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqAccountname"
+       "PacketCzReqAccountName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90719,13 +90719,13 @@ impl Packet for PacketCzReqAccountname {
     }
 }
 
-impl PacketZcAckAccountname {
+impl PacketZcAckAccountName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAccountname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckAccountName {
         let mut offset: usize = 0;
-        PacketZcAckAccountname {
+        PacketZcAckAccountName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90787,10 +90787,10 @@ impl PacketZcAckAccountname {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckAccountname {
+    pub fn new(packetver: u32) -> PacketZcAckAccountName {
         let packet_id = i16::from_le_bytes([0xe0, 0x01]);
         let packet_id_raw = [0xe0, 0x01];
-        PacketZcAckAccountname {
+        PacketZcAckAccountName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -90802,7 +90802,7 @@ impl PacketZcAckAccountname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckAccountname::new(packetver);
+        let mut packet = PacketZcAckAccountName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -90824,12 +90824,12 @@ impl PacketZcAckAccountname {
     }
 }
 
-impl Packet for PacketZcAckAccountname {
+impl Packet for PacketZcAckAccountName {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckAccountname::packet_id(packetver)
+       PacketZcAckAccountName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckAccountname"
+       "PacketZcAckAccountName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -90890,13 +90890,13 @@ impl Packet for PacketZcAckAccountname {
     }
 }
 
-impl PacketZcSpirits2 {
+impl PacketZcSpiritsSingle {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe101"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpirits2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSpiritsSingle {
         let mut offset: usize = 0;
-        PacketZcSpirits2 {
+        PacketZcSpiritsSingle {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -90952,10 +90952,10 @@ impl PacketZcSpirits2 {
     pub fn set_num_raw(&mut self, value: [u8; 2]) {
         self.num_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSpirits2 {
+    pub fn new(packetver: u32) -> PacketZcSpiritsSingle {
         let packet_id = i16::from_le_bytes([0xe1, 0x01]);
         let packet_id_raw = [0xe1, 0x01];
-        PacketZcSpirits2 {
+        PacketZcSpiritsSingle {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -90967,7 +90967,7 @@ impl PacketZcSpirits2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSpirits2::new(packetver);
+        let mut packet = PacketZcSpiritsSingle::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -90982,12 +90982,12 @@ impl PacketZcSpirits2 {
     }
 }
 
-impl Packet for PacketZcSpirits2 {
+impl Packet for PacketZcSpiritsSingle {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSpirits2::packet_id(packetver)
+       PacketZcSpiritsSingle::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSpirits2"
+       "PacketZcSpiritsSingle"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -91657,13 +91657,13 @@ impl Packet for PacketCzReqJoinCouple {
     }
 }
 
-impl PacketZcCouplename {
+impl PacketZcCoupleName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe601"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCouplename {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCoupleName {
         let mut offset: usize = 0;
-        PacketZcCouplename {
+        PacketZcCoupleName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91709,10 +91709,10 @@ impl PacketZcCouplename {
     pub fn set_couple_name_raw(&mut self, value: [u8; 24]) {
         self.couple_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCouplename {
+    pub fn new(packetver: u32) -> PacketZcCoupleName {
         let packet_id = i16::from_le_bytes([0xe6, 0x01]);
         let packet_id_raw = [0xe6, 0x01];
-        PacketZcCouplename {
+        PacketZcCoupleName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -91722,7 +91722,7 @@ impl PacketZcCouplename {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCouplename::new(packetver);
+        let mut packet = PacketZcCoupleName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/couple_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -91739,12 +91739,12 @@ impl PacketZcCouplename {
     }
 }
 
-impl Packet for PacketZcCouplename {
+impl Packet for PacketZcCoupleName {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCouplename::packet_id(packetver)
+       PacketZcCoupleName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCouplename"
+       "PacketZcCoupleName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -91900,13 +91900,13 @@ impl Packet for PacketCzDoridori {
     }
 }
 
-impl PacketCzMakeGroup2 {
+impl PacketCzMakeGroup {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe801"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMakeGroup2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMakeGroup {
         let mut offset: usize = 0;
-        PacketCzMakeGroup2 {
+        PacketCzMakeGroup {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -91984,10 +91984,10 @@ impl PacketCzMakeGroup2 {
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzMakeGroup2 {
+    pub fn new(packetver: u32) -> PacketCzMakeGroup {
         let packet_id = i16::from_le_bytes([0xe8, 0x01]);
         let packet_id_raw = [0xe8, 0x01];
-        PacketCzMakeGroup2 {
+        PacketCzMakeGroup {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -92001,7 +92001,7 @@ impl PacketCzMakeGroup2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzMakeGroup2::new(packetver);
+        let mut packet = PacketCzMakeGroup::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/group_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -92028,12 +92028,12 @@ impl PacketCzMakeGroup2 {
     }
 }
 
-impl Packet for PacketCzMakeGroup2 {
+impl Packet for PacketCzMakeGroup {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzMakeGroup2::packet_id(packetver)
+       PacketCzMakeGroup::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzMakeGroup2"
+       "PacketCzMakeGroup"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92099,13 +92099,13 @@ impl Packet for PacketCzMakeGroup2 {
     }
 }
 
-impl PacketZcAddMemberToGroup2 {
+impl PacketZcAddMemberToGroup {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe901"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroup2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddMemberToGroup {
         let mut offset: usize = 0;
-        PacketZcAddMemberToGroup2 {
+        PacketZcAddMemberToGroup {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92307,10 +92307,10 @@ impl PacketZcAddMemberToGroup2 {
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddMemberToGroup2 {
+    pub fn new(packetver: u32) -> PacketZcAddMemberToGroup {
         let packet_id = i16::from_le_bytes([0xe9, 0x01]);
         let packet_id_raw = [0xe9, 0x01];
-        PacketZcAddMemberToGroup2 {
+        PacketZcAddMemberToGroup {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -92338,7 +92338,7 @@ impl PacketZcAddMemberToGroup2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddMemberToGroup2::new(packetver);
+        let mut packet = PacketZcAddMemberToGroup::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -92414,12 +92414,12 @@ impl PacketZcAddMemberToGroup2 {
     }
 }
 
-impl Packet for PacketZcAddMemberToGroup2 {
+impl Packet for PacketZcAddMemberToGroup {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddMemberToGroup2::packet_id(packetver)
+       PacketZcAddMemberToGroup::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddMemberToGroup2"
+       "PacketZcAddMemberToGroup"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -92652,13 +92652,13 @@ impl Packet for PacketZcCongratulation {
     }
 }
 
-impl PacketZcNotifyPositionToGuildm {
+impl PacketZcNotifyPositionToGuildMember {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xeb01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGuildm {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPositionToGuildMember {
         let mut offset: usize = 0;
-        PacketZcNotifyPositionToGuildm {
+        PacketZcNotifyPositionToGuildMember {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -92730,10 +92730,10 @@ impl PacketZcNotifyPositionToGuildm {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyPositionToGuildm {
+    pub fn new(packetver: u32) -> PacketZcNotifyPositionToGuildMember {
         let packet_id = i16::from_le_bytes([0xeb, 0x01]);
         let packet_id_raw = [0xeb, 0x01];
-        PacketZcNotifyPositionToGuildm {
+        PacketZcNotifyPositionToGuildMember {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -92747,7 +92747,7 @@ impl PacketZcNotifyPositionToGuildm {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyPositionToGuildm::new(packetver);
+        let mut packet = PacketZcNotifyPositionToGuildMember::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -92767,12 +92767,12 @@ impl PacketZcNotifyPositionToGuildm {
     }
 }
 
-impl Packet for PacketZcNotifyPositionToGuildm {
+impl Packet for PacketZcNotifyPositionToGuildMember {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyPositionToGuildm::packet_id(packetver)
+       PacketZcNotifyPositionToGuildMember::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyPositionToGuildm"
+       "PacketZcNotifyPositionToGuildMember"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93135,11 +93135,11 @@ impl Packet for PacketCzChopokgi {
     }
 }
 
-impl PacketZcNormalItemlist2 {
+impl PacketZcNormalItemListNoExpire {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xee01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemlist2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemListNoExpire {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo2::base_len(packetver);
         let vec_start: usize = 4;
@@ -93152,7 +93152,7 @@ impl PacketZcNormalItemlist2 {
             vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcNormalItemlist2 {
+        PacketZcNormalItemListNoExpire {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93208,10 +93208,10 @@ impl PacketZcNormalItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNormalItemlist2 {
+    pub fn new(packetver: u32) -> PacketZcNormalItemListNoExpire {
         let packet_id = i16::from_le_bytes([0xee, 0x01]);
         let packet_id_raw = [0xee, 0x01];
-        PacketZcNormalItemlist2 {
+        PacketZcNormalItemListNoExpire {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -93223,7 +93223,7 @@ impl PacketZcNormalItemlist2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNormalItemlist2::new(packetver);
+        let mut packet = PacketZcNormalItemListNoExpire::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -93237,12 +93237,12 @@ impl PacketZcNormalItemlist2 {
     }
 }
 
-impl Packet for PacketZcNormalItemlist2 {
+impl Packet for PacketZcNormalItemListNoExpire {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNormalItemlist2::packet_id(packetver)
+       PacketZcNormalItemListNoExpire::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNormalItemlist2"
+       "PacketZcNormalItemListNoExpire"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93302,11 +93302,11 @@ impl Packet for PacketZcNormalItemlist2 {
     }
 }
 
-impl PacketZcCartNormalItemlist2 {
+impl PacketZcCartNormalItemListNoExpire {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xef01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemlist2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemListNoExpire {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo2::base_len(packetver);
         let vec_start: usize = 4;
@@ -93319,7 +93319,7 @@ impl PacketZcCartNormalItemlist2 {
             vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcCartNormalItemlist2 {
+        PacketZcCartNormalItemListNoExpire {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93375,10 +93375,10 @@ impl PacketZcCartNormalItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCartNormalItemlist2 {
+    pub fn new(packetver: u32) -> PacketZcCartNormalItemListNoExpire {
         let packet_id = i16::from_le_bytes([0xef, 0x01]);
         let packet_id_raw = [0xef, 0x01];
-        PacketZcCartNormalItemlist2 {
+        PacketZcCartNormalItemListNoExpire {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -93390,7 +93390,7 @@ impl PacketZcCartNormalItemlist2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCartNormalItemlist2::new(packetver);
+        let mut packet = PacketZcCartNormalItemListNoExpire::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -93404,12 +93404,12 @@ impl PacketZcCartNormalItemlist2 {
     }
 }
 
-impl Packet for PacketZcCartNormalItemlist2 {
+impl Packet for PacketZcCartNormalItemListNoExpire {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCartNormalItemlist2::packet_id(packetver)
+       PacketZcCartNormalItemListNoExpire::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCartNormalItemlist2"
+       "PacketZcCartNormalItemListNoExpire"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93469,11 +93469,11 @@ impl Packet for PacketZcCartNormalItemlist2 {
     }
 }
 
-impl PacketZcStoreNormalItemlist2 {
+impl PacketZcStoreNormalItemListNoExpire {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf001"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemlist2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemListNoExpire {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo2::base_len(packetver);
         let vec_start: usize = 4;
@@ -93486,7 +93486,7 @@ impl PacketZcStoreNormalItemlist2 {
             vec_field.push(NormalitemExtrainfo2::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcStoreNormalItemlist2 {
+        PacketZcStoreNormalItemListNoExpire {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93542,10 +93542,10 @@ impl PacketZcStoreNormalItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStoreNormalItemlist2 {
+    pub fn new(packetver: u32) -> PacketZcStoreNormalItemListNoExpire {
         let packet_id = i16::from_le_bytes([0xf0, 0x01]);
         let packet_id_raw = [0xf0, 0x01];
-        PacketZcStoreNormalItemlist2 {
+        PacketZcStoreNormalItemListNoExpire {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -93557,7 +93557,7 @@ impl PacketZcStoreNormalItemlist2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStoreNormalItemlist2::new(packetver);
+        let mut packet = PacketZcStoreNormalItemListNoExpire::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -93571,12 +93571,12 @@ impl PacketZcStoreNormalItemlist2 {
     }
 }
 
-impl Packet for PacketZcStoreNormalItemlist2 {
+impl Packet for PacketZcStoreNormalItemListNoExpire {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStoreNormalItemlist2::packet_id(packetver)
+       PacketZcStoreNormalItemListNoExpire::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStoreNormalItemlist2"
+       "PacketZcStoreNormalItemListNoExpire"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -93789,13 +93789,13 @@ impl Packet for PacketAcNotifyError {
     }
 }
 
-impl PacketZcUpdateCharstat2 {
+impl PacketZcUpdateCharStat {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf201"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharstat2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUpdateCharStat {
         let mut offset: usize = 0;
-        PacketZcUpdateCharstat2 {
+        PacketZcUpdateCharStat {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -93915,10 +93915,10 @@ impl PacketZcUpdateCharstat2 {
     pub fn set_head_palette_raw(&mut self, value: [u8; 2]) {
         self.head_palette_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcUpdateCharstat2 {
+    pub fn new(packetver: u32) -> PacketZcUpdateCharStat {
         let packet_id = i16::from_le_bytes([0xf2, 0x01]);
         let packet_id_raw = [0xf2, 0x01];
-        PacketZcUpdateCharstat2 {
+        PacketZcUpdateCharStat {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -93938,7 +93938,7 @@ impl PacketZcUpdateCharstat2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcUpdateCharstat2::new(packetver);
+        let mut packet = PacketZcUpdateCharStat::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -93973,12 +93973,12 @@ impl PacketZcUpdateCharstat2 {
     }
 }
 
-impl Packet for PacketZcUpdateCharstat2 {
+impl Packet for PacketZcUpdateCharStat {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcUpdateCharstat2::packet_id(packetver)
+       PacketZcUpdateCharStat::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcUpdateCharstat2"
+       "PacketZcUpdateCharStat"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94057,13 +94057,13 @@ impl Packet for PacketZcUpdateCharstat2 {
     }
 }
 
-impl PacketZcNotifyEffect2 {
+impl PacketZcNotifyEffectSpecial {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf301"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffectSpecial {
         let mut offset: usize = 0;
-        PacketZcNotifyEffect2 {
+        PacketZcNotifyEffectSpecial {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94119,10 +94119,10 @@ impl PacketZcNotifyEffect2 {
     pub fn set_effect_id_raw(&mut self, value: [u8; 4]) {
         self.effect_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyEffect2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyEffectSpecial {
         let packet_id = i16::from_le_bytes([0xf3, 0x01]);
         let packet_id_raw = [0xf3, 0x01];
-        PacketZcNotifyEffect2 {
+        PacketZcNotifyEffectSpecial {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -94134,7 +94134,7 @@ impl PacketZcNotifyEffect2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyEffect2::new(packetver);
+        let mut packet = PacketZcNotifyEffectSpecial::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -94149,12 +94149,12 @@ impl PacketZcNotifyEffect2 {
     }
 }
 
-impl Packet for PacketZcNotifyEffect2 {
+impl Packet for PacketZcNotifyEffectSpecial {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyEffect2::packet_id(packetver)
+       PacketZcNotifyEffectSpecial::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyEffect2"
+       "PacketZcNotifyEffectSpecial"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94213,13 +94213,13 @@ impl Packet for PacketZcNotifyEffect2 {
     }
 }
 
-impl PacketZcReqExchangeItem2 {
+impl PacketZcReqExchangeItem {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf401"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqExchangeItem2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqExchangeItem {
         let mut offset: usize = 0;
-        PacketZcReqExchangeItem2 {
+        PacketZcReqExchangeItem {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94297,10 +94297,10 @@ impl PacketZcReqExchangeItem2 {
     pub fn set_level_raw(&mut self, value: [u8; 2]) {
         self.level_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcReqExchangeItem2 {
+    pub fn new(packetver: u32) -> PacketZcReqExchangeItem {
         let packet_id = i16::from_le_bytes([0xf4, 0x01]);
         let packet_id_raw = [0xf4, 0x01];
-        PacketZcReqExchangeItem2 {
+        PacketZcReqExchangeItem {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -94314,7 +94314,7 @@ impl PacketZcReqExchangeItem2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcReqExchangeItem2::new(packetver);
+        let mut packet = PacketZcReqExchangeItem::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -94341,12 +94341,12 @@ impl PacketZcReqExchangeItem2 {
     }
 }
 
-impl Packet for PacketZcReqExchangeItem2 {
+impl Packet for PacketZcReqExchangeItem {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcReqExchangeItem2::packet_id(packetver)
+       PacketZcReqExchangeItem::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcReqExchangeItem2"
+       "PacketZcReqExchangeItem"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -94412,13 +94412,13 @@ impl Packet for PacketZcReqExchangeItem2 {
     }
 }
 
-impl PacketZcAckExchangeItem2 {
+impl PacketZcAckExchangeItem {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf501"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckExchangeItem2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckExchangeItem {
         let mut offset: usize = 0;
-        PacketZcAckExchangeItem2 {
+        PacketZcAckExchangeItem {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -94490,10 +94490,10 @@ impl PacketZcAckExchangeItem2 {
     pub fn set_level_raw(&mut self, value: [u8; 2]) {
         self.level_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckExchangeItem2 {
+    pub fn new(packetver: u32) -> PacketZcAckExchangeItem {
         let packet_id = i16::from_le_bytes([0xf5, 0x01]);
         let packet_id_raw = [0xf5, 0x01];
-        PacketZcAckExchangeItem2 {
+        PacketZcAckExchangeItem {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -94507,7 +94507,7 @@ impl PacketZcAckExchangeItem2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckExchangeItem2::new(packetver);
+        let mut packet = PacketZcAckExchangeItem::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/result")) {
             if let Some(value) = entry.value {
                 packet.set_result(value.parse().map_err(|_| format!("Invalid value {} for result", value))?);
@@ -94527,12 +94527,12 @@ impl PacketZcAckExchangeItem2 {
     }
 }
 
-impl Packet for PacketZcAckExchangeItem2 {
+impl Packet for PacketZcAckExchangeItem {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckExchangeItem2::packet_id(packetver)
+       PacketZcAckExchangeItem::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckExchangeItem2"
+       "PacketZcAckExchangeItem"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95207,13 +95207,13 @@ impl Packet for PacketCzReqJoinBaby {
     }
 }
 
-impl PacketCaLogin3 {
+impl PacketCaLoginHashedClientInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xfa01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginHashedClientInfo {
         let mut offset: usize = 0;
-        PacketCaLogin3 {
+        PacketCaLoginHashedClientInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95329,10 +95329,10 @@ impl PacketCaLogin3 {
     pub fn set_client_info_raw(&mut self, value: [u8; 1]) {
         self.client_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaLogin3 {
+    pub fn new(packetver: u32) -> PacketCaLoginHashedClientInfo {
         let packet_id = i16::from_le_bytes([0xfa, 0x01]);
         let packet_id_raw = [0xfa, 0x01];
-        PacketCaLogin3 {
+        PacketCaLoginHashedClientInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -95350,7 +95350,7 @@ impl PacketCaLogin3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaLogin3::new(packetver);
+        let mut packet = PacketCaLoginHashedClientInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/version")) {
             if let Some(value) = entry.value {
                 packet.set_version(value.parse().map_err(|_| format!("Invalid value {} for version", value))?);
@@ -95394,12 +95394,12 @@ impl PacketCaLogin3 {
     }
 }
 
-impl Packet for PacketCaLogin3 {
+impl Packet for PacketCaLoginHashedClientInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaLogin3::packet_id(packetver)
+       PacketCaLoginHashedClientInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaLogin3"
+       "PacketCaLoginHashedClientInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95477,13 +95477,13 @@ impl Packet for PacketCaLogin3 {
     }
 }
 
-impl PacketChDeleteChar2 {
+impl PacketChDeleteCharLongKey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xfb01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteCharLongKey {
         let mut offset: usize = 0;
-        PacketChDeleteChar2 {
+        PacketChDeleteCharLongKey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95545,10 +95545,10 @@ impl PacketChDeleteChar2 {
     pub fn set_key_raw(&mut self, value: [u8; 50]) {
         self.key_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChDeleteChar2 {
+    pub fn new(packetver: u32) -> PacketChDeleteCharLongKey {
         let packet_id = i16::from_le_bytes([0xfb, 0x01]);
         let packet_id_raw = [0xfb, 0x01];
-        PacketChDeleteChar2 {
+        PacketChDeleteCharLongKey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -95560,7 +95560,7 @@ impl PacketChDeleteChar2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChDeleteChar2::new(packetver);
+        let mut packet = PacketChDeleteCharLongKey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -95582,12 +95582,12 @@ impl PacketChDeleteChar2 {
     }
 }
 
-impl Packet for PacketChDeleteChar2 {
+impl Packet for PacketChDeleteCharLongKey {
     fn id(&self, packetver: u32) -> &str {
-       PacketChDeleteChar2::packet_id(packetver)
+       PacketChDeleteCharLongKey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChDeleteChar2"
+       "PacketChDeleteCharLongKey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95648,11 +95648,11 @@ impl Packet for PacketChDeleteChar2 {
     }
 }
 
-impl PacketZcRepairitemlist {
+impl PacketZcRepairItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xfc01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRepairitemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcRepairItemList {
         let mut offset: usize = 0;
         let vec_type_len = RepairitemInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -95665,7 +95665,7 @@ impl PacketZcRepairitemlist {
             vec_field.push(RepairitemInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcRepairitemlist {
+        PacketZcRepairItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95721,10 +95721,10 @@ impl PacketZcRepairitemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcRepairitemlist {
+    pub fn new(packetver: u32) -> PacketZcRepairItemList {
         let packet_id = i16::from_le_bytes([0xfc, 0x01]);
         let packet_id_raw = [0xfc, 0x01];
-        PacketZcRepairitemlist {
+        PacketZcRepairItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -95736,7 +95736,7 @@ impl PacketZcRepairitemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcRepairitemlist::new(packetver);
+        let mut packet = PacketZcRepairItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -95750,12 +95750,12 @@ impl PacketZcRepairitemlist {
     }
 }
 
-impl Packet for PacketZcRepairitemlist {
+impl Packet for PacketZcRepairItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcRepairitemlist::packet_id(packetver)
+       PacketZcRepairItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcRepairitemlist"
+       "PacketZcRepairItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95815,13 +95815,13 @@ impl Packet for PacketZcRepairitemlist {
     }
 }
 
-impl PacketCzReqItemrepair {
+impl PacketCzReqItemRepair {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xfd01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemrepair {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqItemRepair {
         let mut offset: usize = 0;
-        PacketCzReqItemrepair {
+        PacketCzReqItemRepair {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -95861,10 +95861,10 @@ impl PacketCzReqItemrepair {
     pub fn set_target_item_info_raw(&mut self, value: Vec<u8>) {
         self.target_item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqItemrepair {
+    pub fn new(packetver: u32) -> PacketCzReqItemRepair {
         let packet_id = i16::from_le_bytes([0xfd, 0x01]);
         let packet_id_raw = [0xfd, 0x01];
-        PacketCzReqItemrepair {
+        PacketCzReqItemRepair {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -95874,7 +95874,7 @@ impl PacketCzReqItemrepair {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqItemrepair::new(packetver);
+        let mut packet = PacketCzReqItemRepair::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/target_item_info")) {
             if let Some(value) = entry.value {
             }
@@ -95883,12 +95883,12 @@ impl PacketCzReqItemrepair {
     }
 }
 
-impl Packet for PacketCzReqItemrepair {
+impl Packet for PacketCzReqItemRepair {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqItemrepair::packet_id(packetver)
+       PacketCzReqItemRepair::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqItemrepair"
+       "PacketCzReqItemRepair"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -95941,13 +95941,13 @@ impl Packet for PacketCzReqItemrepair {
     }
 }
 
-impl PacketZcAckItemrepair {
+impl PacketZcAckItemRepair {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xfe01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemrepair {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemRepair {
         let mut offset: usize = 0;
-        PacketZcAckItemrepair {
+        PacketZcAckItemRepair {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -96003,10 +96003,10 @@ impl PacketZcAckItemrepair {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckItemrepair {
+    pub fn new(packetver: u32) -> PacketZcAckItemRepair {
         let packet_id = i16::from_le_bytes([0xfe, 0x01]);
         let packet_id_raw = [0xfe, 0x01];
-        PacketZcAckItemrepair {
+        PacketZcAckItemRepair {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -96018,7 +96018,7 @@ impl PacketZcAckItemrepair {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckItemrepair::new(packetver);
+        let mut packet = PacketZcAckItemRepair::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -96033,12 +96033,12 @@ impl PacketZcAckItemrepair {
     }
 }
 
-impl Packet for PacketZcAckItemrepair {
+impl Packet for PacketZcAckItemRepair {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckItemrepair::packet_id(packetver)
+       PacketZcAckItemRepair::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckItemrepair"
+       "PacketZcAckItemRepair"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96097,13 +96097,13 @@ impl Packet for PacketZcAckItemrepair {
     }
 }
 
-impl PacketZcHighjump {
+impl PacketZcHighJump {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xff01"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHighjump {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHighJump {
         let mut offset: usize = 0;
-        PacketZcHighjump {
+        PacketZcHighJump {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -96175,10 +96175,10 @@ impl PacketZcHighjump {
     pub fn set_y_pos_raw(&mut self, value: [u8; 2]) {
         self.y_pos_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcHighjump {
+    pub fn new(packetver: u32) -> PacketZcHighJump {
         let packet_id = i16::from_le_bytes([0xff, 0x01]);
         let packet_id_raw = [0xff, 0x01];
-        PacketZcHighjump {
+        PacketZcHighJump {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -96192,7 +96192,7 @@ impl PacketZcHighjump {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcHighjump::new(packetver);
+        let mut packet = PacketZcHighJump::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -96212,12 +96212,12 @@ impl PacketZcHighjump {
     }
 }
 
-impl Packet for PacketZcHighjump {
+impl Packet for PacketZcHighJump {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcHighjump::packet_id(packetver)
+       PacketZcHighJump::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcHighjump"
+       "PacketZcHighJump"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -96901,13 +96901,13 @@ impl Packet for PacketCzDeleteFriends {
     }
 }
 
-impl PacketCaExeHashcheck {
+impl PacketCaExeHashCheck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0402"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaExeHashcheck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaExeHashCheck {
         let mut offset: usize = 0;
-        PacketCaExeHashcheck {
+        PacketCaExeHashCheck {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -96953,10 +96953,10 @@ impl PacketCaExeHashcheck {
     pub fn set_hash_value_raw(&mut self, value: [u8; 16]) {
         self.hash_value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaExeHashcheck {
+    pub fn new(packetver: u32) -> PacketCaExeHashCheck {
         let packet_id = i16::from_le_bytes([0x04, 0x02]);
         let packet_id_raw = [0x04, 0x02];
-        PacketCaExeHashcheck {
+        PacketCaExeHashCheck {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -96966,7 +96966,7 @@ impl PacketCaExeHashcheck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaExeHashcheck::new(packetver);
+        let mut packet = PacketCaExeHashCheck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/hash_value")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 16] = [0 as char; 16];
@@ -96983,12 +96983,12 @@ impl PacketCaExeHashcheck {
     }
 }
 
-impl Packet for PacketCaExeHashcheck {
+impl Packet for PacketCaExeHashCheck {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaExeHashcheck::packet_id(packetver)
+       PacketCaExeHashCheck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaExeHashcheck"
+       "PacketCaExeHashCheck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -98137,13 +98137,13 @@ impl Packet for PacketZcDeleteFriends {
     }
 }
 
-impl PacketAcRefuseLoginR3 {
+impl PacketAcRefuseLoginIntCodeNewer {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0b02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginR3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginIntCodeNewer {
         let mut offset: usize = 0;
-        PacketAcRefuseLoginR3 {
+        PacketAcRefuseLoginIntCodeNewer {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98205,10 +98205,10 @@ impl PacketAcRefuseLoginR3 {
     pub fn set_block_date_raw(&mut self, value: [u8; 20]) {
         self.block_date_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcRefuseLoginR3 {
+    pub fn new(packetver: u32) -> PacketAcRefuseLoginIntCodeNewer {
         let packet_id = i16::from_le_bytes([0x0b, 0x02]);
         let packet_id_raw = [0x0b, 0x02];
-        PacketAcRefuseLoginR3 {
+        PacketAcRefuseLoginIntCodeNewer {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -98220,7 +98220,7 @@ impl PacketAcRefuseLoginR3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcRefuseLoginR3::new(packetver);
+        let mut packet = PacketAcRefuseLoginIntCodeNewer::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -98242,12 +98242,12 @@ impl PacketAcRefuseLoginR3 {
     }
 }
 
-impl Packet for PacketAcRefuseLoginR3 {
+impl Packet for PacketAcRefuseLoginIntCodeNewer {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcRefuseLoginR3::packet_id(packetver)
+       PacketAcRefuseLoginIntCodeNewer::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcRefuseLoginR3"
+       "PacketAcRefuseLoginIntCodeNewer"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -98308,13 +98308,13 @@ impl Packet for PacketAcRefuseLoginR3 {
     }
 }
 
-impl PacketCzExeHashcheck {
+impl PacketCzExeHashCheck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0c02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzExeHashcheck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzExeHashCheck {
         let mut offset: usize = 0;
-        PacketCzExeHashcheck {
+        PacketCzExeHashCheck {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98376,10 +98376,10 @@ impl PacketCzExeHashcheck {
     pub fn set_hash_value_raw(&mut self, value: [u8; 16]) {
         self.hash_value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzExeHashcheck {
+    pub fn new(packetver: u32) -> PacketCzExeHashCheck {
         let packet_id = i16::from_le_bytes([0x0c, 0x02]);
         let packet_id_raw = [0x0c, 0x02];
-        PacketCzExeHashcheck {
+        PacketCzExeHashCheck {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -98391,7 +98391,7 @@ impl PacketCzExeHashcheck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzExeHashcheck::new(packetver);
+        let mut packet = PacketCzExeHashCheck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/client_type")) {
             if let Some(value) = entry.value {
                 packet.set_client_type(value.parse().map_err(|_| format!("Invalid value {} for client_type", value))?);
@@ -98413,12 +98413,12 @@ impl PacketCzExeHashcheck {
     }
 }
 
-impl Packet for PacketCzExeHashcheck {
+impl Packet for PacketCzExeHashCheck {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzExeHashcheck::packet_id(packetver)
+       PacketCzExeHashCheck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzExeHashcheck"
+       "PacketCzExeHashCheck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -98646,13 +98646,13 @@ impl Packet for PacketHcBlockCharacter {
     }
 }
 
-impl PacketZcStarskill {
+impl PacketZcStarSkill {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0e02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarskill {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarSkill {
         let mut offset: usize = 0;
-        PacketZcStarskill {
+        PacketZcStarSkill {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98746,10 +98746,10 @@ impl PacketZcStarskill {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStarskill {
+    pub fn new(packetver: u32) -> PacketZcStarSkill {
         let packet_id = i16::from_le_bytes([0x0e, 0x02]);
         let packet_id_raw = [0x0e, 0x02];
-        PacketZcStarskill {
+        PacketZcStarSkill {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -98765,7 +98765,7 @@ impl PacketZcStarskill {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStarskill::new(packetver);
+        let mut packet = PacketZcStarSkill::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/map_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -98797,12 +98797,12 @@ impl PacketZcStarskill {
     }
 }
 
-impl Packet for PacketZcStarskill {
+impl Packet for PacketZcStarSkill {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStarskill::packet_id(packetver)
+       PacketZcStarSkill::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStarskill"
+       "PacketZcStarSkill"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -98873,13 +98873,13 @@ impl Packet for PacketZcStarskill {
     }
 }
 
-impl PacketCzReqPvppoint {
+impl PacketCzReqPvpPoint {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0f02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqPvppoint {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqPvpPoint {
         let mut offset: usize = 0;
-        PacketCzReqPvppoint {
+        PacketCzReqPvpPoint {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -98935,10 +98935,10 @@ impl PacketCzReqPvppoint {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqPvppoint {
+    pub fn new(packetver: u32) -> PacketCzReqPvpPoint {
         let packet_id = i16::from_le_bytes([0x0f, 0x02]);
         let packet_id_raw = [0x0f, 0x02];
-        PacketCzReqPvppoint {
+        PacketCzReqPvpPoint {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -98950,7 +98950,7 @@ impl PacketCzReqPvppoint {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqPvppoint::new(packetver);
+        let mut packet = PacketCzReqPvpPoint::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -98965,12 +98965,12 @@ impl PacketCzReqPvppoint {
     }
 }
 
-impl Packet for PacketCzReqPvppoint {
+impl Packet for PacketCzReqPvpPoint {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqPvppoint::packet_id(packetver)
+       PacketCzReqPvpPoint::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqPvppoint"
+       "PacketCzReqPvpPoint"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -99029,13 +99029,13 @@ impl Packet for PacketCzReqPvppoint {
     }
 }
 
-impl PacketZcAckPvppoint {
+impl PacketZcAckPvpPoint {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1002"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckPvppoint {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckPvpPoint {
         let mut offset: usize = 0;
-        PacketZcAckPvppoint {
+        PacketZcAckPvpPoint {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99107,10 +99107,10 @@ impl PacketZcAckPvppoint {
     pub fn set_pvp_raw(&mut self, value: Vec<u8>) {
         self.pvp_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckPvppoint {
+    pub fn new(packetver: u32) -> PacketZcAckPvpPoint {
         let packet_id = i16::from_le_bytes([0x10, 0x02]);
         let packet_id_raw = [0x10, 0x02];
-        PacketZcAckPvppoint {
+        PacketZcAckPvpPoint {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -99124,7 +99124,7 @@ impl PacketZcAckPvppoint {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckPvppoint::new(packetver);
+        let mut packet = PacketZcAckPvpPoint::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -99143,12 +99143,12 @@ impl PacketZcAckPvppoint {
     }
 }
 
-impl Packet for PacketZcAckPvppoint {
+impl Packet for PacketZcAckPvpPoint {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckPvppoint::packet_id(packetver)
+       PacketZcAckPvpPoint::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckPvppoint"
+       "PacketZcAckPvpPoint"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -99211,13 +99211,13 @@ impl Packet for PacketZcAckPvppoint {
     }
 }
 
-impl PacketZhMovePvpworld {
+impl PacketZcMovePvpWorld {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1102"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZhMovePvpworld {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMovePvpWorld {
         let mut offset: usize = 0;
-        PacketZhMovePvpworld {
+        PacketZcMovePvpWorld {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99257,10 +99257,10 @@ impl PacketZhMovePvpworld {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZhMovePvpworld {
+    pub fn new(packetver: u32) -> PacketZcMovePvpWorld {
         let packet_id = i16::from_le_bytes([0x11, 0x02]);
         let packet_id_raw = [0x11, 0x02];
-        PacketZhMovePvpworld {
+        PacketZcMovePvpWorld {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -99270,7 +99270,7 @@ impl PacketZhMovePvpworld {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZhMovePvpworld::new(packetver);
+        let mut packet = PacketZcMovePvpWorld::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -99280,12 +99280,12 @@ impl PacketZhMovePvpworld {
     }
 }
 
-impl Packet for PacketZhMovePvpworld {
+impl Packet for PacketZcMovePvpWorld {
     fn id(&self, packetver: u32) -> &str {
-       PacketZhMovePvpworld::packet_id(packetver)
+       PacketZcMovePvpWorld::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZhMovePvpworld"
+       "PacketZcMovePvpWorld"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -99339,13 +99339,13 @@ impl Packet for PacketZhMovePvpworld {
     }
 }
 
-impl PacketCzReqGiveMannerByname {
+impl PacketCzReqGiveMannerByName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1202"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGiveMannerByname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqGiveMannerByName {
         let mut offset: usize = 0;
-        PacketCzReqGiveMannerByname {
+        PacketCzReqGiveMannerByName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -99391,10 +99391,10 @@ impl PacketCzReqGiveMannerByname {
     pub fn set_char_name_raw(&mut self, value: [u8; 24]) {
         self.char_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqGiveMannerByname {
+    pub fn new(packetver: u32) -> PacketCzReqGiveMannerByName {
         let packet_id = i16::from_le_bytes([0x12, 0x02]);
         let packet_id_raw = [0x12, 0x02];
-        PacketCzReqGiveMannerByname {
+        PacketCzReqGiveMannerByName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -99404,7 +99404,7 @@ impl PacketCzReqGiveMannerByname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqGiveMannerByname::new(packetver);
+        let mut packet = PacketCzReqGiveMannerByName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/char_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -99421,12 +99421,12 @@ impl PacketCzReqGiveMannerByname {
     }
 }
 
-impl Packet for PacketCzReqGiveMannerByname {
+impl Packet for PacketCzReqGiveMannerByName {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqGiveMannerByname::packet_id(packetver)
+       PacketCzReqGiveMannerByName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqGiveMannerByname"
+       "PacketCzReqGiveMannerByName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -100453,13 +100453,13 @@ impl Packet for PacketZcAckStatusGm {
     }
 }
 
-impl PacketZcSkillmsg {
+impl PacketZcSkillMsg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1502"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillmsg {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillMsg {
         let mut offset: usize = 0;
-        PacketZcSkillmsg {
+        PacketZcSkillMsg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100499,10 +100499,10 @@ impl PacketZcSkillmsg {
     pub fn set_msg_no_raw(&mut self, value: [u8; 4]) {
         self.msg_no_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillmsg {
+    pub fn new(packetver: u32) -> PacketZcSkillMsg {
         let packet_id = i16::from_le_bytes([0x15, 0x02]);
         let packet_id_raw = [0x15, 0x02];
-        PacketZcSkillmsg {
+        PacketZcSkillMsg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -100512,7 +100512,7 @@ impl PacketZcSkillmsg {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillmsg::new(packetver);
+        let mut packet = PacketZcSkillMsg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/msg_no")) {
             if let Some(value) = entry.value {
                 packet.set_msg_no(value.parse().map_err(|_| format!("Invalid value {} for msg_no", value))?);
@@ -100522,12 +100522,12 @@ impl PacketZcSkillmsg {
     }
 }
 
-impl Packet for PacketZcSkillmsg {
+impl Packet for PacketZcSkillMsg {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillmsg::packet_id(packetver)
+       PacketZcSkillMsg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillmsg"
+       "PacketZcSkillMsg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -100581,13 +100581,13 @@ impl Packet for PacketZcSkillmsg {
     }
 }
 
-impl PacketZcBabymsg {
+impl PacketZcBabyMsg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1602"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBabymsg {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBabyMsg {
         let mut offset: usize = 0;
-        PacketZcBabymsg {
+        PacketZcBabyMsg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -100627,10 +100627,10 @@ impl PacketZcBabymsg {
     pub fn set_msg_no_raw(&mut self, value: [u8; 4]) {
         self.msg_no_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcBabymsg {
+    pub fn new(packetver: u32) -> PacketZcBabyMsg {
         let packet_id = i16::from_le_bytes([0x16, 0x02]);
         let packet_id_raw = [0x16, 0x02];
-        PacketZcBabymsg {
+        PacketZcBabyMsg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -100640,7 +100640,7 @@ impl PacketZcBabymsg {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcBabymsg::new(packetver);
+        let mut packet = PacketZcBabyMsg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/msg_no")) {
             if let Some(value) = entry.value {
                 packet.set_msg_no(value.parse().map_err(|_| format!("Invalid value {} for msg_no", value))?);
@@ -100650,12 +100650,12 @@ impl PacketZcBabymsg {
     }
 }
 
-impl Packet for PacketZcBabymsg {
+impl Packet for PacketZcBabyMsg {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcBabymsg::packet_id(packetver)
+       PacketZcBabyMsg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcBabymsg"
+       "PacketZcBabyMsg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101579,13 +101579,13 @@ impl Packet for PacketZcAlchemistPoint {
     }
 }
 
-impl PacketCzLesseffect {
+impl PacketCzLessEffect {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1d02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzLesseffect {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzLessEffect {
         let mut offset: usize = 0;
-        PacketCzLesseffect {
+        PacketCzLessEffect {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101625,10 +101625,10 @@ impl PacketCzLesseffect {
     pub fn set_is_less_raw(&mut self, value: [u8; 4]) {
         self.is_less_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzLesseffect {
+    pub fn new(packetver: u32) -> PacketCzLessEffect {
         let packet_id = i16::from_le_bytes([0x1d, 0x02]);
         let packet_id_raw = [0x1d, 0x02];
-        PacketCzLesseffect {
+        PacketCzLessEffect {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -101638,7 +101638,7 @@ impl PacketCzLesseffect {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzLesseffect::new(packetver);
+        let mut packet = PacketCzLessEffect::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/is_less")) {
             if let Some(value) = entry.value {
                 packet.set_is_less(value.parse().map_err(|_| format!("Invalid value {} for is_less", value))?);
@@ -101648,12 +101648,12 @@ impl PacketCzLesseffect {
     }
 }
 
-impl Packet for PacketCzLesseffect {
+impl Packet for PacketCzLessEffect {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzLesseffect::packet_id(packetver)
+       PacketCzLessEffect::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzLesseffect"
+       "PacketCzLessEffect"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101707,13 +101707,13 @@ impl Packet for PacketCzLesseffect {
     }
 }
 
-impl PacketZcLesseffect {
+impl PacketZcLessEffect {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1e02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLesseffect {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcLessEffect {
         let mut offset: usize = 0;
-        PacketZcLesseffect {
+        PacketZcLessEffect {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101753,10 +101753,10 @@ impl PacketZcLesseffect {
     pub fn set_is_less_raw(&mut self, value: [u8; 4]) {
         self.is_less_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcLesseffect {
+    pub fn new(packetver: u32) -> PacketZcLessEffect {
         let packet_id = i16::from_le_bytes([0x1e, 0x02]);
         let packet_id_raw = [0x1e, 0x02];
-        PacketZcLesseffect {
+        PacketZcLessEffect {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -101766,7 +101766,7 @@ impl PacketZcLesseffect {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcLesseffect::new(packetver);
+        let mut packet = PacketZcLessEffect::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/is_less")) {
             if let Some(value) = entry.value {
                 packet.set_is_less(value.parse().map_err(|_| format!("Invalid value {} for is_less", value))?);
@@ -101776,12 +101776,12 @@ impl PacketZcLesseffect {
     }
 }
 
-impl Packet for PacketZcLesseffect {
+impl Packet for PacketZcLessEffect {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcLesseffect::packet_id(packetver)
+       PacketZcLessEffect::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcLesseffect"
+       "PacketZcLessEffect"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -101835,13 +101835,13 @@ impl Packet for PacketZcLesseffect {
     }
 }
 
-impl PacketZcNotifyPkinfo {
+impl PacketZcNotifyPkInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1f02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPkinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPkInfo {
         let mut offset: usize = 0;
-        PacketZcNotifyPkinfo {
+        PacketZcNotifyPkInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -101957,10 +101957,10 @@ impl PacketZcNotifyPkinfo {
     pub fn set_expire_time_raw(&mut self, value: Vec<u8>) {
         self.expire_time_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyPkinfo {
+    pub fn new(packetver: u32) -> PacketZcNotifyPkInfo {
         let packet_id = i16::from_le_bytes([0x1f, 0x02]);
         let packet_id_raw = [0x1f, 0x02];
-        PacketZcNotifyPkinfo {
+        PacketZcNotifyPkInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -101978,7 +101978,7 @@ impl PacketZcNotifyPkinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyPkinfo::new(packetver);
+        let mut packet = PacketZcNotifyPkInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/win_point")) {
             if let Some(value) = entry.value {
                 packet.set_win_point(value.parse().map_err(|_| format!("Invalid value {} for win_point", value))?);
@@ -102021,12 +102021,12 @@ impl PacketZcNotifyPkinfo {
     }
 }
 
-impl Packet for PacketZcNotifyPkinfo {
+impl Packet for PacketZcNotifyPkInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyPkinfo::packet_id(packetver)
+       PacketZcNotifyPkInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyPkinfo"
+       "PacketZcNotifyPkInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102103,13 +102103,13 @@ impl Packet for PacketZcNotifyPkinfo {
     }
 }
 
-impl PacketZcNotifyCrazykiller {
+impl PacketZcNotifyCrazyKiller {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2002"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCrazykiller {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyCrazyKiller {
         let mut offset: usize = 0;
-        PacketZcNotifyCrazykiller {
+        PacketZcNotifyCrazyKiller {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102165,10 +102165,10 @@ impl PacketZcNotifyCrazykiller {
     pub fn set_is_crazy_killer_raw(&mut self, value: [u8; 4]) {
         self.is_crazy_killer_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyCrazykiller {
+    pub fn new(packetver: u32) -> PacketZcNotifyCrazyKiller {
         let packet_id = i16::from_le_bytes([0x20, 0x02]);
         let packet_id_raw = [0x20, 0x02];
-        PacketZcNotifyCrazykiller {
+        PacketZcNotifyCrazyKiller {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -102180,7 +102180,7 @@ impl PacketZcNotifyCrazykiller {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyCrazykiller::new(packetver);
+        let mut packet = PacketZcNotifyCrazyKiller::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -102195,12 +102195,12 @@ impl PacketZcNotifyCrazykiller {
     }
 }
 
-impl Packet for PacketZcNotifyCrazykiller {
+impl Packet for PacketZcNotifyCrazyKiller {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyCrazykiller::packet_id(packetver)
+       PacketZcNotifyCrazyKiller::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyCrazykiller"
+       "PacketZcNotifyCrazyKiller"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102259,11 +102259,11 @@ impl Packet for PacketZcNotifyCrazykiller {
     }
 }
 
-impl PacketZcNotifyWeaponitemlist {
+impl PacketZcNotifyWeaponItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2102"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyWeaponitemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyWeaponItemList {
         let mut offset: usize = 0;
         let vec_type_len = RepairitemInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -102276,7 +102276,7 @@ impl PacketZcNotifyWeaponitemlist {
             vec_field.push(RepairitemInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcNotifyWeaponitemlist {
+        PacketZcNotifyWeaponItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102332,10 +102332,10 @@ impl PacketZcNotifyWeaponitemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyWeaponitemlist {
+    pub fn new(packetver: u32) -> PacketZcNotifyWeaponItemList {
         let packet_id = i16::from_le_bytes([0x21, 0x02]);
         let packet_id_raw = [0x21, 0x02];
-        PacketZcNotifyWeaponitemlist {
+        PacketZcNotifyWeaponItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -102347,7 +102347,7 @@ impl PacketZcNotifyWeaponitemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyWeaponitemlist::new(packetver);
+        let mut packet = PacketZcNotifyWeaponItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -102361,12 +102361,12 @@ impl PacketZcNotifyWeaponitemlist {
     }
 }
 
-impl Packet for PacketZcNotifyWeaponitemlist {
+impl Packet for PacketZcNotifyWeaponItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyWeaponitemlist::packet_id(packetver)
+       PacketZcNotifyWeaponItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyWeaponitemlist"
+       "PacketZcNotifyWeaponItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102426,13 +102426,13 @@ impl Packet for PacketZcNotifyWeaponitemlist {
     }
 }
 
-impl PacketCzReqWeaponrefine {
+impl PacketCzReqWeaponRefine {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2202"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqWeaponrefine {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqWeaponRefine {
         let mut offset: usize = 0;
-        PacketCzReqWeaponrefine {
+        PacketCzReqWeaponRefine {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102472,10 +102472,10 @@ impl PacketCzReqWeaponrefine {
     pub fn set_index_raw(&mut self, value: [u8; 4]) {
         self.index_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqWeaponrefine {
+    pub fn new(packetver: u32) -> PacketCzReqWeaponRefine {
         let packet_id = i16::from_le_bytes([0x22, 0x02]);
         let packet_id_raw = [0x22, 0x02];
-        PacketCzReqWeaponrefine {
+        PacketCzReqWeaponRefine {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -102485,7 +102485,7 @@ impl PacketCzReqWeaponrefine {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqWeaponrefine::new(packetver);
+        let mut packet = PacketCzReqWeaponRefine::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -102495,12 +102495,12 @@ impl PacketCzReqWeaponrefine {
     }
 }
 
-impl Packet for PacketCzReqWeaponrefine {
+impl Packet for PacketCzReqWeaponRefine {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqWeaponrefine::packet_id(packetver)
+       PacketCzReqWeaponRefine::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqWeaponrefine"
+       "PacketCzReqWeaponRefine"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -102554,13 +102554,13 @@ impl Packet for PacketCzReqWeaponrefine {
     }
 }
 
-impl PacketZcAckWeaponrefine {
+impl PacketZcAckWeaponRefine {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2302"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckWeaponrefine {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckWeaponRefine {
         let mut offset: usize = 0;
-        PacketZcAckWeaponrefine {
+        PacketZcAckWeaponRefine {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -102616,10 +102616,10 @@ impl PacketZcAckWeaponrefine {
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckWeaponrefine {
+    pub fn new(packetver: u32) -> PacketZcAckWeaponRefine {
         let packet_id = i16::from_le_bytes([0x23, 0x02]);
         let packet_id_raw = [0x23, 0x02];
-        PacketZcAckWeaponrefine {
+        PacketZcAckWeaponRefine {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -102631,7 +102631,7 @@ impl PacketZcAckWeaponrefine {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckWeaponrefine::new(packetver);
+        let mut packet = PacketZcAckWeaponRefine::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/msg")) {
             if let Some(value) = entry.value {
                 packet.set_msg(value.parse().map_err(|_| format!("Invalid value {} for msg", value))?);
@@ -102646,12 +102646,12 @@ impl PacketZcAckWeaponrefine {
     }
 }
 
-impl Packet for PacketZcAckWeaponrefine {
+impl Packet for PacketZcAckWeaponRefine {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckWeaponrefine::packet_id(packetver)
+       PacketZcAckWeaponRefine::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckWeaponrefine"
+       "PacketZcAckWeaponRefine"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103417,13 +103417,13 @@ impl Packet for PacketCzAckGameGuard {
     }
 }
 
-impl PacketZcStateChange3 {
+impl PacketZcStateChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2902"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChange3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStateChange {
         let mut offset: usize = 0;
-        PacketZcStateChange3 {
+        PacketZcStateChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -103527,10 +103527,10 @@ impl PacketZcStateChange3 {
     pub fn set_is_pkmode_on_raw(&mut self, value: [u8; 1]) {
         self.is_pkmode_on_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStateChange3 {
+    pub fn new(packetver: u32) -> PacketZcStateChange {
         let packet_id = i16::from_le_bytes([0x29, 0x02]);
         let packet_id_raw = [0x29, 0x02];
-        PacketZcStateChange3 {
+        PacketZcStateChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -103548,7 +103548,7 @@ impl PacketZcStateChange3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStateChange3::new(packetver);
+        let mut packet = PacketZcStateChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -103578,12 +103578,12 @@ impl PacketZcStateChange3 {
     }
 }
 
-impl Packet for PacketZcStateChange3 {
+impl Packet for PacketZcStateChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStateChange3::packet_id(packetver)
+       PacketZcStateChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStateChange3"
+       "PacketZcStateChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -103657,13 +103657,13 @@ impl Packet for PacketZcStateChange3 {
     }
 }
 
-impl PacketZcNotifyStandentry3 {
+impl PacketZcNotifyStandEntryNoFont {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2a02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntryNoFont {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentry3 {
+        PacketZcNotifyStandEntryNoFont {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104093,10 +104093,10 @@ impl PacketZcNotifyStandentry3 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentry3 {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntryNoFont {
         let packet_id = i16::from_le_bytes([0x2a, 0x02]);
         let packet_id_raw = [0x2a, 0x02];
-        PacketZcNotifyStandentry3 {
+        PacketZcNotifyStandEntryNoFont {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -104154,7 +104154,7 @@ impl PacketZcNotifyStandentry3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentry3::new(packetver);
+        let mut packet = PacketZcNotifyStandEntryNoFont::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -104291,12 +104291,12 @@ impl PacketZcNotifyStandentry3 {
     }
 }
 
-impl Packet for PacketZcNotifyStandentry3 {
+impl Packet for PacketZcNotifyStandEntryNoFont {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentry3::packet_id(packetver)
+       PacketZcNotifyStandEntryNoFont::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentry3"
+       "PacketZcNotifyStandEntryNoFont"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -104475,13 +104475,13 @@ impl Packet for PacketZcNotifyStandentry3 {
     }
 }
 
-impl PacketZcNotifyNewentry3 {
+impl PacketZcNotifyNewEntryNoFont {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2b02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewEntryNoFont {
         let mut offset: usize = 0;
-        PacketZcNotifyNewentry3 {
+        PacketZcNotifyNewEntryNoFont {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -104895,10 +104895,10 @@ impl PacketZcNotifyNewentry3 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyNewentry3 {
+    pub fn new(packetver: u32) -> PacketZcNotifyNewEntryNoFont {
         let packet_id = i16::from_le_bytes([0x2b, 0x02]);
         let packet_id_raw = [0x2b, 0x02];
-        PacketZcNotifyNewentry3 {
+        PacketZcNotifyNewEntryNoFont {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -104954,7 +104954,7 @@ impl PacketZcNotifyNewentry3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyNewentry3::new(packetver);
+        let mut packet = PacketZcNotifyNewEntryNoFont::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -105086,12 +105086,12 @@ impl PacketZcNotifyNewentry3 {
     }
 }
 
-impl Packet for PacketZcNotifyNewentry3 {
+impl Packet for PacketZcNotifyNewEntryNoFont {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyNewentry3::packet_id(packetver)
+       PacketZcNotifyNewEntryNoFont::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyNewentry3"
+       "PacketZcNotifyNewEntryNoFont"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -105265,13 +105265,13 @@ impl Packet for PacketZcNotifyNewentry3 {
     }
 }
 
-impl PacketZcNotifyMoveentry3 {
+impl PacketZcNotifyMoveEntryNoFont {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2c02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveEntryNoFont {
         let mut offset: usize = 0;
-        PacketZcNotifyMoveentry3 {
+        PacketZcNotifyMoveEntryNoFont {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -105726,10 +105726,10 @@ impl PacketZcNotifyMoveentry3 {
     pub fn set_clevel_raw(&mut self, value: [u8; 2]) {
         self.clevel_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMoveentry3 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMoveEntryNoFont {
         let packet_id = i16::from_le_bytes([0x2c, 0x02]);
         let packet_id_raw = [0x2c, 0x02];
-        PacketZcNotifyMoveentry3 {
+        PacketZcNotifyMoveEntryNoFont {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -105789,7 +105789,7 @@ impl PacketZcNotifyMoveentry3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMoveentry3::new(packetver);
+        let mut packet = PacketZcNotifyMoveEntryNoFont::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/objecttype")) {
             if let Some(value) = entry.value {
                 packet.set_objecttype(value.parse().map_err(|_| format!("Invalid value {} for objecttype", value))?);
@@ -105923,12 +105923,12 @@ impl PacketZcNotifyMoveentry3 {
     }
 }
 
-impl Packet for PacketZcNotifyMoveentry3 {
+impl Packet for PacketZcNotifyMoveEntryNoFont {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMoveentry3::packet_id(packetver)
+       PacketZcNotifyMoveEntryNoFont::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMoveentry3"
+       "PacketZcNotifyMoveEntryNoFont"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107156,13 +107156,13 @@ impl Packet for PacketZcFeedMer {
     }
 }
 
-impl PacketZcChangestateMer {
+impl PacketZcChangeStateMer {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3002"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangestateMer {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcChangeStateMer {
         let mut offset: usize = 0;
-        PacketZcChangestateMer {
+        PacketZcChangeStateMer {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107250,10 +107250,10 @@ impl PacketZcChangestateMer {
     pub fn set_data_raw(&mut self, value: [u8; 4]) {
         self.data_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcChangestateMer {
+    pub fn new(packetver: u32) -> PacketZcChangeStateMer {
         let packet_id = i16::from_le_bytes([0x30, 0x02]);
         let packet_id_raw = [0x30, 0x02];
-        PacketZcChangestateMer {
+        PacketZcChangeStateMer {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -107269,7 +107269,7 @@ impl PacketZcChangestateMer {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcChangestateMer::new(packetver);
+        let mut packet = PacketZcChangeStateMer::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -107294,12 +107294,12 @@ impl PacketZcChangestateMer {
     }
 }
 
-impl Packet for PacketZcChangestateMer {
+impl Packet for PacketZcChangeStateMer {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcChangestateMer::packet_id(packetver)
+       PacketZcChangeStateMer::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcChangestateMer"
+       "PacketZcChangeStateMer"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107511,13 +107511,13 @@ impl Packet for PacketCzRenameMer {
     }
 }
 
-impl PacketCzRequestMovenpc {
+impl PacketCzRequestMoveNpc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3202"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMovenpc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMoveNpc {
         let mut offset: usize = 0;
-        PacketCzRequestMovenpc {
+        PacketCzRequestMoveNpc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107579,10 +107579,10 @@ impl PacketCzRequestMovenpc {
     pub fn set_dest_raw(&mut self, value: [u8; 3]) {
         self.dest_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzRequestMovenpc {
+    pub fn new(packetver: u32) -> PacketCzRequestMoveNpc {
         let packet_id = i16::from_le_bytes([0x32, 0x02]);
         let packet_id_raw = [0x32, 0x02];
-        PacketCzRequestMovenpc {
+        PacketCzRequestMoveNpc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -107594,7 +107594,7 @@ impl PacketCzRequestMovenpc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzRequestMovenpc::new(packetver);
+        let mut packet = PacketCzRequestMoveNpc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -107616,12 +107616,12 @@ impl PacketCzRequestMovenpc {
     }
 }
 
-impl Packet for PacketCzRequestMovenpc {
+impl Packet for PacketCzRequestMoveNpc {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzRequestMovenpc::packet_id(packetver)
+       PacketCzRequestMoveNpc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzRequestMovenpc"
+       "PacketCzRequestMoveNpc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107685,13 +107685,13 @@ impl Packet for PacketCzRequestMovenpc {
     }
 }
 
-impl PacketCzRequestActnpc {
+impl PacketCzRequestActNpc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3302"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestActnpc {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestActNpc {
         let mut offset: usize = 0;
-        PacketCzRequestActnpc {
+        PacketCzRequestActNpc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107763,10 +107763,10 @@ impl PacketCzRequestActnpc {
     pub fn set_action_raw(&mut self, value: [u8; 1]) {
         self.action_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzRequestActnpc {
+    pub fn new(packetver: u32) -> PacketCzRequestActNpc {
         let packet_id = i16::from_le_bytes([0x33, 0x02]);
         let packet_id_raw = [0x33, 0x02];
-        PacketCzRequestActnpc {
+        PacketCzRequestActNpc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -107780,7 +107780,7 @@ impl PacketCzRequestActnpc {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzRequestActnpc::new(packetver);
+        let mut packet = PacketCzRequestActNpc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -107800,12 +107800,12 @@ impl PacketCzRequestActnpc {
     }
 }
 
-impl Packet for PacketCzRequestActnpc {
+impl Packet for PacketCzRequestActNpc {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzRequestActnpc::packet_id(packetver)
+       PacketCzRequestActNpc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzRequestActnpc"
+       "PacketCzRequestActNpc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107869,13 +107869,13 @@ impl Packet for PacketCzRequestActnpc {
     }
 }
 
-impl PacketCzRequestMovetoowner {
+impl PacketCzRequestMoveToOwner {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3402"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMovetoowner {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzRequestMoveToOwner {
         let mut offset: usize = 0;
-        PacketCzRequestMovetoowner {
+        PacketCzRequestMoveToOwner {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -107915,10 +107915,10 @@ impl PacketCzRequestMovetoowner {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzRequestMovetoowner {
+    pub fn new(packetver: u32) -> PacketCzRequestMoveToOwner {
         let packet_id = i16::from_le_bytes([0x34, 0x02]);
         let packet_id_raw = [0x34, 0x02];
-        PacketCzRequestMovetoowner {
+        PacketCzRequestMoveToOwner {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -107928,7 +107928,7 @@ impl PacketCzRequestMovetoowner {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzRequestMovetoowner::new(packetver);
+        let mut packet = PacketCzRequestMoveToOwner::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -107938,12 +107938,12 @@ impl PacketCzRequestMovetoowner {
     }
 }
 
-impl Packet for PacketCzRequestMovetoowner {
+impl Packet for PacketCzRequestMoveToOwner {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzRequestMovetoowner::packet_id(packetver)
+       PacketCzRequestMoveToOwner::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzRequestMovetoowner"
+       "PacketCzRequestMoveToOwner"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -107997,11 +107997,11 @@ impl Packet for PacketCzRequestMovetoowner {
     }
 }
 
-impl PacketZcHoskillinfoList {
+impl PacketZcHoSkillInfoList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3502"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHoskillinfoList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHoSkillInfoList {
         let mut offset: usize = 0;
         let vec_type_len = SKILLINFO::base_len(packetver);
         let vec_start: usize = 4;
@@ -108014,7 +108014,7 @@ impl PacketZcHoskillinfoList {
             vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcHoskillinfoList {
+        PacketZcHoSkillInfoList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -108070,10 +108070,10 @@ impl PacketZcHoskillinfoList {
     pub fn set_skill_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.skill_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcHoskillinfoList {
+    pub fn new(packetver: u32) -> PacketZcHoSkillInfoList {
         let packet_id = i16::from_le_bytes([0x35, 0x02]);
         let packet_id_raw = [0x35, 0x02];
-        PacketZcHoskillinfoList {
+        PacketZcHoSkillInfoList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -108085,7 +108085,7 @@ impl PacketZcHoskillinfoList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcHoskillinfoList::new(packetver);
+        let mut packet = PacketZcHoSkillInfoList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -108099,12 +108099,12 @@ impl PacketZcHoskillinfoList {
     }
 }
 
-impl Packet for PacketZcHoskillinfoList {
+impl Packet for PacketZcHoSkillInfoList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcHoskillinfoList::packet_id(packetver)
+       PacketZcHoSkillInfoList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcHoskillinfoList"
+       "PacketZcHoSkillInfoList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -108164,13 +108164,13 @@ impl Packet for PacketZcHoskillinfoList {
     }
 }
 
-impl PacketZcHoskillinfoUpdate {
+impl PacketZcHoSkillInfoUpdate {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3902"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHoskillinfoUpdate {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHoSkillInfoUpdate {
         let mut offset: usize = 0;
-        PacketZcHoskillinfoUpdate {
+        PacketZcHoSkillInfoUpdate {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -108274,10 +108274,10 @@ impl PacketZcHoskillinfoUpdate {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcHoskillinfoUpdate {
+    pub fn new(packetver: u32) -> PacketZcHoSkillInfoUpdate {
         let packet_id = i16::from_le_bytes([0x39, 0x02]);
         let packet_id_raw = [0x39, 0x02];
-        PacketZcHoskillinfoUpdate {
+        PacketZcHoSkillInfoUpdate {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -108295,7 +108295,7 @@ impl PacketZcHoskillinfoUpdate {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcHoskillinfoUpdate::new(packetver);
+        let mut packet = PacketZcHoSkillInfoUpdate::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -108325,12 +108325,12 @@ impl PacketZcHoskillinfoUpdate {
     }
 }
 
-impl Packet for PacketZcHoskillinfoUpdate {
+impl Packet for PacketZcHoSkillInfoUpdate {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcHoskillinfoUpdate::packet_id(packetver)
+       PacketZcHoSkillInfoUpdate::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcHoskillinfoUpdate"
+       "PacketZcHoSkillInfoUpdate"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112776,13 +112776,13 @@ impl Packet for PacketZcAuctionItemReqSearch {
     }
 }
 
-impl PacketZcStarplace {
+impl PacketZcStarPlace {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5302"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarplace {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStarPlace {
         let mut offset: usize = 0;
-        PacketZcStarplace {
+        PacketZcStarPlace {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112822,10 +112822,10 @@ impl PacketZcStarplace {
     pub fn set_which_raw(&mut self, value: [u8; 1]) {
         self.which_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStarplace {
+    pub fn new(packetver: u32) -> PacketZcStarPlace {
         let packet_id = i16::from_le_bytes([0x53, 0x02]);
         let packet_id_raw = [0x53, 0x02];
-        PacketZcStarplace {
+        PacketZcStarPlace {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -112835,7 +112835,7 @@ impl PacketZcStarplace {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStarplace::new(packetver);
+        let mut packet = PacketZcStarPlace::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/which")) {
             if let Some(value) = entry.value {
                 packet.set_which(value.parse().map_err(|_| format!("Invalid value {} for which", value))?);
@@ -112845,12 +112845,12 @@ impl PacketZcStarplace {
     }
 }
 
-impl Packet for PacketZcStarplace {
+impl Packet for PacketZcStarPlace {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStarplace::packet_id(packetver)
+       PacketZcStarPlace::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStarplace"
+       "PacketZcStarPlace"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -112904,13 +112904,13 @@ impl Packet for PacketZcStarplace {
     }
 }
 
-impl PacketCzAgreeStarplace {
+impl PacketCzAgreeStarPlace {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5402"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAgreeStarplace {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzAgreeStarPlace {
         let mut offset: usize = 0;
-        PacketCzAgreeStarplace {
+        PacketCzAgreeStarPlace {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -112950,10 +112950,10 @@ impl PacketCzAgreeStarplace {
     pub fn set_which_raw(&mut self, value: [u8; 1]) {
         self.which_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzAgreeStarplace {
+    pub fn new(packetver: u32) -> PacketCzAgreeStarPlace {
         let packet_id = i16::from_le_bytes([0x54, 0x02]);
         let packet_id_raw = [0x54, 0x02];
-        PacketCzAgreeStarplace {
+        PacketCzAgreeStarPlace {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -112963,7 +112963,7 @@ impl PacketCzAgreeStarplace {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzAgreeStarplace::new(packetver);
+        let mut packet = PacketCzAgreeStarPlace::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/which")) {
             if let Some(value) = entry.value {
                 packet.set_which(value.parse().map_err(|_| format!("Invalid value {} for which", value))?);
@@ -112973,12 +112973,12 @@ impl PacketCzAgreeStarplace {
     }
 }
 
-impl Packet for PacketCzAgreeStarplace {
+impl Packet for PacketCzAgreeStarPlace {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzAgreeStarplace::packet_id(packetver)
+       PacketCzAgreeStarPlace::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzAgreeStarplace"
+       "PacketCzAgreeStarPlace"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113728,13 +113728,13 @@ impl Packet for PacketAcAckGameGuard {
     }
 }
 
-impl PacketZcMakingitemList {
+impl PacketZcMakingItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5a02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakingitemList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMakingItemList {
         let mut offset: usize = 0;
-        PacketZcMakingitemList {
+        PacketZcMakingItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113798,10 +113798,10 @@ impl PacketZcMakingitemList {
     pub fn set_id_list_raw(&mut self, value: Vec<u8>) {
         self.id_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMakingitemList {
+    pub fn new(packetver: u32) -> PacketZcMakingItemList {
         let packet_id = i16::from_le_bytes([0x5a, 0x02]);
         let packet_id_raw = [0x5a, 0x02];
-        PacketZcMakingitemList {
+        PacketZcMakingItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -113813,7 +113813,7 @@ impl PacketZcMakingitemList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMakingitemList::new(packetver);
+        let mut packet = PacketZcMakingItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -113827,12 +113827,12 @@ impl PacketZcMakingitemList {
     }
 }
 
-impl Packet for PacketZcMakingitemList {
+impl Packet for PacketZcMakingItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMakingitemList::packet_id(packetver)
+       PacketZcMakingItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMakingitemList"
+       "PacketZcMakingItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -113891,13 +113891,13 @@ impl Packet for PacketZcMakingitemList {
     }
 }
 
-impl PacketCzReqMakingitem {
+impl PacketCzReqMakingItemByType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5b02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingitem {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzReqMakingItemByType {
         let mut offset: usize = 0;
-        PacketCzReqMakingitem {
+        PacketCzReqMakingItemByType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -113953,10 +113953,10 @@ impl PacketCzReqMakingitem {
     pub fn set_id_raw(&mut self, value: [u8; 2]) {
         self.id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzReqMakingitem {
+    pub fn new(packetver: u32) -> PacketCzReqMakingItemByType {
         let packet_id = i16::from_le_bytes([0x5b, 0x02]);
         let packet_id_raw = [0x5b, 0x02];
-        PacketCzReqMakingitem {
+        PacketCzReqMakingItemByType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -113968,7 +113968,7 @@ impl PacketCzReqMakingitem {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzReqMakingitem::new(packetver);
+        let mut packet = PacketCzReqMakingItemByType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/mk_type")) {
             if let Some(value) = entry.value {
                 packet.set_mk_type(value.parse().map_err(|_| format!("Invalid value {} for mk_type", value))?);
@@ -113983,12 +113983,12 @@ impl PacketCzReqMakingitem {
     }
 }
 
-impl Packet for PacketCzReqMakingitem {
+impl Packet for PacketCzReqMakingItemByType {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzReqMakingitem::packet_id(packetver)
+       PacketCzReqMakingItemByType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzReqMakingitem"
+       "PacketCzReqMakingItemByType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114687,13 +114687,13 @@ impl Packet for PacketZcMailWindows {
     }
 }
 
-impl PacketAcReqLoginOldekey {
+impl PacketAcReqLoginOldEkey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6102"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginOldekey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginOldEkey {
         let mut offset: usize = 0;
-        PacketAcReqLoginOldekey {
+        PacketAcReqLoginOldEkey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114739,10 +114739,10 @@ impl PacketAcReqLoginOldekey {
     pub fn set_m_seed_value_raw(&mut self, value: [u8; 9]) {
         self.m_seed_value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcReqLoginOldekey {
+    pub fn new(packetver: u32) -> PacketAcReqLoginOldEkey {
         let packet_id = i16::from_le_bytes([0x61, 0x02]);
         let packet_id_raw = [0x61, 0x02];
-        PacketAcReqLoginOldekey {
+        PacketAcReqLoginOldEkey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -114752,7 +114752,7 @@ impl PacketAcReqLoginOldekey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcReqLoginOldekey::new(packetver);
+        let mut packet = PacketAcReqLoginOldEkey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/m_seed_value")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 9] = [0 as char; 9];
@@ -114769,12 +114769,12 @@ impl PacketAcReqLoginOldekey {
     }
 }
 
-impl Packet for PacketAcReqLoginOldekey {
+impl Packet for PacketAcReqLoginOldEkey {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcReqLoginOldekey::packet_id(packetver)
+       PacketAcReqLoginOldEkey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcReqLoginOldekey"
+       "PacketAcReqLoginOldEkey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114830,13 +114830,13 @@ impl Packet for PacketAcReqLoginOldekey {
     }
 }
 
-impl PacketAcReqLoginNewekey {
+impl PacketAcReqLoginNewEkey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6202"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginNewekey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginNewEkey {
         let mut offset: usize = 0;
-        PacketAcReqLoginNewekey {
+        PacketAcReqLoginNewEkey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -114882,10 +114882,10 @@ impl PacketAcReqLoginNewekey {
     pub fn set_m_seed_value_raw(&mut self, value: [u8; 9]) {
         self.m_seed_value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcReqLoginNewekey {
+    pub fn new(packetver: u32) -> PacketAcReqLoginNewEkey {
         let packet_id = i16::from_le_bytes([0x62, 0x02]);
         let packet_id_raw = [0x62, 0x02];
-        PacketAcReqLoginNewekey {
+        PacketAcReqLoginNewEkey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -114895,7 +114895,7 @@ impl PacketAcReqLoginNewekey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcReqLoginNewekey::new(packetver);
+        let mut packet = PacketAcReqLoginNewEkey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/m_seed_value")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 9] = [0 as char; 9];
@@ -114912,12 +114912,12 @@ impl PacketAcReqLoginNewekey {
     }
 }
 
-impl Packet for PacketAcReqLoginNewekey {
+impl Packet for PacketAcReqLoginNewEkey {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcReqLoginNewekey::packet_id(packetver)
+       PacketAcReqLoginNewEkey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcReqLoginNewekey"
+       "PacketAcReqLoginNewEkey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -114973,13 +114973,13 @@ impl Packet for PacketAcReqLoginNewekey {
     }
 }
 
-impl PacketAcReqLoginCardpass {
+impl PacketAcReqLoginCardPass {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6302"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginCardpass {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcReqLoginCardPass {
         let mut offset: usize = 0;
-        PacketAcReqLoginCardpass {
+        PacketAcReqLoginCardPass {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115025,10 +115025,10 @@ impl PacketAcReqLoginCardpass {
     pub fn set_m_seed_value_raw(&mut self, value: [u8; 9]) {
         self.m_seed_value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcReqLoginCardpass {
+    pub fn new(packetver: u32) -> PacketAcReqLoginCardPass {
         let packet_id = i16::from_le_bytes([0x63, 0x02]);
         let packet_id_raw = [0x63, 0x02];
-        PacketAcReqLoginCardpass {
+        PacketAcReqLoginCardPass {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -115038,7 +115038,7 @@ impl PacketAcReqLoginCardpass {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcReqLoginCardpass::new(packetver);
+        let mut packet = PacketAcReqLoginCardPass::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/m_seed_value")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 9] = [0 as char; 9];
@@ -115055,12 +115055,12 @@ impl PacketAcReqLoginCardpass {
     }
 }
 
-impl Packet for PacketAcReqLoginCardpass {
+impl Packet for PacketAcReqLoginCardPass {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcReqLoginCardpass::packet_id(packetver)
+       PacketAcReqLoginCardPass::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcReqLoginCardpass"
+       "PacketAcReqLoginCardPass"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115116,13 +115116,13 @@ impl Packet for PacketAcReqLoginCardpass {
     }
 }
 
-impl PacketCaAckLoginOldekey {
+impl PacketCaAckLoginOldEkey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6402"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginOldekey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginOldEkey {
         let mut offset: usize = 0;
-        PacketCaAckLoginOldekey {
+        PacketCaAckLoginOldEkey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115190,10 +115190,10 @@ impl PacketCaAckLoginOldekey {
     pub fn set_m_ekey_raw(&mut self, value: [u8; 9]) {
         self.m_ekey_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaAckLoginOldekey {
+    pub fn new(packetver: u32) -> PacketCaAckLoginOldEkey {
         let packet_id = i16::from_le_bytes([0x64, 0x02]);
         let packet_id_raw = [0x64, 0x02];
-        PacketCaAckLoginOldekey {
+        PacketCaAckLoginOldEkey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -115205,7 +115205,7 @@ impl PacketCaAckLoginOldekey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaAckLoginOldekey::new(packetver);
+        let mut packet = PacketCaAckLoginOldEkey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/m_seed_value")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 9] = [0 as char; 9];
@@ -115234,12 +115234,12 @@ impl PacketCaAckLoginOldekey {
     }
 }
 
-impl Packet for PacketCaAckLoginOldekey {
+impl Packet for PacketCaAckLoginOldEkey {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaAckLoginOldekey::packet_id(packetver)
+       PacketCaAckLoginOldEkey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaAckLoginOldekey"
+       "PacketCaAckLoginOldEkey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115302,13 +115302,13 @@ impl Packet for PacketCaAckLoginOldekey {
     }
 }
 
-impl PacketCaAckLoginNewekey {
+impl PacketCaAckLoginNewEkey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6502"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginNewekey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginNewEkey {
         let mut offset: usize = 0;
-        PacketCaAckLoginNewekey {
+        PacketCaAckLoginNewEkey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115376,10 +115376,10 @@ impl PacketCaAckLoginNewekey {
     pub fn set_m_ekey_raw(&mut self, value: [u8; 9]) {
         self.m_ekey_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaAckLoginNewekey {
+    pub fn new(packetver: u32) -> PacketCaAckLoginNewEkey {
         let packet_id = i16::from_le_bytes([0x65, 0x02]);
         let packet_id_raw = [0x65, 0x02];
-        PacketCaAckLoginNewekey {
+        PacketCaAckLoginNewEkey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -115391,7 +115391,7 @@ impl PacketCaAckLoginNewekey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaAckLoginNewekey::new(packetver);
+        let mut packet = PacketCaAckLoginNewEkey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/m_seed_value")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 9] = [0 as char; 9];
@@ -115420,12 +115420,12 @@ impl PacketCaAckLoginNewekey {
     }
 }
 
-impl Packet for PacketCaAckLoginNewekey {
+impl Packet for PacketCaAckLoginNewEkey {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaAckLoginNewekey::packet_id(packetver)
+       PacketCaAckLoginNewEkey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaAckLoginNewekey"
+       "PacketCaAckLoginNewEkey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115488,13 +115488,13 @@ impl Packet for PacketCaAckLoginNewekey {
     }
 }
 
-impl PacketCaAckLoginCardpass {
+impl PacketCaAckLoginCardPass {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6602"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginCardpass {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckLoginCardPass {
         let mut offset: usize = 0;
-        PacketCaAckLoginCardpass {
+        PacketCaAckLoginCardPass {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115540,10 +115540,10 @@ impl PacketCaAckLoginCardpass {
     pub fn set_mcard_pass_raw(&mut self, value: [u8; 28]) {
         self.mcard_pass_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaAckLoginCardpass {
+    pub fn new(packetver: u32) -> PacketCaAckLoginCardPass {
         let packet_id = i16::from_le_bytes([0x66, 0x02]);
         let packet_id_raw = [0x66, 0x02];
-        PacketCaAckLoginCardpass {
+        PacketCaAckLoginCardPass {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -115553,7 +115553,7 @@ impl PacketCaAckLoginCardpass {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaAckLoginCardpass::new(packetver);
+        let mut packet = PacketCaAckLoginCardPass::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/mcard_pass")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 28] = [0 as char; 28];
@@ -115570,12 +115570,12 @@ impl PacketCaAckLoginCardpass {
     }
 }
 
-impl Packet for PacketCaAckLoginCardpass {
+impl Packet for PacketCaAckLoginCardPass {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaAckLoginCardpass::packet_id(packetver)
+       PacketCaAckLoginCardPass::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaAckLoginCardpass"
+       "PacketCaAckLoginCardPass"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115631,13 +115631,13 @@ impl Packet for PacketCaAckLoginCardpass {
     }
 }
 
-impl PacketAcAckEkeyFailNotexist {
+impl PacketAcAckEkeyFailNotExist {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6702"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotexist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotExist {
         let mut offset: usize = 0;
-        PacketAcAckEkeyFailNotexist {
+        PacketAcAckEkeyFailNotExist {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115677,10 +115677,10 @@ impl PacketAcAckEkeyFailNotexist {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNotexist {
+    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNotExist {
         let packet_id = i16::from_le_bytes([0x67, 0x02]);
         let packet_id_raw = [0x67, 0x02];
-        PacketAcAckEkeyFailNotexist {
+        PacketAcAckEkeyFailNotExist {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -115690,7 +115690,7 @@ impl PacketAcAckEkeyFailNotexist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAckEkeyFailNotexist::new(packetver);
+        let mut packet = PacketAcAckEkeyFailNotExist::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -115700,12 +115700,12 @@ impl PacketAcAckEkeyFailNotexist {
     }
 }
 
-impl Packet for PacketAcAckEkeyFailNotexist {
+impl Packet for PacketAcAckEkeyFailNotExist {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAckEkeyFailNotexist::packet_id(packetver)
+       PacketAcAckEkeyFailNotExist::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAckEkeyFailNotexist"
+       "PacketAcAckEkeyFailNotExist"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115759,13 +115759,13 @@ impl Packet for PacketAcAckEkeyFailNotexist {
     }
 }
 
-impl PacketAcAckEkeyFailNotusesekey {
+impl PacketAcAckEkeyFailNotUseSekey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6802"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotusesekey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotUseSekey {
         let mut offset: usize = 0;
-        PacketAcAckEkeyFailNotusesekey {
+        PacketAcAckEkeyFailNotUseSekey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115805,10 +115805,10 @@ impl PacketAcAckEkeyFailNotusesekey {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNotusesekey {
+    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNotUseSekey {
         let packet_id = i16::from_le_bytes([0x68, 0x02]);
         let packet_id_raw = [0x68, 0x02];
-        PacketAcAckEkeyFailNotusesekey {
+        PacketAcAckEkeyFailNotUseSekey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -115818,7 +115818,7 @@ impl PacketAcAckEkeyFailNotusesekey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAckEkeyFailNotusesekey::new(packetver);
+        let mut packet = PacketAcAckEkeyFailNotUseSekey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -115828,12 +115828,12 @@ impl PacketAcAckEkeyFailNotusesekey {
     }
 }
 
-impl Packet for PacketAcAckEkeyFailNotusesekey {
+impl Packet for PacketAcAckEkeyFailNotUseSekey {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAckEkeyFailNotusesekey::packet_id(packetver)
+       PacketAcAckEkeyFailNotUseSekey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAckEkeyFailNotusesekey"
+       "PacketAcAckEkeyFailNotUseSekey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -115887,13 +115887,13 @@ impl Packet for PacketAcAckEkeyFailNotusesekey {
     }
 }
 
-impl PacketAcAckEkeyFailNotusedekey {
+impl PacketAcAckEkeyFailNotUsedEkey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6902"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotusedekey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNotUsedEkey {
         let mut offset: usize = 0;
-        PacketAcAckEkeyFailNotusedekey {
+        PacketAcAckEkeyFailNotUsedEkey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -115933,10 +115933,10 @@ impl PacketAcAckEkeyFailNotusedekey {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNotusedekey {
+    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNotUsedEkey {
         let packet_id = i16::from_le_bytes([0x69, 0x02]);
         let packet_id_raw = [0x69, 0x02];
-        PacketAcAckEkeyFailNotusedekey {
+        PacketAcAckEkeyFailNotUsedEkey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -115946,7 +115946,7 @@ impl PacketAcAckEkeyFailNotusedekey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAckEkeyFailNotusedekey::new(packetver);
+        let mut packet = PacketAcAckEkeyFailNotUsedEkey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -115956,12 +115956,12 @@ impl PacketAcAckEkeyFailNotusedekey {
     }
 }
 
-impl Packet for PacketAcAckEkeyFailNotusedekey {
+impl Packet for PacketAcAckEkeyFailNotUsedEkey {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAckEkeyFailNotusedekey::packet_id(packetver)
+       PacketAcAckEkeyFailNotUsedEkey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAckEkeyFailNotusedekey"
+       "PacketAcAckEkeyFailNotUsedEkey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116015,13 +116015,13 @@ impl Packet for PacketAcAckEkeyFailNotusedekey {
     }
 }
 
-impl PacketAcAckEkeyFailAuthrefuse {
+impl PacketAcAckEkeyFailAuthRefuse {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6a02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailAuthrefuse {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailAuthRefuse {
         let mut offset: usize = 0;
-        PacketAcAckEkeyFailAuthrefuse {
+        PacketAcAckEkeyFailAuthRefuse {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116061,10 +116061,10 @@ impl PacketAcAckEkeyFailAuthrefuse {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAckEkeyFailAuthrefuse {
+    pub fn new(packetver: u32) -> PacketAcAckEkeyFailAuthRefuse {
         let packet_id = i16::from_le_bytes([0x6a, 0x02]);
         let packet_id_raw = [0x6a, 0x02];
-        PacketAcAckEkeyFailAuthrefuse {
+        PacketAcAckEkeyFailAuthRefuse {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -116074,7 +116074,7 @@ impl PacketAcAckEkeyFailAuthrefuse {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAckEkeyFailAuthrefuse::new(packetver);
+        let mut packet = PacketAcAckEkeyFailAuthRefuse::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -116084,12 +116084,12 @@ impl PacketAcAckEkeyFailAuthrefuse {
     }
 }
 
-impl Packet for PacketAcAckEkeyFailAuthrefuse {
+impl Packet for PacketAcAckEkeyFailAuthRefuse {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAckEkeyFailAuthrefuse::packet_id(packetver)
+       PacketAcAckEkeyFailAuthRefuse::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAckEkeyFailAuthrefuse"
+       "PacketAcAckEkeyFailAuthRefuse"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116143,13 +116143,13 @@ impl Packet for PacketAcAckEkeyFailAuthrefuse {
     }
 }
 
-impl PacketAcAckEkeyFailInputekey {
+impl PacketAcAckEkeyFailInputEkey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6b02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailInputekey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailInputEkey {
         let mut offset: usize = 0;
-        PacketAcAckEkeyFailInputekey {
+        PacketAcAckEkeyFailInputEkey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116189,10 +116189,10 @@ impl PacketAcAckEkeyFailInputekey {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAckEkeyFailInputekey {
+    pub fn new(packetver: u32) -> PacketAcAckEkeyFailInputEkey {
         let packet_id = i16::from_le_bytes([0x6b, 0x02]);
         let packet_id_raw = [0x6b, 0x02];
-        PacketAcAckEkeyFailInputekey {
+        PacketAcAckEkeyFailInputEkey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -116202,7 +116202,7 @@ impl PacketAcAckEkeyFailInputekey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAckEkeyFailInputekey::new(packetver);
+        let mut packet = PacketAcAckEkeyFailInputEkey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -116212,12 +116212,12 @@ impl PacketAcAckEkeyFailInputekey {
     }
 }
 
-impl Packet for PacketAcAckEkeyFailInputekey {
+impl Packet for PacketAcAckEkeyFailInputEkey {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAckEkeyFailInputekey::packet_id(packetver)
+       PacketAcAckEkeyFailInputEkey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAckEkeyFailInputekey"
+       "PacketAcAckEkeyFailInputEkey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116399,13 +116399,13 @@ impl Packet for PacketAcAckEkeyFailNotice {
     }
 }
 
-impl PacketAcAckEkeyFailNeedcardpass {
+impl PacketAcAckEkeyFailNeedCardPass {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6d02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNeedcardpass {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckEkeyFailNeedCardPass {
         let mut offset: usize = 0;
-        PacketAcAckEkeyFailNeedcardpass {
+        PacketAcAckEkeyFailNeedCardPass {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116445,10 +116445,10 @@ impl PacketAcAckEkeyFailNeedcardpass {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNeedcardpass {
+    pub fn new(packetver: u32) -> PacketAcAckEkeyFailNeedCardPass {
         let packet_id = i16::from_le_bytes([0x6d, 0x02]);
         let packet_id_raw = [0x6d, 0x02];
-        PacketAcAckEkeyFailNeedcardpass {
+        PacketAcAckEkeyFailNeedCardPass {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -116458,7 +116458,7 @@ impl PacketAcAckEkeyFailNeedcardpass {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAckEkeyFailNeedcardpass::new(packetver);
+        let mut packet = PacketAcAckEkeyFailNeedCardPass::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -116468,12 +116468,12 @@ impl PacketAcAckEkeyFailNeedcardpass {
     }
 }
 
-impl Packet for PacketAcAckEkeyFailNeedcardpass {
+impl Packet for PacketAcAckEkeyFailNeedCardPass {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAckEkeyFailNeedcardpass::packet_id(packetver)
+       PacketAcAckEkeyFailNeedCardPass::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAckEkeyFailNeedcardpass"
+       "PacketAcAckEkeyFailNeedCardPass"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -116527,13 +116527,13 @@ impl Packet for PacketAcAckEkeyFailNeedcardpass {
     }
 }
 
-impl PacketAcAckAuthekeyFailNotmatchcardpass {
+impl PacketAcAckAuthEkeyFailNotMatchCardPass {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x6e02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckAuthekeyFailNotmatchcardpass {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcAckAuthEkeyFailNotMatchCardPass {
         let mut offset: usize = 0;
-        PacketAcAckAuthekeyFailNotmatchcardpass {
+        PacketAcAckAuthEkeyFailNotMatchCardPass {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -116573,10 +116573,10 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
     pub fn set_error_code_raw(&mut self, value: [u8; 2]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcAckAuthekeyFailNotmatchcardpass {
+    pub fn new(packetver: u32) -> PacketAcAckAuthEkeyFailNotMatchCardPass {
         let packet_id = i16::from_le_bytes([0x6e, 0x02]);
         let packet_id_raw = [0x6e, 0x02];
-        PacketAcAckAuthekeyFailNotmatchcardpass {
+        PacketAcAckAuthEkeyFailNotMatchCardPass {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -116586,7 +116586,7 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcAckAuthekeyFailNotmatchcardpass::new(packetver);
+        let mut packet = PacketAcAckAuthEkeyFailNotMatchCardPass::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -116596,12 +116596,12 @@ impl PacketAcAckAuthekeyFailNotmatchcardpass {
     }
 }
 
-impl Packet for PacketAcAckAuthekeyFailNotmatchcardpass {
+impl Packet for PacketAcAckAuthEkeyFailNotMatchCardPass {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcAckAuthekeyFailNotmatchcardpass::packet_id(packetver)
+       PacketAcAckAuthEkeyFailNotMatchCardPass::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcAckAuthekeyFailNotmatchcardpass"
+       "PacketAcAckAuthEkeyFailNotMatchCardPass"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117567,13 +117567,13 @@ impl Packet for PacketZcAckMailReturn {
     }
 }
 
-impl PacketChEnter2 {
+impl PacketChEnterWithMac {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7502"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnter2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnterWithMac {
         let mut offset: usize = 0;
-        PacketChEnter2 {
+        PacketChEnterWithMac {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -117715,10 +117715,10 @@ impl PacketChEnter2 {
     pub fn set_i_account_sid_raw(&mut self, value: [u8; 4]) {
         self.i_account_sid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChEnter2 {
+    pub fn new(packetver: u32) -> PacketChEnterWithMac {
         let packet_id = i16::from_le_bytes([0x75, 0x02]);
         let packet_id_raw = [0x75, 0x02];
-        PacketChEnter2 {
+        PacketChEnterWithMac {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -117740,7 +117740,7 @@ impl PacketChEnter2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChEnter2::new(packetver);
+        let mut packet = PacketChEnterWithMac::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -117787,12 +117787,12 @@ impl PacketChEnter2 {
     }
 }
 
-impl Packet for PacketChEnter2 {
+impl Packet for PacketChEnterWithMac {
     fn id(&self, packetver: u32) -> &str {
-       PacketChEnter2::packet_id(packetver)
+       PacketChEnterWithMac::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChEnter2"
+       "PacketChEnterWithMac"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -117878,13 +117878,13 @@ impl Packet for PacketChEnter2 {
     }
 }
 
-impl PacketCaAcceptLogin2 {
+impl PacketCaAcceptLogin {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7602"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAcceptLogin2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAcceptLogin {
         let mut offset: usize = 0;
-        PacketCaAcceptLogin2 {
+        PacketCaAcceptLogin {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118042,10 +118042,10 @@ impl PacketCaAcceptLogin2 {
     pub fn set_i_account_sid_raw(&mut self, value: [u8; 4]) {
         self.i_account_sid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaAcceptLogin2 {
+    pub fn new(packetver: u32) -> PacketCaAcceptLogin {
         let packet_id = i16::from_le_bytes([0x76, 0x02]);
         let packet_id_raw = [0x76, 0x02];
-        PacketCaAcceptLogin2 {
+        PacketCaAcceptLogin {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -118069,7 +118069,7 @@ impl PacketCaAcceptLogin2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaAcceptLogin2::new(packetver);
+        let mut packet = PacketCaAcceptLogin::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -118121,12 +118121,12 @@ impl PacketCaAcceptLogin2 {
     }
 }
 
-impl Packet for PacketCaAcceptLogin2 {
+impl Packet for PacketCaAcceptLogin {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaAcceptLogin2::packet_id(packetver)
+       PacketCaAcceptLogin::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaAcceptLogin2"
+       "PacketCaAcceptLogin"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118217,13 +118217,13 @@ impl Packet for PacketCaAcceptLogin2 {
     }
 }
 
-impl PacketCaLoginPcbang {
+impl PacketCaLoginPcBang {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7702"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginPcbang {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginPcBang {
         let mut offset: usize = 0;
-        PacketCaLoginPcbang {
+        PacketCaLoginPcBang {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118367,10 +118367,10 @@ impl PacketCaLoginPcbang {
     pub fn set_mac_adress_raw(&mut self, value: [u8; 13]) {
         self.mac_adress_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaLoginPcbang {
+    pub fn new(packetver: u32) -> PacketCaLoginPcBang {
         let packet_id = i16::from_le_bytes([0x77, 0x02]);
         let packet_id_raw = [0x77, 0x02];
-        PacketCaLoginPcbang {
+        PacketCaLoginPcBang {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -118390,7 +118390,7 @@ impl PacketCaLoginPcbang {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaLoginPcbang::new(packetver);
+        let mut packet = PacketCaLoginPcBang::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/version")) {
             if let Some(value) = entry.value {
                 packet.set_version(value.parse().map_err(|_| format!("Invalid value {} for version", value))?);
@@ -118453,12 +118453,12 @@ impl PacketCaLoginPcbang {
     }
 }
 
-impl Packet for PacketCaLoginPcbang {
+impl Packet for PacketCaLoginPcBang {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaLoginPcbang::packet_id(packetver)
+       PacketCaLoginPcBang::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaLoginPcbang"
+       "PacketCaLoginPcBang"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118545,13 +118545,13 @@ impl Packet for PacketCaLoginPcbang {
     }
 }
 
-impl PacketZcNotifyPcbang {
+impl PacketZcNotifyPcBang {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7802"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcbang {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcBang {
         let mut offset: usize = 0;
-        PacketZcNotifyPcbang {
+        PacketZcNotifyPcBang {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118575,10 +118575,10 @@ impl PacketZcNotifyPcbang {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyPcbang {
+    pub fn new(packetver: u32) -> PacketZcNotifyPcBang {
         let packet_id = i16::from_le_bytes([0x78, 0x02]);
         let packet_id_raw = [0x78, 0x02];
-        PacketZcNotifyPcbang {
+        PacketZcNotifyPcBang {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -118586,17 +118586,17 @@ impl PacketZcNotifyPcbang {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyPcbang::new(packetver);
+        let mut packet = PacketZcNotifyPcBang::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketZcNotifyPcbang {
+impl Packet for PacketZcNotifyPcBang {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyPcbang::packet_id(packetver)
+       PacketZcNotifyPcBang::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyPcbang"
+       "PacketZcNotifyPcBang"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118645,13 +118645,13 @@ impl Packet for PacketZcNotifyPcbang {
     }
 }
 
-impl PacketCzHuntinglist {
+impl PacketCzHuntingList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7902"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzHuntinglist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzHuntingList {
         let mut offset: usize = 0;
-        PacketCzHuntinglist {
+        PacketCzHuntingList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118675,10 +118675,10 @@ impl PacketCzHuntinglist {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzHuntinglist {
+    pub fn new(packetver: u32) -> PacketCzHuntingList {
         let packet_id = i16::from_le_bytes([0x79, 0x02]);
         let packet_id_raw = [0x79, 0x02];
-        PacketCzHuntinglist {
+        PacketCzHuntingList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -118686,17 +118686,17 @@ impl PacketCzHuntinglist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzHuntinglist::new(packetver);
+        let mut packet = PacketCzHuntingList::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzHuntinglist {
+impl Packet for PacketCzHuntingList {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzHuntinglist::packet_id(packetver)
+       PacketCzHuntingList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzHuntinglist"
+       "PacketCzHuntingList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118745,11 +118745,11 @@ impl Packet for PacketCzHuntinglist {
     }
 }
 
-impl PacketZcHuntinglist {
+impl PacketZcHuntingList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7a02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHuntinglist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHuntingList {
         let mut offset: usize = 0;
         let vec_type_len = PacketMobHunting::base_len(packetver);
         let vec_start: usize = 4;
@@ -118762,7 +118762,7 @@ impl PacketZcHuntinglist {
             vec_field.push(PacketMobHunting::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcHuntinglist {
+        PacketZcHuntingList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118818,10 +118818,10 @@ impl PacketZcHuntinglist {
     pub fn set_hunting_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.hunting_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcHuntinglist {
+    pub fn new(packetver: u32) -> PacketZcHuntingList {
         let packet_id = i16::from_le_bytes([0x7a, 0x02]);
         let packet_id_raw = [0x7a, 0x02];
-        PacketZcHuntinglist {
+        PacketZcHuntingList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -118833,7 +118833,7 @@ impl PacketZcHuntinglist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcHuntinglist::new(packetver);
+        let mut packet = PacketZcHuntingList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -118847,12 +118847,12 @@ impl PacketZcHuntinglist {
     }
 }
 
-impl Packet for PacketZcHuntinglist {
+impl Packet for PacketZcHuntingList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcHuntinglist::packet_id(packetver)
+       PacketZcHuntingList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcHuntinglist"
+       "PacketZcHuntingList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -118912,13 +118912,13 @@ impl Packet for PacketZcHuntinglist {
     }
 }
 
-impl PacketZcPcbangEffect {
+impl PacketZcPcBangEffect {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7b02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcbangEffect {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcBangEffect {
         let mut offset: usize = 0;
-        PacketZcPcbangEffect {
+        PacketZcPcBangEffect {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -118990,10 +118990,10 @@ impl PacketZcPcbangEffect {
     pub fn set_drop_factor_raw(&mut self, value: [u8; 4]) {
         self.drop_factor_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcbangEffect {
+    pub fn new(packetver: u32) -> PacketZcPcBangEffect {
         let packet_id = i16::from_le_bytes([0x7b, 0x02]);
         let packet_id_raw = [0x7b, 0x02];
-        PacketZcPcbangEffect {
+        PacketZcPcBangEffect {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -119007,7 +119007,7 @@ impl PacketZcPcbangEffect {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcbangEffect::new(packetver);
+        let mut packet = PacketZcPcBangEffect::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/exp_factor")) {
             if let Some(value) = entry.value {
                 packet.set_exp_factor(value.parse().map_err(|_| format!("Invalid value {} for exp_factor", value))?);
@@ -119027,12 +119027,12 @@ impl PacketZcPcbangEffect {
     }
 }
 
-impl Packet for PacketZcPcbangEffect {
+impl Packet for PacketZcPcBangEffect {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcbangEffect::packet_id(packetver)
+       PacketZcPcBangEffect::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcbangEffect"
+       "PacketZcPcBangEffect"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -119096,13 +119096,13 @@ impl Packet for PacketZcPcbangEffect {
     }
 }
 
-impl PacketCaLogin4 {
+impl PacketCaLoginHashedMac {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x7c02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLogin4 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaLoginHashedMac {
         let mut offset: usize = 0;
-        PacketCaLogin4 {
+        PacketCaLoginHashedMac {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -119224,10 +119224,10 @@ impl PacketCaLogin4 {
     pub fn set_mac_data_raw(&mut self, value: [u8; 13]) {
         self.mac_data_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaLogin4 {
+    pub fn new(packetver: u32) -> PacketCaLoginHashedMac {
         let packet_id = i16::from_le_bytes([0x7c, 0x02]);
         let packet_id_raw = [0x7c, 0x02];
-        PacketCaLogin4 {
+        PacketCaLoginHashedMac {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -119245,7 +119245,7 @@ impl PacketCaLogin4 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaLogin4::new(packetver);
+        let mut packet = PacketCaLoginHashedMac::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/version")) {
             if let Some(value) = entry.value {
                 packet.set_version(value.parse().map_err(|_| format!("Invalid value {} for version", value))?);
@@ -119296,12 +119296,12 @@ impl PacketCaLogin4 {
     }
 }
 
-impl Packet for PacketCaLogin4 {
+impl Packet for PacketCaLoginHashedMac {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaLogin4::packet_id(packetver)
+       PacketCaLoginHashedMac::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaLogin4"
+       "PacketCaLoginHashedMac"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -120984,13 +120984,13 @@ impl Packet for PacketZcAid {
     }
 }
 
-impl PacketZcNotifyEffect3 {
+impl PacketZcNotifyEffectWithNum {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8402"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffect3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyEffectWithNum {
         let mut offset: usize = 0;
-        PacketZcNotifyEffect3 {
+        PacketZcNotifyEffectWithNum {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121062,10 +121062,10 @@ impl PacketZcNotifyEffect3 {
     pub fn set_numdata_raw(&mut self, value: [u8; 4]) {
         self.numdata_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyEffect3 {
+    pub fn new(packetver: u32) -> PacketZcNotifyEffectWithNum {
         let packet_id = i16::from_le_bytes([0x84, 0x02]);
         let packet_id_raw = [0x84, 0x02];
-        PacketZcNotifyEffect3 {
+        PacketZcNotifyEffectWithNum {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -121079,7 +121079,7 @@ impl PacketZcNotifyEffect3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyEffect3::new(packetver);
+        let mut packet = PacketZcNotifyEffectWithNum::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -121099,12 +121099,12 @@ impl PacketZcNotifyEffect3 {
     }
 }
 
-impl Packet for PacketZcNotifyEffect3 {
+impl Packet for PacketZcNotifyEffectWithNum {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyEffect3::packet_id(packetver)
+       PacketZcNotifyEffectWithNum::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyEffect3"
+       "PacketZcNotifyEffectWithNum"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -121452,11 +121452,11 @@ impl Packet for PacketCzDeathQuestion {
     }
 }
 
-impl PacketZcPcCashPointItemlist {
+impl PacketZcPcCashPointItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8702"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcCashPointItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcCashPointItemList {
         let mut offset: usize = 0;
         let vec_type_len = PurchaseItem::base_len(packetver);
         let vec_start: usize = 8;
@@ -121469,7 +121469,7 @@ impl PacketZcPcCashPointItemlist {
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcPcCashPointItemlist {
+        PacketZcPcCashPointItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -121541,10 +121541,10 @@ impl PacketZcPcCashPointItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcCashPointItemlist {
+    pub fn new(packetver: u32) -> PacketZcPcCashPointItemList {
         let packet_id = i16::from_le_bytes([0x87, 0x02]);
         let packet_id_raw = [0x87, 0x02];
-        PacketZcPcCashPointItemlist {
+        PacketZcPcCashPointItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -121558,7 +121558,7 @@ impl PacketZcPcCashPointItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcCashPointItemlist::new(packetver);
+        let mut packet = PacketZcPcCashPointItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -121577,12 +121577,12 @@ impl PacketZcPcCashPointItemlist {
     }
 }
 
-impl Packet for PacketZcPcCashPointItemlist {
+impl Packet for PacketZcPcCashPointItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcCashPointItemlist::packet_id(packetver)
+       PacketZcPcCashPointItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcCashPointItemlist"
+       "PacketZcPcCashPointItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -121959,13 +121959,13 @@ impl Packet for PacketZcPcCashPointUpdate {
     }
 }
 
-impl PacketZcNpcShowefstUpdate {
+impl PacketZcNpcShowEfstUpdate {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8a02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcShowefstUpdate {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcShowEfstUpdate {
         let mut offset: usize = 0;
-        PacketZcNpcShowefstUpdate {
+        PacketZcNpcShowEfstUpdate {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -122053,10 +122053,10 @@ impl PacketZcNpcShowefstUpdate {
     pub fn set_show_efst_raw(&mut self, value: [u8; 4]) {
         self.show_efst_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNpcShowefstUpdate {
+    pub fn new(packetver: u32) -> PacketZcNpcShowEfstUpdate {
         let packet_id = i16::from_le_bytes([0x8a, 0x02]);
         let packet_id_raw = [0x8a, 0x02];
-        PacketZcNpcShowefstUpdate {
+        PacketZcNpcShowEfstUpdate {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -122072,7 +122072,7 @@ impl PacketZcNpcShowefstUpdate {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNpcShowefstUpdate::new(packetver);
+        let mut packet = PacketZcNpcShowEfstUpdate::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -122097,12 +122097,12 @@ impl PacketZcNpcShowefstUpdate {
     }
 }
 
-impl Packet for PacketZcNpcShowefstUpdate {
+impl Packet for PacketZcNpcShowEfstUpdate {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNpcShowefstUpdate::packet_id(packetver)
+       PacketZcNpcShowEfstUpdate::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNpcShowefstUpdate"
+       "PacketZcNpcShowEfstUpdate"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -122171,13 +122171,13 @@ impl Packet for PacketZcNpcShowefstUpdate {
     }
 }
 
-impl PacketChSelectCharGoingtobeused {
+impl PacketChSelectCharGoingToBeUsed {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8c02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectCharGoingtobeused {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectCharGoingToBeUsed {
         let mut offset: usize = 0;
-        PacketChSelectCharGoingtobeused {
+        PacketChSelectCharGoingToBeUsed {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -122256,10 +122256,10 @@ impl PacketChSelectCharGoingtobeused {
     pub fn set_ardw_selected_gid_raw(&mut self, value: [u8; 36]) {
         self.ardw_selected_gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChSelectCharGoingtobeused {
+    pub fn new(packetver: u32) -> PacketChSelectCharGoingToBeUsed {
         let packet_id = i16::from_le_bytes([0x8c, 0x02]);
         let packet_id_raw = [0x8c, 0x02];
-        PacketChSelectCharGoingtobeused {
+        PacketChSelectCharGoingToBeUsed {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -122273,7 +122273,7 @@ impl PacketChSelectCharGoingtobeused {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChSelectCharGoingtobeused::new(packetver);
+        let mut packet = PacketChSelectCharGoingToBeUsed::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/dw_aid")) {
             if let Some(value) = entry.value {
                 packet.set_dw_aid(value.parse().map_err(|_| format!("Invalid value {} for dw_aid", value))?);
@@ -122292,12 +122292,12 @@ impl PacketChSelectCharGoingtobeused {
     }
 }
 
-impl Packet for PacketChSelectCharGoingtobeused {
+impl Packet for PacketChSelectCharGoingToBeUsed {
     fn id(&self, packetver: u32) -> &str {
-       PacketChSelectCharGoingtobeused::packet_id(packetver)
+       PacketChSelectCharGoingToBeUsed::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChSelectCharGoingtobeused"
+       "PacketChSelectCharGoingToBeUsed"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -122363,13 +122363,13 @@ impl Packet for PacketChSelectCharGoingtobeused {
     }
 }
 
-impl PacketChReqIsValidCharname {
+impl PacketChReqIsValidCharName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8d02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqIsValidCharname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqIsValidCharName {
         let mut offset: usize = 0;
-        PacketChReqIsValidCharname {
+        PacketChReqIsValidCharName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -122447,10 +122447,10 @@ impl PacketChReqIsValidCharname {
     pub fn set_sz_char_name_raw(&mut self, value: [u8; 24]) {
         self.sz_char_name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChReqIsValidCharname {
+    pub fn new(packetver: u32) -> PacketChReqIsValidCharName {
         let packet_id = i16::from_le_bytes([0x8d, 0x02]);
         let packet_id_raw = [0x8d, 0x02];
-        PacketChReqIsValidCharname {
+        PacketChReqIsValidCharName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -122464,7 +122464,7 @@ impl PacketChReqIsValidCharname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChReqIsValidCharname::new(packetver);
+        let mut packet = PacketChReqIsValidCharName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/dw_aid")) {
             if let Some(value) = entry.value {
                 packet.set_dw_aid(value.parse().map_err(|_| format!("Invalid value {} for dw_aid", value))?);
@@ -122491,12 +122491,12 @@ impl PacketChReqIsValidCharname {
     }
 }
 
-impl Packet for PacketChReqIsValidCharname {
+impl Packet for PacketChReqIsValidCharName {
     fn id(&self, packetver: u32) -> &str {
-       PacketChReqIsValidCharname::packet_id(packetver)
+       PacketChReqIsValidCharName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChReqIsValidCharname"
+       "PacketChReqIsValidCharName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -122562,13 +122562,13 @@ impl Packet for PacketChReqIsValidCharname {
     }
 }
 
-impl PacketHcAckIsValidCharname {
+impl PacketHcAckIsValidCharName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8e02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckIsValidCharname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckIsValidCharName {
         let mut offset: usize = 0;
-        PacketHcAckIsValidCharname {
+        PacketHcAckIsValidCharName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -122608,10 +122608,10 @@ impl PacketHcAckIsValidCharname {
     pub fn set_s_result_raw(&mut self, value: [u8; 2]) {
         self.s_result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcAckIsValidCharname {
+    pub fn new(packetver: u32) -> PacketHcAckIsValidCharName {
         let packet_id = i16::from_le_bytes([0x8e, 0x02]);
         let packet_id_raw = [0x8e, 0x02];
-        PacketHcAckIsValidCharname {
+        PacketHcAckIsValidCharName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -122621,7 +122621,7 @@ impl PacketHcAckIsValidCharname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcAckIsValidCharname::new(packetver);
+        let mut packet = PacketHcAckIsValidCharName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/s_result")) {
             if let Some(value) = entry.value {
                 packet.set_s_result(value.parse().map_err(|_| format!("Invalid value {} for s_result", value))?);
@@ -122631,12 +122631,12 @@ impl PacketHcAckIsValidCharname {
     }
 }
 
-impl Packet for PacketHcAckIsValidCharname {
+impl Packet for PacketHcAckIsValidCharName {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcAckIsValidCharname::packet_id(packetver)
+       PacketHcAckIsValidCharName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcAckIsValidCharname"
+       "PacketHcAckIsValidCharName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -122690,13 +122690,13 @@ impl Packet for PacketHcAckIsValidCharname {
     }
 }
 
-impl PacketChReqChangeCharname {
+impl PacketChReqChangeCharName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x8f02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqChangeCharname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChReqChangeCharName {
         let mut offset: usize = 0;
-        PacketChReqChangeCharname {
+        PacketChReqChangeCharName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -122736,10 +122736,10 @@ impl PacketChReqChangeCharname {
     pub fn set_dw_gid_raw(&mut self, value: [u8; 4]) {
         self.dw_gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChReqChangeCharname {
+    pub fn new(packetver: u32) -> PacketChReqChangeCharName {
         let packet_id = i16::from_le_bytes([0x8f, 0x02]);
         let packet_id_raw = [0x8f, 0x02];
-        PacketChReqChangeCharname {
+        PacketChReqChangeCharName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -122749,7 +122749,7 @@ impl PacketChReqChangeCharname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChReqChangeCharname::new(packetver);
+        let mut packet = PacketChReqChangeCharName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/dw_gid")) {
             if let Some(value) = entry.value {
                 packet.set_dw_gid(value.parse().map_err(|_| format!("Invalid value {} for dw_gid", value))?);
@@ -122759,12 +122759,12 @@ impl PacketChReqChangeCharname {
     }
 }
 
-impl Packet for PacketChReqChangeCharname {
+impl Packet for PacketChReqChangeCharName {
     fn id(&self, packetver: u32) -> &str {
-       PacketChReqChangeCharname::packet_id(packetver)
+       PacketChReqChangeCharName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChReqChangeCharname"
+       "PacketChReqChangeCharName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -122818,13 +122818,13 @@ impl Packet for PacketChReqChangeCharname {
     }
 }
 
-impl PacketHcAckChangeCharname {
+impl PacketHcAckChangeCharName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9002"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckChangeCharname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcAckChangeCharName {
         let mut offset: usize = 0;
-        PacketHcAckChangeCharname {
+        PacketHcAckChangeCharName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -122864,10 +122864,10 @@ impl PacketHcAckChangeCharname {
     pub fn set_s_result_raw(&mut self, value: [u8; 2]) {
         self.s_result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcAckChangeCharname {
+    pub fn new(packetver: u32) -> PacketHcAckChangeCharName {
         let packet_id = i16::from_le_bytes([0x90, 0x02]);
         let packet_id_raw = [0x90, 0x02];
-        PacketHcAckChangeCharname {
+        PacketHcAckChangeCharName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -122877,7 +122877,7 @@ impl PacketHcAckChangeCharname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcAckChangeCharname::new(packetver);
+        let mut packet = PacketHcAckChangeCharName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/s_result")) {
             if let Some(value) = entry.value {
                 packet.set_s_result(value.parse().map_err(|_| format!("Invalid value {} for s_result", value))?);
@@ -122887,12 +122887,12 @@ impl PacketHcAckChangeCharname {
     }
 }
 
-impl Packet for PacketHcAckChangeCharname {
+impl Packet for PacketHcAckChangeCharName {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcAckChangeCharname::packet_id(packetver)
+       PacketHcAckChangeCharName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcAckChangeCharname"
+       "PacketHcAckChangeCharName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -123669,11 +123669,11 @@ impl Packet for PacketZcReadBook {
     }
 }
 
-impl PacketZcEquipmentItemlist2 {
+impl PacketZcEquipmentItemListNoBind {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9502"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemlist2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemListNoBind {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo2::base_len(packetver);
         let vec_start: usize = 4;
@@ -123686,7 +123686,7 @@ impl PacketZcEquipmentItemlist2 {
             vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcEquipmentItemlist2 {
+        PacketZcEquipmentItemListNoBind {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -123742,10 +123742,10 @@ impl PacketZcEquipmentItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcEquipmentItemlist2 {
+    pub fn new(packetver: u32) -> PacketZcEquipmentItemListNoBind {
         let packet_id = i16::from_le_bytes([0x95, 0x02]);
         let packet_id_raw = [0x95, 0x02];
-        PacketZcEquipmentItemlist2 {
+        PacketZcEquipmentItemListNoBind {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -123757,7 +123757,7 @@ impl PacketZcEquipmentItemlist2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcEquipmentItemlist2::new(packetver);
+        let mut packet = PacketZcEquipmentItemListNoBind::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -123771,12 +123771,12 @@ impl PacketZcEquipmentItemlist2 {
     }
 }
 
-impl Packet for PacketZcEquipmentItemlist2 {
+impl Packet for PacketZcEquipmentItemListNoBind {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcEquipmentItemlist2::packet_id(packetver)
+       PacketZcEquipmentItemListNoBind::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcEquipmentItemlist2"
+       "PacketZcEquipmentItemListNoBind"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -123836,11 +123836,11 @@ impl Packet for PacketZcEquipmentItemlist2 {
     }
 }
 
-impl PacketZcStoreEquipmentItemlist2 {
+impl PacketZcStoreEquipmentItemListNoBind {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9602"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemlist2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemListNoBind {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo2::base_len(packetver);
         let vec_start: usize = 4;
@@ -123853,7 +123853,7 @@ impl PacketZcStoreEquipmentItemlist2 {
             vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcStoreEquipmentItemlist2 {
+        PacketZcStoreEquipmentItemListNoBind {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -123909,10 +123909,10 @@ impl PacketZcStoreEquipmentItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStoreEquipmentItemlist2 {
+    pub fn new(packetver: u32) -> PacketZcStoreEquipmentItemListNoBind {
         let packet_id = i16::from_le_bytes([0x96, 0x02]);
         let packet_id_raw = [0x96, 0x02];
-        PacketZcStoreEquipmentItemlist2 {
+        PacketZcStoreEquipmentItemListNoBind {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -123924,7 +123924,7 @@ impl PacketZcStoreEquipmentItemlist2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStoreEquipmentItemlist2::new(packetver);
+        let mut packet = PacketZcStoreEquipmentItemListNoBind::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -123938,12 +123938,12 @@ impl PacketZcStoreEquipmentItemlist2 {
     }
 }
 
-impl Packet for PacketZcStoreEquipmentItemlist2 {
+impl Packet for PacketZcStoreEquipmentItemListNoBind {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStoreEquipmentItemlist2::packet_id(packetver)
+       PacketZcStoreEquipmentItemListNoBind::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStoreEquipmentItemlist2"
+       "PacketZcStoreEquipmentItemListNoBind"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -124003,11 +124003,11 @@ impl Packet for PacketZcStoreEquipmentItemlist2 {
     }
 }
 
-impl PacketZcCartEquipmentItemlist2 {
+impl PacketZcCartEquipmentItemListNoBind {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9702"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemlist2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemListNoBind {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo2::base_len(packetver);
         let vec_start: usize = 4;
@@ -124020,7 +124020,7 @@ impl PacketZcCartEquipmentItemlist2 {
             vec_field.push(EquipmentitemExtrainfo2::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcCartEquipmentItemlist2 {
+        PacketZcCartEquipmentItemListNoBind {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -124076,10 +124076,10 @@ impl PacketZcCartEquipmentItemlist2 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCartEquipmentItemlist2 {
+    pub fn new(packetver: u32) -> PacketZcCartEquipmentItemListNoBind {
         let packet_id = i16::from_le_bytes([0x97, 0x02]);
         let packet_id_raw = [0x97, 0x02];
-        PacketZcCartEquipmentItemlist2 {
+        PacketZcCartEquipmentItemListNoBind {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -124091,7 +124091,7 @@ impl PacketZcCartEquipmentItemlist2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCartEquipmentItemlist2::new(packetver);
+        let mut packet = PacketZcCartEquipmentItemListNoBind::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -124105,12 +124105,12 @@ impl PacketZcCartEquipmentItemlist2 {
     }
 }
 
-impl Packet for PacketZcCartEquipmentItemlist2 {
+impl Packet for PacketZcCartEquipmentItemListNoBind {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCartEquipmentItemlist2::packet_id(packetver)
+       PacketZcCartEquipmentItemListNoBind::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCartEquipmentItemlist2"
+       "PacketZcCartEquipmentItemListNoBind"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -124482,13 +124482,13 @@ impl Packet for PacketZcCashItemDelete {
     }
 }
 
-impl PacketZcItemPickupAck2 {
+impl PacketZcItemPickupAckNoBind {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9a02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAckNoBind {
         let mut offset: usize = 0;
-        PacketZcItemPickupAck2 {
+        PacketZcItemPickupAckNoBind {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -124688,10 +124688,10 @@ impl PacketZcItemPickupAck2 {
     pub fn set_hire_expire_date_raw(&mut self, value: [u8; 4]) {
         self.hire_expire_date_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcItemPickupAck2 {
+    pub fn new(packetver: u32) -> PacketZcItemPickupAckNoBind {
         let packet_id = i16::from_le_bytes([0x9a, 0x02]);
         let packet_id_raw = [0x9a, 0x02];
-        PacketZcItemPickupAck2 {
+        PacketZcItemPickupAckNoBind {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -124721,7 +124721,7 @@ impl PacketZcItemPickupAck2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcItemPickupAck2::new(packetver);
+        let mut packet = PacketZcItemPickupAckNoBind::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -124780,12 +124780,12 @@ impl PacketZcItemPickupAck2 {
     }
 }
 
-impl Packet for PacketZcItemPickupAck2 {
+impl Packet for PacketZcItemPickupAckNoBind {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcItemPickupAck2::packet_id(packetver)
+       PacketZcItemPickupAckNoBind::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcItemPickupAck2"
+       "PacketZcItemPickupAckNoBind"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -126208,11 +126208,11 @@ impl Packet for PacketZcMerProperty {
     }
 }
 
-impl PacketZcMerSkillinfoList {
+impl PacketZcMerSkillInfoList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9d02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerSkillinfoList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerSkillInfoList {
         let mut offset: usize = 0;
         let vec_type_len = SKILLINFO::base_len(packetver);
         let vec_start: usize = 4;
@@ -126225,7 +126225,7 @@ impl PacketZcMerSkillinfoList {
             vec_field.push(SKILLINFO::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcMerSkillinfoList {
+        PacketZcMerSkillInfoList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -126281,10 +126281,10 @@ impl PacketZcMerSkillinfoList {
     pub fn set_skill_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.skill_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMerSkillinfoList {
+    pub fn new(packetver: u32) -> PacketZcMerSkillInfoList {
         let packet_id = i16::from_le_bytes([0x9d, 0x02]);
         let packet_id_raw = [0x9d, 0x02];
-        PacketZcMerSkillinfoList {
+        PacketZcMerSkillInfoList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -126296,7 +126296,7 @@ impl PacketZcMerSkillinfoList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMerSkillinfoList::new(packetver);
+        let mut packet = PacketZcMerSkillInfoList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -126310,12 +126310,12 @@ impl PacketZcMerSkillinfoList {
     }
 }
 
-impl Packet for PacketZcMerSkillinfoList {
+impl Packet for PacketZcMerSkillInfoList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMerSkillinfoList::packet_id(packetver)
+       PacketZcMerSkillInfoList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMerSkillinfoList"
+       "PacketZcMerSkillInfoList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -126375,13 +126375,13 @@ impl Packet for PacketZcMerSkillinfoList {
     }
 }
 
-impl PacketZcMerSkillinfoUpdate {
+impl PacketZcMerSkillInfoUpdate {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9e02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerSkillinfoUpdate {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMerSkillInfoUpdate {
         let mut offset: usize = 0;
-        PacketZcMerSkillinfoUpdate {
+        PacketZcMerSkillInfoUpdate {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -126485,10 +126485,10 @@ impl PacketZcMerSkillinfoUpdate {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMerSkillinfoUpdate {
+    pub fn new(packetver: u32) -> PacketZcMerSkillInfoUpdate {
         let packet_id = i16::from_le_bytes([0x9e, 0x02]);
         let packet_id_raw = [0x9e, 0x02];
-        PacketZcMerSkillinfoUpdate {
+        PacketZcMerSkillInfoUpdate {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -126506,7 +126506,7 @@ impl PacketZcMerSkillinfoUpdate {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMerSkillinfoUpdate::new(packetver);
+        let mut packet = PacketZcMerSkillInfoUpdate::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -126536,12 +126536,12 @@ impl PacketZcMerSkillinfoUpdate {
     }
 }
 
-impl Packet for PacketZcMerSkillinfoUpdate {
+impl Packet for PacketZcMerSkillInfoUpdate {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMerSkillinfoUpdate::packet_id(packetver)
+       PacketZcMerSkillInfoUpdate::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMerSkillinfoUpdate"
+       "PacketZcMerSkillInfoUpdate"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -126743,13 +126743,13 @@ impl Packet for PacketCzMerCommand {
     }
 }
 
-impl UnusedPacketCzMerUseSkill {
+impl PacketCzMerUseSkill {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa002"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> UnusedPacketCzMerUseSkill {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMerUseSkill {
         let mut offset: usize = 0;
-        UnusedPacketCzMerUseSkill {
+        PacketCzMerUseSkill {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -126821,10 +126821,10 @@ impl UnusedPacketCzMerUseSkill {
     pub fn set_target_id_raw(&mut self, value: [u8; 4]) {
         self.target_id_raw = value;
     }
-    pub fn new(packetver: u32) -> UnusedPacketCzMerUseSkill {
+    pub fn new(packetver: u32) -> PacketCzMerUseSkill {
         let packet_id = i16::from_le_bytes([0xa0, 0x02]);
         let packet_id_raw = [0xa0, 0x02];
-        UnusedPacketCzMerUseSkill {
+        PacketCzMerUseSkill {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -126838,7 +126838,7 @@ impl UnusedPacketCzMerUseSkill {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = UnusedPacketCzMerUseSkill::new(packetver);
+        let mut packet = PacketCzMerUseSkill::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/selected_level")) {
             if let Some(value) = entry.value {
                 packet.set_selected_level(value.parse().map_err(|_| format!("Invalid value {} for selected_level", value))?);
@@ -126858,12 +126858,12 @@ impl UnusedPacketCzMerUseSkill {
     }
 }
 
-impl Packet for UnusedPacketCzMerUseSkill {
+impl Packet for PacketCzMerUseSkill {
     fn id(&self, packetver: u32) -> &str {
-       UnusedPacketCzMerUseSkill::packet_id(packetver)
+       PacketCzMerUseSkill::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "UnusedPacketCzMerUseSkill"
+       "PacketCzMerUseSkill"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -126927,13 +126927,13 @@ impl Packet for UnusedPacketCzMerUseSkill {
     }
 }
 
-impl UnusedPacketCzMerUpgradeSkilllevel {
+impl PacketCzMerUpgradeSkillLevel {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa102"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> UnusedPacketCzMerUpgradeSkilllevel {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMerUpgradeSkillLevel {
         let mut offset: usize = 0;
-        UnusedPacketCzMerUpgradeSkilllevel {
+        PacketCzMerUpgradeSkillLevel {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -126973,10 +126973,10 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
     pub fn set_skid_raw(&mut self, value: [u8; 2]) {
         self.skid_raw = value;
     }
-    pub fn new(packetver: u32) -> UnusedPacketCzMerUpgradeSkilllevel {
+    pub fn new(packetver: u32) -> PacketCzMerUpgradeSkillLevel {
         let packet_id = i16::from_le_bytes([0xa1, 0x02]);
         let packet_id_raw = [0xa1, 0x02];
-        UnusedPacketCzMerUpgradeSkilllevel {
+        PacketCzMerUpgradeSkillLevel {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -126986,7 +126986,7 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = UnusedPacketCzMerUpgradeSkilllevel::new(packetver);
+        let mut packet = PacketCzMerUpgradeSkillLevel::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -126996,12 +126996,12 @@ impl UnusedPacketCzMerUpgradeSkilllevel {
     }
 }
 
-impl Packet for UnusedPacketCzMerUpgradeSkilllevel {
+impl Packet for PacketCzMerUpgradeSkillLevel {
     fn id(&self, packetver: u32) -> &str {
-       UnusedPacketCzMerUpgradeSkilllevel::packet_id(packetver)
+       PacketCzMerUpgradeSkillLevel::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "UnusedPacketCzMerUpgradeSkilllevel"
+       "PacketCzMerUpgradeSkillLevel"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -127211,13 +127211,13 @@ impl Packet for PacketZcMerParChange {
     }
 }
 
-impl PacketZcGameguardLingoKey {
+impl PacketZcGameGuardLingoKey {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xa302"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGameguardLingoKey {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcGameGuardLingoKey {
         let mut offset: usize = 0;
-        PacketZcGameguardLingoKey {
+        PacketZcGameGuardLingoKey {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -127257,10 +127257,10 @@ impl PacketZcGameguardLingoKey {
     pub fn set_lingo_key_raw(&mut self, value: Vec<u8>) {
         self.lingo_key_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcGameguardLingoKey {
+    pub fn new(packetver: u32) -> PacketZcGameGuardLingoKey {
         let packet_id = i16::from_le_bytes([0xa3, 0x02]);
         let packet_id_raw = [0xa3, 0x02];
-        PacketZcGameguardLingoKey {
+        PacketZcGameGuardLingoKey {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -127270,7 +127270,7 @@ impl PacketZcGameguardLingoKey {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcGameguardLingoKey::new(packetver);
+        let mut packet = PacketZcGameGuardLingoKey::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/lingo_key")) {
             if let Some(value) = entry.value {
             }
@@ -127279,12 +127279,12 @@ impl PacketZcGameguardLingoKey {
     }
 }
 
-impl Packet for PacketZcGameguardLingoKey {
+impl Packet for PacketZcGameGuardLingoKey {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcGameguardLingoKey::packet_id(packetver)
+       PacketZcGameGuardLingoKey::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcGameguardLingoKey"
+       "PacketZcGameGuardLingoKey"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -130130,11 +130130,11 @@ impl Packet for PacketZcItemPickupParty {
     }
 }
 
-impl PacketZcShortcutKeyList {
+impl PacketZcShortcutKeyListFewerSlots {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb902"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShortcutKeyList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShortcutKeyListFewerSlots {
         let mut offset: usize = 0;
         let vec_type_len = ShortCutKey::base_len(packetver);
         let vec_start: usize = 2;
@@ -130147,7 +130147,7 @@ impl PacketZcShortcutKeyList {
             vec_field.push(ShortCutKey::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcShortcutKeyList {
+        PacketZcShortcutKeyListFewerSlots {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130188,10 +130188,10 @@ impl PacketZcShortcutKeyList {
     pub fn set_short_cut_key_raw(&mut self, value: Vec<Vec<u8>>) {
         self.short_cut_key_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcShortcutKeyList {
+    pub fn new(packetver: u32) -> PacketZcShortcutKeyListFewerSlots {
         let packet_id = i16::from_le_bytes([0xb9, 0x02]);
         let packet_id_raw = [0xb9, 0x02];
-        PacketZcShortcutKeyList {
+        PacketZcShortcutKeyListFewerSlots {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -130201,7 +130201,7 @@ impl PacketZcShortcutKeyList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcShortcutKeyList::new(packetver);
+        let mut packet = PacketZcShortcutKeyListFewerSlots::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/short_cut_key")) {
             if let Some(value) = entry.value {
             }
@@ -130210,12 +130210,12 @@ impl PacketZcShortcutKeyList {
     }
 }
 
-impl Packet for PacketZcShortcutKeyList {
+impl Packet for PacketZcShortcutKeyListFewerSlots {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcShortcutKeyList::packet_id(packetver)
+       PacketZcShortcutKeyListFewerSlots::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcShortcutKeyList"
+       "PacketZcShortcutKeyListFewerSlots"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -130424,13 +130424,13 @@ impl Packet for PacketCzShortcutKeyChange {
     }
 }
 
-impl PacketZcEquipitemDamaged {
+impl PacketZcEquipItemDamaged {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xbb02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipitemDamaged {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipItemDamaged {
         let mut offset: usize = 0;
-        PacketZcEquipitemDamaged {
+        PacketZcEquipItemDamaged {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130486,10 +130486,10 @@ impl PacketZcEquipitemDamaged {
     pub fn set_account_id_raw(&mut self, value: [u8; 4]) {
         self.account_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcEquipitemDamaged {
+    pub fn new(packetver: u32) -> PacketZcEquipItemDamaged {
         let packet_id = i16::from_le_bytes([0xbb, 0x02]);
         let packet_id_raw = [0xbb, 0x02];
-        PacketZcEquipitemDamaged {
+        PacketZcEquipItemDamaged {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -130501,7 +130501,7 @@ impl PacketZcEquipitemDamaged {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcEquipitemDamaged::new(packetver);
+        let mut packet = PacketZcEquipItemDamaged::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/wear_location")) {
             if let Some(value) = entry.value {
                 packet.set_wear_location(value.parse().map_err(|_| format!("Invalid value {} for wear_location", value))?);
@@ -130516,12 +130516,12 @@ impl PacketZcEquipitemDamaged {
     }
 }
 
-impl Packet for PacketZcEquipitemDamaged {
+impl Packet for PacketZcEquipItemDamaged {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcEquipitemDamaged::packet_id(packetver)
+       PacketZcEquipItemDamaged::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcEquipitemDamaged"
+       "PacketZcEquipItemDamaged"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -130580,13 +130580,13 @@ impl Packet for PacketZcEquipitemDamaged {
     }
 }
 
-impl PacketZcNotifyPcbangPlayingTime {
+impl PacketZcNotifyPcBangPlayingTime {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xbc02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcbangPlayingTime {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyPcBangPlayingTime {
         let mut offset: usize = 0;
-        PacketZcNotifyPcbangPlayingTime {
+        PacketZcNotifyPcBangPlayingTime {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130626,10 +130626,10 @@ impl PacketZcNotifyPcbangPlayingTime {
     pub fn set_time_minute_raw(&mut self, value: [u8; 4]) {
         self.time_minute_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyPcbangPlayingTime {
+    pub fn new(packetver: u32) -> PacketZcNotifyPcBangPlayingTime {
         let packet_id = i16::from_le_bytes([0xbc, 0x02]);
         let packet_id_raw = [0xbc, 0x02];
-        PacketZcNotifyPcbangPlayingTime {
+        PacketZcNotifyPcBangPlayingTime {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -130639,7 +130639,7 @@ impl PacketZcNotifyPcbangPlayingTime {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyPcbangPlayingTime::new(packetver);
+        let mut packet = PacketZcNotifyPcBangPlayingTime::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/time_minute")) {
             if let Some(value) = entry.value {
                 packet.set_time_minute(value.parse().map_err(|_| format!("Invalid value {} for time_minute", value))?);
@@ -130649,12 +130649,12 @@ impl PacketZcNotifyPcbangPlayingTime {
     }
 }
 
-impl Packet for PacketZcNotifyPcbangPlayingTime {
+impl Packet for PacketZcNotifyPcBangPlayingTime {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyPcbangPlayingTime::packet_id(packetver)
+       PacketZcNotifyPcBangPlayingTime::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyPcbangPlayingTime"
+       "PacketZcNotifyPcBangPlayingTime"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -130708,13 +130708,13 @@ impl Packet for PacketZcNotifyPcbangPlayingTime {
     }
 }
 
-impl PacketZcSrpacketr2Init {
+impl PacketZcSrPacketInit {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xbf02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSrpacketr2Init {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSrPacketInit {
         let mut offset: usize = 0;
-        PacketZcSrpacketr2Init {
+        PacketZcSrPacketInit {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130786,10 +130786,10 @@ impl PacketZcSrpacketr2Init {
     pub fn set_deform_add_factor_raw(&mut self, value: [u8; 4]) {
         self.deform_add_factor_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSrpacketr2Init {
+    pub fn new(packetver: u32) -> PacketZcSrPacketInit {
         let packet_id = i16::from_le_bytes([0xbf, 0x02]);
         let packet_id_raw = [0xbf, 0x02];
-        PacketZcSrpacketr2Init {
+        PacketZcSrPacketInit {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -130803,7 +130803,7 @@ impl PacketZcSrpacketr2Init {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSrpacketr2Init::new(packetver);
+        let mut packet = PacketZcSrPacketInit::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/protect_factor")) {
             if let Some(value) = entry.value {
                 packet.set_protect_factor(value.parse().map_err(|_| format!("Invalid value {} for protect_factor", value))?);
@@ -130823,12 +130823,12 @@ impl PacketZcSrpacketr2Init {
     }
 }
 
-impl Packet for PacketZcSrpacketr2Init {
+impl Packet for PacketZcSrPacketInit {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSrpacketr2Init::packet_id(packetver)
+       PacketZcSrPacketInit::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSrpacketr2Init"
+       "PacketZcSrPacketInit"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -130892,13 +130892,13 @@ impl Packet for PacketZcSrpacketr2Init {
     }
 }
 
-impl PacketCzSrpacketr2Start {
+impl PacketCzSrPacketStart {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc002"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSrpacketr2Start {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSrPacketStart {
         let mut offset: usize = 0;
-        PacketCzSrpacketr2Start {
+        PacketCzSrPacketStart {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -130938,10 +130938,10 @@ impl PacketCzSrpacketr2Start {
     pub fn set_protect_factor_raw(&mut self, value: [u8; 2]) {
         self.protect_factor_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzSrpacketr2Start {
+    pub fn new(packetver: u32) -> PacketCzSrPacketStart {
         let packet_id = i16::from_le_bytes([0xc0, 0x02]);
         let packet_id_raw = [0xc0, 0x02];
-        PacketCzSrpacketr2Start {
+        PacketCzSrPacketStart {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -130951,7 +130951,7 @@ impl PacketCzSrpacketr2Start {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzSrpacketr2Start::new(packetver);
+        let mut packet = PacketCzSrPacketStart::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/protect_factor")) {
             if let Some(value) = entry.value {
                 packet.set_protect_factor(value.parse().map_err(|_| format!("Invalid value {} for protect_factor", value))?);
@@ -130961,12 +130961,12 @@ impl PacketCzSrpacketr2Start {
     }
 }
 
-impl Packet for PacketCzSrpacketr2Start {
+impl Packet for PacketCzSrPacketStart {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzSrpacketr2Start::packet_id(packetver)
+       PacketCzSrPacketStart::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzSrpacketr2Start"
+       "PacketCzSrPacketStart"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -131229,13 +131229,13 @@ impl Packet for PacketZcNpcChat {
     }
 }
 
-impl PacketZcFormatstringMsg {
+impl PacketZcFormatStringMsg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc202"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFormatstringMsg {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcFormatStringMsg {
         let mut offset: usize = 0;
-        PacketZcFormatstringMsg {
+        PacketZcFormatStringMsg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -131306,10 +131306,10 @@ impl PacketZcFormatstringMsg {
     pub fn set_value_raw(&mut self, value: Vec<u8>) {
         self.value_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcFormatstringMsg {
+    pub fn new(packetver: u32) -> PacketZcFormatStringMsg {
         let packet_id = i16::from_le_bytes([0xc2, 0x02]);
         let packet_id_raw = [0xc2, 0x02];
-        PacketZcFormatstringMsg {
+        PacketZcFormatStringMsg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -131323,7 +131323,7 @@ impl PacketZcFormatstringMsg {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcFormatstringMsg::new(packetver);
+        let mut packet = PacketZcFormatStringMsg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -131343,12 +131343,12 @@ impl PacketZcFormatstringMsg {
     }
 }
 
-impl Packet for PacketZcFormatstringMsg {
+impl Packet for PacketZcFormatStringMsg {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcFormatstringMsg::packet_id(packetver)
+       PacketZcFormatStringMsg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcFormatstringMsg"
+       "PacketZcFormatStringMsg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -132330,13 +132330,13 @@ impl Packet for PacketZcPartyConfig {
     }
 }
 
-impl PacketHcRefuseSelectchar {
+impl PacketHcRefuseSelectChar {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xca02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseSelectchar {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcRefuseSelectChar {
         let mut offset: usize = 0;
-        PacketHcRefuseSelectchar {
+        PacketHcRefuseSelectChar {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -132376,10 +132376,10 @@ impl PacketHcRefuseSelectchar {
     pub fn set_error_code_raw(&mut self, value: [u8; 1]) {
         self.error_code_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcRefuseSelectchar {
+    pub fn new(packetver: u32) -> PacketHcRefuseSelectChar {
         let packet_id = i16::from_le_bytes([0xca, 0x02]);
         let packet_id_raw = [0xca, 0x02];
-        PacketHcRefuseSelectchar {
+        PacketHcRefuseSelectChar {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -132389,7 +132389,7 @@ impl PacketHcRefuseSelectchar {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcRefuseSelectchar::new(packetver);
+        let mut packet = PacketHcRefuseSelectChar::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -132399,12 +132399,12 @@ impl PacketHcRefuseSelectchar {
     }
 }
 
-impl Packet for PacketHcRefuseSelectchar {
+impl Packet for PacketHcRefuseSelectChar {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcRefuseSelectchar::packet_id(packetver)
+       PacketHcRefuseSelectChar::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcRefuseSelectchar"
+       "PacketHcRefuseSelectChar"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -132458,13 +132458,13 @@ impl Packet for PacketHcRefuseSelectchar {
     }
 }
 
-impl PacketZcMemorialdungeonSubscriptionInfo {
+impl PacketZcMemorialDungeonSubscriptionInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xcb02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonSubscriptionInfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialDungeonSubscriptionInfo {
         let mut offset: usize = 0;
-        PacketZcMemorialdungeonSubscriptionInfo {
+        PacketZcMemorialDungeonSubscriptionInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -132526,10 +132526,10 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
     pub fn set_priority_order_num_raw(&mut self, value: [u8; 2]) {
         self.priority_order_num_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMemorialdungeonSubscriptionInfo {
+    pub fn new(packetver: u32) -> PacketZcMemorialDungeonSubscriptionInfo {
         let packet_id = i16::from_le_bytes([0xcb, 0x02]);
         let packet_id_raw = [0xcb, 0x02];
-        PacketZcMemorialdungeonSubscriptionInfo {
+        PacketZcMemorialDungeonSubscriptionInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -132541,7 +132541,7 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMemorialdungeonSubscriptionInfo::new(packetver);
+        let mut packet = PacketZcMemorialDungeonSubscriptionInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/memorial_dungeon_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 61] = [0 as char; 61];
@@ -132563,12 +132563,12 @@ impl PacketZcMemorialdungeonSubscriptionInfo {
     }
 }
 
-impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
+impl Packet for PacketZcMemorialDungeonSubscriptionInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMemorialdungeonSubscriptionInfo::packet_id(packetver)
+       PacketZcMemorialDungeonSubscriptionInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMemorialdungeonSubscriptionInfo"
+       "PacketZcMemorialDungeonSubscriptionInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -132629,13 +132629,13 @@ impl Packet for PacketZcMemorialdungeonSubscriptionInfo {
     }
 }
 
-impl PacketZcMemorialdungeonSubscriptionNotify {
+impl PacketZcMemorialDungeonSubscriptionNotify {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xcc02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonSubscriptionNotify {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialDungeonSubscriptionNotify {
         let mut offset: usize = 0;
-        PacketZcMemorialdungeonSubscriptionNotify {
+        PacketZcMemorialDungeonSubscriptionNotify {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -132675,10 +132675,10 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
     pub fn set_priority_order_num_raw(&mut self, value: [u8; 2]) {
         self.priority_order_num_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMemorialdungeonSubscriptionNotify {
+    pub fn new(packetver: u32) -> PacketZcMemorialDungeonSubscriptionNotify {
         let packet_id = i16::from_le_bytes([0xcc, 0x02]);
         let packet_id_raw = [0xcc, 0x02];
-        PacketZcMemorialdungeonSubscriptionNotify {
+        PacketZcMemorialDungeonSubscriptionNotify {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -132688,7 +132688,7 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMemorialdungeonSubscriptionNotify::new(packetver);
+        let mut packet = PacketZcMemorialDungeonSubscriptionNotify::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/priority_order_num")) {
             if let Some(value) = entry.value {
                 packet.set_priority_order_num(value.parse().map_err(|_| format!("Invalid value {} for priority_order_num", value))?);
@@ -132698,12 +132698,12 @@ impl PacketZcMemorialdungeonSubscriptionNotify {
     }
 }
 
-impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
+impl Packet for PacketZcMemorialDungeonSubscriptionNotify {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMemorialdungeonSubscriptionNotify::packet_id(packetver)
+       PacketZcMemorialDungeonSubscriptionNotify::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMemorialdungeonSubscriptionNotify"
+       "PacketZcMemorialDungeonSubscriptionNotify"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -132757,13 +132757,13 @@ impl Packet for PacketZcMemorialdungeonSubscriptionNotify {
     }
 }
 
-impl PacketZcMemorialdungeonInfo {
+impl PacketZcMemorialDungeonInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xcd02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonInfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialDungeonInfo {
         let mut offset: usize = 0;
-        PacketZcMemorialdungeonInfo {
+        PacketZcMemorialDungeonInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -132841,10 +132841,10 @@ impl PacketZcMemorialdungeonInfo {
     pub fn set_enter_time_out_date_raw(&mut self, value: [u8; 4]) {
         self.enter_time_out_date_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMemorialdungeonInfo {
+    pub fn new(packetver: u32) -> PacketZcMemorialDungeonInfo {
         let packet_id = i16::from_le_bytes([0xcd, 0x02]);
         let packet_id_raw = [0xcd, 0x02];
-        PacketZcMemorialdungeonInfo {
+        PacketZcMemorialDungeonInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -132858,7 +132858,7 @@ impl PacketZcMemorialdungeonInfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMemorialdungeonInfo::new(packetver);
+        let mut packet = PacketZcMemorialDungeonInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/memorial_dungeon_name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 61] = [0 as char; 61];
@@ -132885,12 +132885,12 @@ impl PacketZcMemorialdungeonInfo {
     }
 }
 
-impl Packet for PacketZcMemorialdungeonInfo {
+impl Packet for PacketZcMemorialDungeonInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMemorialdungeonInfo::packet_id(packetver)
+       PacketZcMemorialDungeonInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMemorialdungeonInfo"
+       "PacketZcMemorialDungeonInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -132956,13 +132956,13 @@ impl Packet for PacketZcMemorialdungeonInfo {
     }
 }
 
-impl PacketZcMemorialdungeonNotify {
+impl PacketZcMemorialDungeonNotify {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xce02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialdungeonNotify {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMemorialDungeonNotify {
         let mut offset: usize = 0;
-        PacketZcMemorialdungeonNotify {
+        PacketZcMemorialDungeonNotify {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133018,10 +133018,10 @@ impl PacketZcMemorialdungeonNotify {
     pub fn set_enter_limit_date_raw(&mut self, value: [u8; 4]) {
         self.enter_limit_date_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMemorialdungeonNotify {
+    pub fn new(packetver: u32) -> PacketZcMemorialDungeonNotify {
         let packet_id = i16::from_le_bytes([0xce, 0x02]);
         let packet_id_raw = [0xce, 0x02];
-        PacketZcMemorialdungeonNotify {
+        PacketZcMemorialDungeonNotify {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -133033,7 +133033,7 @@ impl PacketZcMemorialdungeonNotify {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMemorialdungeonNotify::new(packetver);
+        let mut packet = PacketZcMemorialDungeonNotify::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -133048,12 +133048,12 @@ impl PacketZcMemorialdungeonNotify {
     }
 }
 
-impl Packet for PacketZcMemorialdungeonNotify {
+impl Packet for PacketZcMemorialDungeonNotify {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMemorialdungeonNotify::packet_id(packetver)
+       PacketZcMemorialDungeonNotify::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMemorialdungeonNotify"
+       "PacketZcMemorialDungeonNotify"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -133112,13 +133112,13 @@ impl Packet for PacketZcMemorialdungeonNotify {
     }
 }
 
-impl PacketCzMemorialdungeonCommand {
+impl PacketCzMemorialDungeonCommand {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xcf02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMemorialdungeonCommand {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzMemorialDungeonCommand {
         let mut offset: usize = 0;
-        PacketCzMemorialdungeonCommand {
+        PacketCzMemorialDungeonCommand {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133158,10 +133158,10 @@ impl PacketCzMemorialdungeonCommand {
     pub fn set_command_raw(&mut self, value: [u8; 4]) {
         self.command_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzMemorialdungeonCommand {
+    pub fn new(packetver: u32) -> PacketCzMemorialDungeonCommand {
         let packet_id = i16::from_le_bytes([0xcf, 0x02]);
         let packet_id_raw = [0xcf, 0x02];
-        PacketCzMemorialdungeonCommand {
+        PacketCzMemorialDungeonCommand {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -133171,7 +133171,7 @@ impl PacketCzMemorialdungeonCommand {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzMemorialdungeonCommand::new(packetver);
+        let mut packet = PacketCzMemorialDungeonCommand::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/command")) {
             if let Some(value) = entry.value {
                 packet.set_command(value.parse().map_err(|_| format!("Invalid value {} for command", value))?);
@@ -133181,12 +133181,12 @@ impl PacketCzMemorialdungeonCommand {
     }
 }
 
-impl Packet for PacketCzMemorialdungeonCommand {
+impl Packet for PacketCzMemorialDungeonCommand {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzMemorialdungeonCommand::packet_id(packetver)
+       PacketCzMemorialDungeonCommand::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzMemorialdungeonCommand"
+       "PacketCzMemorialDungeonCommand"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -133240,11 +133240,11 @@ impl Packet for PacketCzMemorialdungeonCommand {
     }
 }
 
-impl PacketZcEquipmentItemlist3 {
+impl PacketZcEquipmentItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd002"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemlist3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipmentItemList {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo301::base_len(packetver);
         let vec_start: usize = 4;
@@ -133257,7 +133257,7 @@ impl PacketZcEquipmentItemlist3 {
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcEquipmentItemlist3 {
+        PacketZcEquipmentItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133313,10 +133313,10 @@ impl PacketZcEquipmentItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcEquipmentItemlist3 {
+    pub fn new(packetver: u32) -> PacketZcEquipmentItemList {
         let packet_id = i16::from_le_bytes([0xd0, 0x02]);
         let packet_id_raw = [0xd0, 0x02];
-        PacketZcEquipmentItemlist3 {
+        PacketZcEquipmentItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -133328,7 +133328,7 @@ impl PacketZcEquipmentItemlist3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcEquipmentItemlist3::new(packetver);
+        let mut packet = PacketZcEquipmentItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -133342,12 +133342,12 @@ impl PacketZcEquipmentItemlist3 {
     }
 }
 
-impl Packet for PacketZcEquipmentItemlist3 {
+impl Packet for PacketZcEquipmentItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcEquipmentItemlist3::packet_id(packetver)
+       PacketZcEquipmentItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcEquipmentItemlist3"
+       "PacketZcEquipmentItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -133407,11 +133407,11 @@ impl Packet for PacketZcEquipmentItemlist3 {
     }
 }
 
-impl PacketZcStoreEquipmentItemlist3 {
+impl PacketZcStoreEquipmentItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd102"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemlist3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreEquipmentItemList {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo301::base_len(packetver);
         let vec_start: usize = 4;
@@ -133424,7 +133424,7 @@ impl PacketZcStoreEquipmentItemlist3 {
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcStoreEquipmentItemlist3 {
+        PacketZcStoreEquipmentItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133480,10 +133480,10 @@ impl PacketZcStoreEquipmentItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStoreEquipmentItemlist3 {
+    pub fn new(packetver: u32) -> PacketZcStoreEquipmentItemList {
         let packet_id = i16::from_le_bytes([0xd1, 0x02]);
         let packet_id_raw = [0xd1, 0x02];
-        PacketZcStoreEquipmentItemlist3 {
+        PacketZcStoreEquipmentItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -133495,7 +133495,7 @@ impl PacketZcStoreEquipmentItemlist3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStoreEquipmentItemlist3::new(packetver);
+        let mut packet = PacketZcStoreEquipmentItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -133509,12 +133509,12 @@ impl PacketZcStoreEquipmentItemlist3 {
     }
 }
 
-impl Packet for PacketZcStoreEquipmentItemlist3 {
+impl Packet for PacketZcStoreEquipmentItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStoreEquipmentItemlist3::packet_id(packetver)
+       PacketZcStoreEquipmentItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStoreEquipmentItemlist3"
+       "PacketZcStoreEquipmentItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -133574,11 +133574,11 @@ impl Packet for PacketZcStoreEquipmentItemlist3 {
     }
 }
 
-impl PacketZcCartEquipmentItemlist3 {
+impl PacketZcCartEquipmentItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd202"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemlist3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartEquipmentItemList {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo301::base_len(packetver);
         let vec_start: usize = 4;
@@ -133591,7 +133591,7 @@ impl PacketZcCartEquipmentItemlist3 {
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcCartEquipmentItemlist3 {
+        PacketZcCartEquipmentItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -133647,10 +133647,10 @@ impl PacketZcCartEquipmentItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCartEquipmentItemlist3 {
+    pub fn new(packetver: u32) -> PacketZcCartEquipmentItemList {
         let packet_id = i16::from_le_bytes([0xd2, 0x02]);
         let packet_id_raw = [0xd2, 0x02];
-        PacketZcCartEquipmentItemlist3 {
+        PacketZcCartEquipmentItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -133662,7 +133662,7 @@ impl PacketZcCartEquipmentItemlist3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCartEquipmentItemlist3::new(packetver);
+        let mut packet = PacketZcCartEquipmentItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -133676,12 +133676,12 @@ impl PacketZcCartEquipmentItemlist3 {
     }
 }
 
-impl Packet for PacketZcCartEquipmentItemlist3 {
+impl Packet for PacketZcCartEquipmentItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCartEquipmentItemlist3::packet_id(packetver)
+       PacketZcCartEquipmentItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCartEquipmentItemlist3"
+       "PacketZcCartEquipmentItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -133869,13 +133869,13 @@ impl Packet for PacketZcNotifyBindOnEquip {
     }
 }
 
-impl PacketZcItemPickupAck3 {
+impl PacketZcItemPickupAck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd402"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemPickupAck {
         let mut offset: usize = 0;
-        PacketZcItemPickupAck3 {
+        PacketZcItemPickupAck {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -134091,10 +134091,10 @@ impl PacketZcItemPickupAck3 {
     pub fn set_bind_on_equip_type_raw(&mut self, value: [u8; 2]) {
         self.bind_on_equip_type_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcItemPickupAck3 {
+    pub fn new(packetver: u32) -> PacketZcItemPickupAck {
         let packet_id = i16::from_le_bytes([0xd4, 0x02]);
         let packet_id_raw = [0xd4, 0x02];
-        PacketZcItemPickupAck3 {
+        PacketZcItemPickupAck {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -134126,7 +134126,7 @@ impl PacketZcItemPickupAck3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcItemPickupAck3::new(packetver);
+        let mut packet = PacketZcItemPickupAck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -134190,12 +134190,12 @@ impl PacketZcItemPickupAck3 {
     }
 }
 
-impl Packet for PacketZcItemPickupAck3 {
+impl Packet for PacketZcItemPickupAck {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcItemPickupAck3::packet_id(packetver)
+       PacketZcItemPickupAck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcItemPickupAck3"
+       "PacketZcItemPickupAck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -134403,13 +134403,13 @@ impl Packet for PacketZcIsvrDisconnect {
     }
 }
 
-impl PacketCzEquipwinMicroscope {
+impl PacketCzEquipWinMicroscope {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd602"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEquipwinMicroscope {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEquipWinMicroscope {
         let mut offset: usize = 0;
-        PacketCzEquipwinMicroscope {
+        PacketCzEquipWinMicroscope {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -134449,10 +134449,10 @@ impl PacketCzEquipwinMicroscope {
     pub fn set_aid_raw(&mut self, value: [u8; 4]) {
         self.aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzEquipwinMicroscope {
+    pub fn new(packetver: u32) -> PacketCzEquipWinMicroscope {
         let packet_id = i16::from_le_bytes([0xd6, 0x02]);
         let packet_id_raw = [0xd6, 0x02];
-        PacketCzEquipwinMicroscope {
+        PacketCzEquipWinMicroscope {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -134462,7 +134462,7 @@ impl PacketCzEquipwinMicroscope {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzEquipwinMicroscope::new(packetver);
+        let mut packet = PacketCzEquipWinMicroscope::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -134472,12 +134472,12 @@ impl PacketCzEquipwinMicroscope {
     }
 }
 
-impl Packet for PacketCzEquipwinMicroscope {
+impl Packet for PacketCzEquipWinMicroscope {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzEquipwinMicroscope::packet_id(packetver)
+       PacketCzEquipWinMicroscope::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzEquipwinMicroscope"
+       "PacketCzEquipWinMicroscope"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -134531,11 +134531,11 @@ impl Packet for PacketCzEquipwinMicroscope {
     }
 }
 
-impl PacketZcEquipwinMicroscope {
+impl PacketZcEquipWinMicroscope {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd702"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipwinMicroscope {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEquipWinMicroscope {
         let mut offset: usize = 0;
         let vec_type_len = EquipmentitemExtrainfo301::base_len(packetver);
         let vec_start: usize = 43;
@@ -134548,7 +134548,7 @@ impl PacketZcEquipwinMicroscope {
             vec_field.push(EquipmentitemExtrainfo301::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcEquipwinMicroscope {
+        PacketZcEquipWinMicroscope {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -134754,10 +134754,10 @@ impl PacketZcEquipwinMicroscope {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcEquipwinMicroscope {
+    pub fn new(packetver: u32) -> PacketZcEquipWinMicroscope {
         let packet_id = i16::from_le_bytes([0xd7, 0x02]);
         let packet_id_raw = [0xd7, 0x02];
-        PacketZcEquipwinMicroscope {
+        PacketZcEquipWinMicroscope {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -134787,7 +134787,7 @@ impl PacketZcEquipwinMicroscope {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcEquipwinMicroscope::new(packetver);
+        let mut packet = PacketZcEquipWinMicroscope::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -134853,12 +134853,12 @@ impl PacketZcEquipwinMicroscope {
     }
 }
 
-impl Packet for PacketZcEquipwinMicroscope {
+impl Packet for PacketZcEquipWinMicroscope {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcEquipwinMicroscope::packet_id(packetver)
+       PacketZcEquipWinMicroscope::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcEquipwinMicroscope"
+       "PacketZcEquipWinMicroscope"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -135782,13 +135782,13 @@ impl Packet for PacketZcBattlefieldChat {
     }
 }
 
-impl PacketZcBattlefieldNotifyCampinfo {
+impl PacketZcBattlefieldNotifyCampInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xdd02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyCampinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBattlefieldNotifyCampInfo {
         let mut offset: usize = 0;
-        PacketZcBattlefieldNotifyCampinfo {
+        PacketZcBattlefieldNotifyCampInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -135866,10 +135866,10 @@ impl PacketZcBattlefieldNotifyCampinfo {
     pub fn set_camp_raw(&mut self, value: [u8; 2]) {
         self.camp_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcBattlefieldNotifyCampinfo {
+    pub fn new(packetver: u32) -> PacketZcBattlefieldNotifyCampInfo {
         let packet_id = i16::from_le_bytes([0xdd, 0x02]);
         let packet_id_raw = [0xdd, 0x02];
-        PacketZcBattlefieldNotifyCampinfo {
+        PacketZcBattlefieldNotifyCampInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -135883,7 +135883,7 @@ impl PacketZcBattlefieldNotifyCampinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcBattlefieldNotifyCampinfo::new(packetver);
+        let mut packet = PacketZcBattlefieldNotifyCampInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/account_id")) {
             if let Some(value) = entry.value {
                 packet.set_account_id(value.parse().map_err(|_| format!("Invalid value {} for account_id", value))?);
@@ -135910,12 +135910,12 @@ impl PacketZcBattlefieldNotifyCampinfo {
     }
 }
 
-impl Packet for PacketZcBattlefieldNotifyCampinfo {
+impl Packet for PacketZcBattlefieldNotifyCampInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcBattlefieldNotifyCampinfo::packet_id(packetver)
+       PacketZcBattlefieldNotifyCampInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcBattlefieldNotifyCampinfo"
+       "PacketZcBattlefieldNotifyCampInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -136619,13 +136619,13 @@ impl Packet for PacketZcBattlefieldNotifyHp {
     }
 }
 
-impl PacketZcNotifyAct2 {
+impl PacketZcNotifyAct {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe102"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct {
         let mut offset: usize = 0;
-        PacketZcNotifyAct2 {
+        PacketZcNotifyAct {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -136793,10 +136793,10 @@ impl PacketZcNotifyAct2 {
     pub fn set_left_damage_raw(&mut self, value: [u8; 4]) {
         self.left_damage_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyAct2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyAct {
         let packet_id = i16::from_le_bytes([0xe1, 0x02]);
         let packet_id_raw = [0xe1, 0x02];
-        PacketZcNotifyAct2 {
+        PacketZcNotifyAct {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -136822,7 +136822,7 @@ impl PacketZcNotifyAct2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyAct2::new(packetver);
+        let mut packet = PacketZcNotifyAct::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -136872,12 +136872,12 @@ impl PacketZcNotifyAct2 {
     }
 }
 
-impl Packet for PacketZcNotifyAct2 {
+impl Packet for PacketZcNotifyAct {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyAct2::packet_id(packetver)
+       PacketZcNotifyAct::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyAct2"
+       "PacketZcNotifyAct"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -137099,13 +137099,13 @@ impl Packet for PacketCzBotCheck {
     }
 }
 
-impl PacketZcMapproperty {
+impl PacketZcMapProperty {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe702"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMapproperty {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMapProperty {
         let mut offset: usize = 0;
-        PacketZcMapproperty {
+        PacketZcMapProperty {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -137185,10 +137185,10 @@ impl PacketZcMapproperty {
     pub fn set_map_info_table_raw(&mut self, value: Vec<u8>) {
         self.map_info_table_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMapproperty {
+    pub fn new(packetver: u32) -> PacketZcMapProperty {
         let packet_id = i16::from_le_bytes([0xe7, 0x02]);
         let packet_id_raw = [0xe7, 0x02];
-        PacketZcMapproperty {
+        PacketZcMapProperty {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -137202,7 +137202,7 @@ impl PacketZcMapproperty {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMapproperty::new(packetver);
+        let mut packet = PacketZcMapProperty::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -137221,12 +137221,12 @@ impl PacketZcMapproperty {
     }
 }
 
-impl Packet for PacketZcMapproperty {
+impl Packet for PacketZcMapProperty {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMapproperty::packet_id(packetver)
+       PacketZcMapProperty::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMapproperty"
+       "PacketZcMapProperty"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -137290,11 +137290,11 @@ impl Packet for PacketZcMapproperty {
     }
 }
 
-impl PacketZcNormalItemlist3 {
+impl PacketZcNormalItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe802"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemlist3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNormalItemList {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo3::base_len(packetver);
         let vec_start: usize = 4;
@@ -137307,7 +137307,7 @@ impl PacketZcNormalItemlist3 {
             vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcNormalItemlist3 {
+        PacketZcNormalItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -137363,10 +137363,10 @@ impl PacketZcNormalItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNormalItemlist3 {
+    pub fn new(packetver: u32) -> PacketZcNormalItemList {
         let packet_id = i16::from_le_bytes([0xe8, 0x02]);
         let packet_id_raw = [0xe8, 0x02];
-        PacketZcNormalItemlist3 {
+        PacketZcNormalItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -137378,7 +137378,7 @@ impl PacketZcNormalItemlist3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNormalItemlist3::new(packetver);
+        let mut packet = PacketZcNormalItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -137392,12 +137392,12 @@ impl PacketZcNormalItemlist3 {
     }
 }
 
-impl Packet for PacketZcNormalItemlist3 {
+impl Packet for PacketZcNormalItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNormalItemlist3::packet_id(packetver)
+       PacketZcNormalItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNormalItemlist3"
+       "PacketZcNormalItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -137457,11 +137457,11 @@ impl Packet for PacketZcNormalItemlist3 {
     }
 }
 
-impl PacketZcCartNormalItemlist3 {
+impl PacketZcCartNormalItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe902"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemlist3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcCartNormalItemList {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo3::base_len(packetver);
         let vec_start: usize = 4;
@@ -137474,7 +137474,7 @@ impl PacketZcCartNormalItemlist3 {
             vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcCartNormalItemlist3 {
+        PacketZcCartNormalItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -137530,10 +137530,10 @@ impl PacketZcCartNormalItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcCartNormalItemlist3 {
+    pub fn new(packetver: u32) -> PacketZcCartNormalItemList {
         let packet_id = i16::from_le_bytes([0xe9, 0x02]);
         let packet_id_raw = [0xe9, 0x02];
-        PacketZcCartNormalItemlist3 {
+        PacketZcCartNormalItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -137545,7 +137545,7 @@ impl PacketZcCartNormalItemlist3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcCartNormalItemlist3::new(packetver);
+        let mut packet = PacketZcCartNormalItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -137559,12 +137559,12 @@ impl PacketZcCartNormalItemlist3 {
     }
 }
 
-impl Packet for PacketZcCartNormalItemlist3 {
+impl Packet for PacketZcCartNormalItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcCartNormalItemlist3::packet_id(packetver)
+       PacketZcCartNormalItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcCartNormalItemlist3"
+       "PacketZcCartNormalItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -137624,11 +137624,11 @@ impl Packet for PacketZcCartNormalItemlist3 {
     }
 }
 
-impl PacketZcStoreNormalItemlist3 {
+impl PacketZcStoreNormalItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xea02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemlist3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcStoreNormalItemList {
         let mut offset: usize = 0;
         let vec_type_len = NormalitemExtrainfo3::base_len(packetver);
         let vec_start: usize = 4;
@@ -137641,7 +137641,7 @@ impl PacketZcStoreNormalItemlist3 {
             vec_field.push(NormalitemExtrainfo3::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcStoreNormalItemlist3 {
+        PacketZcStoreNormalItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -137697,10 +137697,10 @@ impl PacketZcStoreNormalItemlist3 {
     pub fn set_item_info_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcStoreNormalItemlist3 {
+    pub fn new(packetver: u32) -> PacketZcStoreNormalItemList {
         let packet_id = i16::from_le_bytes([0xea, 0x02]);
         let packet_id_raw = [0xea, 0x02];
-        PacketZcStoreNormalItemlist3 {
+        PacketZcStoreNormalItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -137712,7 +137712,7 @@ impl PacketZcStoreNormalItemlist3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcStoreNormalItemlist3::new(packetver);
+        let mut packet = PacketZcStoreNormalItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -137726,12 +137726,12 @@ impl PacketZcStoreNormalItemlist3 {
     }
 }
 
-impl Packet for PacketZcStoreNormalItemlist3 {
+impl Packet for PacketZcStoreNormalItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcStoreNormalItemlist3::packet_id(packetver)
+       PacketZcStoreNormalItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcStoreNormalItemlist3"
+       "PacketZcStoreNormalItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -137791,13 +137791,13 @@ impl Packet for PacketZcStoreNormalItemlist3 {
     }
 }
 
-impl PacketZcAcceptEnter2 {
+impl PacketZcAcceptEnter {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xeb02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAcceptEnter2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAcceptEnter {
         let mut offset: usize = 0;
-        PacketZcAcceptEnter2 {
+        PacketZcAcceptEnter {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -137907,10 +137907,10 @@ impl PacketZcAcceptEnter2 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAcceptEnter2 {
+    pub fn new(packetver: u32) -> PacketZcAcceptEnter {
         let packet_id = i16::from_le_bytes([0xeb, 0x02]);
         let packet_id_raw = [0xeb, 0x02];
-        PacketZcAcceptEnter2 {
+        PacketZcAcceptEnter {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -137928,7 +137928,7 @@ impl PacketZcAcceptEnter2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAcceptEnter2::new(packetver);
+        let mut packet = PacketZcAcceptEnter::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/start_time")) {
             if let Some(value) = entry.value {
                 packet.set_start_time(value.parse().map_err(|_| format!("Invalid value {} for start_time", value))?);
@@ -137965,12 +137965,12 @@ impl PacketZcAcceptEnter2 {
     }
 }
 
-impl Packet for PacketZcAcceptEnter2 {
+impl Packet for PacketZcAcceptEnter {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAcceptEnter2::packet_id(packetver)
+       PacketZcAcceptEnter::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAcceptEnter2"
+       "PacketZcAcceptEnter"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -138049,13 +138049,13 @@ impl Packet for PacketZcAcceptEnter2 {
     }
 }
 
-impl PacketZcNotifyMoveentry4 {
+impl PacketZcNotifyMoveEntryFixedLength {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xec02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry4 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveEntryFixedLength {
         let mut offset: usize = 0;
-        PacketZcNotifyMoveentry4 {
+        PacketZcNotifyMoveEntryFixedLength {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -138517,10 +138517,10 @@ impl PacketZcNotifyMoveentry4 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMoveentry4 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMoveEntryFixedLength {
         let packet_id = i16::from_le_bytes([0xec, 0x02]);
         let packet_id_raw = [0xec, 0x02];
-        PacketZcNotifyMoveentry4 {
+        PacketZcNotifyMoveEntryFixedLength {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -138582,7 +138582,7 @@ impl PacketZcNotifyMoveentry4 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMoveentry4::new(packetver);
+        let mut packet = PacketZcNotifyMoveEntryFixedLength::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/objecttype")) {
             if let Some(value) = entry.value {
                 packet.set_objecttype(value.parse().map_err(|_| format!("Invalid value {} for objecttype", value))?);
@@ -138721,12 +138721,12 @@ impl PacketZcNotifyMoveentry4 {
     }
 }
 
-impl Packet for PacketZcNotifyMoveentry4 {
+impl Packet for PacketZcNotifyMoveEntryFixedLength {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMoveentry4::packet_id(packetver)
+       PacketZcNotifyMoveEntryFixedLength::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMoveentry4"
+       "PacketZcNotifyMoveEntryFixedLength"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -138912,13 +138912,13 @@ impl Packet for PacketZcNotifyMoveentry4 {
     }
 }
 
-impl PacketZcNotifyNewentry4 {
+impl PacketZcNotifyNewEntryFixedLength {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xed02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry4 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewEntryFixedLength {
         let mut offset: usize = 0;
-        PacketZcNotifyNewentry4 {
+        PacketZcNotifyNewEntryFixedLength {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -139348,10 +139348,10 @@ impl PacketZcNotifyNewentry4 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyNewentry4 {
+    pub fn new(packetver: u32) -> PacketZcNotifyNewEntryFixedLength {
         let packet_id = i16::from_le_bytes([0xed, 0x02]);
         let packet_id_raw = [0xed, 0x02];
-        PacketZcNotifyNewentry4 {
+        PacketZcNotifyNewEntryFixedLength {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -139409,7 +139409,7 @@ impl PacketZcNotifyNewentry4 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyNewentry4::new(packetver);
+        let mut packet = PacketZcNotifyNewEntryFixedLength::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -139546,12 +139546,12 @@ impl PacketZcNotifyNewentry4 {
     }
 }
 
-impl Packet for PacketZcNotifyNewentry4 {
+impl Packet for PacketZcNotifyNewEntryFixedLength {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyNewentry4::packet_id(packetver)
+       PacketZcNotifyNewEntryFixedLength::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyNewentry4"
+       "PacketZcNotifyNewEntryFixedLength"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -139730,13 +139730,13 @@ impl Packet for PacketZcNotifyNewentry4 {
     }
 }
 
-impl PacketZcNotifyStandentry4 {
+impl PacketZcNotifyStandEntryFixedLength {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xee02"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry4 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntryFixedLength {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentry4 {
+        PacketZcNotifyStandEntryFixedLength {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -140182,10 +140182,10 @@ impl PacketZcNotifyStandentry4 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentry4 {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntryFixedLength {
         let packet_id = i16::from_le_bytes([0xee, 0x02]);
         let packet_id_raw = [0xee, 0x02];
-        PacketZcNotifyStandentry4 {
+        PacketZcNotifyStandEntryFixedLength {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -140245,7 +140245,7 @@ impl PacketZcNotifyStandentry4 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentry4::new(packetver);
+        let mut packet = PacketZcNotifyStandEntryFixedLength::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -140387,12 +140387,12 @@ impl PacketZcNotifyStandentry4 {
     }
 }
 
-impl Packet for PacketZcNotifyStandentry4 {
+impl Packet for PacketZcNotifyStandEntryFixedLength {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentry4::packet_id(packetver)
+       PacketZcNotifyStandEntryFixedLength::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentry4"
+       "PacketZcNotifyStandEntryFixedLength"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -141088,13 +141088,13 @@ impl Packet for PacketZcProgressCancel {
     }
 }
 
-impl PacketCzOpenSimpleCashshopItemlist {
+impl PacketCzOpenSimpleCashShopItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5c03"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzOpenSimpleCashshopItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzOpenSimpleCashShopItemList {
         let mut offset: usize = 0;
-        PacketCzOpenSimpleCashshopItemlist {
+        PacketCzOpenSimpleCashShopItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -141118,10 +141118,10 @@ impl PacketCzOpenSimpleCashshopItemlist {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzOpenSimpleCashshopItemlist {
+    pub fn new(packetver: u32) -> PacketCzOpenSimpleCashShopItemList {
         let packet_id = i16::from_le_bytes([0x5c, 0x03]);
         let packet_id_raw = [0x5c, 0x03];
-        PacketCzOpenSimpleCashshopItemlist {
+        PacketCzOpenSimpleCashShopItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -141129,17 +141129,17 @@ impl PacketCzOpenSimpleCashshopItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzOpenSimpleCashshopItemlist::new(packetver);
+        let mut packet = PacketCzOpenSimpleCashShopItemList::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzOpenSimpleCashshopItemlist {
+impl Packet for PacketCzOpenSimpleCashShopItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzOpenSimpleCashshopItemlist::packet_id(packetver)
+       PacketCzOpenSimpleCashShopItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzOpenSimpleCashshopItemlist"
+       "PacketCzOpenSimpleCashShopItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -141188,11 +141188,11 @@ impl Packet for PacketCzOpenSimpleCashshopItemlist {
     }
 }
 
-impl PacketZcSimpleCashshopPointItemlist {
+impl PacketZcSimpleCashShopPointItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5d03"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashshopPointItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashShopPointItemList {
         let mut offset: usize = 0;
         let vec_type_len = PurchaseItem::base_len(packetver);
         let vec_start: usize = 16;
@@ -141205,7 +141205,7 @@ impl PacketZcSimpleCashshopPointItemlist {
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcSimpleCashshopPointItemlist {
+        PacketZcSimpleCashShopPointItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -141341,10 +141341,10 @@ impl PacketZcSimpleCashshopPointItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSimpleCashshopPointItemlist {
+    pub fn new(packetver: u32) -> PacketZcSimpleCashShopPointItemList {
         let packet_id = i16::from_le_bytes([0x5d, 0x03]);
         let packet_id_raw = [0x5d, 0x03];
-        PacketZcSimpleCashshopPointItemlist {
+        PacketZcSimpleCashShopPointItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -141366,7 +141366,7 @@ impl PacketZcSimpleCashshopPointItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSimpleCashshopPointItemlist::new(packetver);
+        let mut packet = PacketZcSimpleCashShopPointItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -141405,12 +141405,12 @@ impl PacketZcSimpleCashshopPointItemlist {
     }
 }
 
-impl Packet for PacketZcSimpleCashshopPointItemlist {
+impl Packet for PacketZcSimpleCashShopPointItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSimpleCashshopPointItemlist::packet_id(packetver)
+       PacketZcSimpleCashShopPointItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSimpleCashshopPointItemlist"
+       "PacketZcSimpleCashShopPointItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -141595,13 +141595,13 @@ impl Packet for PacketCzCloseWindow {
     }
 }
 
-impl PacketAhcGameGuard {
+impl PacketAcGameGuard {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xdd03"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAhcGameGuard {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcGameGuard {
         let mut offset: usize = 0;
-        PacketAhcGameGuard {
+        PacketAcGameGuard {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -141648,10 +141648,10 @@ impl PacketAhcGameGuard {
     pub fn set_auth_data_raw(&mut self, value: [u8; 16]) {
         self.auth_data_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAhcGameGuard {
+    pub fn new(packetver: u32) -> PacketAcGameGuard {
         let packet_id = i16::from_le_bytes([0xdd, 0x03]);
         let packet_id_raw = [0xdd, 0x03];
-        PacketAhcGameGuard {
+        PacketAcGameGuard {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -141661,7 +141661,7 @@ impl PacketAhcGameGuard {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAhcGameGuard::new(packetver);
+        let mut packet = PacketAcGameGuard::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/auth_data")) {
             if let Some(value) = entry.value {
             }
@@ -141670,12 +141670,12 @@ impl PacketAhcGameGuard {
     }
 }
 
-impl Packet for PacketAhcGameGuard {
+impl Packet for PacketAcGameGuard {
     fn id(&self, packetver: u32) -> &str {
-       PacketAhcGameGuard::packet_id(packetver)
+       PacketAcGameGuard::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAhcGameGuard"
+       "PacketAcGameGuard"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -141731,13 +141731,13 @@ impl Packet for PacketAhcGameGuard {
     }
 }
 
-impl PacketCahAckGameGuard {
+impl PacketCaAckGameGuard {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xde03"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCahAckGameGuard {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaAckGameGuard {
         let mut offset: usize = 0;
-        PacketCahAckGameGuard {
+        PacketCaAckGameGuard {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -141784,10 +141784,10 @@ impl PacketCahAckGameGuard {
     pub fn set_auth_data_raw(&mut self, value: [u8; 16]) {
         self.auth_data_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCahAckGameGuard {
+    pub fn new(packetver: u32) -> PacketCaAckGameGuard {
         let packet_id = i16::from_le_bytes([0xde, 0x03]);
         let packet_id_raw = [0xde, 0x03];
-        PacketCahAckGameGuard {
+        PacketCaAckGameGuard {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -141797,7 +141797,7 @@ impl PacketCahAckGameGuard {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCahAckGameGuard::new(packetver);
+        let mut packet = PacketCaAckGameGuard::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/auth_data")) {
             if let Some(value) = entry.value {
             }
@@ -141806,12 +141806,12 @@ impl PacketCahAckGameGuard {
     }
 }
 
-impl Packet for PacketCahAckGameGuard {
+impl Packet for PacketCaAckGameGuard {
     fn id(&self, packetver: u32) -> &str {
-       PacketCahAckGameGuard::packet_id(packetver)
+       PacketCaAckGameGuard::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCahAckGameGuard"
+       "PacketCaAckGameGuard"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -141867,7 +141867,7 @@ impl Packet for PacketCahAckGameGuard {
     }
 }
 
-impl PacketCzEnter2 {
+impl PacketCzEnter {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20120307 {
             "0x6a08"
@@ -141887,9 +141887,9 @@ impl PacketCzEnter2 {
             "0x7200"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEnter2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzEnter {
         let mut offset: usize = 0;
-        PacketCzEnter2 {
+        PacketCzEnter {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -143450,7 +143450,7 @@ impl PacketCzEnter2 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzEnter2 {
+    pub fn new(packetver: u32) -> PacketCzEnter {
         let (packet_id, packet_id_raw) = if packetver >= 20120307 {
             (i16::from_le_bytes([0x6a, 0x08]), [0x6a, 0x08])
         } else if packetver >= 20111102 {
@@ -143468,7 +143468,7 @@ impl PacketCzEnter2 {
         } else {
             (i16::from_le_bytes([0x72, 0x00]), [0x72, 0x00])
         };
-        PacketCzEnter2 {
+        PacketCzEnter {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -143580,7 +143580,7 @@ impl PacketCzEnter2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzEnter2::new(packetver);
+        let mut packet = PacketCzEnter::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/a0")) {
             if let Some(value) = entry.value {
             }
@@ -143798,12 +143798,12 @@ impl PacketCzEnter2 {
     }
 }
 
-impl Packet for PacketCzEnter2 {
+impl Packet for PacketCzEnter {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzEnter2::packet_id(packetver)
+       PacketCzEnter::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzEnter2"
+       "PacketCzEnter"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -144394,13 +144394,13 @@ impl Packet for PacketCzEnter2 {
     }
 }
 
-impl PacketZcSkillPostdelay {
+impl PacketZcSkillPostDelay {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3d04"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillPostdelay {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillPostDelay {
         let mut offset: usize = 0;
-        PacketZcSkillPostdelay {
+        PacketZcSkillPostDelay {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -144456,10 +144456,10 @@ impl PacketZcSkillPostdelay {
     pub fn set_delay_tm_raw(&mut self, value: [u8; 4]) {
         self.delay_tm_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillPostdelay {
+    pub fn new(packetver: u32) -> PacketZcSkillPostDelay {
         let packet_id = i16::from_le_bytes([0x3d, 0x04]);
         let packet_id_raw = [0x3d, 0x04];
-        PacketZcSkillPostdelay {
+        PacketZcSkillPostDelay {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -144471,7 +144471,7 @@ impl PacketZcSkillPostdelay {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillPostdelay::new(packetver);
+        let mut packet = PacketZcSkillPostDelay::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -144486,12 +144486,12 @@ impl PacketZcSkillPostdelay {
     }
 }
 
-impl Packet for PacketZcSkillPostdelay {
+impl Packet for PacketZcSkillPostDelay {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillPostdelay::packet_id(packetver)
+       PacketZcSkillPostDelay::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillPostdelay"
+       "PacketZcSkillPostDelay"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -144550,11 +144550,11 @@ impl Packet for PacketZcSkillPostdelay {
     }
 }
 
-impl PacketZcSkillPostdelayList {
+impl PacketZcSkillPostDelayList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3e04"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillPostdelayList {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillPostDelayList {
         let mut offset: usize = 0;
         let vec_type_len = SkillPostdelay::base_len(packetver);
         let vec_start: usize = 4;
@@ -144567,7 +144567,7 @@ impl PacketZcSkillPostdelayList {
             vec_field.push(SkillPostdelay::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcSkillPostdelayList {
+        PacketZcSkillPostDelayList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -144623,10 +144623,10 @@ impl PacketZcSkillPostdelayList {
     pub fn set_delay_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.delay_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillPostdelayList {
+    pub fn new(packetver: u32) -> PacketZcSkillPostDelayList {
         let packet_id = i16::from_le_bytes([0x3e, 0x04]);
         let packet_id_raw = [0x3e, 0x04];
-        PacketZcSkillPostdelayList {
+        PacketZcSkillPostDelayList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -144638,7 +144638,7 @@ impl PacketZcSkillPostdelayList {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillPostdelayList::new(packetver);
+        let mut packet = PacketZcSkillPostDelayList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -144652,12 +144652,12 @@ impl PacketZcSkillPostdelayList {
     }
 }
 
-impl Packet for PacketZcSkillPostdelayList {
+impl Packet for PacketZcSkillPostDelayList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillPostdelayList::packet_id(packetver)
+       PacketZcSkillPostDelayList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillPostdelayList"
+       "PacketZcSkillPostDelayList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -144717,13 +144717,13 @@ impl Packet for PacketZcSkillPostdelayList {
     }
 }
 
-impl PacketZcMsgStateChange2 {
+impl PacketZcMsgStateChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3f04"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChange2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMsgStateChange {
         let mut offset: usize = 0;
-        PacketZcMsgStateChange2 {
+        PacketZcMsgStateChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -144834,10 +144834,10 @@ impl PacketZcMsgStateChange2 {
     pub fn set_val_raw(&mut self, value: [u8; 12]) {
         self.val_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMsgStateChange2 {
+    pub fn new(packetver: u32) -> PacketZcMsgStateChange {
         let packet_id = i16::from_le_bytes([0x3f, 0x04]);
         let packet_id_raw = [0x3f, 0x04];
-        PacketZcMsgStateChange2 {
+        PacketZcMsgStateChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -144855,7 +144855,7 @@ impl PacketZcMsgStateChange2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMsgStateChange2::new(packetver);
+        let mut packet = PacketZcMsgStateChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/index")) {
             if let Some(value) = entry.value {
                 packet.set_index(value.parse().map_err(|_| format!("Invalid value {} for index", value))?);
@@ -144884,12 +144884,12 @@ impl PacketZcMsgStateChange2 {
     }
 }
 
-impl Packet for PacketZcMsgStateChange2 {
+impl Packet for PacketZcMsgStateChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMsgStateChange2::packet_id(packetver)
+       PacketZcMsgStateChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMsgStateChange2"
+       "PacketZcMsgStateChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -144965,13 +144965,13 @@ impl Packet for PacketZcMsgStateChange2 {
     }
 }
 
-impl PacketZcMillenniumshield {
+impl PacketZcMillenniumShield {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4004"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMillenniumshield {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMillenniumShield {
         let mut offset: usize = 0;
-        PacketZcMillenniumshield {
+        PacketZcMillenniumShield {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -145043,10 +145043,10 @@ impl PacketZcMillenniumshield {
     pub fn set_state_raw(&mut self, value: [u8; 2]) {
         self.state_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMillenniumshield {
+    pub fn new(packetver: u32) -> PacketZcMillenniumShield {
         let packet_id = i16::from_le_bytes([0x40, 0x04]);
         let packet_id_raw = [0x40, 0x04];
-        PacketZcMillenniumshield {
+        PacketZcMillenniumShield {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -145060,7 +145060,7 @@ impl PacketZcMillenniumshield {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMillenniumshield::new(packetver);
+        let mut packet = PacketZcMillenniumShield::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -145080,12 +145080,12 @@ impl PacketZcMillenniumshield {
     }
 }
 
-impl Packet for PacketZcMillenniumshield {
+impl Packet for PacketZcMillenniumShield {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMillenniumshield::packet_id(packetver)
+       PacketZcMillenniumShield::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMillenniumshield"
+       "PacketZcMillenniumShield"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -145149,13 +145149,13 @@ impl Packet for PacketZcMillenniumshield {
     }
 }
 
-impl PacketZcSkillinfoDelete {
+impl PacketZcSkillInfoDelete {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4104"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoDelete {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillInfoDelete {
         let mut offset: usize = 0;
-        PacketZcSkillinfoDelete {
+        PacketZcSkillInfoDelete {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -145195,10 +145195,10 @@ impl PacketZcSkillinfoDelete {
     pub fn set_skid_raw(&mut self, value: [u8; 2]) {
         self.skid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillinfoDelete {
+    pub fn new(packetver: u32) -> PacketZcSkillInfoDelete {
         let packet_id = i16::from_le_bytes([0x41, 0x04]);
         let packet_id_raw = [0x41, 0x04];
-        PacketZcSkillinfoDelete {
+        PacketZcSkillInfoDelete {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -145208,7 +145208,7 @@ impl PacketZcSkillinfoDelete {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillinfoDelete::new(packetver);
+        let mut packet = PacketZcSkillInfoDelete::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -145218,12 +145218,12 @@ impl PacketZcSkillinfoDelete {
     }
 }
 
-impl Packet for PacketZcSkillinfoDelete {
+impl Packet for PacketZcSkillInfoDelete {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillinfoDelete::packet_id(packetver)
+       PacketZcSkillInfoDelete::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillinfoDelete"
+       "PacketZcSkillInfoDelete"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -145624,11 +145624,11 @@ impl Packet for PacketCzSkillSelectResponse {
     }
 }
 
-impl PacketZcSimpleCashPointItemlist {
+impl PacketZcSimpleCashPointItemList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4404"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashPointItemlist {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashPointItemList {
         let mut offset: usize = 0;
         let vec_type_len = PurchaseItem::base_len(packetver);
         let vec_start: usize = 8;
@@ -145641,7 +145641,7 @@ impl PacketZcSimpleCashPointItemlist {
             vec_field.push(PurchaseItem::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcSimpleCashPointItemlist {
+        PacketZcSimpleCashPointItemList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -145713,10 +145713,10 @@ impl PacketZcSimpleCashPointItemlist {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSimpleCashPointItemlist {
+    pub fn new(packetver: u32) -> PacketZcSimpleCashPointItemList {
         let packet_id = i16::from_le_bytes([0x44, 0x04]);
         let packet_id_raw = [0x44, 0x04];
-        PacketZcSimpleCashPointItemlist {
+        PacketZcSimpleCashPointItemList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -145730,7 +145730,7 @@ impl PacketZcSimpleCashPointItemlist {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSimpleCashPointItemlist::new(packetver);
+        let mut packet = PacketZcSimpleCashPointItemList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -145749,12 +145749,12 @@ impl PacketZcSimpleCashPointItemlist {
     }
 }
 
-impl Packet for PacketZcSimpleCashPointItemlist {
+impl Packet for PacketZcSimpleCashPointItemList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSimpleCashPointItemlist::packet_id(packetver)
+       PacketZcSimpleCashPointItemList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSimpleCashPointItemlist"
+       "PacketZcSimpleCashPointItemList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -146382,13 +146382,13 @@ impl Packet for PacketHcCharacterList {
     }
 }
 
-impl PacketZcHackshErrorMsg {
+impl PacketZcHackShieldErrorMsg {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4904"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHackshErrorMsg {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcHackShieldErrorMsg {
         let mut offset: usize = 0;
-        PacketZcHackshErrorMsg {
+        PacketZcHackShieldErrorMsg {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -146428,10 +146428,10 @@ impl PacketZcHackshErrorMsg {
     pub fn set_error_id_raw(&mut self, value: [u8; 2]) {
         self.error_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcHackshErrorMsg {
+    pub fn new(packetver: u32) -> PacketZcHackShieldErrorMsg {
         let packet_id = i16::from_le_bytes([0x49, 0x04]);
         let packet_id_raw = [0x49, 0x04];
-        PacketZcHackshErrorMsg {
+        PacketZcHackShieldErrorMsg {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -146441,7 +146441,7 @@ impl PacketZcHackshErrorMsg {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcHackshErrorMsg::new(packetver);
+        let mut packet = PacketZcHackShieldErrorMsg::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_id")) {
             if let Some(value) = entry.value {
                 packet.set_error_id(value.parse().map_err(|_| format!("Invalid value {} for error_id", value))?);
@@ -146451,12 +146451,12 @@ impl PacketZcHackshErrorMsg {
     }
 }
 
-impl Packet for PacketZcHackshErrorMsg {
+impl Packet for PacketZcHackShieldErrorMsg {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcHackshErrorMsg::packet_id(packetver)
+       PacketZcHackShieldErrorMsg::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcHackshErrorMsg"
+       "PacketZcHackShieldErrorMsg"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -146638,13 +146638,13 @@ impl Packet for PacketCzClientVersion {
     }
 }
 
-impl PacketCzCloseSimplecashShop {
+impl PacketCzCloseSimpleCashShop {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4b04"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseSimplecashShop {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzCloseSimpleCashShop {
         let mut offset: usize = 0;
-        PacketCzCloseSimplecashShop {
+        PacketCzCloseSimpleCashShop {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -146668,10 +146668,10 @@ impl PacketCzCloseSimplecashShop {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzCloseSimplecashShop {
+    pub fn new(packetver: u32) -> PacketCzCloseSimpleCashShop {
         let packet_id = i16::from_le_bytes([0x4b, 0x04]);
         let packet_id_raw = [0x4b, 0x04];
-        PacketCzCloseSimplecashShop {
+        PacketCzCloseSimpleCashShop {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -146679,17 +146679,17 @@ impl PacketCzCloseSimplecashShop {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzCloseSimplecashShop::new(packetver);
+        let mut packet = PacketCzCloseSimpleCashShop::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzCloseSimplecashShop {
+impl Packet for PacketCzCloseSimpleCashShop {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzCloseSimplecashShop::packet_id(packetver)
+       PacketCzCloseSimpleCashShop::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzCloseSimplecashShop"
+       "PacketCzCloseSimpleCashShop"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -147662,13 +147662,13 @@ impl Packet for PacketZcEsGoto {
     }
 }
 
-impl PacketCzGroupinfoChangeV2 {
+impl PacketCzGroupInfoChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd707"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGroupinfoChangeV2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGroupInfoChange {
         let mut offset: usize = 0;
-        PacketCzGroupinfoChangeV2 {
+        PacketCzGroupInfoChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -147740,10 +147740,10 @@ impl PacketCzGroupinfoChangeV2 {
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzGroupinfoChangeV2 {
+    pub fn new(packetver: u32) -> PacketCzGroupInfoChange {
         let packet_id = i16::from_le_bytes([0xd7, 0x07]);
         let packet_id_raw = [0xd7, 0x07];
-        PacketCzGroupinfoChangeV2 {
+        PacketCzGroupInfoChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -147757,7 +147757,7 @@ impl PacketCzGroupinfoChangeV2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzGroupinfoChangeV2::new(packetver);
+        let mut packet = PacketCzGroupInfoChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/exp_option")) {
             if let Some(value) = entry.value {
                 packet.set_exp_option(value.parse().map_err(|_| format!("Invalid value {} for exp_option", value))?);
@@ -147777,12 +147777,12 @@ impl PacketCzGroupinfoChangeV2 {
     }
 }
 
-impl Packet for PacketCzGroupinfoChangeV2 {
+impl Packet for PacketCzGroupInfoChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzGroupinfoChangeV2::packet_id(packetver)
+       PacketCzGroupInfoChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzGroupinfoChangeV2"
+       "PacketCzGroupInfoChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -147846,13 +147846,13 @@ impl Packet for PacketCzGroupinfoChangeV2 {
     }
 }
 
-impl PacketZcReqGroupinfoChangeV2 {
+impl PacketZcReqGroupInfoChange {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd807"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqGroupinfoChangeV2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcReqGroupInfoChange {
         let mut offset: usize = 0;
-        PacketZcReqGroupinfoChangeV2 {
+        PacketZcReqGroupInfoChange {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -147924,10 +147924,10 @@ impl PacketZcReqGroupinfoChangeV2 {
     pub fn set_item_division_rule_raw(&mut self, value: [u8; 1]) {
         self.item_division_rule_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcReqGroupinfoChangeV2 {
+    pub fn new(packetver: u32) -> PacketZcReqGroupInfoChange {
         let packet_id = i16::from_le_bytes([0xd8, 0x07]);
         let packet_id_raw = [0xd8, 0x07];
-        PacketZcReqGroupinfoChangeV2 {
+        PacketZcReqGroupInfoChange {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -147941,7 +147941,7 @@ impl PacketZcReqGroupinfoChangeV2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcReqGroupinfoChangeV2::new(packetver);
+        let mut packet = PacketZcReqGroupInfoChange::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/exp_option")) {
             if let Some(value) = entry.value {
                 packet.set_exp_option(value.parse().map_err(|_| format!("Invalid value {} for exp_option", value))?);
@@ -147961,12 +147961,12 @@ impl PacketZcReqGroupinfoChangeV2 {
     }
 }
 
-impl Packet for PacketZcReqGroupinfoChangeV2 {
+impl Packet for PacketZcReqGroupInfoChange {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcReqGroupinfoChangeV2::packet_id(packetver)
+       PacketZcReqGroupInfoChange::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcReqGroupinfoChangeV2"
+       "PacketZcReqGroupInfoChange"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -148030,11 +148030,11 @@ impl Packet for PacketZcReqGroupinfoChangeV2 {
     }
 }
 
-impl PacketZcShortcutKeyListV2 {
+impl PacketZcShortcutKeyList {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xd907"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShortcutKeyListV2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcShortcutKeyList {
         let mut offset: usize = 0;
         let vec_type_len = ShortCutKey::base_len(packetver);
         let vec_start: usize = 2;
@@ -148047,7 +148047,7 @@ impl PacketZcShortcutKeyListV2 {
             vec_field.push(ShortCutKey::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcShortcutKeyListV2 {
+        PacketZcShortcutKeyList {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -148088,10 +148088,10 @@ impl PacketZcShortcutKeyListV2 {
     pub fn set_short_cut_key_raw(&mut self, value: Vec<Vec<u8>>) {
         self.short_cut_key_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcShortcutKeyListV2 {
+    pub fn new(packetver: u32) -> PacketZcShortcutKeyList {
         let packet_id = i16::from_le_bytes([0xd9, 0x07]);
         let packet_id_raw = [0xd9, 0x07];
-        PacketZcShortcutKeyListV2 {
+        PacketZcShortcutKeyList {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -148101,7 +148101,7 @@ impl PacketZcShortcutKeyListV2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcShortcutKeyListV2::new(packetver);
+        let mut packet = PacketZcShortcutKeyList::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/short_cut_key")) {
             if let Some(value) = entry.value {
             }
@@ -148110,12 +148110,12 @@ impl PacketZcShortcutKeyListV2 {
     }
 }
 
-impl Packet for PacketZcShortcutKeyListV2 {
+impl Packet for PacketZcShortcutKeyList {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcShortcutKeyListV2::packet_id(packetver)
+       PacketZcShortcutKeyList::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcShortcutKeyListV2"
+       "PacketZcShortcutKeyList"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -149349,13 +149349,13 @@ impl Packet for PacketZcSeekPartyMember {
     }
 }
 
-impl PacketZcEsNotiMyinfo {
+impl PacketZcEsNotiMyInfo {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe007"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsNotiMyinfo {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcEsNotiMyInfo {
         let mut offset: usize = 0;
-        PacketZcEsNotiMyinfo {
+        PacketZcEsNotiMyInfo {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -149417,10 +149417,10 @@ impl PacketZcEsNotiMyinfo {
     pub fn set_esname_raw(&mut self, value: [u8; 54]) {
         self.esname_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcEsNotiMyinfo {
+    pub fn new(packetver: u32) -> PacketZcEsNotiMyInfo {
         let packet_id = i16::from_le_bytes([0xe0, 0x07]);
         let packet_id_raw = [0xe0, 0x07];
-        PacketZcEsNotiMyinfo {
+        PacketZcEsNotiMyInfo {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -149432,7 +149432,7 @@ impl PacketZcEsNotiMyinfo {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcEsNotiMyinfo::new(packetver);
+        let mut packet = PacketZcEsNotiMyInfo::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/es_no")) {
             if let Some(value) = entry.value {
                 packet.set_es_no(value.parse().map_err(|_| format!("Invalid value {} for es_no", value))?);
@@ -149454,12 +149454,12 @@ impl PacketZcEsNotiMyinfo {
     }
 }
 
-impl Packet for PacketZcEsNotiMyinfo {
+impl Packet for PacketZcEsNotiMyInfo {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcEsNotiMyinfo::packet_id(packetver)
+       PacketZcEsNotiMyInfo::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcEsNotiMyinfo"
+       "PacketZcEsNotiMyInfo"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -149520,13 +149520,13 @@ impl Packet for PacketZcEsNotiMyinfo {
     }
 }
 
-impl PacketZcSkillinfoUpdate2 {
+impl PacketZcSkillInfoUpdateWithType {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe107"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillinfoUpdate2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSkillInfoUpdateWithType {
         let mut offset: usize = 0;
-        PacketZcSkillinfoUpdate2 {
+        PacketZcSkillInfoUpdateWithType {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -149646,10 +149646,10 @@ impl PacketZcSkillinfoUpdate2 {
     pub fn set_upgradable_raw(&mut self, value: [u8; 1]) {
         self.upgradable_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSkillinfoUpdate2 {
+    pub fn new(packetver: u32) -> PacketZcSkillInfoUpdateWithType {
         let packet_id = i16::from_le_bytes([0xe1, 0x07]);
         let packet_id_raw = [0xe1, 0x07];
-        PacketZcSkillinfoUpdate2 {
+        PacketZcSkillInfoUpdateWithType {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -149669,7 +149669,7 @@ impl PacketZcSkillinfoUpdate2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSkillinfoUpdate2::new(packetver);
+        let mut packet = PacketZcSkillInfoUpdateWithType::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/skid")) {
             if let Some(value) = entry.value {
                 packet.set_skid(value.parse().map_err(|_| format!("Invalid value {} for skid", value))?);
@@ -149704,12 +149704,12 @@ impl PacketZcSkillinfoUpdate2 {
     }
 }
 
-impl Packet for PacketZcSkillinfoUpdate2 {
+impl Packet for PacketZcSkillInfoUpdateWithType {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSkillinfoUpdate2::packet_id(packetver)
+       PacketZcSkillInfoUpdateWithType::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSkillinfoUpdate2"
+       "PacketZcSkillInfoUpdateWithType"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -149944,13 +149944,13 @@ impl Packet for PacketZcMsgValue {
     }
 }
 
-impl PacketZcItemlistwinOpen {
+impl PacketZcItemListWinOpen {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe307"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemlistwinOpen {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcItemListWinOpen {
         let mut offset: usize = 0;
-        PacketZcItemlistwinOpen {
+        PacketZcItemListWinOpen {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -149990,10 +149990,10 @@ impl PacketZcItemlistwinOpen {
     pub fn set_atype_raw(&mut self, value: [u8; 4]) {
         self.atype_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcItemlistwinOpen {
+    pub fn new(packetver: u32) -> PacketZcItemListWinOpen {
         let packet_id = i16::from_le_bytes([0xe3, 0x07]);
         let packet_id_raw = [0xe3, 0x07];
-        PacketZcItemlistwinOpen {
+        PacketZcItemListWinOpen {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -150003,7 +150003,7 @@ impl PacketZcItemlistwinOpen {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcItemlistwinOpen::new(packetver);
+        let mut packet = PacketZcItemListWinOpen::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -150013,12 +150013,12 @@ impl PacketZcItemlistwinOpen {
     }
 }
 
-impl Packet for PacketZcItemlistwinOpen {
+impl Packet for PacketZcItemListWinOpen {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcItemlistwinOpen::packet_id(packetver)
+       PacketZcItemListWinOpen::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcItemlistwinOpen"
+       "PacketZcItemListWinOpen"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -150072,13 +150072,13 @@ impl Packet for PacketZcItemlistwinOpen {
     }
 }
 
-impl PacketCzItemlistwinRes {
+impl PacketCzItemListWinRes {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe407"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemlistwinRes {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzItemListWinRes {
         let mut offset: usize = 0;
-        PacketCzItemlistwinRes {
+        PacketCzItemListWinRes {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -150166,10 +150166,10 @@ impl PacketCzItemlistwinRes {
     pub fn set_material_list_raw(&mut self, value: [u8; 2]) {
         self.material_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzItemlistwinRes {
+    pub fn new(packetver: u32) -> PacketCzItemListWinRes {
         let packet_id = i16::from_le_bytes([0xe4, 0x07]);
         let packet_id_raw = [0xe4, 0x07];
-        PacketCzItemlistwinRes {
+        PacketCzItemListWinRes {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -150185,7 +150185,7 @@ impl PacketCzItemlistwinRes {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzItemlistwinRes::new(packetver);
+        let mut packet = PacketCzItemListWinRes::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -150210,12 +150210,12 @@ impl PacketCzItemlistwinRes {
     }
 }
 
-impl Packet for PacketCzItemlistwinRes {
+impl Packet for PacketCzItemListWinRes {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzItemlistwinRes::packet_id(packetver)
+       PacketCzItemListWinRes::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzItemlistwinRes"
+       "PacketCzItemListWinRes"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -150284,13 +150284,13 @@ impl Packet for PacketCzItemlistwinRes {
     }
 }
 
-impl PacketChEnterCheckbot {
+impl PacketChEnterCheckBot {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe507"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnterCheckbot {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChEnterCheckBot {
         let mut offset: usize = 0;
-        PacketChEnterCheckbot {
+        PacketChEnterCheckBot {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -150361,10 +150361,10 @@ impl PacketChEnterCheckbot {
     pub fn set_sz_string_info_raw(&mut self, value: Vec<u8>) {
         self.sz_string_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChEnterCheckbot {
+    pub fn new(packetver: u32) -> PacketChEnterCheckBot {
         let packet_id = i16::from_le_bytes([0xe5, 0x07]);
         let packet_id_raw = [0xe5, 0x07];
-        PacketChEnterCheckbot {
+        PacketChEnterCheckBot {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -150378,7 +150378,7 @@ impl PacketChEnterCheckbot {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChEnterCheckbot::new(packetver);
+        let mut packet = PacketChEnterCheckBot::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -150398,12 +150398,12 @@ impl PacketChEnterCheckbot {
     }
 }
 
-impl Packet for PacketChEnterCheckbot {
+impl Packet for PacketChEnterCheckBot {
     fn id(&self, packetver: u32) -> &str {
-       PacketChEnterCheckbot::packet_id(packetver)
+       PacketChEnterCheckBot::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChEnterCheckbot"
+       "PacketChEnterCheckBot"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -150621,13 +150621,13 @@ impl Packet for PacketZcMsgSkill {
     }
 }
 
-impl PacketChCheckbot {
+impl PacketChCheckBot {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe707"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChCheckbot {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChCheckBot {
         let mut offset: usize = 0;
-        PacketChCheckbot {
+        PacketChCheckBot {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -150705,10 +150705,10 @@ impl PacketChCheckbot {
     pub fn set_sz_string_info_raw(&mut self, value: [u8; 24]) {
         self.sz_string_info_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChCheckbot {
+    pub fn new(packetver: u32) -> PacketChCheckBot {
         let packet_id = i16::from_le_bytes([0xe7, 0x07]);
         let packet_id_raw = [0xe7, 0x07];
-        PacketChCheckbot {
+        PacketChCheckBot {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -150722,7 +150722,7 @@ impl PacketChCheckbot {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChCheckbot::new(packetver);
+        let mut packet = PacketChCheckBot::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -150749,12 +150749,12 @@ impl PacketChCheckbot {
     }
 }
 
-impl Packet for PacketChCheckbot {
+impl Packet for PacketChCheckBot {
     fn id(&self, packetver: u32) -> &str {
-       PacketChCheckbot::packet_id(packetver)
+       PacketChCheckBot::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChCheckbot"
+       "PacketChCheckBot"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -150820,13 +150820,13 @@ impl Packet for PacketChCheckbot {
     }
 }
 
-impl PacketHcCheckbot {
+impl PacketHcCheckBot {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe807"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckbot {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckBot {
         let mut offset: usize = 0;
-        PacketHcCheckbot {
+        PacketHcCheckBot {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -150881,10 +150881,10 @@ impl PacketHcCheckbot {
     pub fn set_img_raw(&mut self, value: Vec<u8>) {
         self.img_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcCheckbot {
+    pub fn new(packetver: u32) -> PacketHcCheckBot {
         let packet_id = i16::from_le_bytes([0xe8, 0x07]);
         let packet_id_raw = [0xe8, 0x07];
-        PacketHcCheckbot {
+        PacketHcCheckBot {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -150896,7 +150896,7 @@ impl PacketHcCheckbot {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcCheckbot::new(packetver);
+        let mut packet = PacketHcCheckBot::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -150911,12 +150911,12 @@ impl PacketHcCheckbot {
     }
 }
 
-impl Packet for PacketHcCheckbot {
+impl Packet for PacketHcCheckBot {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcCheckbot::packet_id(packetver)
+       PacketHcCheckBot::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcCheckbot"
+       "PacketHcCheckBot"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -150973,13 +150973,13 @@ impl Packet for PacketHcCheckbot {
     }
 }
 
-impl PacketHcCheckbotResult {
+impl PacketHcCheckBotResult {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xe907"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckbotResult {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcCheckBotResult {
         let mut offset: usize = 0;
-        PacketHcCheckbotResult {
+        PacketHcCheckBotResult {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -151035,10 +151035,10 @@ impl PacketHcCheckbotResult {
     pub fn set_result_raw(&mut self, value: [u8; 1]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcCheckbotResult {
+    pub fn new(packetver: u32) -> PacketHcCheckBotResult {
         let packet_id = i16::from_le_bytes([0xe9, 0x07]);
         let packet_id_raw = [0xe9, 0x07];
-        PacketHcCheckbotResult {
+        PacketHcCheckBotResult {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -151050,7 +151050,7 @@ impl PacketHcCheckbotResult {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcCheckbotResult::new(packetver);
+        let mut packet = PacketHcCheckBotResult::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -151065,12 +151065,12 @@ impl PacketHcCheckbotResult {
     }
 }
 
-impl Packet for PacketHcCheckbotResult {
+impl Packet for PacketHcCheckBotResult {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcCheckbotResult::packet_id(packetver)
+       PacketHcCheckBotResult::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcCheckbotResult"
+       "PacketHcCheckBotResult"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -152940,13 +152940,13 @@ impl Packet for PacketZcBattleJoinDisableState {
     }
 }
 
-impl PacketCzGmFullstrip {
+impl PacketCzGmFullStrip {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xf507"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGmFullstrip {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzGmFullStrip {
         let mut offset: usize = 0;
-        PacketCzGmFullstrip {
+        PacketCzGmFullStrip {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -152986,10 +152986,10 @@ impl PacketCzGmFullstrip {
     pub fn set_target_aid_raw(&mut self, value: [u8; 4]) {
         self.target_aid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzGmFullstrip {
+    pub fn new(packetver: u32) -> PacketCzGmFullStrip {
         let packet_id = i16::from_le_bytes([0xf5, 0x07]);
         let packet_id_raw = [0xf5, 0x07];
-        PacketCzGmFullstrip {
+        PacketCzGmFullStrip {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -152999,7 +152999,7 @@ impl PacketCzGmFullstrip {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzGmFullstrip::new(packetver);
+        let mut packet = PacketCzGmFullStrip::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/target_aid")) {
             if let Some(value) = entry.value {
                 packet.set_target_aid(value.parse().map_err(|_| format!("Invalid value {} for target_aid", value))?);
@@ -153009,12 +153009,12 @@ impl PacketCzGmFullstrip {
     }
 }
 
-impl Packet for PacketCzGmFullstrip {
+impl Packet for PacketCzGmFullStrip {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzGmFullstrip::packet_id(packetver)
+       PacketCzGmFullStrip::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzGmFullstrip"
+       "PacketCzGmFullStrip"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -153280,7 +153280,7 @@ impl Packet for PacketZcNotifyExp {
     }
 }
 
-impl PacketZcNotifyMoveentry7 {
+impl PacketZcNotifyMoveEntryNoHp {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20101124 {
             "0x5608"
@@ -153290,9 +153290,9 @@ impl PacketZcNotifyMoveentry7 {
             "0xf707"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry7 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveEntryNoHp {
         let mut offset: usize = 0;
-        PacketZcNotifyMoveentry7 {
+        PacketZcNotifyMoveEntryNoHp {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -153795,7 +153795,7 @@ impl PacketZcNotifyMoveentry7 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMoveentry7 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMoveEntryNoHp {
         let (packet_id, packet_id_raw) = if packetver >= 20101124 {
             (i16::from_le_bytes([0x56, 0x08]), [0x56, 0x08])
         } else if packetver >= 20091103 {
@@ -153803,7 +153803,7 @@ impl PacketZcNotifyMoveentry7 {
         } else {
             (i16::from_le_bytes([0xf7, 0x07]), [0xf7, 0x07])
         };
-        PacketZcNotifyMoveentry7 {
+        PacketZcNotifyMoveEntryNoHp {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -153869,7 +153869,7 @@ impl PacketZcNotifyMoveentry7 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMoveentry7::new(packetver);
+        let mut packet = PacketZcNotifyMoveEntryNoHp::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -154018,12 +154018,12 @@ impl PacketZcNotifyMoveentry7 {
     }
 }
 
-impl Packet for PacketZcNotifyMoveentry7 {
+impl Packet for PacketZcNotifyMoveEntryNoHp {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMoveentry7::packet_id(packetver)
+       PacketZcNotifyMoveEntryNoHp::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMoveentry7"
+       "PacketZcNotifyMoveEntryNoHp"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -154223,7 +154223,7 @@ impl Packet for PacketZcNotifyMoveentry7 {
     }
 }
 
-impl PacketZcNotifyNewentry5 {
+impl PacketZcNotifyNewEntryNoHp {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20101124 {
             "0x5808"
@@ -154233,9 +154233,9 @@ impl PacketZcNotifyNewentry5 {
             "0xf807"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry5 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewEntryNoHp {
         let mut offset: usize = 0;
-        PacketZcNotifyNewentry5 {
+        PacketZcNotifyNewEntryNoHp {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -154722,7 +154722,7 @@ impl PacketZcNotifyNewentry5 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyNewentry5 {
+    pub fn new(packetver: u32) -> PacketZcNotifyNewEntryNoHp {
         let (packet_id, packet_id_raw) = if packetver >= 20101124 {
             (i16::from_le_bytes([0x58, 0x08]), [0x58, 0x08])
         } else if packetver >= 20091103 {
@@ -154730,7 +154730,7 @@ impl PacketZcNotifyNewentry5 {
         } else {
             (i16::from_le_bytes([0xf8, 0x07]), [0xf8, 0x07])
         };
-        PacketZcNotifyNewentry5 {
+        PacketZcNotifyNewEntryNoHp {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -154794,7 +154794,7 @@ impl PacketZcNotifyNewentry5 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyNewentry5::new(packetver);
+        let mut packet = PacketZcNotifyNewEntryNoHp::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -154946,12 +154946,12 @@ impl PacketZcNotifyNewentry5 {
     }
 }
 
-impl Packet for PacketZcNotifyNewentry5 {
+impl Packet for PacketZcNotifyNewEntryNoHp {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyNewentry5::packet_id(packetver)
+       PacketZcNotifyNewEntryNoHp::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyNewentry5"
+       "PacketZcNotifyNewEntryNoHp"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -155149,7 +155149,7 @@ impl Packet for PacketZcNotifyNewentry5 {
     }
 }
 
-impl PacketZcNotifyStandentry5 {
+impl PacketZcNotifyStandEntryNoHp {
     pub fn packet_id(packetver: u32) -> &'static str {
         if packetver >= 20101124 {
             "0x5708"
@@ -155159,9 +155159,9 @@ impl PacketZcNotifyStandentry5 {
             "0xf907"
         }
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry5 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntryNoHp {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentry5 {
+        PacketZcNotifyStandEntryNoHp {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -155664,7 +155664,7 @@ impl PacketZcNotifyStandentry5 {
     pub fn set_font_raw(&mut self, value: [u8; 2]) {
         self.font_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentry5 {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntryNoHp {
         let (packet_id, packet_id_raw) = if packetver >= 20101124 {
             (i16::from_le_bytes([0x57, 0x08]), [0x57, 0x08])
         } else if packetver >= 20091103 {
@@ -155672,7 +155672,7 @@ impl PacketZcNotifyStandentry5 {
         } else {
             (i16::from_le_bytes([0xf9, 0x07]), [0xf9, 0x07])
         };
-        PacketZcNotifyStandentry5 {
+        PacketZcNotifyStandEntryNoHp {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -155738,7 +155738,7 @@ impl PacketZcNotifyStandentry5 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentry5::new(packetver);
+        let mut packet = PacketZcNotifyStandEntryNoHp::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -155895,12 +155895,12 @@ impl PacketZcNotifyStandentry5 {
     }
 }
 
-impl Packet for PacketZcNotifyStandentry5 {
+impl Packet for PacketZcNotifyStandEntryNoHp {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentry5::packet_id(packetver)
+       PacketZcNotifyStandEntryNoHp::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentry5"
+       "PacketZcNotifyStandEntryNoHp"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -156287,13 +156287,13 @@ impl Packet for PacketZcDeleteItemFromBody {
     }
 }
 
-impl PacketZcUseskillAck2 {
+impl PacketZcUseSkillAck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xfb07"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseskillAck2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcUseSkillAck {
         let mut offset: usize = 0;
-        PacketZcUseskillAck2 {
+        PacketZcUseSkillAck {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -156445,10 +156445,10 @@ impl PacketZcUseskillAck2 {
     pub fn set_is_disposable_raw(&mut self, value: [u8; 1]) {
         self.is_disposable_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcUseskillAck2 {
+    pub fn new(packetver: u32) -> PacketZcUseSkillAck {
         let packet_id = i16::from_le_bytes([0xfb, 0x07]);
         let packet_id_raw = [0xfb, 0x07];
-        PacketZcUseskillAck2 {
+        PacketZcUseSkillAck {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -156472,7 +156472,7 @@ impl PacketZcUseskillAck2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcUseskillAck2::new(packetver);
+        let mut packet = PacketZcUseSkillAck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -156517,12 +156517,12 @@ impl PacketZcUseskillAck2 {
     }
 }
 
-impl Packet for PacketZcUseskillAck2 {
+impl Packet for PacketZcUseSkillAck {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcUseskillAck2::packet_id(packetver)
+       PacketZcUseSkillAck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcUseskillAck2"
+       "PacketZcUseSkillAck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -157066,11 +157066,11 @@ impl Packet for PacketZcDefineCheck {
     }
 }
 
-impl PacketZcPcPurchaseItemlistFrommc2 {
+impl PacketZcPcPurchaseItemListFromMc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0008"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemlistFrommc2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcPcPurchaseItemListFromMc {
         let mut offset: usize = 0;
         let vec_type_len = PurchaseItemFrommc::base_len(packetver);
         let vec_start: usize = 12;
@@ -157083,7 +157083,7 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
             vec_field.push(PurchaseItemFrommc::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcPcPurchaseItemlistFrommc2 {
+        PacketZcPcPurchaseItemListFromMc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -157171,10 +157171,10 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcPcPurchaseItemlistFrommc2 {
+    pub fn new(packetver: u32) -> PacketZcPcPurchaseItemListFromMc {
         let packet_id = i16::from_le_bytes([0x00, 0x08]);
         let packet_id_raw = [0x00, 0x08];
-        PacketZcPcPurchaseItemlistFrommc2 {
+        PacketZcPcPurchaseItemListFromMc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -157190,7 +157190,7 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcPcPurchaseItemlistFrommc2::new(packetver);
+        let mut packet = PacketZcPcPurchaseItemListFromMc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -157214,12 +157214,12 @@ impl PacketZcPcPurchaseItemlistFrommc2 {
     }
 }
 
-impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
+impl Packet for PacketZcPcPurchaseItemListFromMc {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcPcPurchaseItemlistFrommc2::packet_id(packetver)
+       PacketZcPcPurchaseItemListFromMc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcPcPurchaseItemlistFrommc2"
+       "PacketZcPcPurchaseItemListFromMc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -157289,11 +157289,11 @@ impl Packet for PacketZcPcPurchaseItemlistFrommc2 {
     }
 }
 
-impl PacketCzPcPurchaseItemlistFrommc2 {
+impl PacketCzPcPurchaseItemListFromMc {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0108"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemlistFrommc2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzPcPurchaseItemListFromMc {
         let mut offset: usize = 0;
         let vec_type_len = CzPurchaseItemFrommc::base_len(packetver);
         let vec_start: usize = 12;
@@ -157306,7 +157306,7 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
             vec_field.push(CzPurchaseItemFrommc::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketCzPcPurchaseItemlistFrommc2 {
+        PacketCzPcPurchaseItemListFromMc {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -157394,10 +157394,10 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzPcPurchaseItemlistFrommc2 {
+    pub fn new(packetver: u32) -> PacketCzPcPurchaseItemListFromMc {
         let packet_id = i16::from_le_bytes([0x01, 0x08]);
         let packet_id_raw = [0x01, 0x08];
-        PacketCzPcPurchaseItemlistFrommc2 {
+        PacketCzPcPurchaseItemListFromMc {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -157413,7 +157413,7 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzPcPurchaseItemlistFrommc2::new(packetver);
+        let mut packet = PacketCzPcPurchaseItemListFromMc::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -157437,12 +157437,12 @@ impl PacketCzPcPurchaseItemlistFrommc2 {
     }
 }
 
-impl Packet for PacketCzPcPurchaseItemlistFrommc2 {
+impl Packet for PacketCzPcPurchaseItemListFromMc {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzPcPurchaseItemlistFrommc2::packet_id(packetver)
+       PacketCzPcPurchaseItemListFromMc::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzPcPurchaseItemlistFrommc2"
+       "PacketCzPcPurchaseItemListFromMc"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -159126,13 +159126,13 @@ impl Packet for PacketZcPartyBookingNotifyDelete {
     }
 }
 
-impl PacketCzSimpleCashBtnshow {
+impl PacketCzSimpleCashBtnShow {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0c08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSimpleCashBtnshow {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSimpleCashBtnShow {
         let mut offset: usize = 0;
-        PacketCzSimpleCashBtnshow {
+        PacketCzSimpleCashBtnShow {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -159156,10 +159156,10 @@ impl PacketCzSimpleCashBtnshow {
     pub fn set_packet_id_raw(&mut self, value: [u8; 2]) {
         self.packet_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzSimpleCashBtnshow {
+    pub fn new(packetver: u32) -> PacketCzSimpleCashBtnShow {
         let packet_id = i16::from_le_bytes([0x0c, 0x08]);
         let packet_id_raw = [0x0c, 0x08];
-        PacketCzSimpleCashBtnshow {
+        PacketCzSimpleCashBtnShow {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -159167,17 +159167,17 @@ impl PacketCzSimpleCashBtnshow {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzSimpleCashBtnshow::new(packetver);
+        let mut packet = PacketCzSimpleCashBtnShow::new(packetver);
         Ok(packet)
     }
 }
 
-impl Packet for PacketCzSimpleCashBtnshow {
+impl Packet for PacketCzSimpleCashBtnShow {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzSimpleCashBtnshow::packet_id(packetver)
+       PacketCzSimpleCashBtnShow::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzSimpleCashBtnshow"
+       "PacketCzSimpleCashBtnShow"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -159226,13 +159226,13 @@ impl Packet for PacketCzSimpleCashBtnshow {
     }
 }
 
-impl PacketZcSimpleCashBtnshow {
+impl PacketZcSimpleCashBtnShow {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0d08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashBtnshow {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSimpleCashBtnShow {
         let mut offset: usize = 0;
-        PacketZcSimpleCashBtnshow {
+        PacketZcSimpleCashBtnShow {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -159272,10 +159272,10 @@ impl PacketZcSimpleCashBtnshow {
     pub fn set_show_raw(&mut self, value: [u8; 1]) {
         self.show_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSimpleCashBtnshow {
+    pub fn new(packetver: u32) -> PacketZcSimpleCashBtnShow {
         let packet_id = i16::from_le_bytes([0x0d, 0x08]);
         let packet_id_raw = [0x0d, 0x08];
-        PacketZcSimpleCashBtnshow {
+        PacketZcSimpleCashBtnShow {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -159285,7 +159285,7 @@ impl PacketZcSimpleCashBtnshow {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSimpleCashBtnshow::new(packetver);
+        let mut packet = PacketZcSimpleCashBtnShow::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/show")) {
             if let Some(value) = entry.value {
                 packet.set_show(value.parse().map_err(|_| format!("Invalid value {} for show", value))?);
@@ -159295,12 +159295,12 @@ impl PacketZcSimpleCashBtnshow {
     }
 }
 
-impl Packet for PacketZcSimpleCashBtnshow {
+impl Packet for PacketZcSimpleCashBtnShow {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSimpleCashBtnshow::packet_id(packetver)
+       PacketZcSimpleCashBtnShow::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSimpleCashBtnshow"
+       "PacketZcSimpleCashBtnShow"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -159354,13 +159354,13 @@ impl Packet for PacketZcSimpleCashBtnshow {
     }
 }
 
-impl PacketZcNotifyHpToGroupmR2 {
+impl PacketZcNotifyHpToGroupMember {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0e08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyHpToGroupmR2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyHpToGroupMember {
         let mut offset: usize = 0;
-        PacketZcNotifyHpToGroupmR2 {
+        PacketZcNotifyHpToGroupMember {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -159432,10 +159432,10 @@ impl PacketZcNotifyHpToGroupmR2 {
     pub fn set_maxhp_raw(&mut self, value: [u8; 4]) {
         self.maxhp_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyHpToGroupmR2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyHpToGroupMember {
         let packet_id = i16::from_le_bytes([0x0e, 0x08]);
         let packet_id_raw = [0x0e, 0x08];
-        PacketZcNotifyHpToGroupmR2 {
+        PacketZcNotifyHpToGroupMember {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -159449,7 +159449,7 @@ impl PacketZcNotifyHpToGroupmR2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyHpToGroupmR2::new(packetver);
+        let mut packet = PacketZcNotifyHpToGroupMember::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -159469,12 +159469,12 @@ impl PacketZcNotifyHpToGroupmR2 {
     }
 }
 
-impl Packet for PacketZcNotifyHpToGroupmR2 {
+impl Packet for PacketZcNotifyHpToGroupMember {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyHpToGroupmR2::packet_id(packetver)
+       PacketZcNotifyHpToGroupMember::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyHpToGroupmR2"
+       "PacketZcNotifyHpToGroupMember"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -159538,13 +159538,13 @@ impl Packet for PacketZcNotifyHpToGroupmR2 {
     }
 }
 
-impl PacketZcAddExchangeItem2 {
+impl PacketZcAddExchangeItem {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0f08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddExchangeItem2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAddExchangeItem {
         let mut offset: usize = 0;
-        PacketZcAddExchangeItem2 {
+        PacketZcAddExchangeItem {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -159680,10 +159680,10 @@ impl PacketZcAddExchangeItem2 {
     pub fn set_slot_raw(&mut self, value: [u8; 8]) {
         self.slot_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAddExchangeItem2 {
+    pub fn new(packetver: u32) -> PacketZcAddExchangeItem {
         let packet_id = i16::from_le_bytes([0x0f, 0x08]);
         let packet_id_raw = [0x0f, 0x08];
-        PacketZcAddExchangeItem2 {
+        PacketZcAddExchangeItem {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -159705,7 +159705,7 @@ impl PacketZcAddExchangeItem2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAddExchangeItem2::new(packetver);
+        let mut packet = PacketZcAddExchangeItem::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/itid")) {
             if let Some(value) = entry.value {
                 packet.set_itid(value.parse().map_err(|_| format!("Invalid value {} for itid", value))?);
@@ -159744,12 +159744,12 @@ impl PacketZcAddExchangeItem2 {
     }
 }
 
-impl Packet for PacketZcAddExchangeItem2 {
+impl Packet for PacketZcAddExchangeItem {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAddExchangeItem2::packet_id(packetver)
+       PacketZcAddExchangeItem::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAddExchangeItem2"
+       "PacketZcAddExchangeItem"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -160393,11 +160393,11 @@ impl Packet for PacketZcFailedOpenBuyingStoreToBuyer {
     }
 }
 
-impl PacketZcMyitemlistBuyingStore {
+impl PacketZcMyItemListBuyingStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1308"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMyitemlistBuyingStore {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcMyItemListBuyingStore {
         let mut offset: usize = 0;
         let vec_type_len = BuyingStoreItemlist::base_len(packetver);
         let vec_start: usize = 12;
@@ -160410,7 +160410,7 @@ impl PacketZcMyitemlistBuyingStore {
             vec_field.push(BuyingStoreItemlist::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcMyitemlistBuyingStore {
+        PacketZcMyItemListBuyingStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -160498,10 +160498,10 @@ impl PacketZcMyitemlistBuyingStore {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcMyitemlistBuyingStore {
+    pub fn new(packetver: u32) -> PacketZcMyItemListBuyingStore {
         let packet_id = i16::from_le_bytes([0x13, 0x08]);
         let packet_id_raw = [0x13, 0x08];
-        PacketZcMyitemlistBuyingStore {
+        PacketZcMyItemListBuyingStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -160517,7 +160517,7 @@ impl PacketZcMyitemlistBuyingStore {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcMyitemlistBuyingStore::new(packetver);
+        let mut packet = PacketZcMyItemListBuyingStore::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -160541,12 +160541,12 @@ impl PacketZcMyitemlistBuyingStore {
     }
 }
 
-impl Packet for PacketZcMyitemlistBuyingStore {
+impl Packet for PacketZcMyItemListBuyingStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcMyitemlistBuyingStore::packet_id(packetver)
+       PacketZcMyItemListBuyingStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcMyitemlistBuyingStore"
+       "PacketZcMyItemListBuyingStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -161165,11 +161165,11 @@ impl Packet for PacketCzReqClickToBuyingStore {
     }
 }
 
-impl PacketZcAckItemlistBuyingStore {
+impl PacketZcAckItemListBuyingStore {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1808"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemlistBuyingStore {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckItemListBuyingStore {
         let mut offset: usize = 0;
         let vec_type_len = BuyingStoreItemlist::base_len(packetver);
         let vec_start: usize = 16;
@@ -161182,7 +161182,7 @@ impl PacketZcAckItemlistBuyingStore {
             vec_field.push(BuyingStoreItemlist::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketZcAckItemlistBuyingStore {
+        PacketZcAckItemListBuyingStore {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -161286,10 +161286,10 @@ impl PacketZcAckItemlistBuyingStore {
     pub fn set_item_list_raw(&mut self, value: Vec<Vec<u8>>) {
         self.item_list_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckItemlistBuyingStore {
+    pub fn new(packetver: u32) -> PacketZcAckItemListBuyingStore {
         let packet_id = i16::from_le_bytes([0x18, 0x08]);
         let packet_id_raw = [0x18, 0x08];
-        PacketZcAckItemlistBuyingStore {
+        PacketZcAckItemListBuyingStore {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -161307,7 +161307,7 @@ impl PacketZcAckItemlistBuyingStore {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckItemlistBuyingStore::new(packetver);
+        let mut packet = PacketZcAckItemListBuyingStore::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -161336,12 +161336,12 @@ impl PacketZcAckItemlistBuyingStore {
     }
 }
 
-impl Packet for PacketZcAckItemlistBuyingStore {
+impl Packet for PacketZcAckItemListBuyingStore {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckItemlistBuyingStore::packet_id(packetver)
+       PacketZcAckItemListBuyingStore::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckItemlistBuyingStore"
+       "PacketZcAckItemListBuyingStore"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -162542,13 +162542,13 @@ impl Packet for PacketZcElParChange {
     }
 }
 
-impl PacketZcBroadcast4 {
+impl PacketZcBroadcastRgb {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1f08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcast4 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcBroadcastRgb {
         let mut offset: usize = 0;
-        PacketZcBroadcast4 {
+        PacketZcBroadcastRgb {
             pakcet_type: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -162635,10 +162635,10 @@ impl PacketZcBroadcast4 {
     pub fn set_msg_raw(&mut self, value: Vec<u8>) {
         self.msg_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcBroadcast4 {
+    pub fn new(packetver: u32) -> PacketZcBroadcastRgb {
         let packet_id = i16::from_le_bytes([0x1f, 0x08]);
         let packet_id_raw = [0x1f, 0x08];
-        PacketZcBroadcast4 {
+        PacketZcBroadcastRgb {
         raw: vec![],
         pakcet_type: 0,
         pakcet_type_raw: [0; 2],
@@ -162654,7 +162654,7 @@ impl PacketZcBroadcast4 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcBroadcast4::new(packetver);
+        let mut packet = PacketZcBroadcastRgb::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/pakcet_type")) {
             if let Some(value) = entry.value {
                 packet.set_pakcet_type(value.parse().map_err(|_| format!("Invalid value {} for pakcet_type", value))?);
@@ -162684,12 +162684,12 @@ impl PacketZcBroadcast4 {
     }
 }
 
-impl Packet for PacketZcBroadcast4 {
+impl Packet for PacketZcBroadcastRgb {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcBroadcast4::packet_id(packetver)
+       PacketZcBroadcastRgb::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcBroadcast4"
+       "PacketZcBroadcastRgb"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -163495,13 +163495,13 @@ impl Packet for PacketZcFailedTradeBuyingStoreToSeller {
     }
 }
 
-impl PacketCaSsoLoginReqa {
+impl PacketCaSsoLoginReqToken {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x5a82"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaSsoLoginReqa {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCaSsoLoginReqToken {
         let mut offset: usize = 0;
-        PacketCaSsoLoginReqa {
+        PacketCaSsoLoginReqToken {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -163654,10 +163654,10 @@ impl PacketCaSsoLoginReqa {
     pub fn set_t1_raw(&mut self, value: Vec<u8>) {
         self.t1_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCaSsoLoginReqa {
+    pub fn new(packetver: u32) -> PacketCaSsoLoginReqToken {
         let packet_id = i16::from_le_bytes([0x5a, 0x82]);
         let packet_id_raw = [0x5a, 0x82];
-        PacketCaSsoLoginReqa {
+        PacketCaSsoLoginReqToken {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -163679,7 +163679,7 @@ impl PacketCaSsoLoginReqa {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCaSsoLoginReqa::new(packetver);
+        let mut packet = PacketCaSsoLoginReqToken::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -163740,12 +163740,12 @@ impl PacketCaSsoLoginReqa {
     }
 }
 
-impl Packet for PacketCaSsoLoginReqa {
+impl Packet for PacketCaSsoLoginReqToken {
     fn id(&self, packetver: u32) -> &str {
-       PacketCaSsoLoginReqa::packet_id(packetver)
+       PacketCaSsoLoginReqToken::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCaSsoLoginReqa"
+       "PacketCaSsoLoginReqToken"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -164342,13 +164342,13 @@ impl Packet for PacketAcSsoLoginAck {
     }
 }
 
-impl PacketChDeleteChar3Reserved {
+impl PacketChDeleteCharReserved {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2708"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3Reserved {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteCharReserved {
         let mut offset: usize = 0;
-        PacketChDeleteChar3Reserved {
+        PacketChDeleteCharReserved {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -164388,10 +164388,10 @@ impl PacketChDeleteChar3Reserved {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChDeleteChar3Reserved {
+    pub fn new(packetver: u32) -> PacketChDeleteCharReserved {
         let packet_id = i16::from_le_bytes([0x27, 0x08]);
         let packet_id_raw = [0x27, 0x08];
-        PacketChDeleteChar3Reserved {
+        PacketChDeleteCharReserved {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -164401,7 +164401,7 @@ impl PacketChDeleteChar3Reserved {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChDeleteChar3Reserved::new(packetver);
+        let mut packet = PacketChDeleteCharReserved::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -164411,12 +164411,12 @@ impl PacketChDeleteChar3Reserved {
     }
 }
 
-impl Packet for PacketChDeleteChar3Reserved {
+impl Packet for PacketChDeleteCharReserved {
     fn id(&self, packetver: u32) -> &str {
-       PacketChDeleteChar3Reserved::packet_id(packetver)
+       PacketChDeleteCharReserved::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChDeleteChar3Reserved"
+       "PacketChDeleteCharReserved"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -164470,13 +164470,13 @@ impl Packet for PacketChDeleteChar3Reserved {
     }
 }
 
-impl PacketHcDeleteChar3Reserved {
+impl PacketHcDeleteCharReserved {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2808"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3Reserved {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteCharReserved {
         let mut offset: usize = 0;
-        PacketHcDeleteChar3Reserved {
+        PacketHcDeleteCharReserved {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -164548,10 +164548,10 @@ impl PacketHcDeleteChar3Reserved {
     pub fn set_delete_reserved_date_raw(&mut self, value: [u8; 4]) {
         self.delete_reserved_date_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcDeleteChar3Reserved {
+    pub fn new(packetver: u32) -> PacketHcDeleteCharReserved {
         let packet_id = i16::from_le_bytes([0x28, 0x08]);
         let packet_id_raw = [0x28, 0x08];
-        PacketHcDeleteChar3Reserved {
+        PacketHcDeleteCharReserved {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -164565,7 +164565,7 @@ impl PacketHcDeleteChar3Reserved {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcDeleteChar3Reserved::new(packetver);
+        let mut packet = PacketHcDeleteCharReserved::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -164585,12 +164585,12 @@ impl PacketHcDeleteChar3Reserved {
     }
 }
 
-impl Packet for PacketHcDeleteChar3Reserved {
+impl Packet for PacketHcDeleteCharReserved {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcDeleteChar3Reserved::packet_id(packetver)
+       PacketHcDeleteCharReserved::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcDeleteChar3Reserved"
+       "PacketHcDeleteCharReserved"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -164654,13 +164654,13 @@ impl Packet for PacketHcDeleteChar3Reserved {
     }
 }
 
-impl PacketChDeleteChar3 {
+impl PacketChDeleteCharAccept {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2908"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteCharAccept {
         let mut offset: usize = 0;
-        PacketChDeleteChar3 {
+        PacketChDeleteCharAccept {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -164722,10 +164722,10 @@ impl PacketChDeleteChar3 {
     pub fn set_birth_raw(&mut self, value: [u8; 6]) {
         self.birth_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChDeleteChar3 {
+    pub fn new(packetver: u32) -> PacketChDeleteCharAccept {
         let packet_id = i16::from_le_bytes([0x29, 0x08]);
         let packet_id_raw = [0x29, 0x08];
-        PacketChDeleteChar3 {
+        PacketChDeleteCharAccept {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -164737,7 +164737,7 @@ impl PacketChDeleteChar3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChDeleteChar3::new(packetver);
+        let mut packet = PacketChDeleteCharAccept::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -164759,12 +164759,12 @@ impl PacketChDeleteChar3 {
     }
 }
 
-impl Packet for PacketChDeleteChar3 {
+impl Packet for PacketChDeleteCharAccept {
     fn id(&self, packetver: u32) -> &str {
-       PacketChDeleteChar3::packet_id(packetver)
+       PacketChDeleteCharAccept::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChDeleteChar3"
+       "PacketChDeleteCharAccept"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -164825,13 +164825,13 @@ impl Packet for PacketChDeleteChar3 {
     }
 }
 
-impl PacketHcDeleteChar3 {
+impl PacketHcDeleteCharAccept {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2a08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteCharAccept {
         let mut offset: usize = 0;
-        PacketHcDeleteChar3 {
+        PacketHcDeleteCharAccept {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -164887,10 +164887,10 @@ impl PacketHcDeleteChar3 {
     pub fn set_result_raw(&mut self, value: [u8; 4]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcDeleteChar3 {
+    pub fn new(packetver: u32) -> PacketHcDeleteCharAccept {
         let packet_id = i16::from_le_bytes([0x2a, 0x08]);
         let packet_id_raw = [0x2a, 0x08];
-        PacketHcDeleteChar3 {
+        PacketHcDeleteCharAccept {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -164902,7 +164902,7 @@ impl PacketHcDeleteChar3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcDeleteChar3::new(packetver);
+        let mut packet = PacketHcDeleteCharAccept::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -164917,12 +164917,12 @@ impl PacketHcDeleteChar3 {
     }
 }
 
-impl Packet for PacketHcDeleteChar3 {
+impl Packet for PacketHcDeleteCharAccept {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcDeleteChar3::packet_id(packetver)
+       PacketHcDeleteCharAccept::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcDeleteChar3"
+       "PacketHcDeleteCharAccept"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -164981,13 +164981,13 @@ impl Packet for PacketHcDeleteChar3 {
     }
 }
 
-impl PacketChDeleteChar3Cancel {
+impl PacketChDeleteCharCancel {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2b08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteChar3Cancel {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChDeleteCharCancel {
         let mut offset: usize = 0;
-        PacketChDeleteChar3Cancel {
+        PacketChDeleteCharCancel {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -165027,10 +165027,10 @@ impl PacketChDeleteChar3Cancel {
     pub fn set_gid_raw(&mut self, value: [u8; 4]) {
         self.gid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChDeleteChar3Cancel {
+    pub fn new(packetver: u32) -> PacketChDeleteCharCancel {
         let packet_id = i16::from_le_bytes([0x2b, 0x08]);
         let packet_id_raw = [0x2b, 0x08];
-        PacketChDeleteChar3Cancel {
+        PacketChDeleteCharCancel {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -165040,7 +165040,7 @@ impl PacketChDeleteChar3Cancel {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChDeleteChar3Cancel::new(packetver);
+        let mut packet = PacketChDeleteCharCancel::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -165050,12 +165050,12 @@ impl PacketChDeleteChar3Cancel {
     }
 }
 
-impl Packet for PacketChDeleteChar3Cancel {
+impl Packet for PacketChDeleteCharCancel {
     fn id(&self, packetver: u32) -> &str {
-       PacketChDeleteChar3Cancel::packet_id(packetver)
+       PacketChDeleteCharCancel::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChDeleteChar3Cancel"
+       "PacketChDeleteCharCancel"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -165109,13 +165109,13 @@ impl Packet for PacketChDeleteChar3Cancel {
     }
 }
 
-impl PacketHcDeleteChar3Cancel {
+impl PacketHcDeleteCharCancel {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x2c08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteChar3Cancel {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcDeleteCharCancel {
         let mut offset: usize = 0;
-        PacketHcDeleteChar3Cancel {
+        PacketHcDeleteCharCancel {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -165171,10 +165171,10 @@ impl PacketHcDeleteChar3Cancel {
     pub fn set_result_raw(&mut self, value: [u8; 4]) {
         self.result_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcDeleteChar3Cancel {
+    pub fn new(packetver: u32) -> PacketHcDeleteCharCancel {
         let packet_id = i16::from_le_bytes([0x2c, 0x08]);
         let packet_id_raw = [0x2c, 0x08];
-        PacketHcDeleteChar3Cancel {
+        PacketHcDeleteCharCancel {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -165186,7 +165186,7 @@ impl PacketHcDeleteChar3Cancel {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcDeleteChar3Cancel::new(packetver);
+        let mut packet = PacketHcDeleteCharCancel::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -165201,12 +165201,12 @@ impl PacketHcDeleteChar3Cancel {
     }
 }
 
-impl Packet for PacketHcDeleteChar3Cancel {
+impl Packet for PacketHcDeleteCharCancel {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcDeleteChar3Cancel::packet_id(packetver)
+       PacketHcDeleteCharCancel::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcDeleteChar3Cancel"
+       "PacketHcDeleteCharCancel"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -166476,13 +166476,13 @@ impl Packet for PacketCzCloseSearchStoreInfo {
     }
 }
 
-impl PacketCzSsilistItemClick {
+impl PacketCzSsiListItemClick {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3c08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSsilistItemClick {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketCzSsiListItemClick {
         let mut offset: usize = 0;
-        PacketCzSsilistItemClick {
+        PacketCzSsiListItemClick {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -166554,10 +166554,10 @@ impl PacketCzSsilistItemClick {
     pub fn set_itid_raw(&mut self, value: [u8; 2]) {
         self.itid_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketCzSsilistItemClick {
+    pub fn new(packetver: u32) -> PacketCzSsiListItemClick {
         let packet_id = i16::from_le_bytes([0x3c, 0x08]);
         let packet_id_raw = [0x3c, 0x08];
-        PacketCzSsilistItemClick {
+        PacketCzSsiListItemClick {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -166571,7 +166571,7 @@ impl PacketCzSsilistItemClick {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketCzSsilistItemClick::new(packetver);
+        let mut packet = PacketCzSsiListItemClick::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/aid")) {
             if let Some(value) = entry.value {
                 packet.set_aid(value.parse().map_err(|_| format!("Invalid value {} for aid", value))?);
@@ -166591,12 +166591,12 @@ impl PacketCzSsilistItemClick {
     }
 }
 
-impl Packet for PacketCzSsilistItemClick {
+impl Packet for PacketCzSsiListItemClick {
     fn id(&self, packetver: u32) -> &str {
-       PacketCzSsilistItemClick::packet_id(packetver)
+       PacketCzSsiListItemClick::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketCzSsilistItemClick"
+       "PacketCzSsiListItemClick"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -166660,13 +166660,13 @@ impl Packet for PacketCzSsilistItemClick {
     }
 }
 
-impl PacketZcSsilistItemClickAck {
+impl PacketZcSsiListItemClickAck {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3d08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSsilistItemClickAck {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcSsiListItemClickAck {
         let mut offset: usize = 0;
-        PacketZcSsilistItemClickAck {
+        PacketZcSsiListItemClickAck {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -166722,10 +166722,10 @@ impl PacketZcSsilistItemClickAck {
     pub fn set_y_raw(&mut self, value: [u8; 2]) {
         self.y_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcSsilistItemClickAck {
+    pub fn new(packetver: u32) -> PacketZcSsiListItemClickAck {
         let packet_id = i16::from_le_bytes([0x3d, 0x08]);
         let packet_id_raw = [0x3d, 0x08];
-        PacketZcSsilistItemClickAck {
+        PacketZcSsiListItemClickAck {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -166737,7 +166737,7 @@ impl PacketZcSsilistItemClickAck {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcSsilistItemClickAck::new(packetver);
+        let mut packet = PacketZcSsiListItemClickAck::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/x")) {
             if let Some(value) = entry.value {
                 packet.set_x(value.parse().map_err(|_| format!("Invalid value {} for x", value))?);
@@ -166752,12 +166752,12 @@ impl PacketZcSsilistItemClickAck {
     }
 }
 
-impl Packet for PacketZcSsilistItemClickAck {
+impl Packet for PacketZcSsiListItemClickAck {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcSsilistItemClickAck::packet_id(packetver)
+       PacketZcSsiListItemClickAck::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcSsilistItemClickAck"
+       "PacketZcSsiListItemClickAck"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -166816,13 +166816,13 @@ impl Packet for PacketZcSsilistItemClickAck {
     }
 }
 
-impl PacketAcRefuseLoginR2 {
+impl PacketAcRefuseLoginIntCode {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x3e08"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginR2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketAcRefuseLoginIntCode {
         let mut offset: usize = 0;
-        PacketAcRefuseLoginR2 {
+        PacketAcRefuseLoginIntCode {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -166884,10 +166884,10 @@ impl PacketAcRefuseLoginR2 {
     pub fn set_block_date_raw(&mut self, value: [u8; 20]) {
         self.block_date_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketAcRefuseLoginR2 {
+    pub fn new(packetver: u32) -> PacketAcRefuseLoginIntCode {
         let packet_id = i16::from_le_bytes([0x3e, 0x08]);
         let packet_id_raw = [0x3e, 0x08];
-        PacketAcRefuseLoginR2 {
+        PacketAcRefuseLoginIntCode {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -166899,7 +166899,7 @@ impl PacketAcRefuseLoginR2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketAcRefuseLoginR2::new(packetver);
+        let mut packet = PacketAcRefuseLoginIntCode::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/error_code")) {
             if let Some(value) = entry.value {
                 packet.set_error_code(value.parse().map_err(|_| format!("Invalid value {} for error_code", value))?);
@@ -166921,12 +166921,12 @@ impl PacketAcRefuseLoginR2 {
     }
 }
 
-impl Packet for PacketAcRefuseLoginR2 {
+impl Packet for PacketAcRefuseLoginIntCode {
     fn id(&self, packetver: u32) -> &str {
-       PacketAcRefuseLoginR2::packet_id(packetver)
+       PacketAcRefuseLoginIntCode::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketAcRefuseLoginR2"
+       "PacketAcRefuseLoginIntCode"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -166987,13 +166987,13 @@ impl Packet for PacketAcRefuseLoginR2 {
     }
 }
 
-impl PacketChSelectAccessibleMapname {
+impl PacketChSelectAccessibleMapName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4108"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectAccessibleMapname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChSelectAccessibleMapName {
         let mut offset: usize = 0;
-        PacketChSelectAccessibleMapname {
+        PacketChSelectAccessibleMapName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -167049,10 +167049,10 @@ impl PacketChSelectAccessibleMapname {
     pub fn set_map_list_num_raw(&mut self, value: [u8; 1]) {
         self.map_list_num_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChSelectAccessibleMapname {
+    pub fn new(packetver: u32) -> PacketChSelectAccessibleMapName {
         let packet_id = i16::from_le_bytes([0x41, 0x08]);
         let packet_id_raw = [0x41, 0x08];
-        PacketChSelectAccessibleMapname {
+        PacketChSelectAccessibleMapName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -167064,7 +167064,7 @@ impl PacketChSelectAccessibleMapname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChSelectAccessibleMapname::new(packetver);
+        let mut packet = PacketChSelectAccessibleMapName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/char_num")) {
             if let Some(value) = entry.value {
                 packet.set_char_num(value.parse().map_err(|_| format!("Invalid value {} for char_num", value))?);
@@ -167079,12 +167079,12 @@ impl PacketChSelectAccessibleMapname {
     }
 }
 
-impl Packet for PacketChSelectAccessibleMapname {
+impl Packet for PacketChSelectAccessibleMapName {
     fn id(&self, packetver: u32) -> &str {
-       PacketChSelectAccessibleMapname::packet_id(packetver)
+       PacketChSelectAccessibleMapName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChSelectAccessibleMapname"
+       "PacketChSelectAccessibleMapName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -167143,11 +167143,11 @@ impl Packet for PacketChSelectAccessibleMapname {
     }
 }
 
-impl PacketHcNotifyAccessibleMapname {
+impl PacketHcNotifyAccessibleMapName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x4008"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcNotifyAccessibleMapname {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcNotifyAccessibleMapName {
         let mut offset: usize = 0;
         let vec_type_len = AccessibleMapnameInfo::base_len(packetver);
         let vec_start: usize = 4;
@@ -167160,7 +167160,7 @@ impl PacketHcNotifyAccessibleMapname {
             vec_field.push(AccessibleMapnameInfo::from(&buffer[start_pos..end_pos], packetver));
             i += 1;
         }
-        PacketHcNotifyAccessibleMapname {
+        PacketHcNotifyAccessibleMapName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -167216,10 +167216,10 @@ impl PacketHcNotifyAccessibleMapname {
     pub fn set_maps_raw(&mut self, value: Vec<Vec<u8>>) {
         self.maps_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketHcNotifyAccessibleMapname {
+    pub fn new(packetver: u32) -> PacketHcNotifyAccessibleMapName {
         let packet_id = i16::from_le_bytes([0x40, 0x08]);
         let packet_id_raw = [0x40, 0x08];
-        PacketHcNotifyAccessibleMapname {
+        PacketHcNotifyAccessibleMapName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -167231,7 +167231,7 @@ impl PacketHcNotifyAccessibleMapname {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketHcNotifyAccessibleMapname::new(packetver);
+        let mut packet = PacketHcNotifyAccessibleMapName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -167245,12 +167245,12 @@ impl PacketHcNotifyAccessibleMapname {
     }
 }
 
-impl Packet for PacketHcNotifyAccessibleMapname {
+impl Packet for PacketHcNotifyAccessibleMapName {
     fn id(&self, packetver: u32) -> &str {
-       PacketHcNotifyAccessibleMapname::packet_id(packetver)
+       PacketHcNotifyAccessibleMapName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketHcNotifyAccessibleMapname"
+       "PacketHcNotifyAccessibleMapName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -167889,13 +167889,13 @@ impl Packet for PacketHcAcceptEnterNeoUnionHeader {
     }
 }
 
-impl PacketPincodeLoginstate {
+impl PacketHcPincodeLoginState {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xb908"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketPincodeLoginstate {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketHcPincodeLoginState {
         let mut offset: usize = 0;
-        PacketPincodeLoginstate {
+        PacketHcPincodeLoginState {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -167967,10 +167967,10 @@ impl PacketPincodeLoginstate {
     pub fn set_response_raw(&mut self, value: [u8; 2]) {
         self.response_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketPincodeLoginstate {
+    pub fn new(packetver: u32) -> PacketHcPincodeLoginState {
         let packet_id = i16::from_le_bytes([0xb9, 0x08]);
         let packet_id_raw = [0xb9, 0x08];
-        PacketPincodeLoginstate {
+        PacketHcPincodeLoginState {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -167984,7 +167984,7 @@ impl PacketPincodeLoginstate {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketPincodeLoginstate::new(packetver);
+        let mut packet = PacketHcPincodeLoginState::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/pincode_seed")) {
             if let Some(value) = entry.value {
                 packet.set_pincode_seed(value.parse().map_err(|_| format!("Invalid value {} for pincode_seed", value))?);
@@ -168004,12 +168004,12 @@ impl PacketPincodeLoginstate {
     }
 }
 
-impl Packet for PacketPincodeLoginstate {
+impl Packet for PacketHcPincodeLoginState {
     fn id(&self, packetver: u32) -> &str {
-       PacketPincodeLoginstate::packet_id(packetver)
+       PacketHcPincodeLoginState::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketPincodeLoginstate"
+       "PacketHcPincodeLoginState"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -168073,13 +168073,13 @@ impl Packet for PacketPincodeLoginstate {
     }
 }
 
-impl PacketChMakeChar3 {
+impl PacketChMakeCharWithClass {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x390a"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketChMakeChar3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketChMakeCharWithClass {
         let mut offset: usize = 0;
-        PacketChMakeChar3 {
+        PacketChMakeCharWithClass {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -168205,10 +168205,10 @@ impl PacketChMakeChar3 {
     pub fn set_sex_raw(&mut self, value: [u8; 1]) {
         self.sex_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketChMakeChar3 {
+    pub fn new(packetver: u32) -> PacketChMakeCharWithClass {
         let packet_id = i16::from_le_bytes([0x39, 0x0a]);
         let packet_id_raw = [0x39, 0x0a];
-        PacketChMakeChar3 {
+        PacketChMakeCharWithClass {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -168228,7 +168228,7 @@ impl PacketChMakeChar3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketChMakeChar3::new(packetver);
+        let mut packet = PacketChMakeCharWithClass::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/name")) {
             if let Some(value) = entry.value {
                 let mut char_value: [char; 24] = [0 as char; 24];
@@ -168270,12 +168270,12 @@ impl PacketChMakeChar3 {
     }
 }
 
-impl Packet for PacketChMakeChar3 {
+impl Packet for PacketChMakeCharWithClass {
     fn id(&self, packetver: u32) -> &str {
-       PacketChMakeChar3::packet_id(packetver)
+       PacketChMakeCharWithClass::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketChMakeChar3"
+       "PacketChMakeCharWithClass"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -168612,13 +168612,13 @@ impl Packet for PacketZcOverweightPercent {
     }
 }
 
-impl PacketZcAckReqnameall2 {
+impl PacketZcAckReqNameAllWithTitle {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x300a"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqnameall2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcAckReqNameAllWithTitle {
         let mut offset: usize = 0;
-        PacketZcAckReqnameall2 {
+        PacketZcAckReqNameAllWithTitle {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -168762,10 +168762,10 @@ impl PacketZcAckReqnameall2 {
     pub fn set_title_id_raw(&mut self, value: [u8; 4]) {
         self.title_id_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcAckReqnameall2 {
+    pub fn new(packetver: u32) -> PacketZcAckReqNameAllWithTitle {
         let packet_id = i16::from_le_bytes([0x30, 0x0a]);
         let packet_id_raw = [0x30, 0x0a];
-        PacketZcAckReqnameall2 {
+        PacketZcAckReqNameAllWithTitle {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -168785,7 +168785,7 @@ impl PacketZcAckReqnameall2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcAckReqnameall2::new(packetver);
+        let mut packet = PacketZcAckReqNameAllWithTitle::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -168848,12 +168848,12 @@ impl PacketZcAckReqnameall2 {
     }
 }
 
-impl Packet for PacketZcAckReqnameall2 {
+impl Packet for PacketZcAckReqNameAllWithTitle {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcAckReqnameall2::packet_id(packetver)
+       PacketZcAckReqNameAllWithTitle::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcAckReqnameall2"
+       "PacketZcAckReqNameAllWithTitle"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -169096,13 +169096,13 @@ impl Packet for PacketZcMsgColor {
     }
 }
 
-impl PacketZcNotifyMapproperty2 {
+impl PacketZcNotifyMapPropertyWithFlags {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x9b09"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapproperty2 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMapPropertyWithFlags {
         let mut offset: usize = 0;
-        PacketZcNotifyMapproperty2 {
+        PacketZcNotifyMapPropertyWithFlags {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -169158,10 +169158,10 @@ impl PacketZcNotifyMapproperty2 {
     pub fn set_flags_raw(&mut self, value: [u8; 4]) {
         self.flags_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMapproperty2 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMapPropertyWithFlags {
         let packet_id = i16::from_le_bytes([0x9b, 0x09]);
         let packet_id_raw = [0x9b, 0x09];
-        PacketZcNotifyMapproperty2 {
+        PacketZcNotifyMapPropertyWithFlags {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -169173,7 +169173,7 @@ impl PacketZcNotifyMapproperty2 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMapproperty2::new(packetver);
+        let mut packet = PacketZcNotifyMapPropertyWithFlags::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/atype")) {
             if let Some(value) = entry.value {
                 packet.set_atype(value.parse().map_err(|_| format!("Invalid value {} for atype", value))?);
@@ -169188,12 +169188,12 @@ impl PacketZcNotifyMapproperty2 {
     }
 }
 
-impl Packet for PacketZcNotifyMapproperty2 {
+impl Packet for PacketZcNotifyMapPropertyWithFlags {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMapproperty2::packet_id(packetver)
+       PacketZcNotifyMapPropertyWithFlags::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMapproperty2"
+       "PacketZcNotifyMapPropertyWithFlags"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -169671,13 +169671,13 @@ impl Packet for PacketZcLoadConfirm {
     }
 }
 
-impl PacketZcNotifyStandentry6 {
+impl PacketZcNotifyStandEntryWithName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xff09"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry6 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntryWithName {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentry6 {
+        PacketZcNotifyStandEntryWithName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -170289,10 +170289,10 @@ impl PacketZcNotifyStandentry6 {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentry6 {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntryWithName {
         let packet_id = i16::from_le_bytes([0xff, 0x09]);
         let packet_id_raw = [0xff, 0x09];
-        PacketZcNotifyStandentry6 {
+        PacketZcNotifyStandEntryWithName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -170372,7 +170372,7 @@ impl PacketZcNotifyStandentry6 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentry6::new(packetver);
+        let mut packet = PacketZcNotifyStandEntryWithName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -170571,12 +170571,12 @@ impl PacketZcNotifyStandentry6 {
     }
 }
 
-impl Packet for PacketZcNotifyStandentry6 {
+impl Packet for PacketZcNotifyStandEntryWithName {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentry6::packet_id(packetver)
+       PacketZcNotifyStandEntryWithName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentry6"
+       "PacketZcNotifyStandEntryWithName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -170812,13 +170812,13 @@ impl Packet for PacketZcNotifyStandentry6 {
     }
 }
 
-impl PacketZcNotifyStandentry7 {
+impl PacketZcNotifyStandEntry {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1509"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandentry7 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyStandEntry {
         let mut offset: usize = 0;
-        PacketZcNotifyStandentry7 {
+        PacketZcNotifyStandEntry {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -171498,10 +171498,10 @@ impl PacketZcNotifyStandentry7 {
     pub fn set_body_raw(&mut self, value: [u8; 2]) {
         self.body_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyStandentry7 {
+    pub fn new(packetver: u32) -> PacketZcNotifyStandEntry {
         let packet_id = i16::from_le_bytes([0x15, 0x09]);
         let packet_id_raw = [0x15, 0x09];
-        PacketZcNotifyStandentry7 {
+        PacketZcNotifyStandEntry {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -171579,7 +171579,7 @@ impl PacketZcNotifyStandentry7 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyStandentry7::new(packetver);
+        let mut packet = PacketZcNotifyStandEntry::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -171766,12 +171766,12 @@ impl PacketZcNotifyStandentry7 {
     }
 }
 
-impl Packet for PacketZcNotifyStandentry7 {
+impl Packet for PacketZcNotifyStandEntry {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyStandentry7::packet_id(packetver)
+       PacketZcNotifyStandEntry::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyStandentry7"
+       "PacketZcNotifyStandEntry"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -172040,13 +172040,13 @@ impl Packet for PacketZcNotifyStandentry7 {
     }
 }
 
-impl PacketZcNotifyNewentry7 {
+impl PacketZcNotifyNewEntry {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x0f09"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewentry7 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyNewEntry {
         let mut offset: usize = 0;
-        PacketZcNotifyNewentry7 {
+        PacketZcNotifyNewEntry {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -172710,10 +172710,10 @@ impl PacketZcNotifyNewentry7 {
     pub fn set_body_raw(&mut self, value: [u8; 2]) {
         self.body_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyNewentry7 {
+    pub fn new(packetver: u32) -> PacketZcNotifyNewEntry {
         let packet_id = i16::from_le_bytes([0x0f, 0x09]);
         let packet_id_raw = [0x0f, 0x09];
-        PacketZcNotifyNewentry7 {
+        PacketZcNotifyNewEntry {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -172789,7 +172789,7 @@ impl PacketZcNotifyNewentry7 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyNewentry7::new(packetver);
+        let mut packet = PacketZcNotifyNewEntry::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -172971,12 +172971,12 @@ impl PacketZcNotifyNewentry7 {
     }
 }
 
-impl Packet for PacketZcNotifyNewentry7 {
+impl Packet for PacketZcNotifyNewEntry {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyNewentry7::packet_id(packetver)
+       PacketZcNotifyNewEntry::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyNewentry7"
+       "PacketZcNotifyNewEntry"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -173240,13 +173240,13 @@ impl Packet for PacketZcNotifyNewentry7 {
     }
 }
 
-impl PacketZcNotifyMoveentry8 {
+impl PacketZcNotifyMoveEntryWithName {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xfd09"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry8 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveEntryWithName {
         let mut offset: usize = 0;
-        PacketZcNotifyMoveentry8 {
+        PacketZcNotifyMoveEntryWithName {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -173858,10 +173858,10 @@ impl PacketZcNotifyMoveentry8 {
     pub fn set_name_raw(&mut self, value: [u8; 24]) {
         self.name_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMoveentry8 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMoveEntryWithName {
         let packet_id = i16::from_le_bytes([0xfd, 0x09]);
         let packet_id_raw = [0xfd, 0x09];
-        PacketZcNotifyMoveentry8 {
+        PacketZcNotifyMoveEntryWithName {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -173941,7 +173941,7 @@ impl PacketZcNotifyMoveentry8 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMoveentry8::new(packetver);
+        let mut packet = PacketZcNotifyMoveEntryWithName::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -174140,12 +174140,12 @@ impl PacketZcNotifyMoveentry8 {
     }
 }
 
-impl Packet for PacketZcNotifyMoveentry8 {
+impl Packet for PacketZcNotifyMoveEntryWithName {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMoveentry8::packet_id(packetver)
+       PacketZcNotifyMoveEntryWithName::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMoveentry8"
+       "PacketZcNotifyMoveEntryWithName"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -174381,13 +174381,13 @@ impl Packet for PacketZcNotifyMoveentry8 {
     }
 }
 
-impl PacketZcNotifyMoveentry9 {
+impl PacketZcNotifyMoveEntry {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0x1409"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveentry9 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyMoveEntry {
         let mut offset: usize = 0;
-        PacketZcNotifyMoveentry9 {
+        PacketZcNotifyMoveEntry {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -174929,10 +174929,10 @@ impl PacketZcNotifyMoveentry9 {
     pub fn set_is_boss_raw(&mut self, value: [u8; 1]) {
         self.is_boss_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyMoveentry9 {
+    pub fn new(packetver: u32) -> PacketZcNotifyMoveEntry {
         let packet_id = i16::from_le_bytes([0x14, 0x09]);
         let packet_id_raw = [0x14, 0x09];
-        PacketZcNotifyMoveentry9 {
+        PacketZcNotifyMoveEntry {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -175004,7 +175004,7 @@ impl PacketZcNotifyMoveentry9 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyMoveentry9::new(packetver);
+        let mut packet = PacketZcNotifyMoveEntry::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/packet_length")) {
             if let Some(value) = entry.value {
                 packet.set_packet_length(value.parse().map_err(|_| format!("Invalid value {} for packet_length", value))?);
@@ -175168,12 +175168,12 @@ impl PacketZcNotifyMoveentry9 {
     }
 }
 
-impl Packet for PacketZcNotifyMoveentry9 {
+impl Packet for PacketZcNotifyMoveEntry {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyMoveentry9::packet_id(packetver)
+       PacketZcNotifyMoveEntry::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyMoveentry9"
+       "PacketZcNotifyMoveEntry"
     }
     fn debug(&self) {
             println!("{:?}", self)
@@ -175384,13 +175384,13 @@ impl Packet for PacketZcNotifyMoveentry9 {
     }
 }
 
-impl PacketZcNotifyAct3 {
+impl PacketZcNotifyActSpDamage {
     pub fn packet_id(packetver: u32) -> &'static str {
         "0xc808"
     }
-    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyAct3 {
+    pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNotifyActSpDamage {
         let mut offset: usize = 0;
-        PacketZcNotifyAct3 {
+        PacketZcNotifyActSpDamage {
             packet_id: {
                 let field = i16::from_le_bytes([buffer[offset], buffer[offset + 1]]);
                 field
@@ -175574,10 +175574,10 @@ impl PacketZcNotifyAct3 {
     pub fn set_left_damage_raw(&mut self, value: [u8; 4]) {
         self.left_damage_raw = value;
     }
-    pub fn new(packetver: u32) -> PacketZcNotifyAct3 {
+    pub fn new(packetver: u32) -> PacketZcNotifyActSpDamage {
         let packet_id = i16::from_le_bytes([0xc8, 0x08]);
         let packet_id_raw = [0xc8, 0x08];
-        PacketZcNotifyAct3 {
+        PacketZcNotifyActSpDamage {
         raw: vec![],
         packet_id,
         packet_id_raw,
@@ -175605,7 +175605,7 @@ impl PacketZcNotifyAct3 {
     }
     #[allow(unused_mut)]
     pub fn from_json(entries: Vec<json_flat_parser::FlatJsonValue<&str>>, packetver: u32) -> Result<Self, String> {
-        let mut packet = PacketZcNotifyAct3::new(packetver);
+        let mut packet = PacketZcNotifyActSpDamage::new(packetver);
         if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq("/gid")) {
             if let Some(value) = entry.value {
                 packet.set_gid(value.parse().map_err(|_| format!("Invalid value {} for gid", value))?);
@@ -175660,12 +175660,12 @@ impl PacketZcNotifyAct3 {
     }
 }
 
-impl Packet for PacketZcNotifyAct3 {
+impl Packet for PacketZcNotifyActSpDamage {
     fn id(&self, packetver: u32) -> &str {
-       PacketZcNotifyAct3::packet_id(packetver)
+       PacketZcNotifyActSpDamage::packet_id(packetver)
     }
     fn name(&self) -> &str {
-       "PacketZcNotifyAct3"
+       "PacketZcNotifyActSpDamage"
     }
     fn debug(&self) {
             println!("{:?}", self)

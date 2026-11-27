@@ -1,6 +1,6 @@
 use packets::packets::{
-    PacketCzItemThrow, PacketCzReqItemcomposition, PacketCzReqItemcompositionList, PacketCzReqTakeoffEquip, PacketCzReqWearEquip,
-    PacketCzUseItem, PacketZcUseItemAck2,
+    PacketCzItemThrow, PacketCzReqItemComposition, PacketCzReqItemCompositionList, PacketCzReqTakeoffEquip, PacketCzReqWearEquip,
+    PacketCzUseItem, PacketZcUseItemAck,
 };
 
 use crate::packets::packets::Packet;
@@ -16,7 +16,7 @@ pub fn handle_player_use_item(server: &Server, context: Request) {
     let packet_cz_use_item = cast!(context.packet(), PacketCzUseItem);
     if packet_cz_use_item.index > context.configuration().game.max_inventory {
         error!("packet_cz_use_item index is out of max inventory size");
-        let mut packet_zc_use_item_ack2 = PacketZcUseItemAck2::new(GlobalConfigService::instance().packetver());
+        let mut packet_zc_use_item_ack2 = PacketZcUseItemAck::new(GlobalConfigService::instance().packetver());
         packet_zc_use_item_ack2.set_aid(packet_cz_use_item.aid);
         packet_zc_use_item_ack2.set_index(packet_cz_use_item.index);
         packet_zc_use_item_ack2.set_result(false);
@@ -58,7 +58,7 @@ pub fn handle_player_drop_item(server: &Server, context: Request) {
 }
 
 pub fn handle_player_card_composition_list(server: &Server, context: Request) {
-    let packet_cz_req_item_composition_list = cast!(context.packet(), PacketCzReqItemcompositionList);
+    let packet_cz_req_item_composition_list = cast!(context.packet(), PacketCzReqItemCompositionList);
     server.add_to_next_tick(GameEvent::CharacterRequestCardCompositionList(CharacterEquipItem {
         char_id: context.session().char_id(),
         index: packet_cz_req_item_composition_list.card_index as usize,
@@ -66,7 +66,7 @@ pub fn handle_player_card_composition_list(server: &Server, context: Request) {
 }
 
 pub fn handle_player_slot_card(server: &Server, context: Request) {
-    let packet_cz_req_item_composition = cast!(context.packet(), PacketCzReqItemcomposition);
+    let packet_cz_req_item_composition = cast!(context.packet(), PacketCzReqItemComposition);
     server.add_to_next_tick(GameEvent::CharacterSlotCard(CharacterSlotCard {
         char_id: context.session().char_id(),
         card_index: packet_cz_req_item_composition.card_index as usize,

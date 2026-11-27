@@ -16,10 +16,10 @@ use models::enums::EnumWithNumberValue;
 use movement::position::Position;
 use models::status::{KnownSkill, Status, StatusSnapshot};
 use packets::packets::{
-    Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange,
-    PacketZcMsgStateChange2, PacketZcNotifyAct, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyPlayermove,
-    PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange,
-    PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcStopmove, ShortCutKey,
+    Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongParChange, PacketZcMsgStateChangeNoTimer,
+    PacketZcMsgStateChange, PacketZcNotifyActShortDamage, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyPlayerMove,
+    PacketZcNotifyStandEntryNoHp, PacketZcNotifyStandEntry, PacketZcNotifyVanish, PacketZcNpcAckMapMove, PacketZcParChange,
+    PacketZcShortcutKeyList, PacketZcSpriteChange, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcStopMove, ShortCutKey,
 };
 use tokio::runtime::Runtime;
 
@@ -154,7 +154,7 @@ impl CharacterService {
     pub fn change_map(&self, new_map_instance_key: &MapInstanceKey, new_position: Position, character: &mut Character) {
         character.set_current_map_with_key(new_map_instance_key.clone());
         character.movements = vec![];
-        let mut packet_zc_npcack_mapmove = PacketZcNpcackMapmove::new(self.configuration_service.packetver());
+        let mut packet_zc_npcack_mapmove = PacketZcNpcAckMapMove::new(self.configuration_service.packetver());
 
         let mut new_current_map: [char; 16] = [0 as char; 16];
         new_map_instance_key.map_name().fill_char_array(new_current_map.as_mut());
@@ -199,7 +199,7 @@ impl CharacterService {
     }
 
     pub fn change_sprite(&self, character: &Character, look_type: LookType, look_value: u16, look_value2: u16) {
-        let mut packet_zc_sprite_change = PacketZcSpriteChange2::new(self.configuration_service.packetver());
+        let mut packet_zc_sprite_change = PacketZcSpriteChange::new(self.configuration_service.packetver());
         packet_zc_sprite_change.set_gid(character.char_id);
         packet_zc_sprite_change.set_atype(look_type.value() as u8);
         packet_zc_sprite_change.set_value(look_value);
@@ -243,7 +243,7 @@ impl CharacterService {
         };
         character.change_zeny(zeny);
 
-        let mut packet_zc_longpar_change = PacketZcLongparChange::new(self.configuration_service.packetver());
+        let mut packet_zc_longpar_change = PacketZcLongParChange::new(self.configuration_service.packetver());
         packet_zc_longpar_change.set_amount(character.get_zeny() as i32);
         packet_zc_longpar_change.set_var_id(StatusTypes::Zeny.value() as u16);
         packet_zc_longpar_change.fill_raw();
@@ -300,13 +300,13 @@ impl CharacterService {
         if !character.transition_to_sitting() {
             return;
         }
-        let mut packet_zc_msg_state_change = PacketZcMsgStateChange2::new(self.configuration_service.packetver());
+        let mut packet_zc_msg_state_change = PacketZcMsgStateChange::new(self.configuration_service.packetver());
         packet_zc_msg_state_change.set_aid(character.char_id);
         packet_zc_msg_state_change.set_index(ClientEffectIcon::Sit as i16);
         packet_zc_msg_state_change.set_remain_ms(9999);
         packet_zc_msg_state_change.set_state(true);
         packet_zc_msg_state_change.fill_raw();
-        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new(self.configuration_service.packetver());
+        let mut packet_zc_notify_act3 = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
         packet_zc_notify_act3.set_target_gid(character.char_id);
         packet_zc_notify_act3.set_action(ActionType::Sit.value() as u8);
         packet_zc_notify_act3.set_gid(character.char_id);
@@ -316,19 +316,19 @@ impl CharacterService {
                 character.char_id,
                 chain_packets(vec![&packet_zc_msg_state_change, &packet_zc_notify_act3]),
             )))
-            .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChange2(sit) to client"));
+            .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChange(sit) to client"));
     }
 
     pub fn stand(&self, character: &mut Character) {
         if !character.transition_to_standing() {
             return;
         }
-        let mut packet_zc_msg_state_change = PacketZcMsgStateChange::new(self.configuration_service.packetver());
+        let mut packet_zc_msg_state_change = PacketZcMsgStateChangeNoTimer::new(self.configuration_service.packetver());
         packet_zc_msg_state_change.set_aid(character.char_id);
         packet_zc_msg_state_change.set_index(ClientEffectIcon::Sit as i16);
         packet_zc_msg_state_change.set_state(false);
         packet_zc_msg_state_change.fill_raw();
-        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new(self.configuration_service.packetver());
+        let mut packet_zc_notify_act3 = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
         packet_zc_notify_act3.set_target_gid(character.char_id);
         packet_zc_notify_act3.set_action(ActionType::Stand.value() as u8);
         packet_zc_notify_act3.set_gid(character.char_id);
@@ -338,7 +338,7 @@ impl CharacterService {
                 character.char_id,
                 chain_packets(vec![&packet_zc_msg_state_change, &packet_zc_notify_act3]),
             )))
-            .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChange(stand) to client"));
+            .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChangeNoTimer(stand) to client"));
     }
 
     pub fn regen_hp(&self, character: &mut Character, tick: u128) {
@@ -1197,7 +1197,7 @@ impl CharacterService {
             if icons.contains(&icon) {
                 continue;
             }
-            let mut packet_zc_msg_state_change = PacketZcMsgStateChange2::new(self.configuration_service.packetver());
+            let mut packet_zc_msg_state_change = PacketZcMsgStateChange::new(self.configuration_service.packetver());
             packet_zc_msg_state_change.set_aid(character.char_id);
             packet_zc_msg_state_change.set_index(icon as i16);
             packet_zc_msg_state_change.set_remain_ms(temporary_bonus.remaining_ms(get_tick()));
@@ -1217,7 +1217,7 @@ impl CharacterService {
     }
 
     pub fn reload_client_side_hotkeys(&self, character: &Character) {
-        let mut packet_zc_shortcut_key_list_v2 = PacketZcShortcutKeyListV2::new(self.configuration_service.packetver());
+        let mut packet_zc_shortcut_key_list_v2 = PacketZcShortcutKeyList::new(self.configuration_service.packetver());
         let mut shortcuts: Vec<ShortCutKey> = Vec::with_capacity(38);
         for _ in 0..38 {
             shortcuts.push(ShortCutKey::new(self.configuration_service.packetver()));
@@ -1292,10 +1292,10 @@ impl CharacterService {
                     }
                 } else if matches!(map_item.object_type(), MapItemType::Mob) {
                     if let Some(mob) = map_instance_state.get_mob(map_item.id()) {
-                        let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
+                        let mut packet_zc_notify_standentry = PacketZcNotifyStandEntry::new(self.configuration_service.packetver());
                         packet_zc_notify_standentry.set_job(map_item.client_item_class());
                         packet_zc_notify_standentry
-                            .set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
+                            .set_packet_length(PacketZcNotifyStandEntry::base_len(self.configuration_service.packetver()) as i16);
                         // packet_zc_notify_standentry.set_name(name);
                         packet_zc_notify_standentry.set_pos_dir(position.to_pos());
                         packet_zc_notify_standentry.set_objecttype(map_item.object_type_value() as u8);
@@ -1329,10 +1329,10 @@ impl CharacterService {
                     }
                 } else if matches!(map_item.object_type(), MapItemType::Character) {
                     if let Some(other_character) = server_state.get_character(map_item.id()) {
-                        let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
+                        let mut packet_zc_notify_standentry = PacketZcNotifyStandEntry::new(self.configuration_service.packetver());
                         packet_zc_notify_standentry.set_job(map_item.client_item_class());
                         packet_zc_notify_standentry
-                            .set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
+                            .set_packet_length(PacketZcNotifyStandEntry::base_len(self.configuration_service.packetver()) as i16);
                         packet_zc_notify_standentry.set_pos_dir(position.to_pos());
                         packet_zc_notify_standentry.set_objecttype(0_u8);
                         packet_zc_notify_standentry.set_aid(map_item.id());
@@ -1389,10 +1389,10 @@ impl CharacterService {
                         // }
                     }
                 } else {
-                    let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
+                    let mut packet_zc_notify_standentry = PacketZcNotifyStandEntry::new(self.configuration_service.packetver());
                     packet_zc_notify_standentry.set_job(map_item.client_item_class());
                     packet_zc_notify_standentry
-                        .set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
+                        .set_packet_length(PacketZcNotifyStandEntry::base_len(self.configuration_service.packetver()) as i16);
                     // packet_zc_notify_standentry.set_name(name);
                     packet_zc_notify_standentry.set_pos_dir(position.to_pos());
                     packet_zc_notify_standentry.set_objecttype(map_item.object_type_value() as u8);
@@ -1511,9 +1511,9 @@ impl CharacterService {
     }
 
     pub fn character_join_map_effect(&self, character: &Character) {
-        let mut packet_zc_notify_newentry3 = PacketZcNotifyStandentry5::new(GlobalConfigService::instance().packetver());
+        let mut packet_zc_notify_newentry3 = PacketZcNotifyStandEntryNoHp::new(GlobalConfigService::instance().packetver());
         packet_zc_notify_newentry3
-            .set_packet_length(PacketZcNotifyStandentry5::base_len(GlobalConfigService::instance().packetver()) as i16);
+            .set_packet_length(PacketZcNotifyStandEntryNoHp::base_len(GlobalConfigService::instance().packetver()) as i16);
         packet_zc_notify_newentry3.set_job(character.status.job as i16);
         packet_zc_notify_newentry3.set_sex(character.sex);
         packet_zc_notify_newentry3.set_pos_dir(
@@ -1577,7 +1577,7 @@ impl CharacterService {
 
         character.clear_movement();
 
-        let mut packet_zc_stop_move = PacketZcStopmove::new(GlobalConfigService::instance().packetver());
+        let mut packet_zc_stop_move = PacketZcStopMove::new(GlobalConfigService::instance().packetver());
         packet_zc_stop_move.set_x_pos(character.x as i16);
         packet_zc_stop_move.set_y_pos(character.y as i16);
         packet_zc_stop_move.set_aid(character.char_id);
@@ -1587,6 +1587,6 @@ impl CharacterService {
                 character,
                 std::mem::take(packet_zc_stop_move.raw_mut()),
             )))
-            .expect("Failed to send notification event with PacketZcNotifyPlayermove");
+            .expect("Failed to send notification event with PacketZcNotifyPlayerMove");
     }
 }

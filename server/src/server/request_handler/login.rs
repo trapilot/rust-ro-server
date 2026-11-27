@@ -4,7 +4,7 @@ use std::sync::{Arc, RwLock};
 use std::thread::spawn;
 
 use packets::packets::{
-    Packet, PacketAcAcceptLogin, PacketAcAcceptLogin2, PacketAcRefuseLogin, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketCaLogin,
+    Packet, PacketAcAcceptLogin, PacketAcAcceptLoginWithTwitter, PacketAcRefuseLogin, PacketAcRefuseLoginIntCode, PacketAcRefuseLoginIntCodeNewer, PacketCaLogin,
     ServerAddr, ServerAddr2,
 };
 use packets::packets_parser::parse;
@@ -21,8 +21,8 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
         .runtime()
         .block_on(async { authenticate(server.as_ref(), packet_ca_login).await });
     info!("packetver {}", packet_ca_login.version);
-    if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
-        let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLogin2>().unwrap();
+    if res.as_any().downcast_ref::<PacketAcAcceptLoginWithTwitter>().is_some() {
+        let packet_response = res.as_any().downcast_ref::<PacketAcAcceptLoginWithTwitter>().unwrap();
         // Currently only handle this account to be able to still use proxy in other
         // accounts
         if !server.configuration.server.accounts.contains(&packet_response.aid) {
@@ -98,9 +98,9 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin) -> Box<dyn Pa
             ac_accept_login.fill_raw();
             return Box::new(ac_accept_login);
         } else {
-            let mut ac_accept_login2 = PacketAcAcceptLogin2::new(GlobalConfigService::instance().packetver());
+            let mut ac_accept_login2 = PacketAcAcceptLoginWithTwitter::new(GlobalConfigService::instance().packetver());
             ac_accept_login2
-                .set_packet_length((PacketAcAcceptLogin2::base_len(server.packetver()) + ServerAddr2::base_len(server.packetver())) as i16);
+                .set_packet_length((PacketAcAcceptLoginWithTwitter::base_len(server.packetver()) + ServerAddr2::base_len(server.packetver())) as i16);
             ac_accept_login2.set_aid(account_id);
             ac_accept_login2.set_auth_code(rng.gen::<i32>());
             ac_accept_login2.set_user_level(rng.gen::<u32>());
@@ -124,12 +124,12 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin) -> Box<dyn Pa
     }
     let refuse_login_packet: Box<dyn Packet>;
     if server.packetver() >= 20180627 {
-        let mut refuse_login_packet3 = PacketAcRefuseLoginR3::new(GlobalConfigService::instance().packetver());
+        let mut refuse_login_packet3 = PacketAcRefuseLoginIntCodeNewer::new(GlobalConfigService::instance().packetver());
         refuse_login_packet3.set_error_code(1);
         refuse_login_packet3.fill_raw();
         refuse_login_packet = Box::new(refuse_login_packet3);
     } else if server.packetver() > 20101123 {
-        let mut refuse_login_packet2 = PacketAcRefuseLoginR2::new(GlobalConfigService::instance().packetver());
+        let mut refuse_login_packet2 = PacketAcRefuseLoginIntCode::new(GlobalConfigService::instance().packetver());
         refuse_login_packet2.set_error_code(1);
         refuse_login_packet2.fill_raw();
         refuse_login_packet = Box::new(refuse_login_packet2);
@@ -163,8 +163,8 @@ fn proxy_login(server: Arc<Server>, packet: &dyn Packet, tcp_stream: Arc<RwLock<
                     break;
                 }
                 let mut packet = parse(&buffer[..bytes_read], server.packetver());
-                if packet.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
-                    let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLogin2>().unwrap();
+                if packet.as_any().downcast_ref::<PacketAcAcceptLoginWithTwitter>().is_some() {
+                    let packet_accept_login2 = packet.as_any_mut().downcast_mut::<PacketAcAcceptLoginWithTwitter>().unwrap();
                     let server_char = packet_accept_login2.server_list.get_mut(0).unwrap();
                     server_char.set_port(server.configuration.proxy.local_char_server_port as i16);
                     packet_accept_login2.fill_raw();
@@ -184,7 +184,7 @@ fn proxy_login(server: Arc<Server>, packet: &dyn Packet, tcp_stream: Arc<RwLock<
                     tcp_stream_guard.flush().unwrap();
                     break;
                 } else {
-                    panic!("Received packet is not PacketAcAcceptLogin2");
+                    panic!("Received packet is not PacketAcAcceptLoginWithTwitter");
                 }
             }
         }

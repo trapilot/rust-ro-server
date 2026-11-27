@@ -80,7 +80,7 @@ mod tests {
     use movement::position::Position;
     use models::status::KnownSkill;
     use packets::packets::{
-        PacketZcLongparChange, PacketZcNotifyEffect, PacketZcParChange, PacketZcSkillinfoList, PacketZcSpriteChange2,
+        PacketZcLongParChange, PacketZcNotifyEffect, PacketZcParChange, PacketZcSkillInfoList, PacketZcSpriteChange,
         PacketZcStatusChangeAck,
     };
     use sqlx::Error;
@@ -308,7 +308,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
-                PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcSpriteChange::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
     }
@@ -328,7 +328,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
-                PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcSpriteChange::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
     }
@@ -362,7 +362,7 @@ mod tests {
         );
         assert_sent_packet_in_current_packetver!(
             context,
-            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcLongparChange::packet_id(
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcLongParChange::packet_id(
                 GlobalConfigService::instance().packetver()
             ))])
         );
@@ -1202,7 +1202,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                PacketZcSkillInfoList::packet_id(GlobalConfigService::instance().packetver()),
                 1
             )])
         );
@@ -1315,7 +1315,7 @@ mod tests {
             assert_sent_packet_in_current_packetver!(
                 context,
                 NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                    PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                    PacketZcSkillInfoList::packet_id(GlobalConfigService::instance().packetver()),
                     1
                 )])
             );
@@ -1359,7 +1359,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
-                PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver())
+                PacketZcSpriteChange::packet_id(GlobalConfigService::instance().packetver())
             )])
         );
     }
@@ -2181,7 +2181,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                PacketZcSkillInfoList::packet_id(GlobalConfigService::instance().packetver()),
                 1
             )])
         );
@@ -2467,7 +2467,7 @@ mod tests {
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
-                PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()),
+                PacketZcSkillInfoList::packet_id(GlobalConfigService::instance().packetver()),
                 1
             )])
         );

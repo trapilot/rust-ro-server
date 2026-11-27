@@ -1,6 +1,6 @@
 use packets::packets::{
-    PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr,
-    PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog,
+    PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerChat, PacketZcNpcChat, PacketZcOpenEditDlg, PacketZcOpenEditDlgStr,
+    PacketZcSayDialog, PacketZcShowImage, PacketZcWaitDialog,
 };
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
@@ -53,7 +53,7 @@ impl PlayerInteractionScriptHandler {
         } else if native.name.eq("input") {
             let variable_name = params[0].string_value().unwrap();
             if variable_name.ends_with('$') {
-                let mut packet_zc_open_editdlgstr = PacketZcOpenEditdlgstr::new(GlobalConfigService::instance().packetver());
+                let mut packet_zc_open_editdlgstr = PacketZcOpenEditDlgStr::new(GlobalConfigService::instance().packetver());
                 packet_zc_open_editdlgstr.naid = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_NPC_ID);
                 packet_zc_open_editdlgstr.fill_raw();
                 self.send_packet_to_char(
@@ -61,7 +61,7 @@ impl PlayerInteractionScriptHandler {
                     &mut packet_zc_open_editdlgstr,
                 );
             } else {
-                let mut packet_zc_open_editdlg = PacketZcOpenEditdlg::new(GlobalConfigService::instance().packetver());
+                let mut packet_zc_open_editdlg = PacketZcOpenEditDlg::new(GlobalConfigService::instance().packetver());
                 packet_zc_open_editdlg.naid = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_NPC_ID);
                 packet_zc_open_editdlg.fill_raw();
                 self.send_packet_to_char(
@@ -113,7 +113,7 @@ impl PlayerInteractionScriptHandler {
             let position = params[1].number_value().unwrap();
             let mut file_name_array: [char; 64] = [0 as char; 64];
             file_name.fill_char_array(file_name_array.as_mut());
-            let mut packet_zc_show_image2 = PacketZcShowImage2::new(GlobalConfigService::instance().packetver());
+            let mut packet_zc_show_image2 = PacketZcShowImage::new(GlobalConfigService::instance().packetver());
             packet_zc_show_image2.set_image_name(file_name_array);
             packet_zc_show_image2.set_atype(position as u8);
             packet_zc_show_image2.fill_raw();
@@ -289,10 +289,10 @@ impl PlayerInteractionScriptHandler {
         } else if native.name.eq("message") {
             let _char_name = params[0].string_value().unwrap();
             let message = params[1].string_value().unwrap();
-            let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerchat::new(GlobalConfigService::instance().packetver());
+            let mut packet_zc_notify_playerchat = PacketZcNotifyPlayerChat::new(GlobalConfigService::instance().packetver());
             packet_zc_notify_playerchat.set_msg(message.to_string());
             packet_zc_notify_playerchat
-                .set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
+                .set_packet_length((PacketZcNotifyPlayerChat::base_len(self.server.packetver()) + message.len() + 1) as i16);
             packet_zc_notify_playerchat.fill_raw();
             self.send_packet_to_char(
                 execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID),
