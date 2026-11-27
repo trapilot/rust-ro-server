@@ -121,6 +121,8 @@ After that, exit pgsql and import our `/rust-ro/db/pg.sql` via cli with:
 
 ```shell
  sudo -u postgres psql -U ragnarok ragnarok < db/pg.sql
+ sudo -u postgres psql -U ragnarok ragnarok < db/alter_itemdb_add_script_compilation_result_column.sql
+ sudo -u postgres psql -U ragnarok ragnarok < db/add_status_bonus_table.sql
 ```
 
 ### 5.3 Running the Server
