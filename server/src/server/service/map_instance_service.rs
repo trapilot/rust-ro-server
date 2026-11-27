@@ -7,7 +7,7 @@ use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
 use models::item::DroppedItem;
 use movement::position::Position;
-use packets::packets::{Packet, PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyActShortDamage, PacketZcNotifyMove, PacketZcNotifyVanish};
+use packets::packets::{Packet, PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
 
 use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
@@ -23,6 +23,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::{MobAIAction, MobService};
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::mob::{Mob, MobMovement};
+use crate::util::packet::{NotifyAct, build_notify_act};
 use crate::util::tick::{delayed_tick, get_tick, get_tick_client};
 
 pub struct MapInstanceService {
@@ -166,15 +167,15 @@ impl MapInstanceService {
     }
 
     pub fn mob_attack_character(&self, map_instance_state: &MapInstanceState, attack: MobAttackCharacter, tick: u128) {
-        let mut packet = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
-        packet.set_gid(attack.mob_id);
-        packet.set_target_gid(attack.target_char_id);
-        packet.set_action(ActionType::Attack.value() as u8);
-        packet.set_attack_mt((attack.attack_motion / 2) as i32);
-        packet.set_attacked_mt((attack.attack_motion / 2) as i32);
-        packet.set_damage(attack.damage as i16);
-        packet.set_count(1);
-        packet.fill_raw();
+        let packet = build_notify_act(self.configuration_service.packetver(), NotifyAct {
+            gid: attack.mob_id,
+            target_gid: attack.target_char_id,
+            action: ActionType::Attack.value() as u8,
+            attack_mt: (attack.attack_motion / 2) as i32,
+            attacked_mt: (attack.attack_motion / 2) as i32,
+            damage: attack.damage as i32,
+            count: 1,
+        });
 
         self.client_notification_sender
             .send(Notification::Area(AreaNotification::new(
@@ -185,7 +186,7 @@ impl MapInstanceService {
                     y: attack.mob_y,
                     exclude_id: None,
                 },
-                packet.raw,
+                packet,
             )))
             .unwrap_or_else(|_| error!("Failed to send mob attack notification"));
 

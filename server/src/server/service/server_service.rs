@@ -12,7 +12,7 @@ use models::enums::skill_enums::SkillEnum;
 use movement::position::Position;
 use models::status::{Status, StatusSnapshot};
 use models::status_bonus::BonusExpiry;
-use packets::packets::{Packet, PacketZcMsgStateChangeNoTimer, PacketZcNotifyActShortDamage};
+use packets::packets::{Packet, PacketZcMsgStateChangeNoTimer};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 
@@ -46,6 +46,7 @@ use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::server::state::server::ServerState;
+use crate::util::packet::{NotifyAct, build_notify_act};
 use crate::util::tick::get_tick;
 
 #[allow(dead_code)]
@@ -606,10 +607,11 @@ impl ServerService {
                     },
                     character,
                 );
-                let mut packet_zc_notify_act = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
-                packet_zc_notify_act.set_gid(character.char_id);
-                packet_zc_notify_act.set_action(ActionType::Itempickup.value() as u8);
-                packet_zc_notify_act.fill_raw();
+                let packet_zc_notify_act = build_notify_act(self.configuration_service.packetver(), NotifyAct {
+                    gid: character.char_id,
+                    action: ActionType::Itempickup.value() as u8,
+                    ..Default::default()
+                });
                 self.client_notification_sender
                     .send(Notification::Area(AreaNotification::new(
                         map_instance.key().map_name().clone(),
@@ -619,7 +621,7 @@ impl ServerService {
                             y: dropped_item.y(),
                             exclude_id: None,
                         },
-                        packet_zc_notify_act.raw,
+                        packet_zc_notify_act,
                     )))
                     .unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_act to client"));
                 map_instance.add_to_next_tick(MapEvent::RemoveDroppedItemFromMap(map_item_id));
