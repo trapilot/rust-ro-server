@@ -95,7 +95,7 @@ mod tests {
     use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "countdown latch timed out")]
     fn test_countdown_should_wait_until_timeout_if_condition_not_satisfied() {
         // Given
         let countdown_latch = CountDownLatch::new(10);
@@ -122,7 +122,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "increment latch timed out")]
     fn test_increment_should_wait_until_timeout_if_condition_not_satisfied() {
         // Given
         let increment_latch = IncrementLatch::new();

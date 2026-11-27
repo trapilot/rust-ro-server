@@ -40,16 +40,19 @@ use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
 
-// Some services send notifications with an empty payload, the parser cannot
-// read those.
+// Same parsing as the sent-packet asserts: a notification can chain several
+// packets, and an empty payload makes the plain parser panic.
 fn sent_packet_ids(notifications: &[Notification], packetver: u32) -> Vec<String> {
     notifications
         .iter()
-        .filter(|notification| match notification {
-            Notification::Char(n) => !n.serialized_packet().is_empty(),
-            Notification::Area(n) => !n.serialized_packet().is_empty(),
+        .flat_map(|notification| {
+            let bytes = match notification {
+                Notification::Char(n) => n.serialized_packet(),
+                Notification::Area(n) => n.serialized_packet(),
+            };
+            assert_helper::parse_packet(bytes, packetver)
         })
-        .map(|notification| notification.packet(packetver).id(packetver).to_string())
+        .map(|packet| packet.id(packetver).to_string())
         .collect()
 }
 
