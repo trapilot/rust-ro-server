@@ -1,4 +1,4 @@
-use std::sync::{Arc, Once};
+use std::sync::{Arc, Once, OnceLock};
 use std::{env, fs, thread};
 
 use configuration::configuration::DatabaseConfig;
@@ -28,12 +28,14 @@ use crate::tests::common::{CONFIGS, create_mpsc};
 
 static INIT: Once = Once::new();
 pub static mut SERVER: Option<Arc<Server>> = None;
+static SERVER_RUNTIME: OnceLock<Arc<Runtime>> = OnceLock::new();
 
 pub async fn before_all() -> Arc<Server> {
     INIT.call_once(|| unsafe {
         common::before_all();
         MAP_DIR = "../config/maps/pre-re";
         let runtime = Arc::new(Runtime::new().unwrap());
+        SERVER_RUNTIME.set(runtime.clone()).ok();
 
         let npc_script_vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
         let item_script_vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
@@ -84,7 +86,10 @@ pub async fn before_all() -> Arc<Server> {
                 password: Some("ragnarok".to_string()),
             }
         };
-        let repository: PgRepository = PgRepository::new_pg_lazy(&database_config, runtime.clone());
+        let repository: PgRepository = {
+            let _guard = runtime.enter();
+            PgRepository::new_pg_lazy(&database_config, runtime.clone())
+        };
         let repository_arc = Arc::new(repository);
         let mut map_item_ids = MapItems::default();
 
@@ -150,9 +155,18 @@ pub fn server() -> Arc<Server> {
 
 pub async fn character_join_game() -> u32 {
     let server = server();
-    let char_model: CharSelectModel = server.repository.character_fetch(2000000, 0).await.unwrap();
+    let repository = server.repository.clone();
+    let (char_model, skills): (CharSelectModel, Vec<KnownSkill>) = SERVER_RUNTIME
+        .get()
+        .unwrap()
+        .spawn(async move {
+            let char_model = repository.character_fetch(2000000, 0).await.unwrap();
+            let skills = repository.character_skills(char_model.char_id as u32).await.unwrap();
+            (char_model, skills)
+        })
+        .await
+        .unwrap();
     let char_id = char_model.char_id as u32;
-    let skills: Vec<KnownSkill> = server.repository.character_skills(char_id).await.unwrap();
     let status = StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills);
     let mut character = Character::new(
         char_model.name.clone(),
