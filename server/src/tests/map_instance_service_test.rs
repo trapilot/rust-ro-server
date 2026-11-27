@@ -66,6 +66,7 @@ mod tests {
     use crate::server::model::map_item::{MapItem, MapItemType};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::tests::common::sync_helper::LATCH_TIMEOUT;
     use crate::tests::common::assert_helper::{
         NotificationExpectation, SentPacket, has_sent_notification, task_queue_contains_event_at_tick,
     };
@@ -328,7 +329,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(50, 50, vec![SentPacket::with_id(PacketZcItemDisappear::packet_id(

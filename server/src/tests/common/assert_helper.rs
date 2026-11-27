@@ -360,7 +360,7 @@ fn contains_packet(expectation: &NotificationExpectation, packetver: u32, bytes:
     false
 }
 
-fn parse_packet(bytes: &[u8], packetver: u32) -> Vec<Box<dyn Packet>> {
+pub(crate) fn parse_packet(bytes: &[u8], packetver: u32) -> Vec<Box<dyn Packet>> {
     let mut buffer = [0_u8; 20048];
     if bytes.len() < 2 {
         return vec![];

@@ -96,6 +96,7 @@ mod tests {
     use packets::packets::{PacketZcAckToUseSkill, PacketZcActionFailure, PacketZcUseSkill, PacketZcUseSkillAck};
 
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
+    use crate::tests::common::sync_helper::LATCH_TIMEOUT;
     use crate::tests::common;
     use crate::tests::common::assert_helper::*;
     use crate::tests::common::character_helper::{
@@ -142,7 +143,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
@@ -177,7 +178,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -221,7 +222,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
@@ -256,7 +257,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -310,7 +311,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
@@ -345,7 +346,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -400,7 +401,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
@@ -435,7 +436,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -488,7 +489,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
@@ -523,7 +524,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -580,7 +581,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(
@@ -615,7 +616,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -706,7 +707,7 @@ mod tests {
             context
                 .test_context
                 .increment_latch()
-                .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+                .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
             assert_vec_equals!(skill_use_response.bonuses.to_vec(), scenarii.expected_bonuses.into());
             assert_sent_packet_in_current_packetver!(
                 context,

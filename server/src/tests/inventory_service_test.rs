@@ -85,6 +85,7 @@ mod tests {
     use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::tests::common::sync_helper::LATCH_TIMEOUT;
     use crate::tests::common::assert_helper::{
         NotificationExpectation, SentPacket, has_sent_notification, has_sent_persistence_event, task_queue_contains_event,
         task_queue_contains_event_at_tick,
@@ -325,7 +326,7 @@ mod tests {
             GameEvent::CharacterUpdateWeight(character.char_id),
             0
         );
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcAttackRange::packet_id(
@@ -344,7 +345,7 @@ mod tests {
         // When
         context.inventory_service.reload_equipped_item_sprites(&character);
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
@@ -364,7 +365,7 @@ mod tests {
             .inventory_service
             .equip_item(&mut character, CharacterEquipItem { char_id, index: 0 });
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert!(character.inventory.is_empty());
         assert_sent_packet_in_current_packetver!(
             context,
@@ -389,7 +390,7 @@ mod tests {
             index: inventory_index,
         });
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_eq!(
             character.inventory[inventory_index].as_ref().unwrap().equip,
             item.location as i32
@@ -428,7 +429,7 @@ mod tests {
             index: inventory_index,
         });
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
         assert_sent_packet_in_current_packetver!(
             context,
@@ -527,7 +528,7 @@ mod tests {
             index: inventory_index,
         });
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_eq!(
             character.inventory[inventory_index].as_ref().unwrap().equip,
             item.location as i32
@@ -572,7 +573,7 @@ mod tests {
             index: inventory_index,
         });
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
         assert_sent_packet_in_current_packetver!(
             context,
@@ -601,7 +602,7 @@ mod tests {
             index: inventory_index,
         });
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_eq!(
             character.inventory[inventory_index].as_ref().unwrap().equip,
             item.location as i32
@@ -669,7 +670,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_not_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
@@ -702,7 +703,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(4, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(4, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -746,7 +747,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(6, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(6, LATCH_TIMEOUT);
         assert_not_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(
@@ -779,7 +780,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(8, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(8, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -908,7 +909,7 @@ mod tests {
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
         assert_eq!(character.status.all_equipped_items().len(), 0);
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange::packet_id(
@@ -942,7 +943,7 @@ mod tests {
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(char_id), 0);
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcAttackRange::packet_id(
@@ -1059,7 +1060,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_task_queue_contains_event_at_tick!(
             context.server_task_queue,
             GameEvent::CharacterUpdateWeight(character.char_id),
@@ -1260,7 +1261,7 @@ mod tests {
         context.inventory_service.send_card_composition_list(&mut character, request);
 
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -1323,7 +1324,7 @@ mod tests {
         let inventory_repository = Arc::new(MockedInventoryRepository {
             inventory_update_items: Mutex::new(vec![]),
         });
-        let context = before_each_with_latch(inventory_repository.clone(), 3); // Increased for remove_single_item_from_inventory
+        let context = before_each(inventory_repository.clone());
         let mut character = create_character();
         character.char_id = 123;
 
@@ -1343,7 +1344,11 @@ mod tests {
             .slot_card(context.runtime(), &mut character, slot_card_args);
 
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.wait_for_sent_packet(
+            PacketZcAckItemComposition::packet_id(GlobalConfigService::instance().packetver()),
+            GlobalConfigService::instance().packetver(),
+            LATCH_TIMEOUT,
+        );
 
         // Verify card was removed from inventory
         assert!(character.inventory.get(0).is_none() || character.inventory.get(0).unwrap().is_none());
@@ -1388,7 +1393,7 @@ mod tests {
         }
 
         let inventory_repository = Arc::new(MockedInventoryRepository);
-        let context = before_each_with_latch(inventory_repository, 2);
+        let context = before_each(inventory_repository);
         let mut character = create_character();
         character.char_id = 123;
 
@@ -1408,7 +1413,11 @@ mod tests {
             .slot_card(context.runtime(), &mut character, slot_card_args);
 
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.wait_for_sent_packet(
+            PacketZcAckItemComposition::packet_id(GlobalConfigService::instance().packetver()),
+            GlobalConfigService::instance().packetver(),
+            LATCH_TIMEOUT,
+        );
 
         // Verify card was NOT removed from inventory (failure case)
         assert!(character.inventory.get(0).is_some() && character.inventory.get(0).unwrap().is_some());
@@ -1461,7 +1470,7 @@ mod tests {
             .slot_card(context.runtime(), &mut character, slot_card_args);
 
         // Then
-        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        context.test_context.countdown_latch().wait_with_timeout(LATCH_TIMEOUT);
 
         // Verify failure response packet was sent
         let packetver = GlobalConfigService::instance().packetver();

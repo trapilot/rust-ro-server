@@ -40,6 +40,22 @@ use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
 
+// Same parsing as the sent-packet asserts: a notification can chain several
+// packets, and an empty payload makes the plain parser panic.
+fn sent_packet_ids(notifications: &[Notification], packetver: u32) -> Vec<String> {
+    notifications
+        .iter()
+        .flat_map(|notification| {
+            let bytes = match notification {
+                Notification::Char(n) => n.serialized_packet(),
+                Notification::Area(n) => n.serialized_packet(),
+            };
+            assert_helper::parse_packet(bytes, packetver)
+        })
+        .map(|packet| packet.id(packetver).to_string())
+        .collect()
+}
+
 pub struct TestContext {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
@@ -124,6 +140,23 @@ impl TestContext {
                 }
                 if Instant::now() >= deadline {
                     panic!("Persistence event {expected:?} not received within {timeout:?}; received: {events:?}");
+                }
+            }
+            thread::sleep(Duration::from_millis(5));
+        }
+    }
+
+    pub fn wait_for_sent_packet(&self, packet_id: &str, packetver: u32, timeout: Duration) {
+        let deadline = Instant::now() + timeout;
+        loop {
+            {
+                let notifications = self.received_notification.lock().unwrap();
+                let received_ids = sent_packet_ids(&notifications, packetver);
+                if received_ids.iter().any(|id| id == packet_id) {
+                    return;
+                }
+                if Instant::now() >= deadline {
+                    panic!("Packet {packet_id} not sent within {timeout:?}; received packet ids: {received_ids:?}");
                 }
             }
             thread::sleep(Duration::from_millis(5));
