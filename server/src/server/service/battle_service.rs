@@ -1,4 +1,3 @@
-use std::mem;
 use std::sync::Once;
 use std::sync::mpsc::SyncSender;
 
@@ -10,16 +9,15 @@ use models::enums::skill::SkillState;
 use models::enums::weapon::WeaponType;
 use models::enums::{EnumStackable, EnumWithMaskValueU64, EnumWithNumberValue};
 use models::status::StatusSnapshot;
-use packets::packets::PacketZcNotifyActShortDamage;
 use skills::OffensiveSkill;
 
-use crate::packets::packets::Packet;
 use crate::server::model::action::Damage;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
+use crate::util::packet::{NotifyAct, build_notify_act};
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -364,24 +362,23 @@ impl BattleService {
             character.update_last_attack_tick(tick);
             character.update_last_attack_motion(attack_motion);
         }
-        let mut packet_zc_notify_act3 = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
-        packet_zc_notify_act3.set_target_gid(attack.target);
-        packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
-        packet_zc_notify_act3.set_gid(character.char_id);
-        packet_zc_notify_act3.set_attack_mt(attack_motion as i32 / 2);
         let (damage, target_damage_motion) = if matches!(target.map_item.object_type(), MapItemType::Mob) {
             let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
-            packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
             (self.calculate_damage(source_status, target_status, None), mob.damage_motion as u32)
         } else {
             // Player default damage motion
             const PLAYER_DAMAGE_MOTION: u32 = 480;
-            packet_zc_notify_act3.set_attacked_mt(PLAYER_DAMAGE_MOTION as i32);
             (0, PLAYER_DAMAGE_MOTION)
         };
-        packet_zc_notify_act3.set_damage(damage as i16);
-        packet_zc_notify_act3.set_count(1);
-        packet_zc_notify_act3.fill_raw();
+        let packet_zc_notify_act = build_notify_act(self.configuration_service.packetver(), NotifyAct {
+            gid: character.char_id,
+            target_gid: attack.target,
+            action: ActionType::Attack.value() as u8,
+            attack_mt: attack_motion as i32 / 2,
+            attacked_mt: target_damage_motion as i32,
+            damage: damage as i32,
+            count: 1,
+        });
         self.client_notification_sender
             .send(Notification::Area(AreaNotification::new(
                 character.current_map_name().clone(),
@@ -391,7 +388,7 @@ impl BattleService {
                     y: character.y,
                     exclude_id: None,
                 },
-                mem::take(packet_zc_notify_act3.raw_mut()),
+                packet_zc_notify_act,
             )))
             .unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_act3 to client"));
         if damage >= 0 {

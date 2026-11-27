@@ -17,7 +17,7 @@ use movement::position::Position;
 use models::status::{KnownSkill, Status, StatusSnapshot};
 use packets::packets::{
     Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongParChange, PacketZcMsgStateChangeNoTimer,
-    PacketZcMsgStateChange, PacketZcNotifyActShortDamage, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyPlayerMove,
+    PacketZcMsgStateChange, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyPlayerMove,
     PacketZcNotifyStandEntryNoHp, PacketZcNotifyStandEntry, PacketZcNotifyVanish, PacketZcNpcAckMapMove, PacketZcParChange,
     PacketZcShortcutKeyList, PacketZcSpriteChange, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcStopMove, ShortCutKey,
 };
@@ -45,7 +45,7 @@ use crate::server::state::character::Character;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
 use crate::server::PLAYER_FOV;
-use crate::util::packet::chain_packets;
+use crate::util::packet::{NotifyAct, build_notify_act, chain_packets, chain_packets_raws_by_value};
 use crate::util::string::StringUtil;
 use crate::util::tick::{get_tick, get_tick_client};
 
@@ -306,15 +306,16 @@ impl CharacterService {
         packet_zc_msg_state_change.set_remain_ms(9999);
         packet_zc_msg_state_change.set_state(true);
         packet_zc_msg_state_change.fill_raw();
-        let mut packet_zc_notify_act3 = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
-        packet_zc_notify_act3.set_target_gid(character.char_id);
-        packet_zc_notify_act3.set_action(ActionType::Sit.value() as u8);
-        packet_zc_notify_act3.set_gid(character.char_id);
-        packet_zc_notify_act3.fill_raw();
+        let packet_zc_notify_act = build_notify_act(self.configuration_service.packetver(), NotifyAct {
+            gid: character.char_id,
+            target_gid: character.char_id,
+            action: ActionType::Sit.value() as u8,
+            ..Default::default()
+        });
         self.client_notification_sender
             .send(Notification::Char(CharNotification::new(
                 character.char_id,
-                chain_packets(vec![&packet_zc_msg_state_change, &packet_zc_notify_act3]),
+                chain_packets_raws_by_value(vec![packet_zc_msg_state_change.raw, packet_zc_notify_act]),
             )))
             .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChange(sit) to client"));
     }
@@ -328,15 +329,16 @@ impl CharacterService {
         packet_zc_msg_state_change.set_index(ClientEffectIcon::Sit as i16);
         packet_zc_msg_state_change.set_state(false);
         packet_zc_msg_state_change.fill_raw();
-        let mut packet_zc_notify_act3 = PacketZcNotifyActShortDamage::new(self.configuration_service.packetver());
-        packet_zc_notify_act3.set_target_gid(character.char_id);
-        packet_zc_notify_act3.set_action(ActionType::Stand.value() as u8);
-        packet_zc_notify_act3.set_gid(character.char_id);
-        packet_zc_notify_act3.fill_raw();
+        let packet_zc_notify_act = build_notify_act(self.configuration_service.packetver(), NotifyAct {
+            gid: character.char_id,
+            target_gid: character.char_id,
+            action: ActionType::Stand.value() as u8,
+            ..Default::default()
+        });
         self.client_notification_sender
             .send(Notification::Char(CharNotification::new(
                 character.char_id,
-                chain_packets(vec![&packet_zc_msg_state_change, &packet_zc_notify_act3]),
+                chain_packets_raws_by_value(vec![packet_zc_msg_state_change.raw, packet_zc_notify_act]),
             )))
             .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChangeNoTimer(stand) to client"));
     }
