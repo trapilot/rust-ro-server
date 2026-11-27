@@ -96,6 +96,7 @@ mod tests {
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::tests::character_service_tests::{before_each, GameEvent};
+    use crate::tests::common::sync_helper::LATCH_TIMEOUT;
     use crate::tests::common::assert_helper::{
         has_sent_notification, has_sent_persistence_event, task_queue_contains_event, task_queue_contains_event_at_tick, NotificationExpectation,
         SentPacket,
@@ -272,7 +273,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_eq!(10, character.get_look(LookType::Hair));
         assert_sent_persistence_event!(
             context,
@@ -300,7 +301,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
@@ -320,7 +321,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
@@ -346,7 +347,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_eq!(character.status.zeny, 100);
         assert_sent_persistence_event!(
             context,
@@ -374,7 +375,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_eq!(character.status.hp, 150);
         assert_eq!(character.status.sp, 175);
         assert_sent_packet_in_current_packetver!(
@@ -416,7 +417,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
         assert_eq!(character.status.zeny, 50);
         assert!(mocked_character_repository.called_fetch_zeny.load(Relaxed));
     }
@@ -465,7 +466,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(5, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(5, LATCH_TIMEOUT);
         assert_sent_persistence_event!(
             context,
             PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
@@ -825,7 +826,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(5, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(5, LATCH_TIMEOUT);
         assert_sent_persistence_event!(
             context,
             PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
@@ -1172,10 +1173,6 @@ mod tests {
         // When
         context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
-        context
-            .test_context
-            .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.job, JobName::Assassin.value() as u32);
     }
 
@@ -1194,7 +1191,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(5, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(5, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
@@ -1291,7 +1288,7 @@ mod tests {
             context
                 .test_context
                 .increment_latch()
-                .wait_expected_count_with_timeout(6, Duration::from_millis(200));
+                .wait_expected_count_with_timeout(6, LATCH_TIMEOUT);
             assert_sent_persistence_event!(
                 context,
                 PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
@@ -1326,18 +1323,13 @@ mod tests {
         // When
         context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
-        context
-            .test_context
-            .increment_latch()
-            .wait_expected_count_with_timeout(1, Duration::from_millis(200));
-        assert_sent_persistence_event!(
-            context,
-            PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
-                char_id: character.char_id,
-                db_column: "class".to_string(),
-                value: JobName::Assassin.value() as u32,
-            })
-        );
+        let expected_event = PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
+            char_id: character.char_id,
+            db_column: "class".to_string(),
+            value: JobName::Assassin.value() as u32,
+        });
+        context.test_context.wait_for_persistence_event(&expected_event, LATCH_TIMEOUT);
+        assert_sent_persistence_event!(context, expected_event);
     }
 
     #[test]
@@ -1348,10 +1340,11 @@ mod tests {
         // When
         context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
-        context
-            .test_context
-            .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        context.test_context.wait_for_sent_packet(
+            PacketZcSpriteChange::packet_id(GlobalConfigService::instance().packetver()),
+            GlobalConfigService::instance().packetver(),
+            LATCH_TIMEOUT,
+        );
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(
@@ -1977,7 +1970,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_sent_persistence_event!(
             context,
             PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
@@ -2005,7 +1998,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(8, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(8, LATCH_TIMEOUT);
         assert_sent_persistence_event!(
             context,
             PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
@@ -2157,7 +2150,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(4, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(4, LATCH_TIMEOUT);
         assert_sent_persistence_event!(
             context,
             PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
@@ -2393,7 +2386,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_sent_persistence_event!(
             context,
             PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate {
@@ -2436,7 +2429,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(4, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(4, LATCH_TIMEOUT);
         assert_sent_persistence_event!(
             context,
             PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel {
@@ -2508,7 +2501,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_eq!(character.status.base_exp, 110);
         assert_sent_persistence_event!(
             context,
@@ -2639,7 +2632,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(2, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(2, LATCH_TIMEOUT);
         assert_eq!(character.status.job_exp, 70);
         assert_sent_persistence_event!(
             context,
@@ -2916,7 +2909,7 @@ mod tests {
         context
             .test_context
             .increment_latch()
-            .wait_expected_count_with_timeout(3, Duration::from_millis(200));
+            .wait_expected_count_with_timeout(3, LATCH_TIMEOUT);
         assert_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character_state.char_id, vec![SentPacket::with_id(

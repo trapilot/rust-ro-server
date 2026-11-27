@@ -40,6 +40,19 @@ use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
 
+// Some services send notifications with an empty payload, the parser cannot
+// read those.
+fn sent_packet_ids(notifications: &[Notification], packetver: u32) -> Vec<String> {
+    notifications
+        .iter()
+        .filter(|notification| match notification {
+            Notification::Char(n) => !n.serialized_packet().is_empty(),
+            Notification::Area(n) => !n.serialized_packet().is_empty(),
+        })
+        .map(|notification| notification.packet(packetver).id(packetver).to_string())
+        .collect()
+}
+
 pub struct TestContext {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
@@ -124,6 +137,23 @@ impl TestContext {
                 }
                 if Instant::now() >= deadline {
                     panic!("Persistence event {expected:?} not received within {timeout:?}; received: {events:?}");
+                }
+            }
+            thread::sleep(Duration::from_millis(5));
+        }
+    }
+
+    pub fn wait_for_sent_packet(&self, packet_id: &str, packetver: u32, timeout: Duration) {
+        let deadline = Instant::now() + timeout;
+        loop {
+            {
+                let notifications = self.received_notification.lock().unwrap();
+                let received_ids = sent_packet_ids(&notifications, packetver);
+                if received_ids.iter().any(|id| id == packet_id) {
+                    return;
+                }
+                if Instant::now() >= deadline {
+                    panic!("Packet {packet_id} not sent within {timeout:?}; received packet ids: {received_ids:?}");
                 }
             }
             thread::sleep(Duration::from_millis(5));

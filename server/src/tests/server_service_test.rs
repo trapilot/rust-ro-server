@@ -161,6 +161,7 @@ mod tests {
     use crate::server::model::map_item::ToMapItem;
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::tests::common::sync_helper::LATCH_TIMEOUT;
     use crate::tests::common::assert_helper::{
         NotificationExpectation, SentPacket, assert_vecs_equal, has_sent_notification, task_queue_contains_event_at_tick,
     };
@@ -541,10 +542,11 @@ mod tests {
             );
             tick += 100;
             Server::game_loop_iteration(&context.server, tick);
-            context
-                .test_context
-                .increment_latch()
-                .wait_expected_count_with_timeout(4, Duration::from_millis(400));
+            context.test_context.wait_for_sent_packet(
+                PacketZcMsgStateChange::packet_id(GlobalConfigService::instance().packetver()),
+                GlobalConfigService::instance().packetver(),
+                LATCH_TIMEOUT,
+            );
             assert_sent_packet_in_current_packetver!(
                 context,
                 NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(

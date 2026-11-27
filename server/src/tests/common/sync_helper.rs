@@ -1,7 +1,8 @@
 #![allow(dead_code)]
-use std::backtrace::Backtrace;
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
+
+pub const LATCH_TIMEOUT: Duration = Duration::from_secs(2);
 
 #[derive(Debug, Clone)]
 pub struct CountDownLatch {
@@ -30,15 +31,12 @@ impl CountDownLatch {
     }
 
     pub fn wait_with_timeout(&self, duration: Duration) {
-        let bt = Backtrace::capture();
         let (lock, wait_timeout) = self
             .cvar
             .wait_timeout_while(self.count.lock().unwrap(), duration, |count| *count > 0)
             .unwrap();
-        drop(lock);
         if wait_timeout.timed_out() {
-            println!("warn: reach timeout of increment latch at:");
-            println!("{bt}");
+            panic!("countdown latch timed out after {duration:?}, {} countdown(s) remaining", *lock);
         }
     }
 }
@@ -71,24 +69,20 @@ impl IncrementLatch {
     pub fn wait_expected_count(&self, expected_count: usize) {
         let _unused = self
             .cvar
-            .wait_while(self.count.lock().unwrap(), |count| *count != expected_count)
+            .wait_while(self.count.lock().unwrap(), |count| *count < expected_count)
             .unwrap();
     }
 
     pub fn wait_expected_count_with_timeout(&self, expected_count: usize, duration: Duration) {
-        let bt = Backtrace::capture();
         let (lock, wait_timeout) = self
             .cvar
-            .wait_timeout_while(self.count.lock().unwrap(), duration, |count| *count != expected_count)
+            .wait_timeout_while(self.count.lock().unwrap(), duration, |count| *count < expected_count)
             .unwrap();
-        drop(lock);
         if wait_timeout.timed_out() {
-            println!(
-                "warn: reach timeout of increment latch, condition not match \"{} != {}\" at:",
-                self.count.lock().unwrap(),
-                expected_count
+            panic!(
+                "increment latch timed out after {duration:?}: count is {}, expected at least {expected_count}",
+                *lock
             );
-            println!("{bt}");
         }
     }
 }
@@ -101,6 +95,7 @@ mod tests {
     use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 
     #[test]
+    #[should_panic]
     fn test_countdown_should_wait_until_timeout_if_condition_not_satisfied() {
         // Given
         let countdown_latch = CountDownLatch::new(10);
@@ -127,6 +122,7 @@ mod tests {
     }
 
     #[test]
+    #[should_panic]
     fn test_increment_should_wait_until_timeout_if_condition_not_satisfied() {
         // Given
         let increment_latch = IncrementLatch::new();
@@ -137,6 +133,20 @@ mod tests {
         // Then
         increment_latch.wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert!(start.elapsed().as_millis() >= 200);
+    }
+
+    #[test]
+    fn test_increment_should_return_immediately_when_count_exceeds_expected() {
+        // Given
+        let increment_latch = IncrementLatch::new();
+        increment_latch.increment();
+        increment_latch.increment();
+        increment_latch.increment();
+        let start = Instant::now();
+        // When
+        increment_latch.wait_expected_count_with_timeout(2, Duration::from_secs(2));
+        // Then
+        assert!(start.elapsed().as_secs() < 1);
     }
 
     #[test]
