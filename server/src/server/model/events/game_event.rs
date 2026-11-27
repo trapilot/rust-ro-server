@@ -16,7 +16,6 @@ pub enum GameEvent {
     CharacterClearFov(u32),
     CharacterJoinGame(u32),
     CharacterMove(CharacterMovement),
-    CharacterCancelMove(u32),
     CharacterChangeMap(CharacterChangeMap),
     CharacterUpdateLook(CharacterLook),
     CharacterUpdateZeny(CharacterZeny),
