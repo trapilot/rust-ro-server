@@ -70,7 +70,7 @@ mod tests {
     use models::enums::item::EquipmentLocation;
     use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
     use packets::packets::{
-        Packet, PacketZcAckItemComposition, PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcItemCompositionList,
+        Packet, PacketZcAckItemComposition, PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcItemCompositionList, PacketZcPcPurchaseResult,
         PacketZcReqTakeoffEquipAck, PacketZcReqWearEquipAck, PacketZcSpriteChange,
     };
     use sqlx::Error;
@@ -1067,6 +1067,82 @@ mod tests {
             0
         );
         assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcItemThrowAck::packet_id(
+                GlobalConfigService::instance().packetver()
+            ))])
+        );
+    }
+
+    #[test]
+    fn test_remove_item_from_inventory_should_not_send_notification_when_not_notifying_client_and_not_selling() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        add_items_in_inventory(&mut character, "Jellopy", 10);
+        // When
+        context
+            .inventory_service
+            .remove_item_from_inventory(
+                context.runtime(),
+                CharacterRemoveItems {
+                    char_id: character.char_id,
+                    sell: false,
+                    items: vec![CharacterRemoveItem {
+                        char_id: character.char_id,
+                        index: 0,
+                        amount: 7,
+                        price: 0,
+                    }],
+                    notify_client: false,
+                },
+                &mut character,
+            )
+            .unwrap();
+        // Then
+        std::thread::sleep(std::time::Duration::from_millis(100));
+        assert!(context.test_context.received_notification().lock().unwrap().is_empty());
+    }
+
+    #[test]
+    fn test_remove_item_from_inventory_should_send_purchase_result_when_selling_without_notifying_client() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        add_items_in_inventory(&mut character, "Jellopy", 10);
+        // When
+        context
+            .inventory_service
+            .remove_item_from_inventory(
+                context.runtime(),
+                CharacterRemoveItems {
+                    char_id: character.char_id,
+                    sell: true,
+                    items: vec![CharacterRemoveItem {
+                        char_id: character.char_id,
+                        index: 0,
+                        amount: 7,
+                        price: 3,
+                    }],
+                    notify_client: false,
+                },
+                &mut character,
+            )
+            .unwrap();
+        // Then
+        context
+            .test_context
+            .increment_latch()
+            .wait_expected_count_with_timeout(1, LATCH_TIMEOUT);
+        assert_eq!(context.test_context.received_notification().lock().unwrap().len(), 1);
+        assert_sent_packet_in_current_packetver!(
+            context,
+            NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(
+                PacketZcPcPurchaseResult::packet_id(GlobalConfigService::instance().packetver()),
+                1
+            )])
+        );
+        assert_not_sent_packet_in_current_packetver!(
             context,
             NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcItemThrowAck::packet_id(
                 GlobalConfigService::instance().packetver()
