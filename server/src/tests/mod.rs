@@ -13,6 +13,8 @@ mod map_instance_loop_integration_test;
 #[cfg(test)]
 mod map_instance_service_test;
 #[cfg(test)]
+mod map_loader_test;
+#[cfg(test)]
 mod mob_service_test;
 #[cfg(test)]
 mod packet_parser_test;

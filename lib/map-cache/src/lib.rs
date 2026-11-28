@@ -4,15 +4,18 @@
 //! consumer's policy.
 
 use flate2::read::ZlibDecoder;
+use flate2::write::ZlibEncoder;
+use flate2::Compression;
 use models::enums::cell::CellType;
 use models::enums::EnumWithMaskValueU16;
 use std::fmt::{Display, Formatter};
-use std::io::Read;
+use std::io::{Read, Write};
 use std::ops::Range;
 use std::path::{Path, PathBuf};
 
 const MCACHE_EXT: &str = ".mcache";
 const MCACHE_HEADER_LEN: usize = 26;
+const MCACHE_VERSION: i16 = 1;
 /// u32 file size + u16 map count, padded to 8 on disk by struct alignment.
 const RATHENA_HEADER_LEN: usize = 8;
 /// 12-byte NUL-padded name + i16 xs + i16 ys + i32 compressed length.
@@ -131,6 +134,47 @@ pub fn read_mcache(dir: &Path, map_name: &str) -> Result<MapCells, MapCacheError
         ys: ys as u16,
         cells,
     })
+}
+
+/// Inverse of `read_mcache`: one raw GAT type byte per cell, row-major.
+pub fn write_mcache(
+    dir: &Path,
+    map_name: &str,
+    x_size: i16,
+    y_size: i16,
+    cells: &[u8],
+) -> Result<(), MapCacheError> {
+    let path = dir.join(format!("{map_name}{MCACHE_EXT}"));
+    if x_size <= 0 || y_size <= 0 {
+        return Err(MapCacheError::Corrupt(
+            path,
+            format!("implausible dimensions {x_size}x{y_size}"),
+        ));
+    }
+    let expected = x_size as usize * y_size as usize;
+    if cells.len() != expected {
+        return Err(MapCacheError::SizeMismatch {
+            map: map_name.to_string(),
+            expected,
+            actual: cells.len(),
+        });
+    }
+    let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+    encoder
+        .write_all(cells)
+        .map_err(|e| MapCacheError::Corrupt(path.clone(), format!("zlib: {e}")))?;
+    let compressed = encoder
+        .finish()
+        .map_err(|e| MapCacheError::Corrupt(path.clone(), format!("zlib: {e}")))?;
+
+    let mut out = Vec::with_capacity(MCACHE_HEADER_LEN + compressed.len());
+    out.extend_from_slice(&MCACHE_VERSION.to_le_bytes());
+    out.extend_from_slice(&md5::compute(&compressed).0);
+    out.extend_from_slice(&x_size.to_le_bytes());
+    out.extend_from_slice(&y_size.to_le_bytes());
+    out.extend_from_slice(&(cells.len() as i32).to_le_bytes());
+    out.extend_from_slice(&compressed);
+    std::fs::write(&path, out).map_err(|e| MapCacheError::Io(path, e))
 }
 
 pub struct MapCacheEntry {
@@ -267,9 +311,6 @@ fn inflate_cells(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use flate2::write::ZlibEncoder;
-    use flate2::Compression;
-    use std::io::Write;
 
     /// 4x2 map: ground, gap, water, wall on the first row.
     const RAW_CELLS: [u8; 8] = [0, 5, 3, 1, 0, 0, 0, 0];
@@ -372,6 +413,78 @@ mod tests {
         );
 
         std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    fn scratch_dir(name: &str) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!("map-cache-test-{name}"));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        dir
+    }
+
+    fn bordered_cells(size: usize) -> Vec<u8> {
+        (0..size * size)
+            .map(|i| {
+                let (x, y) = (i % size, i / size);
+                u8::from(x == 0 || y == 0 || x == size - 1 || y == size - 1)
+            })
+            .collect()
+    }
+
+    #[test]
+    fn write_then_read_round_trips_cells() {
+        let dir = scratch_dir("round-trip");
+        let raw = bordered_cells(64);
+
+        write_mcache(&dir, "roundtrip", 64, 64, &raw).unwrap();
+
+        let map = read_mcache(&dir, "roundtrip").unwrap();
+        assert_eq!((map.xs, map.ys), (64, 64));
+        assert_eq!(map.cells, decode_cells(&raw));
+        std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    #[test]
+    fn write_rejects_cell_count_mismatch_without_creating_a_file() {
+        let dir = scratch_dir("size-mismatch");
+
+        let too_short = write_mcache(&dir, "short", 4, 4, &[0; 15]);
+        let too_long = write_mcache(&dir, "long", 4, 4, &[0; 17]);
+
+        assert!(too_short.is_err());
+        assert!(too_long.is_err());
+        assert_eq!(std::fs::read_dir(&dir).unwrap().count(), 0);
+        std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    #[test]
+    fn write_rejects_non_positive_dimensions_without_creating_a_file() {
+        let dir = scratch_dir("bad-dimensions");
+
+        assert!(write_mcache(&dir, "zero", 0, 0, &[]).is_err());
+        assert!(write_mcache(&dir, "negative", -2, -2, &[]).is_err());
+        assert_eq!(std::fs::read_dir(&dir).unwrap().count(), 0);
+        std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    #[test]
+    fn committed_tanthu_map_is_a_walkable_64x64_field_with_a_blocked_border() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../config/maps/pre-re");
+
+        let map = read_mcache(&dir, "tanthu").unwrap();
+
+        assert_eq!((map.xs, map.ys), (64, 64));
+        for (x, y) in [(32, 32), (1, 1), (62, 62), (1, 62), (62, 1)] {
+            assert!(map.is_walkable(x, y), "({x},{y}) must be walkable");
+        }
+        for (x, y) in [(0, 0), (63, 10), (10, 63), (0, 32), (63, 63), (32, 0)] {
+            assert!(!map.is_walkable(x, y), "({x},{y}) must be blocked");
+        }
+        let walkable = (0..64u16)
+            .flat_map(|y| (0..64u16).map(move |x| (x, y)))
+            .filter(|(x, y)| map.is_walkable(*x, *y))
+            .count();
+        assert_eq!(walkable, 62 * 62);
     }
 
     /// The payloads come from different GAT revisions, so a small drift per map
