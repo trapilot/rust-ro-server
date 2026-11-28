@@ -4,15 +4,18 @@
 //! consumer's policy.
 
 use flate2::read::ZlibDecoder;
+use flate2::write::ZlibEncoder;
+use flate2::Compression;
 use models::enums::cell::CellType;
 use models::enums::EnumWithMaskValueU16;
 use std::fmt::{Display, Formatter};
-use std::io::Read;
+use std::io::{Read, Write};
 use std::ops::Range;
 use std::path::{Path, PathBuf};
 
 const MCACHE_EXT: &str = ".mcache";
 const MCACHE_HEADER_LEN: usize = 26;
+const MCACHE_VERSION: i16 = 1;
 /// u32 file size + u16 map count, padded to 8 on disk by struct alignment.
 const RATHENA_HEADER_LEN: usize = 8;
 /// 12-byte NUL-padded name + i16 xs + i16 ys + i32 compressed length.
@@ -135,13 +138,43 @@ pub fn read_mcache(dir: &Path, map_name: &str) -> Result<MapCells, MapCacheError
 
 /// Inverse of `read_mcache`: one raw GAT type byte per cell, row-major.
 pub fn write_mcache(
-    _dir: &Path,
-    _map_name: &str,
-    _x_size: i16,
-    _y_size: i16,
-    _cells: &[u8],
+    dir: &Path,
+    map_name: &str,
+    x_size: i16,
+    y_size: i16,
+    cells: &[u8],
 ) -> Result<(), MapCacheError> {
-    todo!()
+    let path = dir.join(format!("{map_name}{MCACHE_EXT}"));
+    if x_size <= 0 || y_size <= 0 {
+        return Err(MapCacheError::Corrupt(
+            path,
+            format!("implausible dimensions {x_size}x{y_size}"),
+        ));
+    }
+    let expected = x_size as usize * y_size as usize;
+    if cells.len() != expected {
+        return Err(MapCacheError::SizeMismatch {
+            map: map_name.to_string(),
+            expected,
+            actual: cells.len(),
+        });
+    }
+    let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+    encoder
+        .write_all(cells)
+        .map_err(|e| MapCacheError::Corrupt(path.clone(), format!("zlib: {e}")))?;
+    let compressed = encoder
+        .finish()
+        .map_err(|e| MapCacheError::Corrupt(path.clone(), format!("zlib: {e}")))?;
+
+    let mut out = Vec::with_capacity(MCACHE_HEADER_LEN + compressed.len());
+    out.extend_from_slice(&MCACHE_VERSION.to_le_bytes());
+    out.extend_from_slice(&md5::compute(&compressed).0);
+    out.extend_from_slice(&x_size.to_le_bytes());
+    out.extend_from_slice(&y_size.to_le_bytes());
+    out.extend_from_slice(&(cells.len() as i32).to_le_bytes());
+    out.extend_from_slice(&compressed);
+    std::fs::write(&path, out).map_err(|e| MapCacheError::Io(path, e))
 }
 
 pub struct MapCacheEntry {
@@ -278,9 +311,6 @@ fn inflate_cells(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use flate2::write::ZlibEncoder;
-    use flate2::Compression;
-    use std::io::Write;
 
     /// 4x2 map: ground, gap, water, wall on the first row.
     const RAW_CELLS: [u8; 8] = [0, 5, 3, 1, 0, 0, 0, 0];

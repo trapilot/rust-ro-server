@@ -4,7 +4,8 @@ use std::path::Path;
 use crate::server::boot::map_loader::MapLoader;
 use crate::server::model::map_item::MapItems;
 
-// load_maps takes a 'static dir and reads every file in it; a private copy keeps the test to one map.
+// load_maps takes a 'static dir and reads every file in it; a private copy
+// keeps the test to one map.
 fn dir_with_only(map_file: &str) -> &'static str {
     let dir = std::env::temp_dir().join(format!("map-loader-test-{}", map_file.replace('.', "-")));
     let _ = std::fs::remove_dir_all(&dir);
@@ -18,13 +19,7 @@ fn dir_with_only(map_file: &str) -> &'static str {
 fn load_maps_registers_the_tanthu_login_map() {
     let dir = dir_with_only("tanthu.mcache");
 
-    let maps = MapLoader::load_maps(
-        HashMap::new(),
-        HashMap::new(),
-        HashMap::new(),
-        &mut MapItems::default(),
-        dir,
-    );
+    let maps = MapLoader::load_maps(HashMap::new(), HashMap::new(), HashMap::new(), &mut MapItems::default(), dir);
 
     let tanthu = maps.get("tanthu").expect("tanthu must be loaded");
     assert_eq!(tanthu.x_size(), 64);

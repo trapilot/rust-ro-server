@@ -23,6 +23,7 @@ postgres = { version = "0.19.9", default-features = false, features = ["array-im
 
 configuration = { path = "../lib/configuration" }
 models = { path = "../lib/models" }
+map-cache = { path = "../lib/map-cache" }
 
 
 [[bin]]
@@ -40,6 +41,9 @@ path = "skills/main.rs"
 [[bin]]
 name = "account-setup"
 path = "account-setup/main.rs"
+[[bin]]
+name = "flat-map-tool"
+path = "flat-map/main.rs"
 
 
 [features]

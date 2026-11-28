@@ -61,7 +61,7 @@ fn build_starting_maps_packet(server: &Server) -> PacketHcNotifyAccessibleMapNam
 }
 
 /// Resolves the starting map (name, x, y) for a new character from the configured
-/// `starting_maps`, falling back to the first entry and finally to `new_1-1`.
+/// `starting_maps`, falling back to the first entry and finally to `tanthu`.
 fn resolve_starting_map(server: &Server, selected_index: Option<usize>) -> (String, i16, i16) {
     pick_starting_map(&server.configuration.maps.starting_maps, selected_index)
 }
@@ -70,7 +70,7 @@ pub(crate) fn pick_starting_map(maps: &[CityConfig], selected_index: Option<usiz
     maps.get(selected_index.unwrap_or(0))
         .or_else(|| maps.first())
         .map(|city| (city.name.clone(), city.x as i16, city.y as i16))
-        .unwrap_or_else(|| ("new_1-1".to_string(), 53, 111))
+        .unwrap_or_else(|| ("tanthu".to_string(), 32, 32))
 }
 
 pub fn handle_char_enter(server: &Server, context: Request) {

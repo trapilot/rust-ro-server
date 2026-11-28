@@ -2997,6 +2997,7 @@ dependencies = [
  "futures",
  "lazy_static",
  "log",
+ "map-cache",
  "md5",
  "models",
  "postgres",
