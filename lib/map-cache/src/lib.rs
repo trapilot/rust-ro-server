@@ -133,6 +133,17 @@ pub fn read_mcache(dir: &Path, map_name: &str) -> Result<MapCells, MapCacheError
     })
 }
 
+/// Inverse of `read_mcache`: one raw GAT type byte per cell, row-major.
+pub fn write_mcache(
+    _dir: &Path,
+    _map_name: &str,
+    _x_size: i16,
+    _y_size: i16,
+    _cells: &[u8],
+) -> Result<(), MapCacheError> {
+    todo!()
+}
+
 pub struct MapCacheEntry {
     pub name: String,
     pub xs: u16,
@@ -372,6 +383,78 @@ mod tests {
         );
 
         std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    fn scratch_dir(name: &str) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!("map-cache-test-{name}"));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        dir
+    }
+
+    fn bordered_cells(size: usize) -> Vec<u8> {
+        (0..size * size)
+            .map(|i| {
+                let (x, y) = (i % size, i / size);
+                u8::from(x == 0 || y == 0 || x == size - 1 || y == size - 1)
+            })
+            .collect()
+    }
+
+    #[test]
+    fn write_then_read_round_trips_cells() {
+        let dir = scratch_dir("round-trip");
+        let raw = bordered_cells(64);
+
+        write_mcache(&dir, "roundtrip", 64, 64, &raw).unwrap();
+
+        let map = read_mcache(&dir, "roundtrip").unwrap();
+        assert_eq!((map.xs, map.ys), (64, 64));
+        assert_eq!(map.cells, decode_cells(&raw));
+        std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    #[test]
+    fn write_rejects_cell_count_mismatch_without_creating_a_file() {
+        let dir = scratch_dir("size-mismatch");
+
+        let too_short = write_mcache(&dir, "short", 4, 4, &[0; 15]);
+        let too_long = write_mcache(&dir, "long", 4, 4, &[0; 17]);
+
+        assert!(too_short.is_err());
+        assert!(too_long.is_err());
+        assert_eq!(std::fs::read_dir(&dir).unwrap().count(), 0);
+        std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    #[test]
+    fn write_rejects_non_positive_dimensions_without_creating_a_file() {
+        let dir = scratch_dir("bad-dimensions");
+
+        assert!(write_mcache(&dir, "zero", 0, 0, &[]).is_err());
+        assert!(write_mcache(&dir, "negative", -2, -2, &[]).is_err());
+        assert_eq!(std::fs::read_dir(&dir).unwrap().count(), 0);
+        std::fs::remove_dir_all(&dir).unwrap();
+    }
+
+    #[test]
+    fn committed_tanthu_map_is_a_walkable_64x64_field_with_a_blocked_border() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../config/maps/pre-re");
+
+        let map = read_mcache(&dir, "tanthu").unwrap();
+
+        assert_eq!((map.xs, map.ys), (64, 64));
+        for (x, y) in [(32, 32), (1, 1), (62, 62), (1, 62), (62, 1)] {
+            assert!(map.is_walkable(x, y), "({x},{y}) must be walkable");
+        }
+        for (x, y) in [(0, 0), (63, 10), (10, 63), (0, 32), (63, 63), (32, 0)] {
+            assert!(!map.is_walkable(x, y), "({x},{y}) must be blocked");
+        }
+        let walkable = (0..64u16)
+            .flat_map(|y| (0..64u16).map(move |x| (x, y)))
+            .filter(|(x, y)| map.is_walkable(*x, *y))
+            .count();
+        assert_eq!(walkable, 62 * 62);
     }
 
     /// The payloads come from different GAT revisions, so a small drift per map
