@@ -179,6 +179,10 @@ impl TestContext {
         *self.received_notification.lock().unwrap() = vec![];
     }
 
+    pub fn clear_persistence_events(&self) {
+        *self.received_persistence_events.lock().unwrap() = vec![];
+    }
+
     pub fn get_sent_packet(&self, packet_ids: Vec<&str>, packetver: u32) -> Vec<Box<dyn Packet>> {
         let notification_guard = self.received_notification.lock().unwrap();
         let mut packets_found = vec![];

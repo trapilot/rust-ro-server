@@ -1075,6 +1075,36 @@ mod tests {
     }
 
     #[test]
+    fn test_remove_item_from_inventory_should_not_send_notification_when_not_notifying_client_and_not_selling() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        add_items_in_inventory(&mut character, "Jellopy", 10);
+        // When
+        context
+            .inventory_service
+            .remove_item_from_inventory(
+                context.runtime(),
+                CharacterRemoveItems {
+                    char_id: character.char_id,
+                    sell: false,
+                    items: vec![CharacterRemoveItem {
+                        char_id: character.char_id,
+                        index: 0,
+                        amount: 7,
+                        price: 0,
+                    }],
+                    notify_client: false,
+                },
+                &mut character,
+            )
+            .unwrap();
+        // Then
+        std::thread::sleep(std::time::Duration::from_millis(100));
+        assert!(context.test_context.received_notification().lock().unwrap().is_empty());
+    }
+
+    #[test]
     fn test_remove_item_from_inventory_should_return_inventory_item_with_removal_information() {
         // Given
         let context = before_each(mocked_repository());

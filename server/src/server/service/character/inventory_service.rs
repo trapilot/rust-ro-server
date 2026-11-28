@@ -8,7 +8,7 @@ use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use models::item::{EquippedItem, Wearable};
 use packets::packets::{
     EQUIPSLOTINFO, EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAckItemComposition, PacketZcAttackRange,
-    PacketZcEquipArrow, PacketZcEquipmentItemList, PacketZcItemFallEntry, PacketZcItemPickupAck, PacketZcItemThrowAck,
+    PacketZcEquipArrow, PacketZcEquipmentItemList, PacketZcItemPickupAck, PacketZcItemThrowAck,
     PacketZcItemCompositionList, PacketZcNormalItemList, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck, PacketZcReqWearEquipAck,
     PacketZcSkillInfoList, PacketZcSpriteChange, SKILLINFO,
 };
@@ -215,14 +215,6 @@ impl InventoryService {
                     packets.push(packet_zc_item_throw_ack.raw);
                 }
             }
-            if remove_items.notify_client {
-                for (item, remove_item) in items.iter() {
-                    let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::new(self.configuration_service.packetver());
-                    packet_zc_item_fall_entry.set_itid(item.item_id as u16);
-                    packet_zc_item_fall_entry.set_itaid(item.id as u32);
-                    packet_zc_item_fall_entry.set_count(remove_item.amount);
-                }
-            }
             self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
             if remove_items.sell {
                 let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());
@@ -234,12 +226,14 @@ impl InventoryService {
                     zeny: None,
                 }));
             }
-            self.client_notification_sender
-                .send(Notification::Char(CharNotification::new(
-                    character.char_id,
-                    chain_packets_raws_by_value(packets),
-                )))
-                .unwrap_or_else(|_| error!("Failed to send notification packet_zc_pc_purchase_result to client"));
+            if !packets.is_empty() {
+                self.client_notification_sender
+                    .send(Notification::Char(CharNotification::new(
+                        character.char_id,
+                        chain_packets_raws_by_value(packets),
+                    )))
+                    .unwrap_or_else(|_| error!("Failed to send notification packet_zc_pc_purchase_result to client"));
+            }
             Ok(items)
         } else if remove_items.sell {
             let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());

@@ -1266,6 +1266,7 @@ mod tests {
         // When
         for scenarii in scenario {
             context.test_context.reset_increment_latch();
+            context.test_context.clear_persistence_events();
             let mut character = create_character();
             character.status.job = scenarii.from_job as u32;
             character.status.job_level = scenarii.job_level;
